@@ -10,13 +10,11 @@ public class PlayerWeapon : MonoBehaviour
     public GameObject mug;
     private Animator _anim;
 
-    [Range(0,4)]
-    public int weapon = 0;
-
     // Start is called before the first frame update
     void Start()
     {
         axe1hand.GetComponent<MeshRenderer>().enabled = false;
+        axe2hand.GetComponent<MeshRenderer>().enabled = false;
         mug.GetComponent<MeshRenderer>().enabled = false;
         crossbow.GetComponent<MeshRenderer>().enabled = false;
         _anim = GetComponent<Animator>();
@@ -25,7 +23,7 @@ public class PlayerWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        weapon = (int)_anim.GetFloat("Weapon");
+        int weapon = (int)_anim.GetFloat("Weapon");
 
         //weapons: 0 axe, 1 double axe, 2 bow, 3 mug, 4 none
         switch(weapon)

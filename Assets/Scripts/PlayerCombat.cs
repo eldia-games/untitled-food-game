@@ -25,8 +25,6 @@ public class PlayerCombat : MonoBehaviour
     public GameObject player;
     private Vector3 lookAtPosition;
 
-    public PlayerWeapon weaponController;
-
     [Range(0,4)]
     public int weaponIndex = 0;
     private int weaponIndexOld = 0;
@@ -37,10 +35,6 @@ public class PlayerCombat : MonoBehaviour
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
         camera = Camera.main;
-        weaponController = GetComponentInChildren<PlayerWeapon>();
-
-        //asumiendo que no puede cambiar de arma en la run y no tiene arma 3 al principio (mug)
-        weaponController.weapon = weaponIndex;
     }
 
     // Update is called once per frame
@@ -174,14 +168,13 @@ public class PlayerCombat : MonoBehaviour
         _anim.SetTrigger("Attack");
         _anim.SetFloat("HP",HP);
         StartCoroutine(HealCooldown());
-        
-        
     }
 
     IEnumerator HealCooldown()
     {
         yield return new WaitForSeconds(1.0f);
         weaponIndex = weaponIndexOld;
+        _anim.SetFloat("Weapon",weaponIndex);
     }
 
     public void OnDie()
