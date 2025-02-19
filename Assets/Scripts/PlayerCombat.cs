@@ -25,20 +25,30 @@ public class PlayerCombat : MonoBehaviour
     public GameObject player;
     private Vector3 lookAtPosition;
 
+    public PlayerWeapon weaponController;
+
+    [Range(0,4)]
+    public int weaponIndex = 0;
+    private int weaponIndexOld = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
         camera = Camera.main;
+        weaponController = GetComponentInChildren<PlayerWeapon>();
+
+        //asumiendo que no puede cambiar de arma en la run y no tiene arma 3 al principio (mug)
+        weaponController.weapon = weaponIndex;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        //print(_handler.input);
-        
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///Movement
+
         //player movement to wasd
         if(_handler.input.x>0.1f || _handler.input.y>0.1f || _handler.input.x<-0.1f || _handler.input.y<-0.1f)
             moving = 1;
@@ -52,50 +62,43 @@ public class PlayerCombat : MonoBehaviour
         //player rotate to wasd
         if(attackAvailable)
         {
-        lookAtPosition = player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y);
-        player.transform.LookAt(lookAtPosition);
-        player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+            lookAtPosition = player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y);
+            player.transform.LookAt(lookAtPosition);
+            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         }
 
-        //if hurt
-        //_anim.SetTrigger("Hurt", ...);
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///Actions
 
-        //if HP <= 0 die
-        _anim.SetFloat("HP",HP);
-        if(HP<=0)
-        {
-            OnDie();
-        }
-
-        //actions
         //slide
         if(_handler.slide && SlideMP==10)
         {
             _anim.SetTrigger("Slide");
             SlideMP = 0;
             slideForce = true;
-            StartCoroutine(SlideForce());
+            StartCoroutine(SlideForceCooldown());
             //addforce to dodge
             StartCoroutine(SlideCooldown());
         }
         
         //attack
         if(_handler.attack)
-                {
-                    
-                    Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
-                    //print(mousePosition);
-                    player.transform.LookAt(mousePosition);
-                    player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
-                
-                    if(attackAvailable)
-                    {
-                        attackAvailable = false;
-                        _anim.SetTrigger("Attack");
-                    
-                        StartCoroutine(AttackCooldown());
-                    }
-                }
+        {
+            
+            Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
+            //print(mousePosition);
+            player.transform.LookAt(mousePosition);
+            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+        
+            if(attackAvailable)
+            {
+                attackAvailable = false;
+                _anim.SetTrigger("Attack");
+            
+                StartCoroutine(AttackCooldown());
+                OnAttack();
+            }
+        }
 
         //Make the slide movement
         if(slideForce)
@@ -104,6 +107,23 @@ public class PlayerCombat : MonoBehaviour
             transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * _translationSpeed) * 2f);
             transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * _translationSpeed) * 2f);
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///HP
+
+        //if hurt
+        //onHurt(damage);
+        
+        //if heal
+        //onHeal(heal);
+
+        //if HP <= 0 die
+        _anim.SetFloat("HP",HP);
+        if(HP<=0)
+        {
+            OnDie();
+        }
+
     }
 
     IEnumerator AttackCooldown()
@@ -122,7 +142,7 @@ public class PlayerCombat : MonoBehaviour
         }
         SlideMP = 10;
     }
-    IEnumerator SlideForce()
+    IEnumerator SlideForceCooldown()
     {
         yield return new WaitForSeconds(0.2f);
         slideForce = false;
@@ -130,17 +150,36 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnAttack()
     {
+        //print("attacking");
+        //Make enemies take damage if they are in range
+    }
+
+    public void OnHurt(float damage)
+    {
+        print("hurt");
+        //Make player take damage
+        HP -= damage;
+        _anim.SetTrigger("Hurt");
 
     }
 
-    public void OnHurt()
+    public void OnHeal(float heal)
     {
-
-    }
-
-    public void OnHeal()
-    {
+        print("heal");
+        //Make player heal
+        HP += heal;
+        weaponIndexOld = weaponIndex;
+        weaponIndex = 3;
+        _anim.SetTrigger("Heal");
+        StartCoroutine(HealCooldown());
         
+        
+    }
+
+    IEnumerator HealCooldown()
+    {
+        yield return new WaitForSeconds(1.0f);
+        weaponIndex = weaponIndexOld;
     }
 
     public void OnDie()
@@ -149,6 +188,7 @@ public class PlayerCombat : MonoBehaviour
         //desactivar el script de movimiento y el de input
         enabled = false;
         _handler.enabled = false;
+        //activar mensaje o cutscene de muerte
     }
     
 }
