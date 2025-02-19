@@ -9,6 +9,9 @@ public class PlayerCombat : MonoBehaviour
     public Animator _anim;
     private float _translationSpeed = 5f;
     private float _runningSpeed = 10f;
+
+    private float cooldownAttack = 1.01f;
+    private float cooldownSlide = 1f;
     private InputHandler _handler;
     private int moving;
 
@@ -29,17 +32,43 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_handler.attack && attackAvailable)
+        
+        //print(_handler.input);
+        
+        //player movement to wasd
+        if(_handler.input.x>0.1f || _handler.input.y>0.1f || _handler.input.x<-0.1f || _handler.input.y<-0.1f)
+            moving = 1;
+        else 
+            moving = 0;
+        _anim.SetFloat("Moving", moving);
+        
+        transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * _translationSpeed));
+        transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * _translationSpeed));
+
+        //player rotate to wasd
+        if(attackAvailable)
         {
-            attackAvailable = false;
+        player.transform.LookAt(player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y));
+        player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+        }
+
+
+        //actions
+        if(_handler.attack)
+        {
+            
             Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
             //print(mousePosition);
             player.transform.LookAt(mousePosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         
-            _anim.SetTrigger("Attack");
+            if(attackAvailable)
+            {
+                attackAvailable = false;
+                _anim.SetTrigger("Attack");
             
-            StartCoroutine(AttackCooldown());
+                StartCoroutine(AttackCooldown());
+            }
         }
         if(_handler.slide && slideAvailable)
         {
@@ -47,21 +76,17 @@ public class PlayerCombat : MonoBehaviour
             slideAvailable = false;
             StartCoroutine(SlideCooldown());
         }
-        print(_handler.input);
-        _anim.SetFloat("Xaxis",_handler.input.x, 0.2f, Time.deltaTime);
-            
-        _anim.SetFloat("Zaxis",_handler.input.y, 0.1f, Time.deltaTime);
     }
 
     IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(cooldownAttack);
         attackAvailable = true;
     }
 
     IEnumerator SlideCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(cooldownSlide);
         slideAvailable = true;
     }
 }
