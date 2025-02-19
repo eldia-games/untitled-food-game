@@ -15,8 +15,11 @@ public class PlayerCombat : MonoBehaviour
 
     private bool attackAvailable = true;
 
-    [Range(0,1)]
-    public float slideAvailable = 1;
+    [Range(0,10)]
+    public float SlideMP = 10;
+
+    [Range(0,100)]
+    public float HP = 100;
     private bool slideForce = false;
     public new Camera camera;
     public GameObject player;
@@ -54,13 +57,22 @@ public class PlayerCombat : MonoBehaviour
         player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         }
 
+        //if hurt
+        //_anim.SetTrigger("Hurt", ...);
+
+        //if HP <= 0 die
+        _anim.SetFloat("HP",HP);
+        if(HP<=0)
+        {
+            OnDie();
+        }
 
         //actions
         //slide
-        if(_handler.slide && slideAvailable==1)
+        if(_handler.slide && SlideMP==10)
         {
             _anim.SetTrigger("Slide");
-            slideAvailable = 0;
+            SlideMP = 0;
             slideForce = true;
             StartCoroutine(SlideForce());
             //addforce to dodge
@@ -104,15 +116,39 @@ public class PlayerCombat : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < cooldownSlide)
         {
-            slideAvailable = elapsedTime / cooldownSlide;
+            SlideMP = elapsedTime / cooldownSlide * 10;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        slideAvailable = 1;
+        SlideMP = 10;
     }
     IEnumerator SlideForce()
     {
         yield return new WaitForSeconds(0.2f);
         slideForce = false;
     }
+
+    public void OnAttack()
+    {
+
+    }
+
+    public void OnHurt()
+    {
+
+    }
+
+    public void OnHeal()
+    {
+        
+    }
+
+    public void OnDie()
+    {
+        print("You died");
+        //desactivar el script de movimiento y el de input
+        enabled = false;
+        _handler.enabled = false;
+    }
+    
 }
