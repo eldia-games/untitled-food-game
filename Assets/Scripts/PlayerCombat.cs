@@ -170,7 +170,9 @@ public class PlayerCombat : MonoBehaviour
         HP += heal;
         weaponIndexOld = weaponIndex;
         weaponIndex = 3;
-        _anim.SetTrigger("Heal");
+        _anim.SetFloat("Weapon",weaponIndex);
+        _anim.SetTrigger("Attack");
+        _anim.SetFloat("HP",HP);
         StartCoroutine(HealCooldown());
         
         
