@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas CombatCanvas;
     [SerializeField] private Canvas MisionCanvas;
     [SerializeField] private Canvas UpgradesCanvas;
-    [SerializeField] private Canvas BackgroundCanvas;
+    [SerializeField] private Canvas CreditCanvas;
 
 
     private void Start()
@@ -18,7 +19,7 @@ public class UIManager : MonoBehaviour
         ShowMainMenuCanvas();
     }
 
-    void ShowMainMenuCanvas()
+    public void ShowMainMenuCanvas()
     {
         MainMenuCanvas.gameObject.SetActive(true);
         LobbyCanvas.gameObject.SetActive(false);
@@ -26,10 +27,19 @@ public class UIManager : MonoBehaviour
         CombatCanvas.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
-        BackgroundCanvas.gameObject.SetActive(true);
+        CreditCanvas.gameObject.SetActive(false);
     }
-
-    void ShowLobbyCanvas()
+    public void ShowCreditsUI()
+    {
+        MainMenuCanvas.gameObject.SetActive(false);
+        LobbyCanvas.gameObject.SetActive(false);
+        MapCanvas.gameObject.SetActive(false);
+        CombatCanvas.gameObject.SetActive(false);
+        MisionCanvas.gameObject.SetActive(false);
+        UpgradesCanvas.gameObject.SetActive(false);
+        CreditCanvas.gameObject.SetActive(true);
+    }
+    public void ShowLobbyCanvas()
     {
         MainMenuCanvas.gameObject.SetActive(false);
         LobbyCanvas.gameObject.SetActive(true);
@@ -37,21 +47,21 @@ public class UIManager : MonoBehaviour
         CombatCanvas.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
-        BackgroundCanvas.gameObject.SetActive(false);
+        CreditCanvas.gameObject.SetActive(false);
     }
 
-    void ShowMapCanvas()
+    public void ShowMapCanvas()
     {
-        MainMenuCanvas.gameObject.SetActive(true);
+        MainMenuCanvas.gameObject.SetActive(false);
         LobbyCanvas.gameObject.SetActive(false);
         MapCanvas.gameObject.SetActive(true);
         CombatCanvas.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
-        BackgroundCanvas.gameObject.SetActive(false);
+        CreditCanvas.gameObject.SetActive(false);
     }
 
-    void ShowCombatCanvas()
+    public void ShowCombatCanvas()
     {
         MainMenuCanvas.gameObject.SetActive(false);
         LobbyCanvas.gameObject.SetActive(false);
@@ -59,9 +69,9 @@ public class UIManager : MonoBehaviour
         CombatCanvas.gameObject.SetActive(true);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
-        BackgroundCanvas.gameObject.SetActive(false);
+        CreditCanvas.gameObject.SetActive(false);
     }
-    void ShowMisionCanvas()
+    public void ShowMisionCanvas()
     {
         MainMenuCanvas.gameObject.SetActive(false);
         LobbyCanvas.gameObject.SetActive(false);
@@ -69,9 +79,9 @@ public class UIManager : MonoBehaviour
         CombatCanvas.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(true);
         UpgradesCanvas.gameObject.SetActive(false);
-        BackgroundCanvas.gameObject.SetActive(true);
+        CreditCanvas.gameObject.SetActive(false);
     }
-    void ShowUpgradeCanvas()
+    public void ShowUpgradeCanvas()
     {
         MainMenuCanvas.gameObject.SetActive(false);
         LobbyCanvas.gameObject.SetActive(false);
@@ -79,6 +89,6 @@ public class UIManager : MonoBehaviour
         CombatCanvas.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(true);
-        BackgroundCanvas.gameObject.SetActive(true);
+        CreditCanvas.gameObject.SetActive(false);
     }
 }
