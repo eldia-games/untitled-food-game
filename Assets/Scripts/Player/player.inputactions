@@ -24,9 +24,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "slide",
+                    "name": "interact",
                     "type": "Button",
                     "id": "325e97ec-36d5-494e-af14-7d861a903b00",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "heal",
+                    "type": "Button",
+                    "id": "bd92131e-b998-4921-bf06-b71aa5242b87",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slide",
+                    "type": "Button",
+                    "id": "1963a973-c397-4988-8ad8-6e42595fc53f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -104,6 +122,28 @@
                     "name": "",
                     "id": "1160bcc1-6d66-4798-9397-c6be5b25fb8b",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a97134a8-5a18-4051-8762-9199edc1efcf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4bd8b1a-f964-428f-b393-afd7292ec706",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -9,6 +9,10 @@ public class InputHandler : MonoBehaviour
     public Vector2 input { get; private set; }
     public bool attack { get; private set; }
 
+    public bool heal { get; private set; }
+
+    public bool interact { get; private set; }
+
     //public bool jump { get; private set; }
     //public Vector2 mouse { get; private set; }
 
@@ -27,28 +31,18 @@ public class InputHandler : MonoBehaviour
         attack = context.performed;
     }
 
-    //public void onRot(InputAction.CallbackContext context)
-    //{
-    //    mouse = context.ReadValue<Vector2>();
-    //}
-
-    //public void onJump(InputAction.CallbackContext context)
-    //{
-    //    jump = context.performed;
-    //}
-
-    //public void onHurt(InputAction.CallbackContext context)
-    //{
-    //    hurt = context.performed;
-    //}
-
-    //public void onElevate(InputAction.CallbackContext context)
-    //{
-    //    elevator = context.performed;
-    //}
-
     public void onSlide(InputAction.CallbackContext context)
     {
         slide = context.performed;
+    }
+
+    public void onHeal(InputAction.CallbackContext context)
+    {
+        heal = context.performed;
+    }
+
+    public void onInteract(InputAction.CallbackContext context)
+    {
+        interact = context.performed;
     }
 }
