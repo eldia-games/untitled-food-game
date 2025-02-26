@@ -7,10 +7,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public static PlayerCombat Instance { get; private set; }
 
     public Animator _anim;
 
     public PlayerStats PlayerStats;
+
+    //private Interactor _interactor;
 
     private float MovementSpeed => PlayerStats.MovementSpeed;
     private float StaminaSlide { get => PlayerStats.StaminaSlide; set => PlayerStats.StaminaSlide = value; }
@@ -55,7 +58,23 @@ public class PlayerCombat : MonoBehaviour
 
     private Vector3 pushDirection;
 
+    private SphereCollider _colliderMeleeSpin;
+    private BoxCollider _colliderMelee;
+
     #endregion
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +86,10 @@ public class PlayerCombat : MonoBehaviour
         HP = (float)maxLife;
         MP = (float)maxMana;
         StaminaSlide = 10;
+        _colliderMeleeSpin = GetComponent<SphereCollider>();
+        _colliderMeleeSpin.enabled = false;
+        _colliderMelee = GetComponent<BoxCollider>();
+        _colliderMelee.enabled = false;
     }
 
     void Update()
@@ -75,13 +98,13 @@ public class PlayerCombat : MonoBehaviour
         ///Weapons
 
         //weapons: 0 axe, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
-        _anim.SetFloat("Weapon",weaponIndex);
+        _anim.SetFloat("Weapon", weaponIndex);
 
         //VelAttack to animator
-        _anim.SetFloat("VelAttack",velAttack);
+        _anim.SetFloat("VelAttack", velAttack);
 
         //VelSlide to animator
-        _anim.SetFloat("VelSlide",velSlide);
+        _anim.SetFloat("VelSlide", velSlide);
 
     }
 
@@ -92,9 +115,9 @@ public class PlayerCombat : MonoBehaviour
         ///Movement
 
         //player movement to wasd
-        if(_handler.input.x>0.1f || _handler.input.y>0.1f || _handler.input.x<-0.1f || _handler.input.y<-0.1f)
+        if (_handler.input.x > 0.1f || _handler.input.y > 0.1f || _handler.input.x < -0.1f || _handler.input.y < -0.1f)
             moving = 1;
-        else 
+        else
             moving = 0;
         _anim.SetFloat("Moving", moving);
 
@@ -102,8 +125,9 @@ public class PlayerCombat : MonoBehaviour
         transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
 
         //player rotate to wasd
-        if(attackAvailable)
+        if (attackAvailable)
         {
+            player.transform.position = transform.position;
             lookAtPosition = player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y);
             player.transform.LookAt(lookAtPosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
@@ -113,7 +137,7 @@ public class PlayerCombat : MonoBehaviour
         ///Actions
 
         //slide
-        if(_handler.slide && StaminaSlide==10)
+        if (_handler.slide && StaminaSlide == 10)
         {
             _anim.SetTrigger("Slide");
             StaminaSlide = 0;
@@ -122,28 +146,28 @@ public class PlayerCombat : MonoBehaviour
             //addforce to dodge
             StartCoroutine(SlideCooldown());
         }
-        
+
         //attack
-        if(_handler.attack)
+        if (_handler.attack)
         {
-            
+
             Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
             //print(mousePosition);
             player.transform.LookAt(mousePosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
-        
-            if(attackAvailable)
+
+            if (attackAvailable)
             {
                 attackAvailable = false;
                 _anim.SetTrigger("Attack");
-            
+
                 StartCoroutine(AttackCooldown());
                 OnAttack();
             }
         }
 
         //Make the slide movement
-        if(slideForce)
+        if (slideForce)
         {
             //print("sliding");
             transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
@@ -151,35 +175,35 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //Interact
-        if(_handler.interact && interactAvailable)
+        if (_handler.interact && interactAvailable)
         {
             print("interacting");
             //interact with objects
             onInteract();
-        }        
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///HP and MP
-        
+
         //if heal
-        if(_handler.heal && healCooldown && HP<(float)maxLife)
+        if (_handler.heal && healCooldown && HP < (float)maxLife)
         {
             OnHeal(heal);
         }
 
         //if HP <= 0 die
-        _anim.SetFloat("HP",HP);
-        if(HP<=0)
+        _anim.SetFloat("HP", HP);
+        if (HP <= 0)
         {
             OnDie();
         }
 
         //if MP <= 0 MP = 0 manaregen
-        if(MP<=0)
+        if (MP <= 0)
         {
             MP = 0;
         }
-        else if(MP>=maxMana)
+        else if (MP >= maxMana)
         {
             MP = maxMana;
         }
@@ -189,7 +213,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //push force
-        if(pushForce)
+        if (pushForce)
         {
             //print("getting pushed");
             transform.Translate(pushDirection * Time.deltaTime * pushForceFactor);
@@ -205,8 +229,9 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(1/velAttack);
+        yield return new WaitForSeconds(1 / velAttack);
         attackAvailable = true;
+        _colliderMeleeSpin.enabled = false;
     }
     IEnumerator SlideCooldown()
     {
@@ -221,7 +246,7 @@ public class PlayerCombat : MonoBehaviour
     }
     IEnumerator SlideForceCooldown()
     {
-        yield return new WaitForSeconds(0.2f * (1/velSlide));
+        yield return new WaitForSeconds(0.2f * (1 / velSlide));
         slideForce = false;
     }
 
@@ -236,7 +261,7 @@ public class PlayerCombat : MonoBehaviour
         //NOT NEADED HEAL VELOCITY
         yield return new WaitForSeconds(1.0f);
         weaponIndex = weaponIndexOld;
-        _anim.SetFloat("Weapon",weaponIndex);
+        _anim.SetFloat("Weapon", weaponIndex);
         healCooldown = true;
     }
 
@@ -248,33 +273,59 @@ public class PlayerCombat : MonoBehaviour
         //force to push enemies away
 
         //Bow Attack of player
-        if(weaponIndex == 2)
+        if (weaponIndex == 2)
         {
             CreateBullet();
         }
-        else if(weaponIndex == 4)
+        else if (weaponIndex == 4)
         {
             //Magic attack of player
-            if(MP>=manaCost)
+            if (MP >= manaCost)
             {
                 MP -= manaCost;
                 CreateBullet();
             }
         }
-        else
+        else if(weaponIndex == 1)
         {
-            //Close attack of player
+            //Close attack of player spin
+            _colliderMeleeSpin.enabled = true;
+
+        }
+        else if(weaponIndex == 0)
+        {
+            //Close attack of player melee
+            _colliderMelee.enabled = true;
+        } 
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //If the collider is melee, make damage to the enemy
+        if (_colliderMeleeSpin.enabled)
+        {
+            if (collision.gameObject.tag == "Enemy")
+            {
+                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+            }
+        }
+        if (_colliderMelee.enabled)
+        {
+            if (collision.gameObject.tag == "Enemy")
+            {
+                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+            }
         }
     }
 
-    
+
     public void OnHurt(float damage, float pushForce, Vector3 position)
     {
         print("hurt");
         //Make player take damage
         HP -= damage;
         _anim.SetTrigger("Hurt");
-        _anim.SetFloat("HP",HP);
+        _anim.SetFloat("HP", HP);
         TakePush(pushForce, position);
     }
 
@@ -298,18 +349,33 @@ public class PlayerCombat : MonoBehaviour
         HP += heal;
         weaponIndexOld = weaponIndex;
         weaponIndex = 3;
-        _anim.SetFloat("Weapon",weaponIndex);
+        _anim.SetFloat("Weapon", weaponIndex);
         _anim.SetTrigger("Attack");
-        _anim.SetFloat("HP",HP);
+        _anim.SetFloat("HP", HP);
         StartCoroutine(HealCooldown());
     }
-    
+
     public void onInteract()
     {
         interactAvailable = false;
-        _anim.SetTrigger("Interact");
-        StartCoroutine(InteractCooldown());
-        //interact with objects
+        //Only activate Interact on getInteract if the object is interactable
+        //switch(_interactor.getInteractionType()){
+        //case None;
+        //break;
+        //case NormalInteraction;
+        //_anim.SetTrigger("Interact");
+        //    StartCoroutine(InteractCooldown());
+        //break;
+        //case.....
+
+        //final:
+        //Interactor.interact();
+        //}
+        if(true){
+            _anim.SetTrigger("Interact");
+            StartCoroutine(InteractCooldown());
+        }
+        //interact with objects}
 
     }
 
@@ -321,7 +387,7 @@ public class PlayerCombat : MonoBehaviour
         _handler.enabled = false;
         //activar mensaje o cutscene de muerte
     }
-    
+
     private void CreateBullet()
     {
         // Create the Bullet from the Bullet Prefab
@@ -330,7 +396,7 @@ public class PlayerCombat : MonoBehaviour
         var bullet = (GameObject)Instantiate(
             weaponType,
             transform.position + player.transform.forward * 2 + transform.up,
-            Quaternion.Euler(-90,player.transform.eulerAngles.y,0));
+            Quaternion.Euler(-90, player.transform.eulerAngles.y, 0));
 
         bullet.GetComponent<Bullet>().damage = (int)damage;
         bullet.GetComponent<Bullet>().pushForce = PushForce;
