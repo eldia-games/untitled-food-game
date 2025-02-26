@@ -71,7 +71,7 @@ public class Game : MonoBehaviour
 
     public void ReturnMap()
     {
-        OnStartMap?.Invoke();
+        OnReturnMap?.Invoke();
         UnityEngine.Debug.Log("Vuelvo al mapa");
         uiManager.ShowMapCanvas();
     }
