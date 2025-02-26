@@ -16,7 +16,7 @@ public class HealthManaUIManager : MonoBehaviour
 
     static int MANA_BASE_REGEN = 10;
 
-    public void SetMaxHealth(float health) {
+    public void setMaxHealth(float health) {
         healthSlider.maxValue = health;
         healthSlider.value = health;
 
@@ -30,7 +30,7 @@ public class HealthManaUIManager : MonoBehaviour
         healthFill.color = healthGradient.Evaluate(healthSlider.normalizedValue);
     }
 
-    public void SetMaxMana(float mana)
+    public void setMaxMana(float mana)
     {
         manaSlider.maxValue = mana;
         manaSlider.value = mana;
@@ -50,17 +50,15 @@ public class HealthManaUIManager : MonoBehaviour
     {
         if (manaSlider.value < manaSlider.maxValue)
         {
-           increaseMana(manaRegenRate*MANA_BASE_REGEN);
-
-            manaFill.color = manaGradient.Evaluate(1.0f);
+           gainMana(manaRegenRate*MANA_BASE_REGEN);
         }
     }
 
-    public void increaseMana(float manaIncrement) {
+    public void gainMana(float manaIncrement) {
         if (manaSlider.value < manaSlider.maxValue) {
             if (manaSlider.value + manaIncrement < manaSlider.maxValue)
             {
-                manaSlider.value += manaIncrement;
+                setMana(manaSlider.value + manaIncrement);
             }
             else {
                 setMana(manaSlider.maxValue);
@@ -69,20 +67,50 @@ public class HealthManaUIManager : MonoBehaviour
         }
     }
 
-    public void increaseHealth(float healthIncrement)
+    public void gainHealth(float healthIncrement)
     {
         if (healthSlider.value < healthSlider.maxValue)
         {
             if (healthSlider.value + healthIncrement < healthSlider.maxValue)
             {
-                healthSlider.value += healthIncrement;
+                setHealth(healthSlider.value + healthIncrement);
             }
             else
             {
-                setMana(healthSlider.maxValue);
+                setHealth(healthSlider.maxValue);
             }
 
         }
+    }
+
+    public void loseMana(float manaDecrease)
+    {
+        if (manaSlider.value - manaDecrease > 0)
+        {
+            setMana(manaSlider.value - manaDecrease);
+        }
+        else
+        {
+            setMana(0);
+            //llamar a mensaje de mana insuficiente
+        }
+
+
+    }
+
+    public void loseHealth(float healthDecrease)
+    {
+        if (healthSlider.value - healthDecrease > 0)
+        {
+            setHealth(healthSlider.value - healthDecrease);
+        }
+        else
+        {
+            setHealth(0);
+            //llamar a muerte de personaje y pantalla de game over
+        }
+
+        
     }
 
 }
