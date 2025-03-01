@@ -9,6 +9,7 @@ public class UIManagerLobby : MonoBehaviour
     [SerializeField] private Canvas Achievements;
     [SerializeField] private Canvas MisionCanvas;
     [SerializeField] private Canvas UpgradesCanvas;
+    [SerializeField] private Canvas HelpCanvas;
     public GameObject Panel;
 
     private void Awake()
@@ -54,6 +55,16 @@ public class UIManagerLobby : MonoBehaviour
         UpgradesCanvas.gameObject.SetActive(false);
 
     }
+    public void ShowHelpCanvas()
+    {
+        UnityEngine.Debug.Log("Muestro ayuda");
+        WeaponSelect.gameObject.SetActive(false);
+        Achievements.gameObject.SetActive(false);
+        MisionCanvas.gameObject.SetActive(false);
+        UpgradesCanvas.gameObject.SetActive(false);
+        HelpCanvas.gameObject.SetActive(true);
+    }
+
     public void CloseCanvas()
     {
         UnityEngine.Debug.Log("Cierro todos los canvas");
