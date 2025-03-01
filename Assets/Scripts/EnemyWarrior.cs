@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
-using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
-public class EnemyMinion : MonoBehaviour
+public class EnemyWarrior : MonoBehaviour
 {
     public float speed;
     public float health;
@@ -18,9 +18,17 @@ public class EnemyMinion : MonoBehaviour
     public NavMeshAgent agent;
     // Rango del ataque
     public float attackRange;
+    public float fleeDistance = 7f; // Distance at which the enemy starts fleeing
+    public float fleeRadius = 1f; // Maximum distance enemy can flee
+    public int rayCount = 12; // How many directions to test
+    public float checkRadius = 1f; // Distance to check for valid NavMesh positions
+    private Vector3 bestFleePoint;
+    private List<Vector3> debugPositions = new List<Vector3>(); // Store potential positions for Gizmos
+
     public Animator animator;
 
-    public MeshRenderer attackMesh;
+    public GameObject spellPrefab; // Assign spell prefab in inspector
+    public Transform staffTip; // Assign the tip of the staff in inspector
 
     // Parametros de vista
     public float viewRadius;
@@ -31,16 +39,19 @@ public class EnemyMinion : MonoBehaviour
     private bool inCombat = false;
 
     public float timeToReset;
-    public bool isWaitAndMove;
+    private bool isWaitAndMove;
+
+    public float attackCooldown;
+    private float attackTimer = 0;
+    private bool isAttacking = false;
 
     // List of possibles weapons
     public List<GameObject> weapons;
 
-    public UnityEvent dieEvent;
-
     private bool isSeen = false;
 
-    public bool isDead = false;
+    public UnityEvent dieEvent;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +59,6 @@ public class EnemyMinion : MonoBehaviour
         agent.acceleration = 100;
         agent.speed = speed;
         agent.angularSpeed = 1000;
-        attackMesh.enabled = false;
         initialPosition = transform.position;
         isWaitAndMove = false;
         // Randomly select a weapon from the list and enable it
@@ -59,7 +69,6 @@ public class EnemyMinion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if(isDead) return;
         // Distance to the player
         float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -97,14 +106,35 @@ public class EnemyMinion : MonoBehaviour
             // Move the agent towards the player
             agent.SetDestination(player.transform.position);
             // Check if the player is within attack range
-            if(Vector3.Distance(transform.position, player.transform.position) < attackRange)
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            if(distanceToPlayer < attackRange && distanceToPlayer > fleeRadius)
             {
                 // Stop moving the agent
                 animator.SetBool("isRunning", false);
                 agent.isStopped = true;
-                // Attack the player
-                StartAttack();
-            } else {
+                // Attack the player after a certain amount of time
+                if(attackTimer >= attackCooldown)
+                {
+                    attackTimer = 0;
+                    StartAttack();
+                }
+                // Look at the player
+                // Rotate slowly the agent towards the player
+                transform.rotation = Quaternion.Slerp(transform.rotation, 
+                    Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * 5);
+                
+            } else if (distanceToPlayer <= fleeRadius)
+            {
+                // Move the agent from the player
+                agent.isStopped = false;
+                animator.SetBool("isRunning", true);
+                Vector3 bestFleeDirection = GetBestFleeDirection();
+                if (bestFleeDirection != Vector3.zero)
+                {
+                    agent.SetDestination(bestFleeDirection);
+                }
+            }
+            else {
                 // Move the agent towards the player
                 agent.isStopped = false;
                 animator.SetBool("isRunning", true);
@@ -122,6 +152,10 @@ public class EnemyMinion : MonoBehaviour
             }
         }
 
+        // Update the attack timer
+        if(attackTimer < attackCooldown)
+            attackTimer += Time.deltaTime;
+
         // Get rbody velocity and set the animator speed parameter
         animator.SetFloat("speed", agent.velocity.magnitude);
         animator.SetBool("inCombat", inCombat);
@@ -136,6 +170,34 @@ public class EnemyMinion : MonoBehaviour
         // Move the agent to a random position within a radius of 3 units from the initial position
         agent.SetDestination(initialPosition + UnityEngine.Random.insideUnitSphere * 3);
         isWaitAndMove = false;
+    }
+
+    Vector3 GetBestFleeDirection()
+    {
+        debugPositions.Clear(); // Clear previous positions for Gizmos
+        Vector3 bestDirection = Vector3.zero;
+        float maxDistance = 0f;
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount);
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            Vector3 potentialPosition = transform.position + direction * fleeRadius;
+
+            if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, checkRadius, NavMesh.AllAreas))
+            {
+                debugPositions.Add(hit.position); // Store for Gizmos
+                float distanceFromPlayer = Vector3.Distance(hit.position, player.transform.position);
+                
+                if (distanceFromPlayer > maxDistance)
+                {
+                    maxDistance = distanceFromPlayer;
+                    bestDirection = hit.position;
+                }
+            }
+        }
+
+        return bestDirection;
     }
 
     void OnDrawGizmos()
@@ -155,6 +217,30 @@ public class EnemyMinion : MonoBehaviour
         // Draw initial position and radius
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(initialPosition, 3);
+
+        if (player == null) return;
+
+        Gizmos.color = Color.red;
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount);
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            Vector3 rayEnd = transform.position + direction * fleeRadius;
+            Gizmos.DrawLine(transform.position, rayEnd); // Draw potential flee directions
+        }
+
+        Gizmos.color = Color.green;
+        foreach (var pos in debugPositions)
+        {
+            Gizmos.DrawSphere(pos, 0.3f); // Draw valid flee positions
+        }
+
+        if (bestFleePoint != Vector3.zero)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, bestFleePoint); // Draw the chosen flee path
+            Gizmos.DrawSphere(bestFleePoint, 0.5f);
+        }
         
     }
 
@@ -177,17 +263,24 @@ public class EnemyMinion : MonoBehaviour
     void StartAttack(){
         // Implement attack logic here
         animator.SetTrigger("attack");
+        isAttacking = true;
     }
 
     void Attack(){
-        attackMesh.enabled = true;
+        if (spellPrefab != null && player != null)
+        {
+            GameObject spell = Instantiate(spellPrefab, staffTip.position, Quaternion.identity);
+            SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
+
+            if (spellScript != null)
+            {
+                spellScript.SetTarget(player.transform);
+            }
+        }
         // Set the attack mesh to false after 0.5 seconds
         Invoke("StopAttack", 0.2f);
     }
 
-    void StopAttack(){
-        attackMesh.enabled = false;
-    }
     
     void OnHurt(float damage, float knockback, Vector3 direction){
         animator.SetTrigger("hurt");
@@ -221,4 +314,7 @@ public class EnemyMinion : MonoBehaviour
         // Implement any additional cleanup here
     }
 
+    void StopAttack(){
+        isAttacking = false;
+    }
 }

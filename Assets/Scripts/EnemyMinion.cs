@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
-using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMinion : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float speed;
     public float health;
@@ -36,11 +35,7 @@ public class EnemyMinion : MonoBehaviour
     // List of possibles weapons
     public List<GameObject> weapons;
 
-    public UnityEvent dieEvent;
-
     private bool isSeen = false;
-
-    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -59,8 +54,6 @@ public class EnemyMinion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(isDead) return;
         // Distance to the player
         float distance = Vector3.Distance(transform.position, player.transform.position);
         // Angle to the player
@@ -188,37 +181,16 @@ public class EnemyMinion : MonoBehaviour
     void StopAttack(){
         attackMesh.enabled = false;
     }
-    
-    void OnHurt(float damage, float knockback, Vector3 direction){
-        animator.SetTrigger("hurt");
-        // Implement hurt logic here
-        health -= damage;
-        // Apply knockback force
-        rb.AddForce(direction * knockback, ForceMode.Impulse);
-        // Check if the enemy is dead
-        if (health <= 0) {
-            Die();
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if(animator){
+            if(player){
+                if(isSeen){
+                    animator.SetLookAtWeight(1);
+                    animator.SetLookAtPosition(player.transform.position);
+                }
+            }
         }
     }
-
-    void Die(){
-        animator.SetTrigger("die");
-        animator.SetBool("isDead", true);
-        // Implement death logic here
-        // Disable the enemy's collider and rigidbody
-        GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        agent.isStopped = true;
-        // Destroy the enemy after 2 seconds
-        Invoke("DestroyEnemy", 2f);
-        if(dieEvent != null)
-           dieEvent.Invoke();
-        isDead = true;
-    }
-
-    void DestroyEnemy(){
-        Destroy(gameObject);
-        // Implement any additional cleanup here
-    }
-
 }
