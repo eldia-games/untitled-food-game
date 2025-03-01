@@ -3,10 +3,8 @@ using UnityEngine.EventSystems;
 
 public class ObjectSelector : MonoBehaviour
 {
-    public GameObject upgrades; 
-    public GameObject missions; 
-    public GameObject achivements; 
     public GameObject panel;
+    public UIManagerLobby UIManagerLobby;
 	private Camera _camera;
 
     private Transform _highlight; //objeto impactado
@@ -67,28 +65,28 @@ public class ObjectSelector : MonoBehaviour
                             {
                                 panel.SetActive(false);
                                 Debug.Log("Cargar seleccion de arma");
-                                panel.SetActive(true);
+                                UIManagerLobby.ShowWeaponSelect();
                             }
                             break;
                         case "WaiterTable":
                             if (panel.activeSelf)
                             {
                                 panel.SetActive(false);
-                                missions.SetActive(true);// Mostrar misiones
+                                UIManagerLobby.ShowMisionCanvas();// Mostrar misiones
                             }
                             break;
                         case "armour":
                             if (panel.activeSelf)
                             {
                                 panel.SetActive(false);
-                                upgrades.SetActive(true);// Mostrar mejoras
+                                UIManagerLobby.ShowUpgradeCanvas(); ;// Mostrar mejoras
                             }
                             break;
                         case "sword_shield_gold":
                             if (panel.activeSelf)
                             {
                                 panel.SetActive(false);
-                                achivements.SetActive(true);// Mostrar logros
+                                UIManagerLobby.ShowAchievementsCanvas();// Mostrar logros
                             }
                             break;
                         case "selectable_objects":

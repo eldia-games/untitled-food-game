@@ -16,6 +16,15 @@ public class HealthManaUIManager : MonoBehaviour
 
     static int MANA_BASE_REGEN = 10;
 
+    void onAwake()
+    {
+
+        setMaxHealth(100);
+        setMaxMana(100);
+
+        setHealth(100);
+        setMana(100);
+    }
     public void setMaxHealth(float health) {
         healthSlider.maxValue = health;
         healthSlider.value = health;
