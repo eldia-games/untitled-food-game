@@ -13,7 +13,10 @@ public class UIManagerLobby : MonoBehaviour
 
     private void Awake()
     {
-        CloseCanvas();    
+        WeaponSelect.gameObject.SetActive(false);
+        Achievements.gameObject.SetActive(false);
+        MisionCanvas.gameObject.SetActive(false);
+        UpgradesCanvas.gameObject.SetActive(false);
     }
 
     public void ShowWeaponSelect()
