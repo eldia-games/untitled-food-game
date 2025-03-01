@@ -13,6 +13,8 @@ public class InputHandler : MonoBehaviour
 
     public bool interact { get; private set; }
 
+    public bool inventory { get; private set; }
+
     //public bool jump { get; private set; }
     //public Vector2 mouse { get; private set; }
 
@@ -44,5 +46,9 @@ public class InputHandler : MonoBehaviour
     public void onInteract(InputAction.CallbackContext context)
     {
         interact = context.performed;
+    }
+    public void onInventory(InputAction.CallbackContext context)
+    {
+        inventory = context.performed;
     }
 }
