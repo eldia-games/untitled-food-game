@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Canvas MainMenuCanvas;
     [SerializeField] private Canvas CreditCanvas;
+    [SerializeField] private Canvas SettingsCanvas;
 
     private void Start()
     {
@@ -15,14 +16,23 @@ public class MainMenu : MonoBehaviour
 
     public void ShowMainMenuCanvas()
     {
+        SettingsCanvas.gameObject.SetActive(false);
         MainMenuCanvas.gameObject.SetActive(true);
         CreditCanvas.gameObject.SetActive(false);
     }
 
     public void ShowCreditCanvas()
     {
+        SettingsCanvas.gameObject.SetActive(false);
         MainMenuCanvas.gameObject.SetActive(false);
         CreditCanvas.gameObject.SetActive(true);
+    }
+
+    public void ShowSettingsCanvas()
+    {
+        SettingsCanvas.gameObject.SetActive(true);
+        MainMenuCanvas.gameObject.SetActive(false);
+        CreditCanvas.gameObject.SetActive(false);
     }
 
     public void EnterLobby()
