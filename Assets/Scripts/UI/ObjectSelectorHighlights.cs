@@ -110,7 +110,7 @@ public class ObjectSelector : MonoBehaviour
             }
         }
     }
-    public void onClose(GameObject panelToClose)
+    public void OnClose(GameObject panelToClose)
     {
         panelToClose.SetActive(false);
         panel.SetActive(true);
