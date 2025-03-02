@@ -77,7 +77,8 @@ public class UIManagerLobby : MonoBehaviour
         WeaponSelect.gameObject.SetActive(false);
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
-        UpgradesCanvas.gameObject.SetActive(false);
+        UpgradesCanvas.gameObject.SetActive(false); 
+        HelpCanvas.gameObject.SetActive(false);
         Panel.gameObject.SetActive(true);
         AudioManager.Instance.PlaySFXClose();
     }

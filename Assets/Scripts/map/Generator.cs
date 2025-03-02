@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Generator : MonoBehaviour {
   [SerializeField] private TileData tileData;
+  [SerializeField] private Vector3Int frw;  // Fence, river, wall columns
   [SerializeField] private int mapSize;
-  [SerializeField] private List<int> riverColumns;
   [SerializeField] private int numPaths;
-  [SerializeField] private int mapUpscale;
+  [SerializeField] private float[] roomOdds;
 
   private Transform transform_;
   private List<Tile> map_;
-  private List<GameObject> tiles_;
 
   void Start() {
     transform_ = transform;
 
+    Assert.IsTrue(mapSize % 2 != 0, "mapSize has to be an odd integer");
+    Assert.IsTrue(frw.x < frw.y && frw.y < frw.z, "The values in frw have to increase");
+    Assert.IsTrue(frw.x % 2 != 0 && frw.y % 2 != 0 && frw.z % 2 != 0, "The values in frw have to be odd integers");
+
     // Initialize the map
     Initialize();
     for (int i = 0; i < numPaths; ++i) Traverse();
+    Fill();
     Instantiate();
   }
 
@@ -28,12 +34,19 @@ public class Generator : MonoBehaviour {
   void Initialize() {
     Vector3 xOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, -1);
     Vector3 yOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, +1);
-    Vector3 mapOff = (xOff + yOff) * ((mapSize * mapUpscale - 1) * -.5f);
+    Vector3 mapOff = (xOff + yOff) * (mapSize * -.5f);
 
-    map_ = new List<Tile>(mapSize * mapSize * mapUpscale * mapUpscale);
-    for (int i = 0; i < mapSize * mapUpscale; ++i) {
-      for (int j = 0; j < mapSize * mapUpscale; ++j) {
-        Tile tile = new Tile(tileData, xOff * i + yOff * j + mapOff, riverColumns.Contains(i + j - mapSize * (mapUpscale - 1)) ? 0b10000 : 0);
+    map_ = new List<Tile>(mapSize * mapSize);
+    for (int i = 0; i < mapSize; ++i) {
+      for (int j = 0; j < mapSize; ++j) {
+        TileType type = TileType.Void;
+        if (i % 2 == 0 || j % 2 == 0) type = TileType.Road;
+        if (i + j == frw.x)           type = TileType.Fence;
+        if (i + j == frw.y)           type = TileType.River;
+        if (i + j == frw.z)           type = TileType.Wall;
+        if (i % 2 == 0 && j % 2 == 0) type = TileType.Room;
+
+        Tile tile = new Tile(tileData, xOff * i + yOff * j + mapOff, type);
         map_.Add(tile);
       }
     }
@@ -43,9 +56,6 @@ public class Generator : MonoBehaviour {
    * Carve a path through the map
    */
   void Traverse() {
-    int temp = (int)(mapSize * (mapUpscale - 1) * 0.5f);
-    Vector2Int begin  = new Vector2Int(temp, temp);
-
     Vector2Int curr   = Vector2Int.zero;
     Vector2Int next   = Vector2Int.zero;
     Vector2Int offset = Vector2Int.zero;
@@ -53,32 +63,28 @@ public class Generator : MonoBehaviour {
     List<Vector2Int> path = new List<Vector2Int>(mapSize * 2 - 1);
     path.Add(curr);
     while (curr.x * mapSize + curr.y < mapSize * mapSize - 1) {
-      Tile tile = GetTile(begin + curr);
+      Tile tile = GetTile(curr);
 
       // Choose next tile
-      if (!tile.IsRiver())
-        offset = Random.Range(0, 2) == 0 ? Vector2Int.up : Vector2Int.right;
+      offset = Random.value < 0.5 ? Vector2Int.up : Vector2Int.right;
       next = curr + offset;
 
-      // If next is out of bounds switch to the other option
-      bool outOfBounds = next.x >= mapSize || next.y >= mapSize;
-      if (outOfBounds && tile.IsRiver()) {
-        path.Clear();
-        path.Add(curr = Vector2Int.zero);
-        continue;
-      } else if (outOfBounds) {
+      // If road already exists switch to the other option
+      if (tile.HasRoad(offset)) {
         offset = new Vector2Int(offset.y, offset.x);
         next = curr + offset;
       }
 
-      // If two roads go through the same river in different directions, restart the road from scratch
-      if (tile.IsRiver() && tile.HasRoad() && !tile.HasRoad(offset)) {
-        path.Clear();
-        path.Add(curr = Vector2Int.zero);
-        continue;
+      // If next is out of bounds switch to the other option
+      bool outOfBounds = next.x >= mapSize || next.y >= mapSize;
+      if (outOfBounds) {
+        offset = new Vector2Int(offset.y, offset.x);
+        next = curr + offset;
       }
 
-      // Add tile to the path and go to next tile
+      // Add two tiles to the path and continue
+      path.Add(curr = next);
+      next = curr + offset;
       path.Add(curr = next);
     }
 
@@ -88,23 +94,70 @@ public class Generator : MonoBehaviour {
       next = path[i + 1];
       offset = next - curr;
 
-      GetTile(begin + curr).Connect( offset);
-      GetTile(begin + next).Connect(-offset);
+      GetTile(curr).Connect(offset);
+      GetTile(next).Connect(-offset);
     }
   }
 
+  /**
+   * Fills the map with rooms
+   */
+  void Fill() {
+    for (int i = 0; i < mapSize; ++i) {
+      for (int j = 0; j < mapSize; ++j) {
+        Tile tile = GetTile(i, j);
+        if (!tile.HasRoom()) continue;
+
+        RoomType room = RoomType.Tavern;
+        do room = SampleRoom();
+        while (!ValidateRoom(room, i + j));
+        if (i + j == 0)               room = RoomType.Tavern;
+        if (i + j == 2)               room = RoomType.Grain;
+        if (i + j == frw.y + 1)       room = RoomType.Trees;
+        if (i + j == frw.z + 1)       room = RoomType.Treasure;
+        if (i + j == 2 * mapSize - 4) room = RoomType.Rest;
+        if (i + j == 2 * mapSize - 2) room = RoomType.Boss;
+        tile.SetRoom(room);
+      }
+    }
+  }
+
+  bool ValidateRoom(RoomType room, int depth) {
+    return
+      !(room == RoomType.Rest  && depth < mapSize - 1) &&
+      !(room == RoomType.Elite && depth < mapSize - 1);
+  }
+
+  RoomType SampleRoom() {
+    float r = Random.value;
+
+    for (int i = 0; i < 9; ++i) {
+      if (r < roomOdds[i]) return (RoomType)i;
+      r -= roomOdds[i];
+    }
+
+    return RoomType.Tavern;
+  }
+  
+  /**
+   * Index into tile map
+   */
+  private Tile GetTile(int i, int j) {
+    return map_[i * mapSize + j];
+  }
+
+  /**
+   * Index into tile map
+   */
   private Tile GetTile(Vector2Int index) {
-    return map_[index.x * mapSize * mapUpscale + index.y];
+    return GetTile(index.x, index.y);
   }
 
   /**
    * Instantiate the map as a set of tiles
    */
   void Instantiate() {
-    tiles_ = new List<GameObject>(map_.Count);
-    for (int i = 0; i < map_.Count; ++i) {
-      GameObject tile = map_[i].Instantiate(transform_);
-      tiles_.Add(tile);
-    }
+    for (int i = 0; i < map_.Count; ++i)
+      map_[i].Instantiate(transform_);
   }
 }
