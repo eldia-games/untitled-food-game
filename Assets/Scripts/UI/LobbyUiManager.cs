@@ -12,12 +12,13 @@ public class UIManagerLobby : MonoBehaviour
     [SerializeField] private Canvas HelpCanvas;
     public GameObject Panel;
 
-    private void Awake()
+    private void Start()
     {
         WeaponSelect.gameObject.SetActive(false);
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
+        AudioManager.Instance.PlayLobbyMusic();
     }
 
     public void ShowWeaponSelect()
@@ -26,6 +27,7 @@ public class UIManagerLobby : MonoBehaviour
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySFXClick();
         UnityEngine.Debug.Log("Muestro Seleccion Armas");
     }
 
@@ -36,6 +38,7 @@ public class UIManagerLobby : MonoBehaviour
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(true);
         UpgradesCanvas.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySFXClick();
     }
     public void ShowUpgradeCanvas()
     {
@@ -44,6 +47,7 @@ public class UIManagerLobby : MonoBehaviour
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFXClick();
 
     }
     public void ShowAchievementsCanvas()
@@ -53,6 +57,7 @@ public class UIManagerLobby : MonoBehaviour
         Achievements.gameObject.SetActive(true);
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySFXClick();
 
     }
     public void ShowHelpCanvas()
@@ -63,6 +68,7 @@ public class UIManagerLobby : MonoBehaviour
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
         HelpCanvas.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFXClick();
     }
 
     public void CloseCanvas()
@@ -73,11 +79,12 @@ public class UIManagerLobby : MonoBehaviour
         MisionCanvas.gameObject.SetActive(false);
         UpgradesCanvas.gameObject.SetActive(false);
         Panel.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFXClose();
     }
 
     public void EnterMap()
     {
-        SceneManager.LoadScene("Map");
+    UIManager.Instance.EnterMapScene();
     }
 
     public void ExitGame()
