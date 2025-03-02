@@ -36,10 +36,13 @@ public class SpellProjectile : MonoBehaviour
         {
             // Calculate direction towards the target
             Vector3 direction = (target.position - transform.position).normalized;
+            direction.y = 0;
+            direction.Normalize(); // Normalize to ensure consistent speed
 
             // Smoothly rotate towards the target
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, steeringStrength * Time.deltaTime);
+            // Ensure the spell moves horizontally
         }
 
         // Move forward in the current direction
@@ -56,7 +59,7 @@ public class SpellProjectile : MonoBehaviour
         // Check if it hits the player
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Spell hit the player!");
+            //Debug.Log("Spell hit the player!");
             
             // Optionally, deal damage to player
             // other.GetComponent<PlayerHealth>()?.TakeDamage(10);

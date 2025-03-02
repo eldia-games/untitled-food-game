@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class ArrowProjectile : MonoBehaviour
+public class SpellProjectileManual : MonoBehaviour
 {
     public float speed = 10f;
     public float lifetime = 5f; // Destroy after 5 seconds
@@ -13,18 +14,19 @@ public class ArrowProjectile : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    public void SetTargetPosition(Vector3 targetPosition)
-    {
-        Vector3 direction = targetPosition - transform.position;
-        direction.y = 0; // Ensure the arrow moves horizontally
-        direction.Normalize(); // Normalize to ensure consistent speed
-        transform.rotation = Quaternion.LookRotation(direction);
-    }
-
     void Update()
     {
         // Move forward in the current direction
-        transform.position += transform.forward * speed * Time.deltaTime;
+        Vector3 direction = transform.forward;
+        direction.y = 0; // Ensure the spell moves horizontally
+        direction.Normalize(); // Normalize to ensure consistent speed
+        transform.position += direction * speed * Time.deltaTime;
+    }
+
+    public void SetDirection(Vector3 direction)
+    {
+        // Set the initial direction of the spell
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 
     void OnTriggerEnter(Collider other)
@@ -41,7 +43,7 @@ public class ArrowProjectile : MonoBehaviour
         }
         else if (!other.CompareTag("Enemy")) // Prevent self-collision
         {
-            //Debug.Log("Arrow hit something else: " + other.gameObject.name);
+            //Debug.Log("Spell hit another object:" + other.name);
             Destroy(gameObject); // Destroy on any other collision
         }
     }

@@ -28,6 +28,7 @@ public class EnemyMage : MonoBehaviour
     public Animator animator;
 
     public GameObject spellPrefab; // Assign spell prefab in inspector
+    public GameObject spellManualPrefab; // Assign spell prefab in inspector
     public Transform staffTip; // Assign the tip of the staff in inspector
 
     // Parametros de vista
@@ -52,6 +53,8 @@ public class EnemyMage : MonoBehaviour
 
     public UnityEvent dieEvent;
     private bool isDead = false;
+    // Random number from 0 to 2
+    private int randomNumber = UnityEngine.Random.Range(0, 3);
 
     // Start is called before the first frame update
     void Start()
@@ -101,45 +104,61 @@ public class EnemyMage : MonoBehaviour
             }
         }
 
-        if(inCombat){
-            agent.speed = speed;
-            // Move the agent towards the player
-            agent.SetDestination(player.transform.position);
-            // Check if the player is within attack range
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if(distanceToPlayer < attackRange && distanceToPlayer > fleeRadius)
+        // ------ COMBATE -----
+        if(inCombat)
+        {
+            // ------ MOVIENDO ------
+            if(!isAttacking)
             {
-                // Stop moving the agent
-                animator.SetBool("isRunning", false);
-                agent.isStopped = true;
-                // Attack the player after a certain amount of time
-                if(attackTimer >= attackCooldown)
-                {
-                    attackTimer = 0;
-                    StartAttack();
-                }
-                // Look at the player
-                // Rotate slowly the agent towards the player
-                transform.rotation = Quaternion.Slerp(transform.rotation, 
-                    Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * 5);
-                
-            } else if (distanceToPlayer <= fleeRadius)
-            {
-                // Move the agent from the player
-                agent.isStopped = false;
-                animator.SetBool("isRunning", true);
-                Vector3 bestFleeDirection = GetBestFleeDirection();
-                if (bestFleeDirection != Vector3.zero)
-                {
-                    agent.SetDestination(bestFleeDirection);
-                }
-            }
-            else {
+                agent.speed = speed;
                 // Move the agent towards the player
-                agent.isStopped = false;
-                animator.SetBool("isRunning", true);
+                agent.SetDestination(player.transform.position);
+                // Check if the player is within attack range
+                float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+                if(distanceToPlayer < attackRange && distanceToPlayer > fleeRadius)
+                {
+                    // Stop moving the agent
+                    animator.SetBool("isRunning", false);
+                    agent.isStopped = true;
+                    // Attack the player after a certain amount of time
+                    if(attackTimer >= attackCooldown)
+                    {
+                        attackTimer = 0;
+                        StartAttack();
+                    }
+                    // Look at the player
+                    // Rotate slowly the agent towards the player
+                    transform.rotation = Quaternion.Slerp(transform.rotation, 
+                        Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * 5);
+                    
+                } else if (distanceToPlayer <= fleeRadius)
+                {
+                    // Move the agent from the player
+                    agent.isStopped = false;
+                    animator.SetBool("isRunning", true);
+                    Vector3 bestFleeDirection = GetBestFleeDirection();
+                    if (bestFleeDirection != Vector3.zero)
+                    {
+                        agent.SetDestination(bestFleeDirection);
+                    }
+                }
+                else {
+                    // Move the agent towards the player
+                    agent.isStopped = false;
+                    animator.SetBool("isRunning", true);
+                }
+            } 
+            // ------ ATACANDO ------
+            else 
+            {
+                // If the agent is attacking, reset the timer
+                attackTimer = 0;
+                agent.isStopped = true;
             }
-        } else {
+        } 
+        // ------ PATRULLANDO -----
+        else 
+        {
             // Check if the agent is at the initial position
             float distanceToInitialPosition = Vector3.Distance(transform.position, initialPosition);
             if(distanceToInitialPosition < 3f) {
@@ -261,24 +280,66 @@ public class EnemyMage : MonoBehaviour
 
 
     void StartAttack(){
+        randomNumber = UnityEngine.Random.Range(0, 2);
         // Implement attack logic here
+        animator.SetInteger("attackType", randomNumber);
         animator.SetTrigger("attack");
         isAttacking = true;
     }
 
     void Attack(){
-        if (spellPrefab != null && player != null)
-        {
-            GameObject spell = Instantiate(spellPrefab, staffTip.position, Quaternion.identity);
-            SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
+        switch(randomNumber){
+            case 0:
+                if (spellPrefab != null && player != null)
+                {
+                    GameObject spell = Instantiate(spellPrefab, staffTip.position, Quaternion.identity);
+                    SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
 
+                    if (spellScript != null)
+                    {
+                        spellScript.SetTarget(player.transform);
+                    }
+                }
+                // Set the attack mesh to false after 0.5 seconds
+                Invoke("StopAttack", 0.2f);
+               break;
+            case 1:
+                // Pause the animator
+                animator.speed = 0f;
+                agent.speed = 0f;
+                StartCoroutine(SpiralAttack(spellManualPrefab, staffTip.position, 2f, 1f, 80));
+                Invoke("StopAttack", 3f);
+               break;
+            case 2:
+                // Cone attack logic here
+                Invoke("StopAttack", 0.2f);
+                break;
+            default: break;
+        }
+    }
+
+    public static IEnumerator SpiralAttack(GameObject spellPrefab, 
+        Vector3 origin, float duration, float spiralSpeed, int projectilesPerSecond)
+    {
+        float elapsedTime = 0f;
+        float angle = 0f;
+        float interval = 1f / projectilesPerSecond;
+
+        while (elapsedTime < duration)
+        {
+            Vector3 direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+            GameObject spell = Instantiate(spellPrefab, origin - Vector3.up * 0.5f, Quaternion.identity);
+            SpellProjectileManual spellScript = spell.GetComponent<SpellProjectileManual>();
             if (spellScript != null)
             {
-                spellScript.SetTarget(player.transform);
+                spellScript.SetDirection(direction);
             }
+            
+            angle += Mathf.PI * 2 * (spiralSpeed / projectilesPerSecond);
+            elapsedTime += interval;
+            yield return new WaitForSeconds(interval);
         }
-        // Set the attack mesh to false after 0.5 seconds
-        Invoke("StopAttack", 0.2f);
+        
     }
 
     
@@ -315,6 +376,8 @@ public class EnemyMage : MonoBehaviour
     }
 
     void StopAttack(){
+        timer = 0f;
+        animator.speed = 1f;
         isAttacking = false;
     }
 }

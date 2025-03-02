@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     // Rango del ataque
     public float attackRange;
+
+    private float attackTimer = 0;
     public Animator animator;
 
     public MeshRenderer attackMesh;
@@ -35,7 +38,15 @@ public class Enemy : MonoBehaviour
     // List of possibles weapons
     public List<GameObject> weapons;
 
+    public float attackCooldown = 3.0f;
+    private bool isAttacking = false;
+
     private bool isSeen = false;
+
+    private bool isTaunting;
+    
+    public UnityEvent dieEvent;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +65,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         // Distance to the player
         float distance = Vector3.Distance(transform.position, player.transform.position);
         // Angle to the player
@@ -85,24 +97,44 @@ public class Enemy : MonoBehaviour
             }
         }
 
+
+        // ------ COMBATE -----
         if(inCombat){
-            agent.speed = speed;
-            // Move the agent towards the player
-            agent.SetDestination(player.transform.position);
-            // Check if the player is within attack range
-            if(Vector3.Distance(transform.position, player.transform.position) < attackRange)
+            // ------ MOVIENDO ------
+            if(!isAttacking)
             {
-                // Stop moving the agent
-                animator.SetBool("isRunning", false);
-                agent.isStopped = true;
-                // Attack the player
-                StartAttack();
-            } else {
+                agent.speed = speed;
                 // Move the agent towards the player
-                agent.isStopped = false;
-                animator.SetBool("isRunning", true);
+                agent.SetDestination(player.transform.position);
+                // Check if the player is within attack range
+                if(Vector3.Distance(transform.position, player.transform.position) < attackRange)
+                {
+                    // Stop moving the agent
+                    animator.SetBool("isRunning", false);
+                    agent.isStopped = true;
+                    // Attack the player after a certain amount of time
+                    if(attackTimer >= attackCooldown)
+                    {
+                        attackTimer = 0;
+                        StartAttack();
+                    }
+                    // Rotate slowly the agent towards the player
+                    transform.rotation = Quaternion.Slerp(transform.rotation, 
+                        Quaternion.LookRotation(player.transform.position - transform.position), Time.deltaTime * 5);
+                } else {
+                    // Move the agent towards the player
+                    agent.isStopped = false;
+                    animator.SetBool("isRunning", true);
+                }
             }
-        } else {
+            else
+            {
+                agent.isStopped = true;
+            }
+        } 
+        // ------ PATRULLANDO -----
+        else
+        {
             // Check if the agent is at the initial position
             float distanceToInitialPosition = Vector3.Distance(transform.position, initialPosition);
             if(distanceToInitialPosition < 3f) {
@@ -114,6 +146,15 @@ public class Enemy : MonoBehaviour
 
             }
         }
+
+        if(isTaunting)
+        {
+            agent.isStopped = true;
+        }
+
+        // Update the attack timer
+        if(attackTimer < attackCooldown)
+            attackTimer += Time.deltaTime;
 
         // Get rbody velocity and set the animator speed parameter
         animator.SetFloat("speed", agent.velocity.magnitude);
@@ -158,18 +199,20 @@ public class Enemy : MonoBehaviour
 
     public void TauntStartEvent(){
         // Stop the agent and play the taunt animation
-        agent.isStopped = true;
+        isTaunting = true;
+        Invoke("TauntEnd", 0.7f);
     }
 
-    public void TauntEndEvent(){
+    public void TauntEnd(){
         // Stop the agent and play the taunt animation
-        agent.isStopped = false;
+        isTaunting = false;
     }
 
 
     void StartAttack(){
         // Implement attack logic here
         animator.SetTrigger("attack");
+        isAttacking = true;
     }
 
     void Attack(){
@@ -178,19 +221,40 @@ public class Enemy : MonoBehaviour
         Invoke("StopAttack", 0.2f);
     }
 
-    void StopAttack(){
-        attackMesh.enabled = false;
+    void OnHurt(float damage, float knockback, Vector3 direction){
+        animator.SetTrigger("hurt");
+        // Implement hurt logic here
+        health -= damage;
+        // Apply knockback force
+        rb.AddForce(direction * knockback, ForceMode.Impulse);
+        // Check if the enemy is dead
+        if (health <= 0) {
+            Die();
+        }
     }
 
-    private void OnAnimatorIK(int layerIndex)
-    {
-        if(animator){
-            if(player){
-                if(isSeen){
-                    animator.SetLookAtWeight(1);
-                    animator.SetLookAtPosition(player.transform.position);
-                }
-            }
-        }
+    void Die(){
+        animator.SetTrigger("die");
+        animator.SetBool("isDead", true);
+        // Implement death logic here
+        // Disable the enemy's collider and rigidbody
+        GetComponent<Collider>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        agent.isStopped = true;
+        // Destroy the enemy after 2 seconds
+        Invoke("DestroyEnemy", 2f);
+        if(dieEvent != null)
+           dieEvent.Invoke();
+        isDead = true;
+    }
+
+    void DestroyEnemy(){
+        Destroy(gameObject);
+        // Implement any additional cleanup here
+    }
+
+    void StopAttack(){
+        attackMesh.enabled = false;
+        isAttacking = false;
     }
 }

@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7507879411514172260}
-  - component: {fileID: 113688181660298237}
   - component: {fileID: 3964355337741710873}
   - component: {fileID: 6079791561471023079}
+  - component: {fileID: -4407592958006924849}
   m_Layer: 0
-  m_Name: SpellProyectile
+  m_Name: SpellProyectileManual
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,28 +29,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 42.478565, y: -102.42413, z: -36.627438}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1083096463056303648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &113688181660298237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763926121025538394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31e8b90b9d26d424e8fcc505b6446bbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  steeringStrength: 3
-  lifetime: 5
-  steeringTime: 1.5
 --- !u!54 &3964355337741710873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -97,8 +81,22 @@ SphereCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.25
+  m_Radius: 0.16
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4407592958006924849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763926121025538394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c15dfc4c33d827428b8dec7fa9ff137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  lifetime: 5
 --- !u!1 &6994739030092734227
 GameObject:
   m_ObjectHideFlags: 0

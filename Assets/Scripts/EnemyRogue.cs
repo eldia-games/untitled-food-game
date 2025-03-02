@@ -54,6 +54,8 @@ public class EnemyRogue : MonoBehaviour
 
     private bool isDead = false;
 
+    private int randomNumber = UnityEngine.Random.Range(0, 3);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -262,6 +264,7 @@ public class EnemyRogue : MonoBehaviour
 
 
     void StartAttack(){
+        randomNumber = UnityEngine.Random.Range(0, 2);
         // Implement attack logic here
         animator.SetTrigger("attack");
         isAttacking = true;
@@ -269,7 +272,27 @@ public class EnemyRogue : MonoBehaviour
 
     void Attack()
     {
-        Debug.Log("Attacking");
+        switch(randomNumber){
+            case 0:
+                NormalAttack();
+                Invoke("StopAttack", 0.2f);
+               break;
+            case 1:
+                // Cone Attack logic here
+                ConeAttack();
+                Invoke("StopAttack", 2f);
+               break;
+            case 2:
+                // Burst attack logic here
+                ConeAttack();
+                Invoke("StopAttack", 0.2f);
+                break;
+            default: break;
+        }
+    }
+
+    void NormalAttack()
+    {
         if (spellPrefab != null && player != null)
         {
             GameObject spell = Instantiate(spellPrefab, staffTip.position, Quaternion.identity);
@@ -286,8 +309,52 @@ public class EnemyRogue : MonoBehaviour
                 arrowScript.SetTargetPosition(predictedPosition);
             }
         }
-        // Set the attack mesh to false after 0.5 seconds
-        Invoke("StopAttack", 0.2f);
+    }
+
+    void ConeAttack()
+    {
+        if (spellPrefab != null && player != null)
+        {
+            // Número total de proyectiles que se disparan en abanico
+            int projectileCount = 5;
+            // Ángulo total de apertura del cono
+            float spreadAngle = 30f;
+            
+            // Calculamos la posición futura del jugador para apuntar (opcional)
+            Vector3 predictedPosition = PredictFuturePosition();
+            
+            // Dirección central hacia el objetivo
+            Vector3 directionToTarget = (predictedPosition - staffTip.position).normalized;
+            
+            // Rotación base, orientada hacia el jugador pero girada la mitad del ángulo a la izquierda
+            Quaternion baseRotation = Quaternion.LookRotation(directionToTarget) * Quaternion.Euler(0f, -spreadAngle / 2f, 0f);
+            
+            // Paso de ángulo entre flechas
+            float angleStep = spreadAngle / (projectileCount - 1);
+
+            for (int i = 0; i < projectileCount; i++)
+            {
+                // Calculamos el ángulo parcial para cada proyectil
+                float currentAngle = i * angleStep;
+                
+                // Rotación final de este proyectil
+                Quaternion projectileRotation = baseRotation * Quaternion.Euler(0f, currentAngle, 0f);
+
+                // Instanciamos el proyectil en staffTip.position
+                GameObject spell = Instantiate(spellPrefab, staffTip.position, projectileRotation);
+
+                // Ajustamos sus parámetros (por ejemplo, velocidad si procede) 
+                ArrowProjectile arrowScript = spell.GetComponent<ArrowProjectile>();
+                if (arrowScript != null)
+                {
+                    // En ArrowProjectile.cs :contentReference[oaicite:1]{index=1}, por defecto
+                    // se mueve hacia adelante (transform.forward) con la velocidad establecida
+                    arrowScript.speed = 10f; 
+                    // arrowScript.SetTargetPosition() no es estrictamente necesaria aquí 
+                    // porque estamos controlando la dirección con la rotación.
+                }
+            }
+        }
     }
 
     Vector3 PredictFuturePosition()

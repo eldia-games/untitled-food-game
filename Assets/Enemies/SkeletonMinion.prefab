@@ -432,7 +432,7 @@ MonoBehaviour:
   player: {fileID: 6993555263482447306, guid: 5a28bb39b2895ab4a9594cdb7b4dab25, type: 3}
   rb: {fileID: 6761725417930383067}
   agent: {fileID: 3907203333125362996}
-  attackRange: 1.5
+  attackRange: 1.6
   animator: {fileID: 6386645102037972081}
   attackMesh: {fileID: 6254734880663706199}
   viewRadius: 15
@@ -442,6 +442,10 @@ MonoBehaviour:
   weapons:
   - {fileID: 1213044769667237290}
   - {fileID: 3246807328619790819}
+  attackCooldown: 3
+  dieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &3907203333125362996
 NavMeshAgent:
   m_ObjectHideFlags: 0
