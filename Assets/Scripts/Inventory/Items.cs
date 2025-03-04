@@ -16,4 +16,6 @@ public abstract class Items : ScriptableObject
     public int quantity;
 
     public bool stackeable;
+
+    public int gold;
 }
