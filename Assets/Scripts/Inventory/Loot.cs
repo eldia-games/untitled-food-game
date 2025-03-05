@@ -6,18 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Loot", menuName = "Items/Loot")]
 public class Loot : Items
 {
-    [Header("LootStats")]
-    public int gold;
+    //[Header("LootStats")]
 
-    Collider collider;
     public override Items GetItem()
     {
         return this;
-    }
-
-    public Loot(int gold)
-    {
-        this.gold = gold;
-        this.collider = this.AddComponent<BoxCollider>();
     }
 }
