@@ -60,6 +60,7 @@ public class PlayerCombat : MonoBehaviour
 
     private SphereCollider _colliderMeleeSpin;
     private BoxCollider _colliderMelee;
+    private Interactor _interactor;
 
     #endregion
 
@@ -81,6 +82,7 @@ public class PlayerCombat : MonoBehaviour
     {
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
+        _interactor= GetComponent<Interactor>();
         camera = Camera.main;
 
         HP = (float)maxLife;
@@ -90,6 +92,7 @@ public class PlayerCombat : MonoBehaviour
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
+        this.enabled = false;
     }
 
     void Update()
@@ -120,15 +123,15 @@ public class PlayerCombat : MonoBehaviour
         else
             moving = 0;
         _anim.SetFloat("Moving", moving);
-
+        
         transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed));
         transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
-
         //player rotate to wasd
         if (attackAvailable)
         {
             player.transform.position = transform.position;
-            lookAtPosition = player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y);
+            lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
+            
             player.transform.LookAt(lookAtPosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         }
@@ -170,8 +173,8 @@ public class PlayerCombat : MonoBehaviour
         if (slideForce)
         {
             //print("sliding");
-            transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
-            transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
+            transform.Translate(-transform.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
+            transform.Translate(-transform.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
         }
 
         //Interact
@@ -302,14 +305,14 @@ public class PlayerCombat : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //If the collider is melee, make damage to the enemy
-        if (_colliderMeleeSpin.enabled)
+        if ( _colliderMeleeSpin.enabled)
         {
             if (collision.gameObject.tag == "Enemy")
             {
                 //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
             }
         }
-        if (_colliderMelee.enabled)
+        if ( _colliderMelee.enabled)
         {
             if (collision.gameObject.tag == "Enemy")
             {
@@ -373,6 +376,7 @@ public class PlayerCombat : MonoBehaviour
         //}
         if(true){
             _anim.SetTrigger("Interact");
+            _interactor.interact();
             StartCoroutine(InteractCooldown());
         }
         //interact with objects}
