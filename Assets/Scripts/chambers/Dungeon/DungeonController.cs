@@ -8,8 +8,11 @@ public class DungeonController : MonoBehaviour,IChamberController
 {
     [SerializeField] private GameObject door;
     [SerializeField] private GameObject lever;
+    [SerializeField] private GameObject exit;
     [SerializeField] private List<GameObject> spawns;
     [SerializeField] private List<GameObject> monsters;
+    [SerializeField] private GameObject player;
+    [SerializeField] private Animator playerAnimator;
     private Animator doorAnimator;
     private Animator leverAnimator;
     private List<Vector3> pos;
@@ -33,14 +36,21 @@ public class DungeonController : MonoBehaviour,IChamberController
         pos.Add(new Vector3(-1.5f, 0, -1.5f));
         pos.Add(new Vector3(1.5f, 0, -1.5f));
     }
+
     void Start()
     {
         doorAnimator= door.GetComponent<Animator>();
         leverAnimator = lever.GetComponent<Animator>();
-        StartCoroutine(CloseDoor());
-        
-    }
+       
 
+
+    }
+   
+    public void StartDungeonEnterAnimation()
+    {
+        playerAnimator.SetFloat("Moving", 1);
+        StartCoroutine(EnterDungeon());
+    }
     // Update is called once per frame
     public void initiallise(int level)
     {
@@ -75,7 +85,6 @@ public class DungeonController : MonoBehaviour,IChamberController
                 if (value<= forceLeft)
                 {
                     forceLeft -= value;
-                    // Vector3 vect = new Vector3(Random.value*2, 0, Random.value*2);
 
                     GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
                     monstersSpawned[spawnPoint] += 1;
@@ -99,9 +108,26 @@ public class DungeonController : MonoBehaviour,IChamberController
         if (leverUsed == lever)
         {
             leverAnimator.SetBool("LeverLeft", !leverAnimator.GetBool("LeverLeft"));
+            exit.SetActive(true);
             StartCoroutine(OpenDoor());
         }
 
+    }
+    IEnumerator EnterDungeon() {
+        
+
+
+
+        for (int i = 0; i < 2.2f/Time.fixedDeltaTime; i++)
+        {
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 2);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        playerAnimator.SetFloat("Moving", 0);
+        yield return new WaitForSeconds(0.5f);
+        doorAnimator.SetBool("Closed", true);
+        yield return new WaitForSeconds(2);
+        player.GetComponent<PlayerCombat>().enabled = true;
     }
     IEnumerator OpenDoor()
     {
