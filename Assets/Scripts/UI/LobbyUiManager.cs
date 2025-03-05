@@ -95,7 +95,7 @@ public class UIManagerLobby : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         UnityEngine.Debug.Log("Salgo del juego");
 #else
-        // Si estamos en una build, cerramos la aplicación
+        // Si estamos en una build, cerramos la aplicaciï¿½n
         OnExitGame?.Invoke();
         Application.Quit();
 #endif
