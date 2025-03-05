@@ -1,9 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Mage : BaseEnemy
 {
+    [Header("Sonidos")]
+    public List<AudioClip> spellSounds;
+
     [Header("Flee Params")]
     public float fleeDistance = 7f;
     public float fleeRadius = 1f;
@@ -76,22 +80,44 @@ public class Mage : BaseEnemy
         {
             case 0:
                 SimpleAttack();
+                PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
             case 1:
                 // Animación especial, ataque en espiral
                 animator.speed = 0f; // Pausa anim
+                PlayRandomSpellSound();
                 StartCoroutine(SpiralAttack(spellManualPrefab, staffTip.position, 2f, 1f, 80));
                 Invoke(nameof(EndSpiral), 3f);
                 break;
             case 2:
                 SimpleAttack();
+                PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
             default:
                 SimpleAttack();
+                PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
+        }
+    }
+
+    public void PlayRandomSpellSound()
+    {
+        if (spellSounds != null)
+        {
+            // Convertir la lista de sonidos de paso a un array
+            AudioClip[] spellSoundsArray = spellSounds.ToArray();
+
+            // Obtener un índice aleatorio dentro del rango del array
+            int randomIndex = Random.Range(0, spellSoundsArray.Length);
+
+            // Coger un sonido de paso aleatorio y reproducirlo
+            AudioClip footstepSound = spellSoundsArray[randomIndex];
+            // Pitch aleatorio para mayor variedad
+            audioSource.pitch = Random.Range(0.8f, 1.2f);
+            audioSource.PlayOneShot(footstepSound);
         }
     }
 

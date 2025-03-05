@@ -28,6 +28,13 @@ public abstract class BaseEnemy : MonoBehaviour
     public List<GameObject> weapons;
     public UnityEvent dieEvent;
 
+    [Header("Sonidos")]
+
+    public AudioSource audioSource;
+
+    public List<AudioClip> footstepWalkSounds;
+    public List<AudioClip> footstepRunSounds;
+
     // Estado interno
     protected bool isDead = false;
     
@@ -61,6 +68,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Update()
     {
+
         if (isDead) return;
         if (player == null) return; // Por seguridad
 
@@ -98,6 +106,9 @@ public abstract class BaseEnemy : MonoBehaviour
         // 4. Actualizar timers y animaciones
         UpdateTimers();
         UpdateAnimations();
+
+        // No rotacion en el plano XZ
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
 
     /// <summary>
@@ -210,8 +221,9 @@ public abstract class BaseEnemy : MonoBehaviour
     /// </summary>
     protected virtual void StartAttack()
     {
-        animator.SetTrigger("attack");
-        isAttacking = true;
+        if(!isAttacking)
+            animator.SetTrigger("attack");
+            isAttacking = true;
     }
 
     /// <summary>
@@ -257,7 +269,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         Vector3 direction = (targetPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 
     /// <summary>
@@ -330,6 +342,25 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.isStopped = false;
     }
 
+    public virtual void FootstepEvent()
+    {
+        // Convertir la lista de sonidos de paso a un array
+        AudioClip[] footstepSoundsArray;
+        if (!inCombat)
+            footstepSoundsArray = footstepWalkSounds.ToArray();
+        else
+            footstepSoundsArray = footstepRunSounds.ToArray();
+
+        // Obtener un índice aleatorio dentro del rango del array
+        int randomIndex = Random.Range(0, footstepSoundsArray.Length);
+
+        // Coger un sonido de paso aleatorio y reproducirlo
+        AudioClip footstepSound = footstepSoundsArray[randomIndex];
+        // Pitch aleatorio para mayor variedad
+        //audioSource.pitch = Random.Range(0.8f, 1.2f);
+        audioSource.PlayOneShot(footstepSound);
+    }
+
     // --------------------------------------------------------------------------------
     // Métodos opcionales que puedes usar en subclases si lo necesitas (flee, proyectiles, etc.)
     // --------------------------------------------------------------------------------
@@ -367,4 +398,5 @@ public abstract class BaseEnemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + leftRayRotation * forward);
         Gizmos.DrawLine(transform.position, transform.position + rightRayRotation * forward);
     }
+    
 }

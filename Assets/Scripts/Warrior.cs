@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Timeline;
 
 public class Warrior : BaseEnemy
 {
@@ -10,12 +11,25 @@ public class Warrior : BaseEnemy
     public float blockDuration = 1.5f;// Cuánto dura el bloqueo
     public float blockCooldown = 5f;  // Tiempo de espera entre bloqueos
 
-    private bool isBlocking = false;
+    public Collider shieldCollider; // El collider del escudo
+
+    public bool isBlocking = false;
     private float currentBlockCooldown = 0f;
 
     [Header("Ataques Melee")]
+    public Collider attackCollider; // El collider del ataque melee
     public int numberOfMeleeAttacks = 2; // Cuántos tipos de ataques melee tiene
     // (Ej. 0 = ataque horizontal, 1 = ataque vertical, etc.)
+
+    public bool lookAtPlayerWhileAttacking = false;
+
+    private Collider currentAttackCollider; // El collider del ataque actual
+
+    protected override void Start()
+    {
+        base.Start();
+        attackCollider.enabled = false;
+    }
 
     protected override void Update()
     {
@@ -33,11 +47,14 @@ public class Warrior : BaseEnemy
     protected override void HandleCombat()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
+        
         // Si estamos en medio de la animación de ataque, no nos movemos
         if (isAttacking)
         {
+            if(lookAtPlayerWhileAttacking)
+                RotateTowards(player.transform.position);
             agent.isStopped = true;
+            agent.speed = 0;
             return;
         }
 
@@ -54,19 +71,17 @@ public class Warrior : BaseEnemy
             // Por ejemplo, 50% de probabilidad de bloquear cuando la distancia < 3
             if (distanceToPlayer < 3f && Random.value < blockChance)
             {
+                agent.isStopped = true;
                 StartBlock();
             }
         }
-
         // Si el jugador está a rango de ataque, paramos y atacamos
         if (distanceToPlayer < attackRange && !isBlocking)
         {
             agent.isStopped = true;
             animator.SetBool("isRunning", false);
-
-            // Mirar al jugador
+            
             RotateTowards(player.transform.position);
-
             // Comprobar cooldown de ataque
             if (attackTimer >= attackCooldown)
             {
@@ -77,6 +92,7 @@ public class Warrior : BaseEnemy
         }
         else
         {
+            agent.isStopped = false;
             // Animación de correr si aún no estamos en rango
             animator.SetBool("isRunning", true);
         }
@@ -90,12 +106,14 @@ public class Warrior : BaseEnemy
         isBlocking = true;
         currentBlockCooldown = blockCooldown; // Reinicia el cooldown de bloqueo
         animator.SetTrigger("block");         // Dispara animación de bloqueo
+        animator.SetBool("isBlocking", true); // Mantiene la animación de bloqueo activa
         // Termina el bloqueo después de blockDuration segundos
         Invoke(nameof(StopBlock), blockDuration);
     }
 
     void StopBlock()
     {
+        animator.SetBool("isBlocking", false);
         isBlocking = false;
     }
 
@@ -121,7 +139,6 @@ public class Warrior : BaseEnemy
     // ---------------------------------------------------------------------
     /// <summary>
     /// Se llama cuando la animación de ataque alcanza el punto de impacto
-    /// (ver tu Animator -> Animation Event -> AttackEvent).
     /// </summary>
     public override void AttackEvent()
     {
@@ -129,25 +146,26 @@ public class Warrior : BaseEnemy
         // (como en Rogue o Mage eliges un tipo de proyectil, aquí eliges un combo).
         int randomAttack = Random.Range(0, numberOfMeleeAttacks);
 
-        // Decidimos qué hacer en cada tipo de ataque
-        switch (randomAttack)
-        {
-            case 0:
-                // Ataque 1
-                Debug.Log("Ataque melee tipo 0 (horizontal).");
-                // Aquí podrías habilitar un collider de arma o un mesh que haga daño
-                break;
-            case 1:
-                // Ataque 2
-                Debug.Log("Ataque melee tipo 1 (golpe en arco).");
-                break;
-            // etc.
-        }
+       // Disparamos el ataque correspondiente
+       lookAtPlayerWhileAttacking = true;
+        if(isBlocking)
+            currentAttackCollider = shieldCollider;
+        else
+            currentAttackCollider = attackCollider;
 
-        // Llamamos a StopAttack() un poco después, 
-        // o usamos la animación para desactivar colisiones.
-        // Por defecto, BaseEnemy llama StopAttack() cuando acaba la animación
-        // o puedes hacerlo con un Invoke.
-        Invoke(nameof(StopAttack), 0.3f);
+        currentAttackCollider.enabled = true;
+        
+    }
+
+    public void AttackStopEvent()
+    {
+        lookAtPlayerWhileAttacking = false;
+        currentAttackCollider.enabled = false;
+    }
+
+    public void AttackEndEvent()
+    {
+        isAttacking = false;
+        StopAttack();
     }
 }
