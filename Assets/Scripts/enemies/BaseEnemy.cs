@@ -42,7 +42,6 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool inCombat = false;
     protected bool isSeen = false;
     protected bool isWaitAndMove = false;
-    public bool stayInPlace = false;
 
     // Timers y posiciones
     protected float timer = 0f;         // Para volver a posición inicial
@@ -246,7 +245,6 @@ public abstract class BaseEnemy : MonoBehaviour
     public virtual void AttackEndEvent()
     {
         Debug.Log("AttackEndEvent");
-        stayInPlace = false;
         StopAttack();
     }
 
