@@ -81,23 +81,25 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
     public void RunTowardsPlayer(){
         AllowMovement();
         animator.SetBool("isRunning", true);
-        agent.SetDestination(player.transform.position);
+        if(agent != null && agent.isActiveAndEnabled)
+            agent.SetDestination(player.transform.position);
     }
 
     public void StopMovement(){
-        agent.isStopped = true;
+        if( agent != null && agent.isActiveAndEnabled)
+            agent.isStopped = true;
         animator.SetBool("isRunning", false);
     }
 
     public void AllowMovement(){
-        agent.isStopped = false;
+        if( agent != null && agent.isActiveAndEnabled)
+            agent.isStopped = false;
     }
 
     private IEnumerator JumpAttackRoutine()
     {
         isJumpAttack = true;
         // Fase de carga
-        Debug.Log("<<<<<<<<<<<<<<<<< Cargando salto...");
         chargingJumpAttack = true;
         // Detenemos NavMeshAgent para que no se mueva
         StopMovement();

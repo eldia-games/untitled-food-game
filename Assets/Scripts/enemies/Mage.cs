@@ -23,7 +23,7 @@ public class Mage : BaseEnemy
     protected override void Start()
     {
         base.Start();
-        randomNumber = UnityEngine.Random.Range(0, 2);
+        randomNumber = 0;
     }
 
     protected override void HandleCombat()
@@ -61,7 +61,9 @@ public class Mage : BaseEnemy
 
             if (attackTimer >= attackCooldown)
             {
-                randomNumber = UnityEngine.Random.Range(0, 2);
+                // Elegir ataque aleatorio entre 0 y 1, 0 es ataque simple, 1 es ataque especial
+                // 0 tiene probabilidad 0.7 y 1 tiene probabilidad 0.3
+                randomNumber = UnityEngine.Random.Range(0, 10) < 7 ? 0 : 1;
                 animator.SetInteger("attackType", randomNumber);
                 attackTimer = 0f;
                 StartAttack();
@@ -80,24 +82,24 @@ public class Mage : BaseEnemy
         {
             case 0:
                 SimpleAttack();
-                PlayRandomSpellSound();
+                //PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
             case 1:
                 // Animación especial, ataque en espiral
                 animator.speed = 0f; // Pausa anim
-                PlayRandomSpellSound();
+                //PlayRandomSpellSound();
                 StartCoroutine(SpiralAttack(spellManualPrefab, staffTip.position, 2f, 1f, 80));
                 Invoke(nameof(EndSpiral), 3f);
                 break;
             case 2:
                 SimpleAttack();
-                PlayRandomSpellSound();
+                //PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
             default:
                 SimpleAttack();
-                PlayRandomSpellSound();
+                //PlayRandomSpellSound();
                 Invoke(nameof(StopAttack), 0.2f);
                 break;
         }
@@ -143,6 +145,7 @@ public class Mage : BaseEnemy
 
         while (elapsedTime < duration)
         {
+            Debug.Log("Spiral Attack");
             Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
             GameObject s = Instantiate(spell, origin - Vector3.up * 1f, Quaternion.identity);
             SpellProjectileManual sp = s.GetComponent<SpellProjectileManual>();

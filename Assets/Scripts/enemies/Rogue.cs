@@ -95,6 +95,16 @@ public class Rogue : BaseEnemy
         isAttacking = false;
     }
 
+    public void AttackStartEvent()
+    {
+        stayInPlace = true;
+    }
+
+    public override void AttackEndEvent()
+    {
+        stayInPlace = false;
+    }
+
     private void NormalAttack()
     {
         if (spellPrefab != null && staffTip != null)

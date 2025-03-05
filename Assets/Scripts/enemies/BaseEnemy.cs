@@ -42,6 +42,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool inCombat = false;
     protected bool isSeen = false;
     protected bool isWaitAndMove = false;
+    public bool stayInPlace = false;
 
     // Timers y posiciones
     protected float timer = 0f;         // Para volver a posición inicial
@@ -138,41 +139,38 @@ public abstract class BaseEnemy : MonoBehaviour
     /// </summary>
     protected virtual void HandleCombat()
     {
-        // Si no estamos atacando, nos movemos
-        if (!isAttacking)
+        // Atacando, no se mueve
+        if(isAttacking){
+            return;
+        }
+
+        // Si el jugado esta fuera del rango de ataque se mueve hacia él
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if(distanceToPlayer > attackRange)
         {
+            // Si no estamos atacando, nos movemos
             agent.speed = speed;
             agent.isStopped = false;
             agent.SetDestination(player.transform.position);
-
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-            // Si el jugador está en rango de ataque, paramos y atacamos
-            if (distanceToPlayer < attackRange)
-            {
-                agent.isStopped = true;
-                animator.SetBool("isRunning", false);
-
-                // Rotamos para mirar al jugador
-                RotateTowards(player.transform.position);
-
-                // Comprobamos cooldown de ataque
-                if (attackTimer >= attackCooldown)
-                {
-                    attackTimer = 0f;
-                    StartAttack();
-                }
-            }
-            else
-            {
-                // Aún no en rango, seguimos corriendo
-                animator.SetBool("isRunning", true);
-            }
+            animator.SetBool("isRunning", true);
+            return;
         }
-        else
+
+        // Si el jugador está en rango de ataque, paramos y atacamos
+        if (distanceToPlayer < attackRange)
         {
-            // Si estamos en animación de ataque, nos detenemos
             agent.isStopped = true;
+            animator.SetBool("isRunning", false);
+
+            // Rotamos para mirar al jugador
+            RotateTowards(player.transform.position);
+
+            // Comprobamos cooldown de ataque
+            if (attackTimer >= attackCooldown)
+            {
+                attackTimer = 0f;
+                StartAttack();
+            }
         }
     }
 
@@ -222,6 +220,8 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void StartAttack()
     {
         animator.SetTrigger("attack");
+        // Para que no se atasque en la animación de ataque
+        Invoke("StopAttack", 1f);
         isAttacking = true;
     }
 
@@ -241,6 +241,13 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void StopAttack()
     {
         isAttacking = false;
+    }
+
+    public virtual void AttackEndEvent()
+    {
+        Debug.Log("AttackEndEvent");
+        stayInPlace = false;
+        StopAttack();
     }
 
     /// <summary>
@@ -330,7 +337,8 @@ public abstract class BaseEnemy : MonoBehaviour
     /// </summary>
     public virtual void TauntStartEvent()
     {
-        agent.isStopped = true;
+        if (agent != null && agent.isActiveAndEnabled)
+            agent.isStopped = true;
     }
 
     /// <summary>
@@ -338,7 +346,8 @@ public abstract class BaseEnemy : MonoBehaviour
     /// </summary>
     public virtual void TauntEndEvent()
     {
-        agent.isStopped = false;
+        if (agent != null && agent.isActiveAndEnabled)
+            agent.isStopped = false;
     }
 
     public virtual void FootstepEvent()

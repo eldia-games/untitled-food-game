@@ -14,6 +14,7 @@ public class Warrior : BaseEnemy
     public Collider shieldCollider; // El collider del escudo
 
     public bool isBlocking = false;
+    public bool stayInPlace = false;
     private float currentBlockCooldown = 0f;
 
     [Header("Ataques Melee")]
