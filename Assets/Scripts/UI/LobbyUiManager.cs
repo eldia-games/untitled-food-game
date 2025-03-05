@@ -63,6 +63,7 @@ public class UIManagerLobby : MonoBehaviour
     public void ShowHelpCanvas()
     {
         UnityEngine.Debug.Log("Muestro ayuda");
+        Panel.gameObject.SetActive(false);
         WeaponSelect.gameObject.SetActive(false);
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
@@ -94,7 +95,7 @@ public class UIManagerLobby : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         UnityEngine.Debug.Log("Salgo del juego");
 #else
-        // Si estamos en una build, cerramos la aplicación
+        // Si estamos en una build, cerramos la aplicaciï¿½n
         OnExitGame?.Invoke();
         Application.Quit();
 #endif
