@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public static PlayerCombat Instance { get; private set; }
 
     public Animator _anim;
 
@@ -64,18 +63,7 @@ public class PlayerCombat : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-        DontDestroyOnLoad(gameObject);
-    }
+
 
     // Start is called before the first frame update
     void Start()
