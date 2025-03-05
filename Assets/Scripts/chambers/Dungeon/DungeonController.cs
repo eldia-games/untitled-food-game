@@ -103,7 +103,7 @@ public class DungeonController : MonoBehaviour,IChamberController
         }
     }
 
-    public void useLever(GameObject leverUsed)
+    public void UseLever(GameObject leverUsed)
     {
         if (leverUsed == lever)
         {
@@ -112,6 +112,11 @@ public class DungeonController : MonoBehaviour,IChamberController
             StartCoroutine(OpenDoor());
         }
 
+    }
+    public void OnExit()
+    {
+        Debug.Log("sale");
+        //TODO salir
     }
     IEnumerator EnterDungeon() {
         
