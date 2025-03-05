@@ -16,10 +16,12 @@ public class Interactor : MonoBehaviour
     public void EnterInteractableRange(Interactable interact)
     {
         interactable = interact;
+        Debug.Log("can interact");
     }
     public void ExitUnteractableRange()
     {
         interactable = null;
+        Debug.Log("cant interact");
     }
     public void interact()
     {
