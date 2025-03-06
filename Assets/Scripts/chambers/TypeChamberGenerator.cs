@@ -5,7 +5,7 @@ using UnityEngine;
 public class TypeChamberGenerator : MonoBehaviour
 {
 
-    [SerializeField] private string ChamberType;
+    [SerializeField] private RoomType ChamberType;
     [SerializeField] private List<GameObject> chambers;
 
 
@@ -14,5 +14,9 @@ public class TypeChamberGenerator : MonoBehaviour
         int TypeDesign= Random.Range(0, chambers.Count);
         GameObject instancedObject=Instantiate(chambers[TypeDesign], new Vector3(0, 0, 0), Quaternion.identity);
         instancedObject.GetComponent<IChamberController>().initiallise(level);
+    }
+    public RoomType getChamberType()
+    {
+        return ChamberType;
     }
 }
