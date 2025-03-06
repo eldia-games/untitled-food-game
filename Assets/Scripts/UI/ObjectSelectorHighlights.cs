@@ -3,8 +3,6 @@ using UnityEngine.EventSystems;
 
 public class ObjectSelector : MonoBehaviour
 {
-    public GameObject panel;
-    public UIManagerLobby UIManagerLobby;
 	private Camera _camera;
 
     private Transform _highlight; //objeto impactado
@@ -28,15 +26,20 @@ public class ObjectSelector : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) // Si el rayo golpea algo...
         {
             _highlight = hit.transform;
-            if (_highlight.CompareTag("Selectable") && _highlight != _selection && panel.activeSelf)
+            if (_highlight.CompareTag("Selectable") && _highlight != _selection && UIManager.Instance.LobbyOutlinesState())
             {
-                if (_highlight.gameObject.GetComponent<Outline>() != null) _highlight.gameObject.GetComponent<Outline>().enabled = true; // si ya tiene outline se activa
+                if (_highlight.gameObject.GetComponent<Outline>() != null)
+                { 
+                    _highlight.gameObject.GetComponent<Outline>().enabled = true;// si ya tiene outline se activa
+                    //Debug.Log("Activo outline");
+                } 
                 else // si no se crea
                 {
                     Outline outline = _highlight.gameObject.AddComponent<Outline>();
                     outline.enabled = true;
                     _highlight.gameObject.GetComponent<Outline>().OutlineColor = Color.green;
                     _highlight.gameObject.GetComponent<Outline>().OutlineWidth = 4.0f;
+                    //Debug.Log("Creo el outline");
                 }
             }
             else
@@ -56,47 +59,26 @@ public class ObjectSelector : MonoBehaviour
                     _selection = hit.transform;
                     _selection.gameObject.SetActive(true);
                     _highlight = null;
-
-                    switch (hit.collider.gameObject.name)
+                    if (UIManager.Instance.LobbyOutlinesState())
                     {
-                        case "wall_doorway_scaffold_door":
-                            //SceneManager.LoadScene("GameScene"); // Cargar seleccion de arma
-                            if (panel.activeSelf)
-                            {
-                                panel.SetActive(false);
-                                Debug.Log("Cargar seleccion de arma");
-                                UIManagerLobby.ShowWeaponSelect();
-                            }
-                            break;
-                        case "WaiterTable":
-                            if (panel.activeSelf)
-                            {
-                                panel.SetActive(false);
-                                UIManagerLobby.ShowMisionCanvas();// Mostrar misiones
-                            }
-                            break;
-                        case "armour":
-                            if (panel.activeSelf)
-                            {
-                                panel.SetActive(false);
-                                UIManagerLobby.ShowUpgradeCanvas(); ;// Mostrar mejoras
-                            }
-                            break;
-                        case "sword_shield_gold":
-                            if (panel.activeSelf)
-                            {
-                                panel.SetActive(false);
-                                UIManagerLobby.ShowAchievementsCanvas();// Mostrar logros
-                            }
-                            break;
-                        case "selectable_objects":
-                            if (panel.activeSelf)
-                            {
-                                panel.SetActive(false);
+                        switch (hit.collider.gameObject.name)
+                        {
+                            case "wall_doorway_scaffold_door":
+                                UIManager.Instance.ShowWeaponsCanvas(); // Mostrar seleccion de arma
+                                break;
+                            case "WaiterTable":
+                                UIManager.Instance.ShowMisionCanvas(); // Mostrar misiones
+                                break;
+                            case "armour":
+                                UIManager.Instance.ShowUpgradesCanvas(); // Mostrar mejoras
+                                break;
+                            case "sword_shield_gold":
+                                UIManager.Instance.ShowAchievementsCanvas(); // Mostrar logros
+                                break;
+                            case "selectable_objects":
                                 Debug.Log("Cargar zona entrenamiento");
-                                panel.SetActive(true);
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
                 else
@@ -110,9 +92,8 @@ public class ObjectSelector : MonoBehaviour
             }
         }
     }
-    public void onClose(GameObject panelToClose)
+    public void OnClose(GameObject panelToClose)
     {
         panelToClose.SetActive(false);
-        panel.SetActive(true);
     }
 }

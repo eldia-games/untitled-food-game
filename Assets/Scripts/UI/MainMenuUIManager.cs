@@ -13,12 +13,13 @@ public class UIManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Debug.Log("Se intento crear una segunda instancia del objeto UI Manager");
+            Destroy(gameObject);
         }
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -28,87 +29,165 @@ public class UIManager : MonoBehaviour
         {
             ShowPauseCanvas();
         }
+        if (Input.GetKeyDown(KeyCode.M) && SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            ShowEndGameCanvas();
+        }
     }
 
     private void Start()
     {
-        hideAllCanvas();
-        ShowMainMenuCanvas();
+        HideAllCanvas();
+        ShowMainMenu();
+        AudioManager.Instance.PlayMenuMusic();
     }
 
     public void ShowMainMenuCanvas()
     {
-        showMainMenu();
-        AudioManager.Instance.PlayMenuMusic();
+        HideAllCanvas();
+        ShowMainMenu();
+        AudioManager.Instance.PlaySFXConfirmation();
     }
 
     public void BackToMainMenuCanvas()
     {
-        showMainMenu();
-        hideCredits();
-        hideSettings();
+        HideMainMenuCanvases();
+        ShowMainMenu();
         AudioManager.Instance.PlaySFXClose();
     }
 
-    public void ShowCreditCanvas()
+    public void ShowLobbyCanvas()
     {
-        hideMainMenu();
-        showCredits();
-        AudioManager.Instance.PlaySFXClick();
-
+        HideAllCanvas();
+        ShowLobby();
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+    public void BackToLobbyCanvas()
+    {
+        HideLobbyCanvases();
+        ShowLobby();
+        AudioManager.Instance.PlaySFXClose();
     }
 
-    public void ShowSettingsCanvas()
+    public bool LobbyOutlinesState()
     {
-        hideMainMenu();
-        showSettings();
-        AudioManager.Instance.PlaySFXClick();
-
+        return ArrayCanvas[1].gameObject.activeSelf;
     }
 
     public void ShowMapCanvas()
-    {;
-        showMap();
+    {
+        HideAllCanvas();
+        ShowMap();
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+
+    public void BackToMapCanvas()
+    {
+        HideMapCanvases();
+        ShowMap();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void ShowChamberCanvas()
+    {
+        HideAllCanvas();
+        ShowChamber();
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
     public void ShowPauseCanvas()
     {
-        hideMap();
-        hideChamber();
-        showPause();
+        Time.timeScale = 0; // Pausar el juego
+        ShowPause();
         AudioManager.Instance.PlaySFXClick();
-        Debug.Log("Enseño pausa");
-    }
-    public void ShowChamberCanvas()
-    {
-        hideMap();
-        showChamber();
-        AudioManager.Instance.PlaySFXOpen();
     }
 
-    public void ReturnSettings()
+    public void ReturnFromPause()
     {
-        hideSettings();
+        Time.timeScale = 1; // Reanudar el juego
+        HidePause();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        showCanvasByIndex(activeSceneIndex);
+        ShowCanvasByIndex(activeSceneIndex);
         AudioManager.Instance.PlaySFXClose();
-
     }
 
-    public void ReturnPause()
+    public void ShowSettingsCanvas()
     {
-        hidePause();
-        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        showCanvasByIndex(activeSceneIndex);
-        AudioManager.Instance.PlaySFXClose();
-
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClick();
     }
 
+    public void ReturnFromSettings()
+    {
+        HideSettings();
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        ShowCanvasByIndex(activeSceneIndex);
+        AudioManager.Instance.PlaySFXClose();
+        Debug.Log("Vuelvo desde opciones a donde estaba antes");
+    }
+
+    public void ShowCreditsCanvas()
+    {
+        HideMainMenu();
+        ShowCredits();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowMisionCanvas()
+    {
+        HideLobby();
+        ShowMissions();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowHelpCanvas()
+    {
+        HideLobby();
+        ShowHelp();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowWeaponsCanvas()
+    {
+        HideLobby();
+        ShowWeapon();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowUpgradesCanvas()
+    {
+        HideLobby();
+        ShowUpgrades();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowAchievementsCanvas()
+    {
+        HideLobby();
+        ShowAchievements();
+        AudioManager.Instance.PlaySFXClick();
+    }
+    public void ShowEndGameCanvas()
+    {
+        HideAllCanvas();
+        ShowEndGame();
+        //AudioManager.Instance.PlayMusicEndGame();
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    #region Scene Handling
     public void BackToPreviousScene()
     {
-        HideMapCanvases();
         AudioManager.Instance.PlaySFXSelect();
+        HidePause();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch (activeSceneIndex)
         {
@@ -117,60 +196,53 @@ public class UIManager : MonoBehaviour
                 break;
 
             case 3:
-                ExitChamberScene();
+                EnterMapScene();
+                break;
+
+            case 1:
+                EnterMainMenuScene();
                 break;
 
             default:
                 break;
         }
-        SceneManager.LoadScene(activeSceneIndex - 1);
     }
-    public void BackToLobby()
+
+    public void EnterMainMenuScene()
     {
-        HideMapCanvases();
-        AudioManager.Instance.PlaySFXSelect();
-        SceneManager.LoadScene("Lobby");
+        ShowMainMenuCanvas();
+        SceneManager.LoadScene("MainMenu");
+        AudioManager.Instance.PlayMenuMusic();
+
     }
+
     public void EnterLobbyScene()
     {
-        HideMainMenuCanvases();
-        AudioManager.Instance.PlaySFXConfirmation();
+        ShowLobbyCanvas();
         SceneManager.LoadScene("Lobby");
+        AudioManager.Instance.PlayLobbyMusic();
+
     }
     public void EnterMapScene()
     {
+        ShowMapCanvas();
         SceneManager.LoadScene("Map");
         AudioManager.Instance.PlayMapMusic();
-        ShowMapCanvas();
+
     }
 
     public void EnterChamberScene()
     {
+        ShowChamberCanvas();
         SceneManager.LoadScene("Chamber");
         AudioManager.Instance.PlayChamberMusic();
-        ShowChamberCanvas();
+
     }
 
-    public void ExitChamberScene()
-    {
-        SceneManager.LoadScene("Map");
-        AudioManager.Instance.PlayMapMusic();
-        ShowMapCanvas();
-    }
+    #endregion
 
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        UnityEngine.Debug.Log("Salgo del juego");
-#else
-        // Si estamos en una build, cerramos la aplicación
-        OnExitGame?.Invoke();
-        Application.Quit();
-#endif
-    }
-
-    private void showCanvasByIndex(int canvasIndex)
+    #region Show Hide By
+    private void ShowCanvasByIndex(int canvasIndex)
     {
         if (canvasIndex >= 0 && canvasIndex < ArrayCanvas.Length)
         {
@@ -183,22 +255,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void hideAllCanvas()
-    {
-        Debug.Log("Cierro todos los canvas");
-        int i = 0;
-        if (i >= 0 && i < ArrayCanvas.Length)
-        {
-            ArrayCanvas[i].gameObject.SetActive(false);
 
-        }
-        else
-        {
-            Debug.LogWarning("Canvas index out of range.");
-        }
-    }
 
-    private void hideCanvasByIndex(int canvasIndex)
+    private void HideCanvasByIndex(int canvasIndex)
     {
         if (canvasIndex >= 0 && canvasIndex < ArrayCanvas.Length)
         {
@@ -210,88 +269,153 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("Canvas index out of range.");
         }
     }
+    #endregion
 
-    private void hideMainMenu()
+    #region Hide Show Specific Canvas
+    private void HideMainMenu()
     {
-        hideCanvasByIndex(0);
+        HideCanvasByIndex(0);
     }
-    private void showMainMenu()
+    private void ShowMainMenu()
     {
-        showCanvasByIndex(0);
-    }
-
-    private void hideLobby()
-    {
-        hideCanvasByIndex(1);
-    }
-    private void showLobby()
-    {
-        showCanvasByIndex(1);
-    }
-    private void hideMap()
-    {
-        hideCanvasByIndex(2);
-    }
-    private void showMap()
-    {
-        showCanvasByIndex(2);
+        ShowCanvasByIndex(0);
     }
 
-    private void hideChamber()
+    private void HideLobby()
     {
-        hideCanvasByIndex(3);
+        HideCanvasByIndex(1);
     }
-    private void showChamber()
+    private void ShowLobby()
     {
-        showCanvasByIndex(3);
+        ShowCanvasByIndex(1);
     }
-
-    private void hideSettings()
+    private void HideMap()
     {
-        hideCanvasByIndex(4);
+        HideCanvasByIndex(2);
     }
-    private void showSettings()
+    private void ShowMap()
     {
-        showCanvasByIndex(4);
-    }
-
-    private void hideCredits()
-    {
-        hideCanvasByIndex(5);
-    }
-    private void showCredits()
-    {
-        showCanvasByIndex(5);
+        ShowCanvasByIndex(2);
     }
 
-    private void hidePause()
+    private void HideChamber()
     {
-        hideCanvasByIndex(6);
+        HideCanvasByIndex(3);
+    }
+    private void ShowChamber()
+    {
+        ShowCanvasByIndex(3);
     }
 
-    private void showPause()
+    private void HideSettings()
     {
-        showCanvasByIndex(6);
+        HideCanvasByIndex(4);
     }
-    private void hideEndGame()
+    private void ShowSettings()
     {
-        hideCanvasByIndex(7);
-    }
-
-    private void showEndGame()
-    {
-        showCanvasByIndex(7);
+        ShowCanvasByIndex(4);
     }
 
+    private void HideCredits()
+    {
+        HideCanvasByIndex(5);
+    }
+    private void ShowCredits()
+    {
+        ShowCanvasByIndex(5);
+    }
+
+    private void HidePause()
+    {
+        HideCanvasByIndex(6);
+    }
+
+    private void ShowPause()
+    {
+        ShowCanvasByIndex(6);
+    }
+    private void HideMissions()
+    {
+        HideCanvasByIndex(7);
+    }
+
+    private void ShowMissions()
+    {
+        ShowCanvasByIndex(7);
+    }
+    private void HideHelp()
+    {
+        HideCanvasByIndex(8);
+    }
+
+    private void ShowHelp()
+    {
+        ShowCanvasByIndex(8);
+    }
+    private void HideWeapon()
+    {
+        HideCanvasByIndex(9);
+    }
+
+    private void ShowWeapon()
+    {
+        ShowCanvasByIndex(9);
+    }
+    private void HideUpgrades()
+    {
+        HideCanvasByIndex(10);
+    }
+
+    private void ShowUpgrades()
+    {
+        ShowCanvasByIndex(10);
+    }
+    private void HideAchievements()
+    {
+        HideCanvasByIndex(11);
+    }
+
+    private void ShowAchievements()
+    {
+        ShowCanvasByIndex(11);
+    }
+    private void HideEndGame()
+    {
+        HideCanvasByIndex(12);
+    }
+
+    private void ShowEndGame()
+    {
+        ShowCanvasByIndex(12);
+    }
+    #endregion 
+
+    #region Hide Show Groups
     private void HideMainMenuCanvases()
     {
-        hideMainMenu();
-        hideCredits();
+        HideCredits();
+    }
+    private void HideLobbyCanvases()
+    {
+        HideAchievements();
+        HideMissions();
+        HideUpgrades();
+        HideWeapon();
+        HideHelp();
     }
 
     private void HideMapCanvases()
     {
-        hideMap();
-        hidePause();
+        HideMap();
+        HidePause();
     }
+    private void HideAllCanvas()
+    {
+        for (int i = 0; i >= 0 && i < ArrayCanvas.Length; i++)
+        {
+            ArrayCanvas[i].gameObject.SetActive(false);
+        }
+    }
+
+    #endregion 
 }
