@@ -63,6 +63,7 @@ public class UIManagerLobby : MonoBehaviour
     public void ShowHelpCanvas()
     {
         UnityEngine.Debug.Log("Muestro ayuda");
+        Panel.gameObject.SetActive(false);
         WeaponSelect.gameObject.SetActive(false);
         Achievements.gameObject.SetActive(false);
         MisionCanvas.gameObject.SetActive(false);
