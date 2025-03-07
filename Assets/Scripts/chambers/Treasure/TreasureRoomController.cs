@@ -26,6 +26,7 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
         int totalRate = 0;
         for (int i = 0; i < loot.Count; i++)
         {
+
             totalRate += loot[i].GetComponent<Spawneable>().getSpawnRate(persistence.Instance.getLevel() - 1);
 
             rateList.Add(totalRate);
@@ -40,7 +41,6 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
             {
                 j++;
             }
-            Debug.Log(j);
             items.Add(loot[j]);
 
         }
@@ -59,6 +59,7 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
                 if(chests[i] == chest)
                 {
                     itemToSpwn= items[i];
+                    Debug.Log(itemToSpwn);
                 }
                 chest.GetComponent<Interactable>().Desactive();
             }
