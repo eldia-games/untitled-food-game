@@ -163,7 +163,7 @@ public class Warrior : BaseEnemy
         currentAttackCollider.enabled = false;
     }
 
-    public void AttackEndEvent()
+    public override void AttackEndEvent()
     {
         isAttacking = false;
         StopAttack();
