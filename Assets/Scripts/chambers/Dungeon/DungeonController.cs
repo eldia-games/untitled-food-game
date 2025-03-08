@@ -135,7 +135,7 @@ public class DungeonController : MonoBehaviour,IChamberController
     public void OnExit()
     {
         Debug.Log("sale");
-        //TODO salir
+        UIManager.Instance.EnterMapScene();
     }
     IEnumerator EnterDungeon() {
         
