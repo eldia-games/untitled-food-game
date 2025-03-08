@@ -39,33 +39,26 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] public GameObject moneyHolder;
 
-
     private InputHandler _handler;
-    private bool inventoryOpened=true;
     
     public List<ItemInInventory> items;
     public GameObject[] slots;
 
     public GameObject player;
-
     void Update()
     {
         if(_handler.inventory)
         {
-            inventoryOpened = true;
-            Time.timeScale = 0.0f;
             //enable the inventory 
             slotsHolder.GetComponentInParent<Canvas>().enabled = true;
             //disable PlayerCombat
-            //this.GameObject().GetComponent<PlayerCombat>().enabled = false;
+            this.GameObject().GetComponent<PlayerCombat>().enabled = false;
         }
-        else if(inventoryOpened)
+        else
         {
-            inventoryOpened = false;
-            Time.timeScale = 1.0f;
             //disable
             slotsHolder.GetComponentInParent<Canvas>().enabled = false;
-            //this.GameObject().GetComponent<PlayerCombat>().enabled = true;
+            this.GameObject().GetComponent<PlayerCombat>().enabled = true;
         }
     }
 
@@ -79,10 +72,7 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
         RefreshUI();
     }
-    public void setPlayer(GameObject player)
-    {
-        this.player = player;
-    }
+
     public void RefreshUI()
     {
         for (int i = 0; i < slots.Length; i++)
@@ -141,33 +131,31 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
     public void RemoveItem(Items item, int quantity)
     {
-        if (player != null) {
-            itemToRemove = item;
-            for (int i = 0; i < items.Count; i++)
+        itemToRemove = item;
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].item == item)
             {
-                if (items[i].item == item)
+                Instantiate(
+                    lootTable[items[i].prefab],
+                    transform.position + player.transform.forward * 2 + transform.up,
+                    Quaternion.Euler(-90, player.transform.eulerAngles.y, 0));
+
+                var tempItem = items[i];
+                tempItem.quantity -= quantity;
+                if (tempItem.quantity <= 0)
                 {
-                    Instantiate(
-                        lootTable[items[i].prefab],
-                        transform.position + player.transform.forward * 2 + transform.up,
-                        Quaternion.Euler(-90, player.transform.eulerAngles.y, 0));
-
-                    var tempItem = items[i];
-                    tempItem.quantity -= quantity;
-                    if (tempItem.quantity <= 0)
-                    {
-                        items.RemoveAt(i);
-                    }
-                    else
-                    {
-                        items[i] = tempItem;
-                    }
-
-                    break;
+                    items.RemoveAt(i);
                 }
+                else
+                {
+                    items[i] = tempItem;
+                }
+                
+                break;
             }
-            RefreshUI();
         }
+        RefreshUI();
     }
 
     public void ButtonSellItem()

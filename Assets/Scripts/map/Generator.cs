@@ -10,14 +10,9 @@ public class Generator : MonoBehaviour {
   [SerializeField] private int mapSize;
   [SerializeField] private int numPaths;
   [SerializeField] private float[] roomOdds;
-  [SerializeField] private Transform playerTransform;
-  [SerializeField] private GameManager gameManager;
 
   private Transform transform_;
   private List<Tile> map_;
-  private Vector2Int tile_;
-
-  #region MonoBehaviour
 
   void Start() {
     transform_ = transform;
@@ -26,30 +21,21 @@ public class Generator : MonoBehaviour {
     Assert.IsTrue(frw.x < frw.y && frw.y < frw.z, "The values in frw have to increase");
     Assert.IsTrue(frw.x % 2 != 0 && frw.y % 2 != 0 && frw.z % 2 != 0, "The values in frw have to be odd integers");
 
-    if (gameManager.map == null) {
-      // Initialize the map
-      Initialize();
-      for (int i = 0; i < numPaths; ++i) Traverse();
-      Fill();
-
-      gameManager.map = map_;
-      gameManager.tile = tile_ = Vector2Int.zero;
-    } else {
-      map_ = gameManager.map;
-      tile_ = gameManager.tile;
-    }
-
+    // Initialize the map
+    Initialize();
+    for (int i = 0; i < numPaths; ++i) Traverse();
+    Fill();
     Instantiate();
   }
-
-  #endregion
-
-  #region MapGeneration
 
   /**
    * Initialize the map as a pathless grid
    */
   void Initialize() {
+    Vector3 xOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, -1);
+    Vector3 yOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, +1);
+    Vector3 mapOff = (xOff + yOff) * (mapSize * -.5f);
+
     map_ = new List<Tile>(mapSize * mapSize);
     for (int i = 0; i < mapSize; ++i) {
       for (int j = 0; j < mapSize; ++j) {
@@ -60,7 +46,7 @@ public class Generator : MonoBehaviour {
         if (i + j == frw.z)           type = TileType.Wall;
         if (i % 2 == 0 && j % 2 == 0) type = TileType.Room;
 
-        Tile tile = new Tile(tileData, type);
+        Tile tile = new Tile(tileData, xOff * i + yOff * j + mapOff, type);
         map_.Add(tile);
       }
     }
@@ -152,11 +138,7 @@ public class Generator : MonoBehaviour {
 
     return RoomType.Tavern;
   }
-
-#endregion
-
-  #region MapAccess
-
+  
   /**
    * Index into tile map
    */
@@ -171,25 +153,11 @@ public class Generator : MonoBehaviour {
     return GetTile(index.x, index.y);
   }
 
-  #endregion
-
-  #region MapDisplay
-
   /**
    * Instantiate the map as a set of tiles
    */
   void Instantiate() {
-    Vector3 xOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, -1);
-    Vector3 yOff = new Vector3(Mathf.Sin(Mathf.PI / 3.0f) * 2, 0, +1);
-    Vector3 mapOff = (xOff + yOff) * (mapSize * -.5f);
-
-    for (int i = 0; i < mapSize; ++i)
-      for (int j = 0; j < mapSize; ++j)
-        GetTile(i, j).Instantiate(xOff * i + yOff * j + mapOff, transform_);
-
-    playerTransform.position = xOff * tile_.x + yOff * tile_.y + mapOff;
+    for (int i = 0; i < map_.Count; ++i)
+      map_[i].Instantiate(transform_);
   }
-
-  #endregion
-
 }

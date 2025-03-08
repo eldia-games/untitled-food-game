@@ -4,24 +4,22 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class ObjectDrop : Spawneable
+public class ObjectDrop : MonoBehaviour
 {
     public Items item;
 
     public int indexLoot;
     public Collider hitbox;
-    public int quantity=0;
 
     void OnTriggerEnter(Collider hitInfo)
     {
         if(hitInfo.tag == "Player")
         {
             print("To inventory");
-            InventoryManager.Instance.AddItem(item, indexLoot, quantity!=0?quantity:item.quantity, item.stackeable);  
+            hitInfo.gameObject.GetComponent<InventoryManager>().AddItem(item, indexLoot, item.quantity, item.stackeable);  
             Destroy(gameObject);
         }
 
     }
-
 
 }

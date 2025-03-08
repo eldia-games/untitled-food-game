@@ -72,15 +72,14 @@ public class PlayerCombat : MonoBehaviour
         _interactor= GetComponent<Interactor>();
         camera = Camera.main;
 
-        //HP = (float)maxLife;
+        HP = (float)maxLife;
         MP = (float)maxMana;
         StaminaSlide = 10;
-        _colliderMeleeSpin = player.GetComponent<SphereCollider>();
+        _colliderMeleeSpin = GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
-        _colliderMelee = player.GetComponent<BoxCollider>();
+        _colliderMelee = GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
         this.enabled = false;
-        InventoryManager.Instance.setPlayer(player);
     }
 
     void Update()
@@ -350,21 +349,23 @@ public class PlayerCombat : MonoBehaviour
     {
         interactAvailable = false;
         //Only activate Interact on getInteract if the object is interactable
-        switch (_interactor.GetInteractionType()) {
-            case InteractionType.None:
-                break;
+        //switch(_interactor.getInteractionType()){
+        //case None;
+        //break;
+        //case NormalInteraction;
+        //_anim.SetTrigger("Interact");
+        //    StartCoroutine(InteractCooldown());
+        //break;
+        //case.....
 
-            case InteractionType.NormalInteraction :
-                _anim.SetTrigger("Interact");
-                break;
-            //case InteractionType.FirePlaceInteraction :
-            //    _anim.SetTrigger("Interact");
-            //    StartCoroutine(InteractCooldown());
-            //    break;
-
+        //final:
+        //Interactor.interact();
+        //}
+        if(true){
+            _anim.SetTrigger("Interact");
+            _interactor.interact();
+            StartCoroutine(InteractCooldown());
         }
-        StartCoroutine(InteractCooldown());
-        _interactor.interact();
         //interact with objects}
 
     }

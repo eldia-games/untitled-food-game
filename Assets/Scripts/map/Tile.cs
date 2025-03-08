@@ -7,12 +7,14 @@ using Random = UnityEngine.Random;
 
 public class Tile {
   private TileData tileData_;
+  private Vector3 position_;
   private int roads_;
   private TileType type_;
   private RoomType room_;
 
-  public Tile(TileData tileData, TileType type) {
+  public Tile(TileData tileData, Vector3 position, TileType type) {
     tileData_ = tileData;
+    position_ = position;
     roads_    = 0;
     type_     = type;
     room_     = 0;
@@ -43,7 +45,7 @@ public class Tile {
     room_ = type;
   }
 
-  public void Instantiate(Vector3 position, Transform parent) {
+  public GameObject Instantiate(Transform parent) {
     int index = roads_;
     if (type_ == TileType.Fence || type_ == TileType.River || type_ == TileType.Wall) {
       if (roads_ == 0b0000) index = 0;
@@ -58,7 +60,7 @@ public class Tile {
       case TileType.Wall:  instance = tileData_.walls [index]; break;
       default:             instance = tileData_.roads [index]; break;
     }
-    instance = GameObject.Instantiate(instance, position, instance.transform.rotation, parent);
+    instance = GameObject.Instantiate(instance, position_, instance.transform.rotation, parent);
 
     if (type_ == TileType.Room && roads_ != 0) {
       GameObject decoration = tileData_.rooms[(int) room_];
@@ -66,5 +68,7 @@ public class Tile {
       Quaternion rot = decoration.transform.rotation;
       decoration = GameObject.Instantiate(decoration, pos, rot, instance.transform);
     }
+
+    return instance;
   }
 }

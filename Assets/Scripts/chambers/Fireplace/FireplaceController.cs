@@ -5,8 +5,6 @@ using UnityEngine;
 public class FireplaceController : MonoBehaviour, IChamberController
 {
 
-    [SerializeField] private GameObject player;
-
     private bool healed = false;
     private int healLevel=0;
 
@@ -15,11 +13,7 @@ public class FireplaceController : MonoBehaviour, IChamberController
 
     public void initiallise(int level)
     {
-        healLevel = 7 * level;
-    }
-    public void Start()
-    {
-        player.GetComponent<PlayerCombat>().enabled = true;
+        healLevel = 10 * level;
     }
 
     public void Heal(GameObject fireplace)
@@ -29,7 +23,6 @@ public class FireplaceController : MonoBehaviour, IChamberController
             healed = true;
             //healed.GetComponent<Animator>().SetBool("On", false); //apagar la hoguera
             //curar al jugador
-            PlayerStatsController.Instance.healprct(healLevel);
             fireplace.GetComponent<Interactable>().Desactive();
 
         }

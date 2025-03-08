@@ -13,13 +13,10 @@ public class DungeonController : MonoBehaviour,IChamberController
     [SerializeField] private List<GameObject> monsters;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private bool trap;
     private Animator doorAnimator;
     private Animator leverAnimator;
     private List<Vector3> pos;
     private int [] monstersSpawned;
-    private bool leverUsed= false;
-    private int enemiesLeft;
 
     void Awake()
     {
@@ -42,17 +39,8 @@ public class DungeonController : MonoBehaviour,IChamberController
 
     void Start()
     {
-        if (door != null)
-        {
-            doorAnimator = door.GetComponent<Animator>();
-        }
-        if (lever != null)
-        {
-            leverAnimator = lever.GetComponent<Animator>();
-        }
-       
-
-
+        doorAnimator= door.GetComponent<Animator>();
+        leverAnimator = lever.GetComponent<Animator>();
     }
    
     public void StartDungeonEnterAnimation()
@@ -100,9 +88,6 @@ public class DungeonController : MonoBehaviour,IChamberController
 
                     GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
                     monstersSpawned[spawnPoint] += 1;
-                    enemiesLeft++;
-
-
                 }
             }
             else
@@ -111,19 +96,11 @@ public class DungeonController : MonoBehaviour,IChamberController
             }
         }
     }
-    public void killEnemy()
+
+    public void UseLever(GameObject leverUsed)
     {
-        enemiesLeft--;
-        if (enemiesLeft == 0 && trap)
+        if (leverUsed == lever)
         {
-            StartCoroutine(OpenDoor());
-        }
-    }
-    public void UseLever(GameObject leverActual)
-    {
-        if (leverActual == lever && !leverUsed)
-        {
-            leverUsed = true;
             leverAnimator.SetBool("LeverLeft", !leverAnimator.GetBool("LeverLeft"));
             exit.SetActive(true);
             StartCoroutine(OpenDoor());
@@ -134,7 +111,7 @@ public class DungeonController : MonoBehaviour,IChamberController
     public void OnExit()
     {
         Debug.Log("sale");
-        UIManager.Instance.EnterMapScene();
+        //TODO salir
     }
 
     IEnumerator EnterDungeon() {
