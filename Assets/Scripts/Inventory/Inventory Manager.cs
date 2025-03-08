@@ -41,7 +41,7 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
 
     private InputHandler _handler;
-    private bool inventoryOpened=false;
+    private bool inventoryOpened=true;
     
     public List<ItemInInventory> items;
     public GameObject[] slots;
