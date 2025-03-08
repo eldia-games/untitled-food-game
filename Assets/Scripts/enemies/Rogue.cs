@@ -97,12 +97,10 @@ public class Rogue : BaseEnemy
 
     public void AttackStartEvent()
     {
-        stayInPlace = true;
     }
 
     public override void AttackEndEvent()
     {
-        stayInPlace = false;
     }
 
     private void NormalAttack()

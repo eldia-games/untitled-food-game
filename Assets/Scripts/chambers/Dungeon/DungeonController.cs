@@ -41,9 +41,6 @@ public class DungeonController : MonoBehaviour,IChamberController
     {
         doorAnimator= door.GetComponent<Animator>();
         leverAnimator = lever.GetComponent<Animator>();
-       
-
-
     }
    
     public void StartDungeonEnterAnimation()
@@ -51,6 +48,7 @@ public class DungeonController : MonoBehaviour,IChamberController
         playerAnimator.SetFloat("Moving", 1);
         StartCoroutine(EnterDungeon());
     }
+
     // Update is called once per frame
     public void initiallise(int level)
     {
@@ -82,24 +80,20 @@ public class DungeonController : MonoBehaviour,IChamberController
                     i++;
                 }
                 int value = monsters[i].GetComponent<Spawneable>().getValue();
+                // Asignar el player a los enemigos
+                monsters[i].GetComponent<BaseEnemy>().SetPlayer(player);
                 if (value<= forceLeft)
                 {
                     forceLeft -= value;
 
                     GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
                     monstersSpawned[spawnPoint] += 1;
-
-
                 }
-
             }
             else
             {
                 break;
             }
-
-
-
         }
     }
 
@@ -113,16 +107,14 @@ public class DungeonController : MonoBehaviour,IChamberController
         }
 
     }
+
     public void OnExit()
     {
         Debug.Log("sale");
         //TODO salir
     }
+
     IEnumerator EnterDungeon() {
-        
-
-
-
         for (int i = 0; i < 2.2f/Time.fixedDeltaTime; i++)
         {
             player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 2);
@@ -134,12 +126,14 @@ public class DungeonController : MonoBehaviour,IChamberController
         yield return new WaitForSeconds(2);
         player.GetComponent<PlayerCombat>().enabled = true;
     }
+
     IEnumerator OpenDoor()
     {
         yield return new WaitForSeconds(2);
         doorAnimator.SetBool("Closed", false);
 
     }
+    
     IEnumerator CloseDoor()
     {
         yield return new WaitForSeconds(2);
