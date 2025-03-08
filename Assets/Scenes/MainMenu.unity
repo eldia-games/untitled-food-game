@@ -446,7 +446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Return to tavern / map
+  m_text: Return
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0761423409462bd4ea1865beb055cee8, type: 2}
   m_sharedMaterial: {fileID: 809930083327041599, guid: 0761423409462bd4ea1865beb055cee8, type: 2}
@@ -4596,7 +4596,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Muerte
+  m_text: 'Muerte = M
 
 
 '
@@ -4689,7 +4689,7 @@ GameObject:
   - component: {fileID: 568969384}
   - component: {fileID: 568969383}
   m_Layer: 5
-  m_Name: return-tavern
+  m_Name: return-previous scene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4761,7 +4761,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2072120519}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: BackToPreviousScene
+        m_MethodName: EnterMainMenuScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
