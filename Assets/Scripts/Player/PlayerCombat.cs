@@ -75,9 +75,9 @@ public class PlayerCombat : MonoBehaviour
         //HP = (float)maxLife;
         MP = (float)maxMana;
         StaminaSlide = 10;
-        _colliderMeleeSpin = GetComponent<SphereCollider>();
+        _colliderMeleeSpin = player.GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
-        _colliderMelee = GetComponent<BoxCollider>();
+        _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
         this.enabled = false;
         InventoryManager.Instance.setPlayer(player);
