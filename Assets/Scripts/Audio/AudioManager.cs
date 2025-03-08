@@ -98,41 +98,41 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFXClick()
     {
-        PlaySFXByIndex(0, sfxUIAudioSource);
+        PlaySFXByIndex(0);
     }
 
     public void PlaySFXBack()
     {
-        PlaySFXByIndex(1, sfxUIAudioSource);
+        PlaySFXByIndex(1);
     }
 
     public void PlaySFXClose()
     {
-        PlaySFXByIndex(2, sfxUIAudioSource);
+        PlaySFXByIndex(2);
     }
 
     public void PlaySFXConfirmation()
     {
-        PlaySFXByIndex(3, sfxUIAudioSource);
+        PlaySFXByIndex(3);
     }
 
     public void PlaySFXOpen()
     {
-        PlaySFXByIndex(4, sfxUIAudioSource);
+        PlaySFXByIndex(4);
     }
 
     public void PlaySFXSelect()
     {
-        PlaySFXByIndex(5, sfxUIAudioSource);
+        PlaySFXByIndex(5);
     }
 
 
     // Method to play sfx by index
-    private void PlaySFXByIndex(int sfxIndex, AudioSource audioSource)
+    private void PlaySFXByIndex(int sfxIndex)
     {
         if (sfxIndex >= 0 && sfxIndex < sfxClips.Length)
         {
-            audioSource.PlayOneShot(sfxClips[sfxIndex]);
+            sfxUIAudioSource.PlayOneShot(sfxClips[sfxIndex]);
         }
         else
         {
