@@ -13,12 +13,13 @@ public class UIManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Debug.Log("Se intento crear una segunda instancia del objeto UI Manager");
+            Destroy(gameObject);
         }
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -27,6 +28,10 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3)
         {
             ShowPauseCanvas();
+        }
+        if (Input.GetKeyDown(KeyCode.M) && SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            ShowEndGameCanvas();
         }
     }
 
@@ -182,6 +187,7 @@ public class UIManager : MonoBehaviour
     public void BackToPreviousScene()
     {
         AudioManager.Instance.PlaySFXSelect();
+        HidePause();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch (activeSceneIndex)
         {
@@ -193,10 +199,13 @@ public class UIManager : MonoBehaviour
                 EnterMapScene();
                 break;
 
+            case 1:
+                EnterMainMenuScene();
+                break;
+
             default:
                 break;
         }
-        SceneManager.LoadScene(activeSceneIndex - 1);
     }
 
     public void EnterMainMenuScene()

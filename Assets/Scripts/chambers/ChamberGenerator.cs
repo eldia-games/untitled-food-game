@@ -13,11 +13,15 @@ public class ChamberGenerator : MonoBehaviour
         persistenceInstance = persistence.Instance;
 
         TypeChamberGenerator[] generators = this.GetComponents<TypeChamberGenerator>();
-        int type = persistenceInstance.getType();
-        if (type <= generators.Length)
+        RoomType type = persistenceInstance.getType();
+        for (int i = 0; i < generators.Length; i++)
         {
-            generators[type].createChamber(persistenceInstance.getLevel());
+            if (type == generators[i].getChamberType())
+            {
+                generators[i].createChamber(persistenceInstance.getLevel());
+            }
         }
+
 
 
 

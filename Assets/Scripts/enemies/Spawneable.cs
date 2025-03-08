@@ -14,10 +14,11 @@ public class Spawneable : MonoBehaviour
         {
             return SpawnRate[level];
         }
-        return 0;
+        return SpawnRate[SpawnRate.Count-1];
     }
     public int getValue()
     {
         return value;
     }
+
 }
