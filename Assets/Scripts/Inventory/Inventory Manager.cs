@@ -39,24 +39,29 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] public GameObject moneyHolder;
 
+
     private InputHandler _handler;
+    private bool inventoryOpened=false;
     
     public List<ItemInInventory> items;
     public GameObject[] slots;
 
     public GameObject player;
+
     void Update()
     {
         if(_handler.inventory)
         {
+            inventoryOpened = true;
             Time.timeScale = 0.0f;
             //enable the inventory 
             slotsHolder.GetComponentInParent<Canvas>().enabled = true;
             //disable PlayerCombat
             //this.GameObject().GetComponent<PlayerCombat>().enabled = false;
         }
-        else
+        else if(inventoryOpened)
         {
+            inventoryOpened = false;
             Time.timeScale = 1.0f;
             //disable
             slotsHolder.GetComponentInParent<Canvas>().enabled = false;
