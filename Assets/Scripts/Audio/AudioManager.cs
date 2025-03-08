@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource sfxAudioSource, musicAudioSource;
-    [SerializeField] private AudioClip[] sfxClips;
+    [SerializeField] private AudioSource sfxUIAudioSource, musicAudioSource, sfxEnemyAudioSource, sfxPlayerAudioSource, otherAudioSource;
+    [SerializeField] private AudioClip[] sfxClips, enemyWalkClips, enemyRunClips, enemyAttackClips;
     [SerializeField] private AudioClip[] backgroundMusicClips;
+    [SerializeField] private float musicFade;
 
     private bool isMusicPlaying;
     public static AudioManager Instance { get; private set; }
@@ -27,7 +28,7 @@ public class AudioManager : MonoBehaviour
 
     // Method to play clip by sound
     public void PlaySoundByClip(AudioClip clip) { 
-        sfxAudioSource.PlayOneShot(clip);
+        otherAudioSource.PlayOneShot(clip);
     }
 
     // Method get a bool of music playing
@@ -36,9 +37,17 @@ public class AudioManager : MonoBehaviour
     }
 
     // Method to mute background music
-    public void MuteMusic()
+    public void ToggleMusic()
     {
         musicAudioSource.mute = !musicAudioSource.mute;
+    }
+    public void UnuteMusic()
+    {
+        musicAudioSource.mute= false;
+    }
+    public void MuteMusic()
+    {
+        musicAudioSource.mute = true;
     }
 
     // Method to stop background music
@@ -65,6 +74,10 @@ public class AudioManager : MonoBehaviour
     {
         if (!isMusicPlaying)
             PlayMusicByIndex(0);
+        else
+        {
+            ChangeBackgroundMusic(0);
+        }
     }
 
     public void PlayLobbyMusic()
@@ -84,41 +97,41 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFXClick()
     {
-        PlaySFXByIndex(0);
+        PlaySFXByIndex(0, sfxUIAudioSource);
     }
 
     public void PlaySFXBack()
     {
-        PlaySFXByIndex(1);
+        PlaySFXByIndex(1, sfxUIAudioSource);
     }
 
     public void PlaySFXClose()
     {
-        PlaySFXByIndex(2);
+        PlaySFXByIndex(2, sfxUIAudioSource);
     }
 
     public void PlaySFXConfirmation()
     {
-        PlaySFXByIndex(3);
+        PlaySFXByIndex(3, sfxUIAudioSource);
     }
 
     public void PlaySFXOpen()
     {
-        PlaySFXByIndex(4);
+        PlaySFXByIndex(4, sfxUIAudioSource);
     }
 
     public void PlaySFXSelect()
     {
-        PlaySFXByIndex(5);
+        PlaySFXByIndex(5, sfxUIAudioSource);
     }
 
 
     // Method to play sfx by index
-    private void PlaySFXByIndex(int sfxIndex)
+    private void PlaySFXByIndex(int sfxIndex, AudioSource audioSource)
     {
         if (sfxIndex >= 0 && sfxIndex < sfxClips.Length)
         {
-            sfxAudioSource.PlayOneShot(sfxClips[sfxIndex]);
+            audioSource.PlayOneShot(sfxClips[sfxIndex]);
         }
         else
         {
@@ -141,14 +154,14 @@ public class AudioManager : MonoBehaviour
     }
 
     // Method to change background music with a fase
-    private void ChangeBackgroundMusic(int musicIndex, float fadeDuration = 1.0f)
+    private void ChangeBackgroundMusic(int musicIndex)
     {
         if (musicIndex >= 0 && musicIndex < backgroundMusicClips.Length)
         {
             AudioClip clip = backgroundMusicClips[musicIndex];
             if (clip != null && clip != musicAudioSource.clip)
             {
-                StartCoroutine(FadeOutAndPlay(clip, fadeDuration));
+                StartCoroutine(FadeOutAndPlay(clip, musicFade));
             }
         }
         else
