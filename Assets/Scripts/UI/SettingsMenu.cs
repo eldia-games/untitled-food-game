@@ -75,12 +75,12 @@ public class Settings : MonoBehaviour
     }
     public void SetMasterVolume()
     {
-        float dB = masterVolumeSlider.value > 5 ? 20 * Mathf.Log10(masterVolumeSlider.value) : -80;
+        float dB = masterVolumeSlider.value > 0 ? 20 * Mathf.Log10(masterVolumeSlider.value) : -80;
         AudioManager.Instance.ChangeMasterVolume(dB);
     }
     public void SetSFXVolume()
     {
-        float dB = sfxVolumeSlider.value > 5 ? 20 * Mathf.Log10(sfxVolumeSlider.value) : -80;
+        float dB = sfxVolumeSlider.value > 0 ? 20 * Mathf.Log10(sfxVolumeSlider.value) : -80;
         AudioManager.Instance.ChangeSFXVolume(dB);
     }
 
