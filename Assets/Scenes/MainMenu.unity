@@ -3309,12 +3309,12 @@ MonoBehaviour:
   sfxPlayerAudioSource: {fileID: 1196094871}
   otherAudioSource: {fileID: 226539251}
   sfxClips:
-  - {fileID: 8300000, guid: 0c54ed112318d3f46be7feeb50ceb4fd, type: 3}
-  - {fileID: 8300000, guid: feb75c43c8ab97543960ee6d2f6b947d, type: 3}
-  - {fileID: 8300000, guid: a864809c8e655b846ad1fd7ced063589, type: 3}
-  - {fileID: 8300000, guid: 35aeee80ba5f3d24a9bbfbba78292046, type: 3}
-  - {fileID: 8300000, guid: 48bf96d4e1596ae478adc65728d7a993, type: 3}
-  - {fileID: 8300000, guid: dec9a44593f355a49b884d447c13630d, type: 3}
+  - {fileID: 8300000, guid: b1fbf37e85e9ab34397b38f333be8b1f, type: 3}
+  - {fileID: 8300000, guid: ede555fe2f909da47890d9b8645325ab, type: 3}
+  - {fileID: 8300000, guid: eac7cd1a4c5bd364fba70bae56e7cb5e, type: 3}
+  - {fileID: 8300000, guid: bfd6d8b7332f4654bba89c51b0332b24, type: 3}
+  - {fileID: 8300000, guid: bd0670f0b93d0db448fc31b679c8d650, type: 3}
+  - {fileID: 8300000, guid: 979978af9ea780041990b210e68062c3, type: 3}
   enemyWalkClips:
   - {fileID: 8300000, guid: 7131d701ae015a54aa3d856feccd513f, type: 3}
   - {fileID: 8300000, guid: 942019cf9ecd5854ebeb343b12b7f779, type: 3}
@@ -14639,7 +14639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1336671974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21280,7 +21280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33ba39dda80eb6428c6a76caff8cf11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: b3590ccae5ffb6c4486cb88af1f071c5, type: 2}
   resolutionDropdown: {fileID: 1223334251}
   masterVolumeSlider: {fileID: 1336671975}
   musicVolumeSlider: {fileID: 726547835}
