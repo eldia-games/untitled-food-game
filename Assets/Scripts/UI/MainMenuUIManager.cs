@@ -170,8 +170,9 @@ public class UIManager : MonoBehaviour
     public void ShowEndGameCanvas()
     {
         HideAllCanvas();
+        Time.timeScale = 0;
         ShowEndGame();
-        //AudioManager.Instance.PlayMusicEndGame();
+        AudioManager.Instance.PlayEndGameMusic();
     }
 
     public void ExitGame()
@@ -210,6 +211,7 @@ public class UIManager : MonoBehaviour
 
     public void EnterMainMenuScene()
     {
+        Time.timeScale = 1;
         ShowMainMenuCanvas();
         GameManager.Instance.EnterMainMenuScene();
 
@@ -217,6 +219,7 @@ public class UIManager : MonoBehaviour
 
     public void EnterLobbyScene()
     {
+        Time.timeScale = 1;
         ShowLobbyCanvas();
         GameManager.Instance.EnterLobbyScene();
     }
