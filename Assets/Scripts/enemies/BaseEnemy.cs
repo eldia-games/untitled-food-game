@@ -122,12 +122,12 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void CheckPlayerVisibility()
     {
         if(player == null) return; // Por seguridad
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-        float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
+        Vector3 origin = transform.position + Vector3.up * 1.5f;
+        float distance = Vector3.Distance(origin, player.transform.position);
+        float angle = Vector3.Angle(transform.forward, player.transform.position - origin);
 
         // Hacemos un raycast para verificar que no hay obstáculos
         RaycastHit hit;
-        Vector3 origin = transform.position + Vector3.up * 1.5f;
         bool isHit = Physics.Raycast(origin, player.transform.position - origin, out hit, distance);
 
         // Se ve si: 
@@ -203,9 +203,9 @@ public abstract class BaseEnemy : MonoBehaviour
     protected IEnumerator WaitAndMove()
     {
         isWaitAndMove = true;
-        yield return new WaitForSeconds(Random.Range(1, 3));
+        yield return new WaitForSeconds(Random.Range(1, 6));
         // Mover a una posición aleatoria dentro de un radio
-        agent.SetDestination(initialPosition + Random.insideUnitSphere * 3f);
+        agent.SetDestination(initialPosition + Random.insideUnitSphere * 4f);
         isWaitAndMove = false;
     }
 
@@ -285,7 +285,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Recibe daño y knockback.
     /// </summary>
-    protected virtual void OnHurt(float dmg, float knockback, Vector3 direction)
+    public virtual void OnHurt(float dmg, float knockback, Vector3 direction)
     {
         // Disparar animación "hurt" si se desea
         animator.SetTrigger("hurt");
@@ -372,10 +372,6 @@ public abstract class BaseEnemy : MonoBehaviour
         //audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.PlayOneShot(footstepSound);
     }
-
-    // --------------------------------------------------------------------------------
-    // Métodos opcionales que puedes usar en subclases si lo necesitas (flee, proyectiles, etc.)
-    // --------------------------------------------------------------------------------
 
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).

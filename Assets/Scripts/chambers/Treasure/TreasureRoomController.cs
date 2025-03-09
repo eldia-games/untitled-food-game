@@ -8,17 +8,19 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
     [SerializeField] private List<GameObject> chests;
     [SerializeField] private List<GameObject> loot;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject exit;
+    [SerializeField] private Animator playerAnimator;
     private bool openedChest = false;
     private List<GameObject> items;
 
 
-    public void Start()
+
+
+
+    public void OnExit()
     {
-        
-        player.GetComponent<PlayerCombat>().enabled = true;
+        GameManager.Instance.EnterMapScene();
     }
-
-
     public void initiallise(int level)
     {
         items = new List<GameObject>();
@@ -74,5 +76,24 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
             }
 
         }
+    }
+    public void StartDungeonEnterAnimation()
+    {
+        playerAnimator.SetFloat("Moving", 1);
+        StartCoroutine(EnterDungeon());
+    }
+    IEnumerator EnterDungeon()
+    {
+        for (int i = 0; i < 1.5f / Time.fixedDeltaTime; i++)
+        {
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 1.5f);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        playerAnimator.SetFloat("Moving", 0);
+        yield return new WaitForSeconds(0.5f);
+        exit.SetActive(true);
+        yield return new WaitForSeconds(1);
+        player.GetComponent<PlayerCombat>().enabled = true;
+
     }
 }

@@ -145,7 +145,7 @@ public class Generator : MonoBehaviour {
         while (!ValidateRoom(room, i + j));
         if (i + j == 0) room = RoomType.Tavern;
         if (i + j == 2) room = RoomType.Grain;
-        if (i + j == frw.y + 1) room = RoomType.Trees;
+        // if (i + j == frw.y + 1) room = RoomType.Trees;
         if (i + j == frw.z + 1) room = RoomType.Treasure;
         if (i + j == 2 * mapSize - 4) room = RoomType.Rest;
         if (i + j == 2 * mapSize - 2) room = RoomType.Boss;
@@ -223,7 +223,7 @@ public class Generator : MonoBehaviour {
     tileA.Outline();
     tileB.Outline();
 
-    Ray ray = camera_.ScreenPointToRay(Input.mousePosition); // Lanza un rayo desde la cámara
+    Ray ray = camera_.ScreenPointToRay(Input.mousePosition); // Lanza un rayo desde la cï¿½mara
     if (!Physics.Raycast(ray, out RaycastHit hit, 100.0f, tileLayer)) return;
     GameObject instance = hit.transform.parent.gameObject;
 
