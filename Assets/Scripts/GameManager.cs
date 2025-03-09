@@ -49,25 +49,29 @@ public class GameManager : MonoBehaviour {
   #region SceneManagement
 
   public void EnterMainMenuScene() {
-    SceneManager.LoadScene("MainMenu");
     AudioManager.Instance.PlayMenuMusic();
+    UIManager.Instance.ShowMainMenuCanvas();
     ClearMap();
+    SceneManager.LoadScene("MainMenu");
   }
 
   public void EnterLobbyScene() {
-    SceneManager.LoadScene("Lobby");
     AudioManager.Instance.PlayLobbyMusic();
+    UIManager.Instance.ShowLobbyCanvas();
     ClearMap();
+    SceneManager.LoadScene("Lobby");
   }
 
   public void EnterMapScene() {
-    SceneManager.LoadScene("Map");
     AudioManager.Instance.PlayMapMusic();
+    UIManager.Instance.ShowMapCanvas();
+    SceneManager.LoadScene("Map");
   }
 
   public void EnterChamberScene() {
-    SceneManager.LoadScene("Chamber");
     AudioManager.Instance.PlayChamberMusic();
+    UIManager.Instance.ShowChamberCanvas();
+    SceneManager.LoadScene("Chamber");
   }
 
   #endregion
