@@ -156,7 +156,14 @@ public class PlayerCombat : MonoBehaviour
         if (_handler.attack)
         {
 
-            Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            float distance;
+            Vector3 mousePosition = Vector3.zero;
+            if (plane.Raycast(ray, out distance))
+            {
+                mousePosition = ray.GetPoint(distance);
+            }
             //print(mousePosition);
             player.transform.LookAt(mousePosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
