@@ -120,7 +120,7 @@ public class Warrior : BaseEnemy
     /// <summary>
     /// Sobrescribimos OnHurt para anular o reducir el daño cuando está bloqueando.
     /// </summary>
-    protected override void OnHurt(float dmg, float knockback, Vector3 direction)
+    public override void OnHurt(float dmg, float knockback, Vector3 direction)
     {
         if (isBlocking)
         {
