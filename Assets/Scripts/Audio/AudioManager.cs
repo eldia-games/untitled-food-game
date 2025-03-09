@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
+    [SerializeField] private float musicFade;
     [SerializeField] private AudioSource sfxUIAudioSource, musicAudioSource, sfxEnemyAudioSource, sfxPlayerAudioSource, otherAudioSource;
     [SerializeField] private AudioClip[] sfxClips, enemyWalkClips, enemyRunClips, enemyAttackClips;
     [SerializeField] private AudioClip[] backgroundMusicClips;
-    [SerializeField] private float musicFade;
+    [SerializeField] private AudioMixer masterAudioMixer;
 
     private bool isMusicPlaying;
     public static AudioManager Instance { get; private set; }
@@ -25,6 +28,10 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+    private void Start()
+    {
+        
     }
 
     // Method to play clip by sound
@@ -49,6 +56,19 @@ public class AudioManager : MonoBehaviour
     public void MuteMusic()
     {
         musicAudioSource.mute = true;
+    }
+
+    public void ChangeMasterVolume(float volume)
+    {
+        masterAudioMixer.SetFloat("MasterVol", volume);
+    }
+    public void ChangeMusicVolume(float volume)
+    {
+        masterAudioMixer.SetFloat("MusicVol", volume);
+    }
+    public void ChangeSFXVolume(float volume)
+    {
+        masterAudioMixer.SetFloat("SfxVol", volume);
     }
 
     // Method to stop background music
@@ -94,6 +114,11 @@ public class AudioManager : MonoBehaviour
     public void PlayChamberMusic()
     {
         ChangeBackgroundMusic(3);
+    }
+
+    public void PlayEndGameMusic()
+    {
+        ChangeBackgroundMusic(4);
     }
 
     public void PlaySFXClick()

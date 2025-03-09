@@ -8,29 +8,33 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController
 
     [SerializeField] private List<GameObject> spawns;
     [SerializeField] private List<GameObject> recollectables;
-    [SerializeField] protected GameObject player;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject exit;
+    [SerializeField] private Animator playerAnimator;
+
 
     private List<Vector3> pos;
 
-    private float centerDistance = 2f;
+    private float centerDistanceW = 1f;
+    private float centerDistanceH = 2.15f;
+    public void OnExit()
+    {
+        GameManager.Instance.EnterMapScene();
+    }
     private void Awake()
     {
         pos = new List<Vector3>();
         pos.Add(new Vector3(0, 0, 0));
-        pos.Add(new Vector3(centerDistance, 0, 0));
-        pos.Add(new Vector3(-centerDistance, 0, 0));
-        pos.Add(new Vector3(0, 0, centerDistance));
-        pos.Add(new Vector3(-centerDistance, 0, centerDistance));
-        pos.Add(new Vector3(centerDistance, 0, centerDistance));
-        pos.Add(new Vector3(0, 0, -centerDistance));
-        pos.Add(new Vector3(-centerDistance, 0, -centerDistance));
-        pos.Add(new Vector3(centerDistance, 0, -centerDistance));
+        pos.Add(new Vector3(centerDistanceW, 0, 0));
+        pos.Add(new Vector3(-centerDistanceW, 0, 0));
+        pos.Add(new Vector3(0, 0, centerDistanceH));
+        pos.Add(new Vector3(-centerDistanceW, 0, centerDistanceH));
+        pos.Add(new Vector3(centerDistanceW, 0, centerDistanceH));
+        pos.Add(new Vector3(0, 0, -centerDistanceH));
+        pos.Add(new Vector3(-centerDistanceW, 0, -centerDistanceH));
+        pos.Add(new Vector3(centerDistanceW, 0, -centerDistanceH));
     }
-    public void Start()
-    {
-
-        player.GetComponent<PlayerCombat>().enabled = true;
-    }
+ 
     public void initiallise(int level)
     {
         List<int> rateList = new List<int>();
@@ -55,5 +59,24 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController
                 GameObject instancedObject = Instantiate(recollectables[k], spawns[i].transform.position + pos[j], Quaternion.identity);
             }
         }
+    }
+    public void StartDungeonEnterAnimation()
+    {
+        playerAnimator.SetFloat("Moving", 1);
+        StartCoroutine(EnterDungeon());
+    }
+    IEnumerator EnterDungeon()
+    {
+        for (int i = 0; i < 1.5f / Time.fixedDeltaTime; i++)
+        {
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 1.5f);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        playerAnimator.SetFloat("Moving", 0);
+        yield return new WaitForSeconds(0.5f);
+        exit.SetActive(true);
+        yield return new WaitForSeconds(1);
+        player.GetComponent<PlayerCombat>().enabled = true;
+
     }
 }
