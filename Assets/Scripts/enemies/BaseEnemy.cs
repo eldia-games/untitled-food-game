@@ -285,7 +285,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Recibe daño y knockback.
     /// </summary>
-    protected virtual void OnHurt(float dmg, float knockback, Vector3 direction)
+    public virtual void OnHurt(float dmg, float knockback, Vector3 direction)
     {
         // Disparar animación "hurt" si se desea
         animator.SetTrigger("hurt");

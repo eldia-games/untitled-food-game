@@ -63,12 +63,15 @@ public class PlayerCombat : MonoBehaviour
     private BoxCollider _colliderMelee;
     private Interactor _interactor;
 
+    private Rigidbody rb;
+
     #endregion
 
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
         _interactor= GetComponent<Interactor>();
@@ -114,8 +117,16 @@ public class PlayerCombat : MonoBehaviour
             moving = 0;
         _anim.SetFloat("Moving", moving);
         
-        transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed));
-        transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
+        // Adjust movement direction based on the rotation of the gameobject
+        Vector3 movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
+        Vector3 adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed;
+        rb.velocity = adjustedMovement;
+        //Vector3 movement = new Vector3(_handler.input.x, 0, _handler.input.y).normalized * MovementSpeed;
+        //rb.velocity = movement;
+        //transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed));
+        //transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
+
+
         //player rotate to wasd
         if (attackAvailable)
         {
@@ -132,6 +143,7 @@ public class PlayerCombat : MonoBehaviour
         //slide
         if (_handler.slide && StaminaSlide == 10)
         {
+            invencibility = true;
             _anim.SetTrigger("Slide");
             StaminaSlide = 0;
             slideForce = true;
@@ -163,8 +175,11 @@ public class PlayerCombat : MonoBehaviour
         if (slideForce)
         {
             //print("sliding");
-            transform.Translate(-transform.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
-            transform.Translate(-transform.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
+        movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
+        adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed * 2.0f;
+        rb.velocity = adjustedMovement;
+            //transform.Translate(-transform.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
+            //transform.Translate(-transform.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
         }
 
         //Interact
@@ -241,6 +256,7 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f * (1 / velSlide));
         slideForce = false;
+        invencibility = false;
     }
 
     IEnumerator PushForceCooldown()
@@ -406,8 +422,8 @@ public class PlayerCombat : MonoBehaviour
         bullet.GetComponent<Bullet>().damageModifier = damageModifier;
         bullet.GetComponent<Bullet>().pushModifier = pushModifier;
 
-        // Destroy the bullet after 2 seconds
-        Destroy(bullet, 2.0f);
+        // Destroy the bullet after 5 seconds
+        Destroy(bullet, 5.0f);
     }
 
 }
