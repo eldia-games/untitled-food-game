@@ -61,12 +61,11 @@ public class SpellProjectile : MonoBehaviour
         {
             //Debug.Log("Spell hit the player!");
             
-            // Optionally, deal damage to player
-            // other.GetComponent<PlayerHealth>()?.TakeDamage(10);
-
+            // Deal damage to player
+            other.GetComponent<PlayerCombat>()?.OnHurt(10, 0.2f, transform.position);
             Destroy(gameObject); // Destroy the spell
         }
-        else if (!other.CompareTag("Enemy")) // Prevent self-collision
+        else if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile")) // Prevent self-collision
         {
             Destroy(gameObject); // Destroy on any other collision
         }

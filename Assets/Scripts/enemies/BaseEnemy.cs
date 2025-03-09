@@ -373,10 +373,6 @@ public abstract class BaseEnemy : MonoBehaviour
         audioSource.PlayOneShot(footstepSound);
     }
 
-    // --------------------------------------------------------------------------------
-    // Métodos opcionales que puedes usar en subclases si lo necesitas (flee, proyectiles, etc.)
-    // --------------------------------------------------------------------------------
-
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).
     /// </summary>
