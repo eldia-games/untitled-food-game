@@ -211,32 +211,26 @@ public class UIManager : MonoBehaviour
     public void EnterMainMenuScene()
     {
         ShowMainMenuCanvas();
-        SceneManager.LoadScene("MainMenu");
-        AudioManager.Instance.PlayMenuMusic();
+        GameManager.Instance.EnterMainMenuScene();
 
     }
 
     public void EnterLobbyScene()
     {
         ShowLobbyCanvas();
-        SceneManager.LoadScene("Lobby");
-        AudioManager.Instance.PlayLobbyMusic();
-
+        GameManager.Instance.EnterLobbyScene();
     }
+
     public void EnterMapScene()
     {
         ShowMapCanvas();
-        SceneManager.LoadScene("Map");
-        AudioManager.Instance.PlayMapMusic();
-
+        GameManager.Instance.EnterMapScene();
     }
 
     public void EnterChamberScene()
     {
         ShowChamberCanvas();
-        SceneManager.LoadScene("Chamber");
-        AudioManager.Instance.PlayChamberMusic();
-
+        GameManager.Instance.EnterChamberScene();
     }
 
     #endregion
