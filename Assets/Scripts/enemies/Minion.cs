@@ -105,20 +105,26 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
         StopMovement();
         RotateTowards(player.transform.position);
 
-        // Esperamos 1.5s (o el tiempo de tu animación de "carga")
+        // Esperamos 1.5s
         yield return new WaitForSeconds(1.5f);
 
-        chargeAttackTarget = player.transform.position;
+        // Elige la posición de destino para el salto en un círculo alrededor del jugador
+        Vector3 randomDirection = Random.insideUnitCircle.normalized;
+        float randomRadius = Random.Range(1f, 3f);
+        Vector3 randomOffset = randomDirection * randomRadius;
+        chargeAttackTarget = player.transform.position + new Vector3(randomOffset.x, 0, randomOffset.y);
+        // Si no está en el NavMesh, no aplicamos el offset
+        if (!NavMesh.SamplePosition(chargeAttackTarget, out NavMeshHit hit, 1f, NavMesh.AllAreas)){
+           chargeAttackTarget = player.transform.position;
+        }
 
         yield return new WaitForSeconds(0.1f);
 
         chargingJumpAttack = false;
         jumpingAttack = true;
         
-        // (Opcional) Dispara animación de “salto” si la tienes
+        // Dispara animación de “salto”
         animator.SetTrigger("jumpAttack");
-
-        Debug.Log("<<<<<<<<<<<<<<<<< Saltando...");
 
         // Ahora hacemos un movimiento “parabólico” desde la posición actual al chargeAttackTarget.
         Vector3 startPos = transform.position;
@@ -154,14 +160,11 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
         }
 
         // Al aterrizar, podríamos activar un “hitbox” o llamar AttackEvent() si procede
-        // (Opcional) Por ejemplo:
         AttackEvent();
 
         // Reactivar NavMeshAgent
         agent.enabled = true;
         AllowMovement();
-
-        Debug.Log("<<<<<<<<<<<<<<<<< Salto terminado");
 
         jumpingAttack = false;
         animator.SetBool("isJumpAttack", false);
