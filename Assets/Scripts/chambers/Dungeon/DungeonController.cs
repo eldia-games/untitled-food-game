@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 public class DungeonController : MonoBehaviour,IChamberController
 {
-    [SerializeField] private GameObject door;
+    [SerializeField] private List<GameObject> door;
     [SerializeField] private GameObject lever;
     [SerializeField] private GameObject exit;
     [SerializeField] private List<GameObject> spawns;
@@ -14,12 +15,15 @@ public class DungeonController : MonoBehaviour,IChamberController
     [SerializeField] private GameObject player;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private bool trap;
-    private Animator doorAnimator;
+    [SerializeField] private CinemachineDollyCart cart;
+    private List<Animator> doorAnimator;
     private Animator leverAnimator;
     private List<Vector3> pos;
     private int [] monstersSpawned;
     private bool leverUsed= false;
     private int enemiesLeft;
+    private List<GameObject> monsterList;
+
 
     void Awake()
     {
@@ -42,9 +46,10 @@ public class DungeonController : MonoBehaviour,IChamberController
 
     void Start()
     {
-        if (door != null)
-        {
-            doorAnimator = door.GetComponent<Animator>();
+        doorAnimator = new List<Animator>();
+        for (int i = 0;i<door.Count;i++) {
+        
+            doorAnimator.Add(door[i].GetComponent<Animator>());
         }
         if (lever != null)
         {
@@ -64,12 +69,13 @@ public class DungeonController : MonoBehaviour,IChamberController
     // Update is called once per frame
     public void initiallise(int level)
     {
+        monsterList= new List<GameObject> ();
         List<int> rateList = new List<int>();
         int totalRate = 0;
         for (int i = 0; i< monsters.Count; i++)
         {
 
-            totalRate += monsters[i].GetComponent<Spawneable>().getSpawnRate(persistence.Instance.getLevel()-1);
+            totalRate += monsters[i].GetComponent<Spawneable>().getSpawnRate(level - 1);
             rateList.Add(totalRate);
 
         }
@@ -93,12 +99,13 @@ public class DungeonController : MonoBehaviour,IChamberController
                 }
                 int value = monsters[i].GetComponent<Spawneable>().getValue();
                 // Asignar el player a los enemigos
-                monsters[i].GetComponent<BaseEnemy>().SetPlayer(player);
+                //monsters[i].GetComponent<BaseEnemy>().SetPlayer(player);
                 if (value<= forceLeft)
                 {
                     forceLeft -= value;
 
                     GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
+                    monsterList.Add(instancedObject);
                     monstersSpawned[spawnPoint] += 1;
                     enemiesLeft++;
 
@@ -133,10 +140,14 @@ public class DungeonController : MonoBehaviour,IChamberController
 
     public void OnExit()
     {
-        Debug.Log("sale");
-        UIManager.Instance.EnterMapScene();
+        GameManager.Instance.EnterMapScene();
     }
 
+    public void StartMovingCart()
+    {
+        cart.m_Position = 0;
+        cart.m_Speed = 15;
+    }
     IEnumerator EnterDungeon() {
         for (int i = 0; i < 2.2f/Time.fixedDeltaTime; i++)
         {
@@ -145,22 +156,36 @@ public class DungeonController : MonoBehaviour,IChamberController
         }
         playerAnimator.SetFloat("Moving", 0);
         yield return new WaitForSeconds(0.5f);
-        doorAnimator.SetBool("Closed", true);
+        for (int i = 0; i < doorAnimator.Count; i++)
+        {
+            Debug.Log("close door " + i);
+            doorAnimator[i].SetBool("Closed", true);
+        }
         yield return new WaitForSeconds(2);
         player.GetComponent<PlayerCombat>().enabled = true;
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            monsterList[i].GetComponent<BaseEnemy>().SetPlayer(player);
+        }
     }
 
     IEnumerator OpenDoor()
     {
         yield return new WaitForSeconds(2);
-        doorAnimator.SetBool("Closed", false);
+        for (int i = 0; i < doorAnimator.Count; i++)
+        {
+            doorAnimator[i].SetBool("Closed", false);
+        }
 
     }
     
     IEnumerator CloseDoor()
     {
         yield return new WaitForSeconds(2);
-        doorAnimator.SetBool("Closed", true);
+        for (int i = 0; i < doorAnimator.Count; i++)
+        {
+            doorAnimator[i].SetBool("Closed", true);
+        }
 
     }
 }
