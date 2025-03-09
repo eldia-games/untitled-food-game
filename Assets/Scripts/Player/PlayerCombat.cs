@@ -51,6 +51,8 @@ public class PlayerCombat : MonoBehaviour
 
     private bool interactAvailable = true;
 
+    private bool invencibility = false;
+
     public new Camera camera;
     public GameObject player;
     private Vector3 lookAtPosition;
@@ -247,6 +249,12 @@ public class PlayerCombat : MonoBehaviour
         pushForce = false;
     }
 
+    IEnumerator HurtCooldown()
+    {
+        yield return new WaitForSeconds(0.2f);
+        invencibility = false;
+    }
+
     IEnumerator HealCooldown()
     {
         //NOT NEADED HEAL VELOCITY
@@ -313,11 +321,16 @@ public class PlayerCombat : MonoBehaviour
     public void OnHurt(float damage, float pushForce, Vector3 position)
     {
         print("hurt");
-        //Make player take damage
-        HP -= damage;
-        _anim.SetTrigger("Hurt");
-        _anim.SetFloat("HP", HP);
-        TakePush(pushForce, position);
+        //Make player take damage if not in invincibility
+        if(!invencibility)
+        {
+            invencibility = true;
+            HP -= damage;
+            _anim.SetTrigger("Hurt");
+            _anim.SetFloat("HP", HP);
+            TakePush(pushForce, position);
+            StartCoroutine(HurtCooldown());
+        }
     }
 
     private void TakePush(float Force, Vector3 position)
