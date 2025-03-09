@@ -18,6 +18,8 @@ public class Mage : BaseEnemy
     public GameObject spellManualPrefab;
     public Transform staffTip;
 
+    public float spiralSpellDuration = 1f;
+
     private int randomNumber;
 
     protected override void Start()
@@ -63,7 +65,7 @@ public class Mage : BaseEnemy
             {
                 // Elegir ataque aleatorio entre 0 y 1, 0 es ataque simple, 1 es ataque especial
                 // 0 tiene probabilidad 0.7 y 1 tiene probabilidad 0.3
-                randomNumber = UnityEngine.Random.Range(0, 10) < 7 ? 0 : 1;
+                randomNumber = UnityEngine.Random.Range(0, 100) < 85 ? 0 : 1;
                 animator.SetInteger("attackType", randomNumber);
                 attackTimer = 0f;
                 StartAttack();
@@ -89,7 +91,7 @@ public class Mage : BaseEnemy
                 // Animación especial, ataque en espiral
                 animator.speed = 0f; // Pausa anim
                 //PlayRandomSpellSound();
-                StartCoroutine(SpiralAttack(spellManualPrefab, staffTip.position, 2f, 1f, 80));
+                StartCoroutine(SpiralAttack(spellManualPrefab, staffTip.position, spiralSpellDuration, 1f, 80));
                 Invoke(nameof(EndSpiral), 3f);
                 break;
             case 2:
