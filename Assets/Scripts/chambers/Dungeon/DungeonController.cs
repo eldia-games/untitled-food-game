@@ -92,6 +92,8 @@ public class DungeonController : MonoBehaviour,IChamberController
                     i++;
                 }
                 int value = monsters[i].GetComponent<Spawneable>().getValue();
+                // Asignar el player a los enemigos
+                monsters[i].GetComponent<BaseEnemy>().SetPlayer(player);
                 if (value<= forceLeft)
                 {
                     forceLeft -= value;
@@ -102,15 +104,11 @@ public class DungeonController : MonoBehaviour,IChamberController
 
 
                 }
-
             }
             else
             {
                 break;
             }
-
-
-
         }
     }
     public void killEnemy()
@@ -132,16 +130,14 @@ public class DungeonController : MonoBehaviour,IChamberController
         }
 
     }
+
     public void OnExit()
     {
         Debug.Log("sale");
         UIManager.Instance.EnterMapScene();
     }
+
     IEnumerator EnterDungeon() {
-        
-
-
-
         for (int i = 0; i < 2.2f/Time.fixedDeltaTime; i++)
         {
             player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 2);
@@ -153,12 +149,14 @@ public class DungeonController : MonoBehaviour,IChamberController
         yield return new WaitForSeconds(2);
         player.GetComponent<PlayerCombat>().enabled = true;
     }
+
     IEnumerator OpenDoor()
     {
         yield return new WaitForSeconds(2);
         doorAnimator.SetBool("Closed", false);
 
     }
+    
     IEnumerator CloseDoor()
     {
         yield return new WaitForSeconds(2);
