@@ -66,6 +66,11 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
     protected virtual void Update()
     {
 
@@ -116,6 +121,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// </summary>
     protected virtual void CheckPlayerVisibility()
     {
+        if(player == null) return; // Por seguridad
         float distance = Vector3.Distance(transform.position, player.transform.position);
         float angle = Vector3.Angle(transform.forward, player.transform.position - transform.position);
 
