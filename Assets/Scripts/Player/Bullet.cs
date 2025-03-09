@@ -38,12 +38,12 @@ public class Bullet : MonoBehaviour
         {
             //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
-            //Enemy enemy = hitInfo.GetComponent<Enemy>();
+            BaseEnemy enemy = hitInfo.GetComponent<BaseEnemy>();
             ////if the enemy script is not null, call the TakeDamage function from the enemy script
-            //if(enemy != null)
-            //{
-            //    enemy.OnHurt(damage * damageModifier, pushForce * pushModifier);
-            //}
+            if(enemy != null)
+            {
+                enemy.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
+            }
         }
         else if(hitInfo.tag == "Player")
         {
@@ -55,8 +55,9 @@ public class Bullet : MonoBehaviour
                 player.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
             }
         }
-        //destroy the bullet
-        Destroy(gameObject);
-
+        else if(hitInfo.tag == "Wall")
+        {
+            Destroy(this);
+        }
     }
 }

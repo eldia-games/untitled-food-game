@@ -41,6 +41,7 @@ public class Interactable: MonoBehaviour
 
     void  OnTriggerEnter(Collider other)
     {
+        Debug.Log("puede interactuar");
         Interactor inter = other.GetComponent<Interactor>();
         if (inter != null)
         {
@@ -49,6 +50,7 @@ public class Interactable: MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("no puede interactuar");
         Interactor inter = other.GetComponent<Interactor>();
         if (inter != null)
         {
