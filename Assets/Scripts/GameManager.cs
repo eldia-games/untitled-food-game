@@ -51,11 +51,13 @@ public class GameManager : MonoBehaviour {
   public void EnterMainMenuScene() {
     SceneManager.LoadScene("MainMenu");
     AudioManager.Instance.PlayMenuMusic();
+    ClearMap();
   }
 
   public void EnterLobbyScene() {
     SceneManager.LoadScene("Lobby");
     AudioManager.Instance.PlayLobbyMusic();
+    ClearMap();
   }
 
   public void EnterMapScene() {
