@@ -95,16 +95,21 @@ public class Tile {
   }
 
   public void EnableInteractions() {
+    if (outline_ == null || collider_ == null) return;
     outline_.enabled = true;
     collider_.enabled = true;
   }
 
   public void Outline() {
+
+    if (outline_ == null ) return;
     outline_.OutlineColor = Color.white;
     outline_.OutlineWidth = 4.0f;
   }
 
   public void Highlight() {
+
+    if (outline_ == null) return;
     outline_.OutlineColor = Color.green;
     outline_.OutlineWidth = 8.0f;
   }

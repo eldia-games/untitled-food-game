@@ -24,7 +24,7 @@ public class ArrowProjectile : MonoBehaviour
     void Update()
     {
         // Move forward in the current direction
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * transform.forward;
     }
 
     void OnTriggerEnter(Collider other)
@@ -34,12 +34,11 @@ public class ArrowProjectile : MonoBehaviour
         {
             //Debug.Log("Spell hit the player!");
             
-            // Optionally, deal damage to player
-            // other.GetComponent<PlayerHealth>()?.TakeDamage(10);
-
+            // Deal damage to player
+            other.GetComponent<PlayerCombat>()?.OnHurt(10, 0.2f, transform.position);
             Destroy(gameObject); // Destroy the spell
         }
-        else if (!other.CompareTag("Enemy")) // Prevent self-collision
+        else if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile")) // Prevent self-collision
         {
             //Debug.Log("Arrow hit something else: " + other.gameObject.name);
             Destroy(gameObject); // Destroy on any other collision

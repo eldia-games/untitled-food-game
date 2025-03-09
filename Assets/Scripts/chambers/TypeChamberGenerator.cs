@@ -15,6 +15,7 @@ public class TypeChamberGenerator : MonoBehaviour
         GameObject instancedObject=Instantiate(chambers[TypeDesign], new Vector3(0, 0, 0), Quaternion.identity);
         instancedObject.GetComponent<IChamberController>().initiallise(level);
     }
+
     public RoomType getChamberType()
     {
         return ChamberType;
