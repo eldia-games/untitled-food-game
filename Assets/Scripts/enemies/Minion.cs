@@ -7,25 +7,22 @@ public class Minion : BaseEnemy
     [Header("Sonidos")]
     public AudioClip attackSound;
     
-    public MeshRenderer attackMesh;
-    
-public bool canJumpAttack;       // Controla si este enemigo está habilitado para saltar
-public bool chargingJumpAttack;  // Indica si estamos en fase de cargar el salto
-public bool jumpingAttack;       // Indica si ya estamos “en el aire” saltando
-public Vector3 chargeAttackTarget; 
-public float jumpAttackSpeed;
-public float jumpAttackRange;    // Rango para decidir que conviene usar el salto
+    public bool canJumpAttack;       // Controla si este enemigo está habilitado para saltar
+    public bool chargingJumpAttack;  // Indica si estamos en fase de cargar el salto
+    public bool jumpingAttack;       // Indica si ya estamos “en el aire” saltando
+    public Vector3 chargeAttackTarget; 
+    public float jumpAttackSpeed;
+    public float jumpAttackRange;    // Rango para decidir que conviene usar el salto
 
-public bool isJumpAttack = false;
-public float jumpAttackCooldown = 8f; // el tiempo mínimo entre saltos
-private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último salto
+    public bool isJumpAttack = false;
+    public float jumpAttackCooldown = 8f; // el tiempo mínimo entre saltos
+    private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último salto
+
+    private Collider currentAttackCollider; // El collider del ataque actual
 
     protected override void Start()
     {
         base.Start();
-        if (attackMesh != null)
-            attackMesh.enabled = false;
-            
     }
 
     protected override void HandleCombat()
@@ -175,18 +172,9 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
     public override void AttackEvent()
     {
         base.AttackEvent();
-        // Aquí podrías activar un collider de daño tipo “ground slam” o algo similar.
 
-        Debug.Log("Minion aterriza y daña alrededor...");
-        // Ejemplo:
-        // Collider[] hits = Physics.OverlapSphere(transform.position, 2f);
-        // foreach (var h in hits)
-        // {
-        //     if (h.CompareTag("Player"))
-        //     {
-        //         // Quitar vida al jugador
-        //     }
-        // }
+        currentAttackCollider.enabled = true;
+
         // Reproduce el sonido de ataque
         if (attackSound != null && audioSource != null)
            audioSource.PlayOneShot(attackSound);
@@ -194,17 +182,16 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
 
     private void StopAttackMesh()
     {
-        if (attackMesh != null)
-            attackMesh.enabled = false;
-
         StopAttack(); 
     }
 
     public void AttackStopEvent()
     {
+        currentAttackCollider.enabled = false;
         isAttacking = false;
         StopAttack();
     }
+
 
     protected override void UpdateTimers()
     {

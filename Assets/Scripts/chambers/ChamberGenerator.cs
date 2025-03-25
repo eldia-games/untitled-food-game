@@ -6,12 +6,12 @@ public class ChamberGenerator : MonoBehaviour
 {
 
     private GameManager _GameManager;
-
-
+    
+    
     void Start()
     {
         _GameManager = GameManager.Instance;
-
+    
         TypeChamberGenerator[] generators = this.GetComponents<TypeChamberGenerator>();
         RoomType type = _GameManager.room;
         int level = _GameManager.tile.x + _GameManager.tile.y;
@@ -23,17 +23,17 @@ public class ChamberGenerator : MonoBehaviour
                 return;
             }
         }
-
-
-
-
+    
+    
+    
+    
     }
 
     //private persistence persistenceobject;
     //void Start()
     //{
     //    persistenceobject = persistence.Instance;
-
+    //
     //    TypeChamberGenerator[] generators = this.GetComponents<TypeChamberGenerator>();
     //    RoomType type = persistenceobject.getType();
     //    int level = persistenceobject.getLevel();
@@ -45,9 +45,9 @@ public class ChamberGenerator : MonoBehaviour
     //            return;
     //        }
     //    }
-
-
-
-
+    //
+    //
+    //
+    //
     //}
 }

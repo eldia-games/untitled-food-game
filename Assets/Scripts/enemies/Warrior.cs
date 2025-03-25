@@ -124,9 +124,7 @@ public class Warrior : BaseEnemy
     {
         if (isBlocking)
         {
-            // Aquí decides cómo afecta el bloqueo:
-            //   - dmg = 0: anulas el daño totalmente
-            //   - dmg *= 0.5f: reduce el daño a la mitad, etc.
+            // Se puede anular el daño o reducirlo.
             dmg = 0;
             Debug.Log("¡Ataque bloqueado con el escudo!");
         }
@@ -134,9 +132,6 @@ public class Warrior : BaseEnemy
         base.OnHurt(dmg, knockback, direction);
     }
 
-    // ---------------------------------------------------------------------
-    //                          ATAQUE
-    // ---------------------------------------------------------------------
     /// <summary>
     /// Se llama cuando la animación de ataque alcanza el punto de impacto
     /// </summary>

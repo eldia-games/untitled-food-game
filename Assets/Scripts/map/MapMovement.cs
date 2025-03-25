@@ -11,7 +11,8 @@ public class MapMovement : MonoBehaviour {
 
   private bool lock_;
   private Vector3 target_;
-  private float targetReached_;
+  private float targetTime_;
+  private bool targetReached_;
 
   private Animator animator_;
   private Transform transform_;
@@ -21,7 +22,8 @@ public class MapMovement : MonoBehaviour {
   void Start() {
     lock_ = false;
     target_ = Vector3.zero;
-    targetReached_ = 0.0f;
+    targetTime_ = 0.0f;
+    targetReached_ = false;
 
     animator_ = GetComponentInChildren<Animator>();
     transform_ = transform;
@@ -33,16 +35,18 @@ public class MapMovement : MonoBehaviour {
     if (target_ == Vector3.zero) return;
 
     Vector3 movement = target_ - transform_.position;
-    transform_.position = Vector3.MoveTowards(transform_.position, target_, movementSpeed * Time.fixedDeltaTime);
-
     Quaternion lookAt = Quaternion.LookRotation(movement, Vector3.up);
     childTransform_.rotation = Quaternion.RotateTowards(childTransform_.rotation, lookAt, rotationSpeed * Time.fixedDeltaTime);
+    if (targetReached_) return;
 
+    transform_.position = Vector3.MoveTowards(transform_.position, target_, movementSpeed * Time.fixedDeltaTime);
     float distance = movement.magnitude;
     animator_.SetFloat("distance", distance);
     if (distance > 1e-6f) return;
 
-    if (targetReached_ < 1e-6f) targetReached_ = Time.time;
+    target_ += Vector3.forward;
+    targetTime_ = Time.time;
+    targetReached_ = true;
   }
 
   public void SetTarget(Vector3 position) {
@@ -60,6 +64,6 @@ public class MapMovement : MonoBehaviour {
   }
 
   public bool TargetReached() {
-    return targetReached_ > 1e-6 && Time.time - targetReached_ > reachDelay;
+    return targetReached_ && Time.time - targetTime_ > reachDelay;
   }
 }

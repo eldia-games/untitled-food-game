@@ -184,6 +184,7 @@ public class UIManager : MonoBehaviour
     }
 
     #region Scene Handling
+
     public void BackToPreviousScene()
     {
         AudioManager.Instance.PlaySFXSelect();
@@ -192,45 +193,20 @@ public class UIManager : MonoBehaviour
         switch (activeSceneIndex)
         {
             case 2:
-                EnterLobbyScene();
+                GameManager.Instance.EnterLobbyScene();
                 break;
 
             case 3:
-                EnterMapScene();
+                GameManager.Instance.EnterMapScene();
                 break;
 
             case 1:
-                EnterMainMenuScene();
+                GameManager.Instance.EnterMainMenuScene();
                 break;
 
             default:
                 break;
         }
-    }
-
-    public void EnterMainMenuScene()
-    {
-        ShowMainMenuCanvas();
-        GameManager.Instance.EnterMainMenuScene();
-
-    }
-
-    public void EnterLobbyScene()
-    {
-        ShowLobbyCanvas();
-        GameManager.Instance.EnterLobbyScene();
-    }
-
-    public void EnterMapScene()
-    {
-        ShowMapCanvas();
-        GameManager.Instance.EnterMapScene();
-    }
-
-    public void EnterChamberScene()
-    {
-        ShowChamberCanvas();
-        GameManager.Instance.EnterChamberScene();
     }
 
     #endregion
