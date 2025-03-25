@@ -17,24 +17,8 @@ BlendTree:
     m_DirectBlendParameter: Xaxis
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 455867200774271528, guid: 9f49dfc188eca384ab6d21c763c5516e, type: 3}
-    m_Threshold: 0.33
-    m_Position: {x: 0, y: 1}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: Xaxis
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 3174661419259135242, guid: 9f49dfc188eca384ab6d21c763c5516e, type: 3}
-    m_Threshold: 0.66
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: distance
-    m_Mirror: 0
-  - serializedVersion: 2
     m_Motion: {fileID: 7060811993321468294, guid: 9f49dfc188eca384ab6d21c763c5516e, type: 3}
-    m_Threshold: 1
+    m_Threshold: 0.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -43,7 +27,7 @@ BlendTree:
   m_BlendParameter: distance
   m_BlendParameterY: Zaxis
   m_MinThreshold: 0
-  m_MaxThreshold: 1
+  m_MaxThreshold: 0.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 803935462}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 021995c8991b89d49abed5bf56ee8f45, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27730325df00a0498015ef870aa6004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chamberType: 2
+  chamberType: 3
   chamberLevel: 2
 --- !u!114 &450636975
 MonoBehaviour:
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 7
   chambers:
-  - {fileID: 3665512600638360782, guid: f279a9733bdc6fb4eb942c7a5dd935d5, type: 3}
+  - {fileID: 3629938239352718021, guid: 571cf9ffb8fb2e44d927de50dd742246, type: 3}
 --- !u!114 &722972523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 5
   chambers:
-  - {fileID: 3665512600638360782, guid: dbd3ace789d71c34a938a727e9fe0478, type: 3}
+  - {fileID: 8316729277433255571, guid: f00459d48c44a144cb049a1f77f3971d, type: 3}
 --- !u!114 &722972524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 3
   chambers:
-  - {fileID: 3665512600638360782, guid: f85ba720b9f08174ab050a9bff0e7dd8, type: 3}
+  - {fileID: 8316729277433255571, guid: a796e09d4e5483643acb12cc4c5e9c04, type: 3}
 --- !u!1001 &766281893
 PrefabInstance:
   m_ObjectHideFlags: 0
