@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Canvas[] ArrayCanvas;
+    [SerializeField] private HealthManaUIManager healthManaUIManager;
+    [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
 
     public static UIManager Instance { get; private set; }
 
@@ -171,7 +174,7 @@ public class UIManager : MonoBehaviour
     {
         HideAllCanvas();
         ShowEndGame();
-        //AudioManager.Instance.PlayMusicEndGame();
+        AudioManager.Instance.PlayEndGameMusic();
     }
 
     public void ExitGame()
@@ -182,6 +185,76 @@ public class UIManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    #region Player Stats UI
+    public void SetMaxHealth(float health)
+    {
+        healthManaUIManager.SetMaxHealth(health);
+    }
+
+    public void SetHealth(float health)
+    {
+        healthManaUIManager.SetHealth(health);
+    }
+
+    public void SetMaxMana(float mana)
+    {
+        healthManaUIManager.SetMaxMana(mana);
+    }
+
+    public void SetMana(float mana)
+    {
+        healthManaUIManager.SetMana(mana);
+    }
+
+    public void RegenMana(float manaRegenRate)
+    {
+        healthManaUIManager.RegenMana(manaRegenRate);
+    }
+
+    public void GainMana(float manaGain)
+    {
+        healthManaUIManager.GainMana(manaGain);
+    }
+
+    public void GainHealth(float healthgain)
+    {
+        healthManaUIManager.GainHealth(healthgain);
+    }
+
+    public void LoseMana(float manalost)
+    {
+        healthManaUIManager.LoseMana(manalost);
+    }
+
+    public void LoseHealth(float healthlost)
+    {
+        healthManaUIManager.LoseHealth(healthlost);
+    }
+
+    #endregion
+
+    #region Weapon Selector
+    public void ShowPrevWeapon()
+    {
+        Debug.Log("Funciona boton");
+        weaponSelectionUIManager.ShowPreviousWeapon();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowNextWeapon()
+    {
+        weaponSelectionUIManager.ShowNextWeapon();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void SelectWeapon()
+    {
+        weaponSelectionUIManager.PlayerSelectedWeapon();
+        GameManager.Instance.EnterMapScene();
+    }
+
+    #endregion 
 
     #region Scene Handling
 
