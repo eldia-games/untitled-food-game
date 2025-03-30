@@ -13,17 +13,6 @@ public class HealthManaUIManager : MonoBehaviour
     public Image healthFill, manaFill;
     public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP;
 
-    static int MANA_BASE_REGEN = 10;
-
-    void Awake()
-    {
-        //deberia llamar a player para preguntar estos parametros
-        //SetMaxHealth(100);
-        //SetMaxMana(100);
-        //
-        //SetHealth(100);
-        //SetMana(100);
-    }
     public void SetMaxHealth(float health) {
         maxhealthTMP.text = health.ToString();
         healthSlider.maxValue = health;

@@ -53,8 +53,6 @@ public class PlayerCombat : MonoBehaviour
 
     private bool invencibility = false;
 
-    private bool playerAlive = true;
-
     public new Camera camera;
     public GameObject player;
     private Vector3 lookAtPosition;
@@ -81,8 +79,6 @@ public class PlayerCombat : MonoBehaviour
 
         HP = (float)maxLife;
         MP = (float)maxMana;
-
-        if(HP > 0) playerAlive = true;
 
         UIManager.Instance.SetMaxHealth(maxLife);
         UIManager.Instance.SetMaxMana(maxMana);
@@ -302,7 +298,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator DeadCooldown()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(4.0f);
         Time.timeScale = 0;
         UIManager.Instance.ShowEndGameCanvas();
     }

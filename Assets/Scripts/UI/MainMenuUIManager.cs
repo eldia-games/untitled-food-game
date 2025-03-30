@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Canvas[] ArrayCanvas;
     [SerializeField] private HealthManaUIManager healthManaUIManager;
+    [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
 
     public static UIManager Instance { get; private set; }
 
@@ -173,7 +174,7 @@ public class UIManager : MonoBehaviour
     {
         HideAllCanvas();
         ShowEndGame();
-        //AudioManager.Instance.PlayMusicEndGame();
+        AudioManager.Instance.PlayEndGameMusic();
     }
 
     public void ExitGame()
@@ -229,6 +230,28 @@ public class UIManager : MonoBehaviour
     public void LoseHealth(float healthlost)
     {
         healthManaUIManager.LoseHealth(healthlost);
+    }
+
+    #endregion
+
+    #region WeaponSelector
+    public void ShowPrevWeapon()
+    {
+        Debug.Log("Funciona boton");
+        weaponSelectionUIManager.ShowPreviousWeapon();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void ShowNextWeapon()
+    {
+        weaponSelectionUIManager.ShowNextWeapon();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void SelectWeapon()
+    {
+        weaponSelectionUIManager.PlayerSelectedWeapon();
+        GameManager.Instance.EnterMapScene();
     }
 
     #endregion 
