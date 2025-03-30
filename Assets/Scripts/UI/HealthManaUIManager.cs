@@ -18,11 +18,11 @@ public class HealthManaUIManager : MonoBehaviour
     void Awake()
     {
         //deberia llamar a player para preguntar estos parametros
-        SetMaxHealth(100);
-        SetMaxMana(100);
-
-        SetHealth(100);
-        SetMana(100);
+        //SetMaxHealth(100);
+        //SetMaxMana(100);
+        //
+        //SetHealth(100);
+        //SetMana(100);
     }
     public void SetMaxHealth(float health) {
         maxhealthTMP.text = health.ToString();
@@ -47,7 +47,7 @@ public class HealthManaUIManager : MonoBehaviour
 
     public void SetMana(float mana)
     {
-        currentManaTMP.text = mana.ToString();
+        currentManaTMP.text = Mathf.RoundToInt(mana).ToString();
         manaSlider.value = mana;
         manaFill.color = manaGradient.Evaluate(manaSlider.normalizedValue);
     }
@@ -56,7 +56,7 @@ public class HealthManaUIManager : MonoBehaviour
     {
         if (manaSlider.value < manaSlider.maxValue)
         {
-           GainMana(manaRegenRate*MANA_BASE_REGEN);
+           GainMana(manaRegenRate);
         }
     }
 

@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
   #region SceneManagement
 
   public void EnterMainMenuScene() {
+    Time.timeScale = 1;
     AudioManager.Instance.PlayMenuMusic();
     UIManager.Instance.ShowMainMenuCanvas();
     ClearMap();
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour {
   }
 
   public void EnterLobbyScene() {
+    Time.timeScale = 1;
     AudioManager.Instance.PlayLobbyMusic();
     UIManager.Instance.ShowLobbyCanvas();
     ClearMap();

@@ -53,6 +53,8 @@ public class PlayerCombat : MonoBehaviour
 
     private bool invencibility = false;
 
+    private bool playerAlive = true;
+
     public new Camera camera;
     public GameObject player;
     private Vector3 lookAtPosition;
@@ -77,8 +79,17 @@ public class PlayerCombat : MonoBehaviour
         _interactor= GetComponent<Interactor>();
         camera = Camera.main;
 
-        //HP = (float)maxLife;
+        HP = (float)maxLife;
         MP = (float)maxMana;
+
+        if(HP > 0) playerAlive = true;
+
+        UIManager.Instance.SetMaxHealth(maxLife);
+        UIManager.Instance.SetMaxMana(maxMana);
+
+        UIManager.Instance.SetHealth(HP);
+        UIManager.Instance.SetMana(MP);
+
         StaminaSlide = 10;
         _colliderMeleeSpin = player.GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
@@ -224,7 +235,9 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            MP += Time.deltaTime * manaRegen;
+            MP += Time.deltaTime * manaRegen / 10;
+
+            UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
         }
 
         //push force
@@ -287,6 +300,13 @@ public class PlayerCombat : MonoBehaviour
         healCooldown = true;
     }
 
+    IEnumerator DeadCooldown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Time.timeScale = 0;
+        UIManager.Instance.ShowEndGameCanvas();
+    }
+
     public void OnAttack()
     {
         //print("attacking");
@@ -305,7 +325,14 @@ public class PlayerCombat : MonoBehaviour
             if (MP >= manaCost)
             {
                 MP -= manaCost;
+
+                UIManager.Instance.LoseMana(manaCost);
+
                 CreateBullet();
+            }
+            else
+            {
+                //Ventana emergente no suficiente mana
             }
         }
         else if(weaponIndex == 1)
@@ -349,6 +376,9 @@ public class PlayerCombat : MonoBehaviour
         {
             invencibility = true;
             HP -= damage;
+
+            UIManager.Instance.LoseHealth(damage);
+
             _anim.SetTrigger("Hurt");
             _anim.SetFloat("HP", HP);
             TakePush(pushForce, position);
@@ -374,6 +404,9 @@ public class PlayerCombat : MonoBehaviour
         print("heal");
         //Make player heal
         HP += heal;
+
+        UIManager.Instance.GainHealth(heal);
+
         weaponIndexOld = weaponIndex;
         weaponIndex = 3;
         _anim.SetFloat("Weapon", weaponIndex);
@@ -411,6 +444,7 @@ public class PlayerCombat : MonoBehaviour
         //desactivar el script de movimiento y el de input
         enabled = false;
         _handler.enabled = false;
+        StartCoroutine(DeadCooldown());
         //activar mensaje o cutscene de muerte
     }
 
