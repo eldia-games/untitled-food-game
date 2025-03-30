@@ -9,7 +9,6 @@ public class ObjectDrop : Spawneable
     public Items item;
 
     public int indexLoot;
-    public Collider hitbox;
     public int quantity=0;
 
     void OnTriggerEnter(Collider hitInfo)

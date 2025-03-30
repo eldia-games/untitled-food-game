@@ -9,26 +9,26 @@ public class Interactable: MonoBehaviour
     [SerializeField] private UnityEvent<GameObject> interactFunction;
     [SerializeField] private String actionName;
     [SerializeField] private InteractionType type; 
-    private bool actived = true;
+    private bool activated = true;
 
     public void Interact()
     {
-        if (actived)
+        if (activated)
         {
             interactFunction.Invoke(gameObject);
         }
     }
-    public void Active()
+    public void Activate()
     {
-        actived = true;
+        activated = true;
     }
-    public void Desactive()
+    public void Deactivate()
     {
-        actived = false;
+        activated = false;
     }
     public bool isActive()
     {
-        return actived;
+        return activated;
     }
     public string getAction()
     {
