@@ -86,7 +86,7 @@ public class DungeonGenerator : MonoBehaviour {
           Instantiate(grass, position, rotation, transform_);
         } else {
           GameObject room = Instantiate(frame, position, rotation, transform_);
-          room.GetComponent<DungeonTile>().Create(rooms[i * size + j]);
+          room.GetComponent<DungeonTile>().Create(rooms[i * size + j], j == 0 && i == size / 2);
         }
       }
     }
