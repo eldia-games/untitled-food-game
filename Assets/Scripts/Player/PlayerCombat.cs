@@ -72,6 +72,7 @@ public class PlayerCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.enabled = false;
         rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
@@ -85,7 +86,6 @@ public class PlayerCombat : MonoBehaviour
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
-        this.enabled = false;
         InventoryManager.Instance.setPlayer(player);
     }
 

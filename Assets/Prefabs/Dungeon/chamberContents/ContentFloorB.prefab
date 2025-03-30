@@ -9837,6 +9837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 291755688302514170}
   - component: {fileID: 5444210841576852147}
+  - component: {fileID: 5000320640862937702}
   m_Layer: 0
   m_Name: ContentFloorB
   m_TagString: Untagged
@@ -9935,6 +9936,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 28, y: 1, z: 28}
   m_Center: {x: 0, y: -0.45, z: 0}
+--- !u!114 &5000320640862937702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945463160871829487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c1e6c9c628e334fa902b241de6b3e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exit: {fileID: 0}
+  lever: {fileID: 0}
+  player: {fileID: 0}
+  doors: []
+  spawns: []
 --- !u!1 &6960798728037468167
 GameObject:
   m_ObjectHideFlags: 0
