@@ -66,10 +66,10 @@ public class GameManager : MonoBehaviour {
   }
 
   public void EnterMapScene() {
+    SceneManager.LoadScene("Map");
     AudioManager.Instance.PlayMapMusic();
     UIManager.Instance.ShowMapCanvas();
-    SceneManager.LoadScene("Map");
-  }
+    }
 
   public void EnterChamberScene() {
     AudioManager.Instance.PlayChamberMusic();
