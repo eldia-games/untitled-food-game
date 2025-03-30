@@ -65,7 +65,7 @@ public class DungeonController : MonoBehaviour,IChamberController
         playerAnimator.SetFloat("Moving", 1);
         StartCoroutine(EnterDungeon());
     }
-
+   
     // Update is called once per frame
     public void initiallise(int level)
     {
@@ -108,6 +108,9 @@ public class DungeonController : MonoBehaviour,IChamberController
                     monsterList.Add(instancedObject);
                     monstersSpawned[spawnPoint] += 1;
                     enemiesLeft++;
+                    if (trap)
+                    {
+                    }
 
 
                 }
@@ -165,7 +168,10 @@ public class DungeonController : MonoBehaviour,IChamberController
         player.GetComponent<PlayerCombat>().enabled = true;
         for (int i = 0; i < monsterList.Count; i++)
         {
-            monsterList[i].GetComponent<BaseEnemy>().SetPlayer(player);
+            BaseEnemy en = monsterList[i].GetComponent<BaseEnemy>();
+            en.SetPlayer(player);
+            en.dieEvent = new UnityEngine.Events.UnityEvent();
+            en.dieEvent.AddListener(killEnemy);
         }
     }
 
