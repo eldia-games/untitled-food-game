@@ -18,7 +18,7 @@ public class Minion : BaseEnemy
     public float jumpAttackCooldown = 8f; // el tiempo mínimo entre saltos
     private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último salto
 
-    private Collider currentAttackCollider; // El collider del ataque actual
+    public Collider currentAttackCollider; // El collider del ataque actual
 
     protected override void Start()
     {
@@ -109,10 +109,16 @@ public class Minion : BaseEnemy
         Vector3 randomDirection = Random.insideUnitCircle.normalized;
         float randomRadius = Random.Range(1f, 3f);
         Vector3 randomOffset = randomDirection * randomRadius;
-        chargeAttackTarget = player.transform.position + new Vector3(randomOffset.x, 0, randomOffset.y);
-        // Si no está en el NavMesh, no aplicamos el offset
-        if (!NavMesh.SamplePosition(chargeAttackTarget, out NavMeshHit hit, 1f, NavMesh.AllAreas)){
-           chargeAttackTarget = player.transform.position;
+        Vector3 targetPos = player.transform.position + new Vector3(randomOffset.x, 0, randomOffset.y);
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(targetPos, out hit, 1f, NavMesh.AllAreas))
+        {
+            chargeAttackTarget = hit.position; // Usa la posición correcta del NavMesh, que incluye la altura.
+        }
+        else
+        {
+            chargeAttackTarget = player.transform.position;
         }
 
         yield return new WaitForSeconds(0.1f);
@@ -161,6 +167,16 @@ public class Minion : BaseEnemy
 
         // Reactivar NavMeshAgent
         agent.enabled = true;
+        NavMeshHit nhit;
+        if (NavMesh.SamplePosition(endPos, out nhit, 1f, NavMesh.AllAreas))
+        {
+            agent.Warp(nhit.position);
+        }
+        else
+        {
+            // Si no se encuentra una posición válida, usa la posición original o maneja el error
+            agent.Warp(endPos);
+        }
         AllowMovement();
 
         jumpingAttack = false;
