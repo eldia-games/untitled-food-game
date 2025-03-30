@@ -9,8 +9,11 @@ public class DungeonGenerator : MonoBehaviour {
   private const int WEST  = 1 << 3;
 
   [SerializeField] private GameObject frame;
+  [SerializeField] private GameObject grass;
+  [SerializeField] private GameObject exit;
   [SerializeField] private int scale;
-  [SerializeField] private int size;
+  [SerializeField, Range(1, 9)] private int size;
+  [SerializeField, Range(1, 5)] private int padding;
 
   private List<int> rooms;
   private Transform transform_;
@@ -73,12 +76,18 @@ public class DungeonGenerator : MonoBehaviour {
 
   private void Create() {
     Vector3 origin = new Vector3(size * -.5f, 0, 0);
-    for (int i = 0; i < size; ++i) {
-      for (int j = 0; j < size; ++j) {
+    for (int i = -padding; i < size + padding; ++i) {
+      for (int j = -padding; j < size + padding; ++j) {
         Vector3 position = (origin + Vector3.right * i + Vector3.forward * j) * scale;
         Quaternion rotation = Quaternion.identity;
-        GameObject room = Instantiate(frame, position, rotation, transform_);
-        room.GetComponent<DungeonTile>().Create(rooms[i * size + j]);
+        if (j == -1 && i == size / 2) {
+          Instantiate(exit, position, rotation, transform_);
+        } else if (i < 0 || i >= size || j < 0 || j >= size) {
+          Instantiate(grass, position, rotation, transform_);
+        } else {
+          GameObject room = Instantiate(frame, position, rotation, transform_);
+          room.GetComponent<DungeonTile>().Create(rooms[i * size + j]);
+        }
       }
     }
   }
