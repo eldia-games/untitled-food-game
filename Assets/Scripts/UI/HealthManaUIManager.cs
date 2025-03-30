@@ -17,7 +17,6 @@ public class HealthManaUIManager : MonoBehaviour
         maxhealthTMP.text = health.ToString();
         healthSlider.maxValue = health;
         healthFill.color = healthGradient.Evaluate(1.0f);
-
     }
 
     public void SetHealth(float health) {

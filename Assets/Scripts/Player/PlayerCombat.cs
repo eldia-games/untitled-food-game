@@ -78,7 +78,7 @@ public class PlayerCombat : MonoBehaviour
         _interactor= GetComponent<Interactor>();
         camera = Camera.main;
 
-        HP = (float)maxLife;
+        //HP = (float)maxLife;
         MP = (float)maxMana;
 
         UIManager.Instance.SetMaxHealth(maxLife);
@@ -318,7 +318,6 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator DeadCooldown()
     {
         yield return new WaitForSeconds(4.0f);
-        Time.timeScale = 0;
         UIManager.Instance.ShowEndGameCanvas();
     }
 

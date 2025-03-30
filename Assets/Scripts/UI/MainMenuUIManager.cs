@@ -234,7 +234,7 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
-    #region WeaponSelector
+    #region Weapon Selector
     public void ShowPrevWeapon()
     {
         Debug.Log("Funciona boton");
