@@ -7,10 +7,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public static PlayerCombat Instance { get; private set; }
 
     public Animator _anim;
-
     public PlayerStats PlayerStats;
 
     //private Interactor _interactor;
@@ -52,6 +50,8 @@ public class PlayerCombat : MonoBehaviour
 
     private bool interactAvailable = true;
 
+    private bool invencibility = false;
+
     public new Camera camera;
     public GameObject player;
     private Vector3 lookAtPosition;
@@ -60,44 +60,59 @@ public class PlayerCombat : MonoBehaviour
 
     private SphereCollider _colliderMeleeSpin;
     private BoxCollider _colliderMelee;
+    private Interactor _interactor;
+
+    private Rigidbody rb;
+
+    private Vector3 mousePosition;
 
     #endregion
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-        DontDestroyOnLoad(gameObject);
-    }
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
+        _interactor= GetComponent<Interactor>();
         camera = Camera.main;
 
-        HP = (float)maxLife;
+        //HP = (float)maxLife;
         MP = (float)maxMana;
         StaminaSlide = 10;
-        _colliderMeleeSpin = GetComponent<SphereCollider>();
+        _colliderMeleeSpin = player.GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
-        _colliderMelee = GetComponent<BoxCollider>();
+        _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
+        this.enabled = false;
+        InventoryManager.Instance.setPlayer(player);
     }
 
     void Update()
     {
+        //If player is on air (ray cast) set gravity to gravity, else set to 10
+        Vector3 offset = new Vector3(0, 0.5f, 0.5f);
+        //rotate offset based on player direction
+        offset = player.transform.TransformDirection(offset);
+        Debug.DrawRay(transform.position + offset, Vector3.down, Color.red);
+        if (Physics.Raycast(transform.position + offset, Vector3.down, 0.6f))
+        {
+            
+            Physics.gravity = new Vector3(0,-5,0);
+            //Debug.Log("Grounded");
+            
+        }
+        else
+        {
+            Physics.gravity = new Vector3(0, -200, 0);
+            //Debug.Log("Not Grounded");
+        }
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Weapons
 
-        //weapons: 0 axe, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
+        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
         _anim.SetFloat("Weapon", weaponIndex);
 
         //VelAttack to animator
@@ -120,15 +135,23 @@ public class PlayerCombat : MonoBehaviour
         else
             moving = 0;
         _anim.SetFloat("Moving", moving);
+        
+        // Adjust movement direction based on the rotation of the gameobject
+        Vector3 movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
+        Vector3 adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed;
+        rb.velocity = adjustedMovement;
+        //Vector3 movement = new Vector3(_handler.input.x, 0, _handler.input.y).normalized * MovementSpeed;
+        //rb.velocity = movement;
+        //transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed));
+        //transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
 
-        transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed));
-        transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed));
 
         //player rotate to wasd
         if (attackAvailable)
         {
             player.transform.position = transform.position;
-            lookAtPosition = player.transform.position + new Vector3(_handler.input.x, 0, _handler.input.y);
+            lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
+            
             player.transform.LookAt(lookAtPosition);
             player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         }
@@ -139,6 +162,7 @@ public class PlayerCombat : MonoBehaviour
         //slide
         if (_handler.slide && StaminaSlide == 10)
         {
+            invencibility = true;
             _anim.SetTrigger("Slide");
             StaminaSlide = 0;
             slideForce = true;
@@ -150,11 +174,18 @@ public class PlayerCombat : MonoBehaviour
         //attack
         if (_handler.attack)
         {
-
-            Vector3 mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.y));
-            //print(mousePosition);
-            player.transform.LookAt(mousePosition);
-            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+            //Fixed rotation player attack
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            var plane = new Plane(Vector3.up, player.transform.position);
+            if (plane.Raycast(ray, out float distance))
+            {
+                mousePosition = ray.GetPoint(distance);
+                //Debug.DrawLine(ray.origin, mousePosition, Color.red);
+                lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
+                //Debug.DrawLine(player.transform.position, lookAtPosition, Color.green);
+                player.transform.LookAt(lookAtPosition);
+                player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+            }
 
             if (attackAvailable)
             {
@@ -170,8 +201,11 @@ public class PlayerCombat : MonoBehaviour
         if (slideForce)
         {
             //print("sliding");
-            transform.Translate(Vector3.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
-            transform.Translate(Vector3.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
+        movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
+        adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed * 2.0f;
+        rb.velocity = adjustedMovement;
+            //transform.Translate(-transform.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
+            //transform.Translate(-transform.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
         }
 
         //Interact
@@ -248,12 +282,19 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f * (1 / velSlide));
         slideForce = false;
+        invencibility = false;
     }
 
     IEnumerator PushForceCooldown()
     {
         yield return new WaitForSeconds(0.2f);
         pushForce = false;
+    }
+
+    IEnumerator HurtCooldown()
+    {
+        yield return new WaitForSeconds(0.2f);
+        invencibility = false;
     }
 
     IEnumerator HealCooldown()
@@ -302,18 +343,32 @@ public class PlayerCombat : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //If the collider is melee, make damage to the enemy
-        if (_colliderMeleeSpin.enabled)
+        if ( _colliderMeleeSpin.enabled)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if(collision.gameObject.tag == "Enemy")
             {
-                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+                //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
             }
         }
-        if (_colliderMelee.enabled)
+        if ( _colliderMelee.enabled)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if(collision.gameObject.tag == "Enemy")
             {
-                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+            //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
+                BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
             }
         }
     }
@@ -322,11 +377,18 @@ public class PlayerCombat : MonoBehaviour
     public void OnHurt(float damage, float pushForce, Vector3 position)
     {
         print("hurt");
-        //Make player take damage
-        HP -= damage;
-        _anim.SetTrigger("Hurt");
-        _anim.SetFloat("HP", HP);
-        TakePush(pushForce, position);
+        //Make player take damage if not in invincibility
+        if(!invencibility)
+        {
+            invencibility = true;
+            HP -= damage;
+            _anim.SetTrigger("Hurt");
+            _anim.SetFloat("HP", HP);
+            TakePush(pushForce, position);
+            StartCoroutine(HurtCooldown());
+            //Audio take damage sound
+            //AudioManager.Instance.PlaySound("PlayerHurt", transform.position);
+        }
     }
 
     private void TakePush(float Force, Vector3 position)
@@ -343,38 +405,54 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnHeal(float heal)
     {
-        healCooldown = false;
-        print("heal");
-        //Make player heal
-        HP += heal;
-        weaponIndexOld = weaponIndex;
-        weaponIndex = 3;
-        _anim.SetFloat("Weapon", weaponIndex);
-        _anim.SetTrigger("Attack");
-        _anim.SetFloat("HP", HP);
-        StartCoroutine(HealCooldown());
+        bool beerFound = false;
+        //Search in the scene for the inventory manager
+        for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+        {
+            if (InventoryManager.Instance.items[i].item.itemName == "Beer")
+            {
+                beerFound = true;
+                //Remove the item from the inventory
+                InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+
+                healCooldown = false;
+                print("heal");
+                //Make player heal
+                HP += heal;
+                weaponIndexOld = weaponIndex;
+                weaponIndex = 3;
+                _anim.SetFloat("Weapon", weaponIndex);
+                _anim.SetTrigger("Attack");
+                _anim.SetFloat("HP", HP);
+                StartCoroutine(HealCooldown());
+                break;
+            }   
+        }
+        if (!beerFound)
+        {
+            print("You need a beer to heal");
+        }
     }
 
     public void onInteract()
     {
         interactAvailable = false;
         //Only activate Interact on getInteract if the object is interactable
-        //switch(_interactor.getInteractionType()){
-        //case None;
-        //break;
-        //case NormalInteraction;
-        //_anim.SetTrigger("Interact");
-        //    StartCoroutine(InteractCooldown());
-        //break;
-        //case.....
+        switch (_interactor.GetInteractionType()) {
+            case InteractionType.None:
+                break;
 
-        //final:
-        //Interactor.interact();
-        //}
-        if(true){
-            _anim.SetTrigger("Interact");
-            StartCoroutine(InteractCooldown());
+            case InteractionType.NormalInteraction :
+                _anim.SetTrigger("Interact");
+                break;
+            //case InteractionType.FirePlaceInteraction :
+            //    _anim.SetTrigger("Interact");
+            //    StartCoroutine(InteractCooldown());
+            //    break;
+
         }
+        StartCoroutine(InteractCooldown());
+        _interactor.interact();
         //interact with objects}
 
     }
@@ -385,6 +463,7 @@ public class PlayerCombat : MonoBehaviour
         //desactivar el script de movimiento y el de input
         enabled = false;
         _handler.enabled = false;
+        invencibility = true;
         //activar mensaje o cutscene de muerte
     }
 
@@ -403,8 +482,14 @@ public class PlayerCombat : MonoBehaviour
         bullet.GetComponent<Bullet>().damageModifier = damageModifier;
         bullet.GetComponent<Bullet>().pushModifier = pushModifier;
 
-        // Destroy the bullet after 2 seconds
-        Destroy(bullet, 2.0f);
+        // Destroy the bullet after 5 seconds
+        Destroy(bullet, 5.0f);
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(mousePosition, 0.5f);
+    }
 }

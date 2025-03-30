@@ -4,22 +4,50 @@ using UnityEngine;
 
 public class ChamberGenerator : MonoBehaviour
 {
-    //private  List generators;
-    private persistence persistenceInstance;
 
+    private GameManager _GameManager;
+    
     
     void Start()
     {
-        persistenceInstance = persistence.Instance;
-
+        _GameManager = GameManager.Instance;
+    
         TypeChamberGenerator[] generators = this.GetComponents<TypeChamberGenerator>();
-        int type = persistenceInstance.getType();
-        if (type <= generators.Length)
+        RoomType type = _GameManager.room;
+        int level = _GameManager.tile.x + _GameManager.tile.y;
+        for (int i = 0; i < generators.Length; i++)
         {
-            generators[type].createChamber(persistenceInstance.getLevel());
+            if (type == generators[i].getChamberType())
+            {
+                generators[i].createChamber(level);
+                return;
+            }
         }
-
-
-
+    
+    
+    
+    
     }
+
+    //private persistence persistenceobject;
+    //void Start()
+    //{
+    //    persistenceobject = persistence.Instance;
+    //
+    //    TypeChamberGenerator[] generators = this.GetComponents<TypeChamberGenerator>();
+    //    RoomType type = persistenceobject.getType();
+    //    int level = persistenceobject.getLevel();
+    //    for (int i = 0; i < generators.Length; i++)
+    //    {
+    //        if (type == generators[i].getChamberType())
+    //        {
+    //            generators[i].createChamber(level);
+    //            return;
+    //        }
+    //    }
+    //
+    //
+    //
+    //
+    //}
 }
