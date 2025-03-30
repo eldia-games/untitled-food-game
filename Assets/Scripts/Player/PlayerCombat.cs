@@ -9,7 +9,6 @@ public class PlayerCombat : MonoBehaviour
 {
 
     public Animator _anim;
-
     public PlayerStats PlayerStats;
 
     //private Interactor _interactor;
@@ -65,6 +64,8 @@ public class PlayerCombat : MonoBehaviour
 
     private Rigidbody rb;
 
+    private Vector3 mousePosition;
+
     #endregion
 
 
@@ -90,10 +91,28 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        //If player is on air (ray cast) set gravity to gravity, else set to 10
+        Vector3 offset = new Vector3(0, 0.5f, 0.5f);
+        //rotate offset based on player direction
+        offset = player.transform.TransformDirection(offset);
+        Debug.DrawRay(transform.position + offset, Vector3.down, Color.red);
+        if (Physics.Raycast(transform.position + offset, Vector3.down, 0.6f))
+        {
+            
+            Physics.gravity = new Vector3(0,-5,0);
+            //Debug.Log("Grounded");
+            
+        }
+        else
+        {
+            Physics.gravity = new Vector3(0, -200, 0);
+            //Debug.Log("Not Grounded");
+        }
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Weapons
 
-        //weapons: 0 axe, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
+        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
         _anim.SetFloat("Weapon", weaponIndex);
 
         //VelAttack to animator
@@ -155,18 +174,18 @@ public class PlayerCombat : MonoBehaviour
         //attack
         if (_handler.attack)
         {
-
+            //Fixed rotation player attack
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            Plane plane = new Plane(Vector3.up, Vector3.zero);
-            float distance;
-            Vector3 mousePosition = Vector3.zero;
-            if (plane.Raycast(ray, out distance))
+            var plane = new Plane(Vector3.up, player.transform.position);
+            if (plane.Raycast(ray, out float distance))
             {
                 mousePosition = ray.GetPoint(distance);
+                //Debug.DrawLine(ray.origin, mousePosition, Color.red);
+                lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
+                //Debug.DrawLine(player.transform.position, lookAtPosition, Color.green);
+                player.transform.LookAt(lookAtPosition);
+                player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
             }
-            //print(mousePosition);
-            player.transform.LookAt(mousePosition);
-            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
 
             if (attackAvailable)
             {
@@ -326,16 +345,30 @@ public class PlayerCombat : MonoBehaviour
         //If the collider is melee, make damage to the enemy
         if ( _colliderMeleeSpin.enabled)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if(collision.gameObject.tag == "Enemy")
             {
-                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+                //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
             }
         }
         if ( _colliderMelee.enabled)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if(collision.gameObject.tag == "Enemy")
             {
-                //collision.gameObject.GetComponent<Enemy>().OnHurt(damage, PushForce, transform.position);
+            //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
+                BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
             }
         }
     }
@@ -353,6 +386,8 @@ public class PlayerCombat : MonoBehaviour
             _anim.SetFloat("HP", HP);
             TakePush(pushForce, position);
             StartCoroutine(HurtCooldown());
+            //Audio take damage sound
+            //AudioManager.Instance.PlaySound("PlayerHurt", transform.position);
         }
     }
 
@@ -370,16 +405,34 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnHeal(float heal)
     {
-        healCooldown = false;
-        print("heal");
-        //Make player heal
-        HP += heal;
-        weaponIndexOld = weaponIndex;
-        weaponIndex = 3;
-        _anim.SetFloat("Weapon", weaponIndex);
-        _anim.SetTrigger("Attack");
-        _anim.SetFloat("HP", HP);
-        StartCoroutine(HealCooldown());
+        bool beerFound = false;
+        //Search in the scene for the inventory manager
+        for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+        {
+            if (InventoryManager.Instance.items[i].item.itemName == "Beer")
+            {
+                beerFound = true;
+                //Remove the item from the inventory
+                //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.items[i].item, 1);
+
+                healCooldown = false;
+                print("heal");
+                //Make player heal
+                HP += heal;
+                weaponIndexOld = weaponIndex;
+                weaponIndex = 3;
+                _anim.SetFloat("Weapon", weaponIndex);
+                _anim.SetTrigger("Attack");
+                _anim.SetFloat("HP", HP);
+                StartCoroutine(HealCooldown());
+                break;
+            }   
+        }
+        if (!beerFound)
+        {
+            print("You need a beer to heal");
+        }
     }
 
     public void onInteract()
@@ -411,6 +464,7 @@ public class PlayerCombat : MonoBehaviour
         //desactivar el script de movimiento y el de input
         enabled = false;
         _handler.enabled = false;
+        invencibility = true;
         //activar mensaje o cutscene de muerte
     }
 
@@ -433,4 +487,10 @@ public class PlayerCombat : MonoBehaviour
         Destroy(bullet, 5.0f);
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(mousePosition, 0.5f);
+    }
 }

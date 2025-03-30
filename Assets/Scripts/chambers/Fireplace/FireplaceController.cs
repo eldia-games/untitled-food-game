@@ -32,7 +32,7 @@ public class FireplaceController : MonoBehaviour, IChamberController
             healed = true;
             fire.SetActive(false);
             PlayerStatsController.Instance.healprct(healLevel);
-            fireplace.GetComponent<Interactable>().Desactive();
+            fireplace.GetComponent<Interactable>().Deactivate();
 
         }
     }
