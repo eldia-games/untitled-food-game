@@ -5,7 +5,7 @@ using UnityEngine;
 public class persistence : MonoBehaviour
 {
     public static persistence Instance { get; private set; }
-   [SerializeField] private RoomType chamberType;
+    [SerializeField] private RoomType chamberType;
     [SerializeField] private int chamberLevel;
     private void Awake()
     {
