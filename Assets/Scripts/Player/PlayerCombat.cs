@@ -413,7 +413,8 @@ public class PlayerCombat : MonoBehaviour
             {
                 beerFound = true;
                 //Remove the item from the inventory
-                InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.items[i].item, 1);
 
                 healCooldown = false;
                 print("heal");
