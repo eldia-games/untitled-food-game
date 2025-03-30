@@ -29,7 +29,7 @@ public class PlayerCombat : MonoBehaviour
     private float manaCost => PlayerStats.manaCost;
     private float manaRegen => PlayerStats.manaRegen;
     private int weaponIndex { get => PlayerStats.weaponIndex; set => PlayerStats.weaponIndex = value; }
-    private GameObject weaponType => PlayerStats.weaponType;
+    private GameObject weaponType;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     #region privateVariables
@@ -81,6 +81,15 @@ public class PlayerCombat : MonoBehaviour
         //HP = (float)maxLife;
         MP = (float)maxMana;
 
+        weaponIndex = GameManager.Instance.getCurrentWeaponType();
+        if(weaponIndex == 2)
+            weaponType = PlayerStats.weaponType[0];
+        if(weaponIndex == 4)
+            weaponType = PlayerStats.weaponType[1];
+
+        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
+        _anim.SetFloat("Weapon", weaponIndex);
+
         UIManager.Instance.SetMaxHealth(maxLife);
         UIManager.Instance.SetMaxMana(maxMana);
 
@@ -94,6 +103,7 @@ public class PlayerCombat : MonoBehaviour
         _colliderMelee.enabled = false;
         this.enabled = false;
         InventoryManager.Instance.setPlayer(player);
+        
     }
 
     void Update()
@@ -118,9 +128,6 @@ public class PlayerCombat : MonoBehaviour
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Weapons
-
-        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
-        _anim.SetFloat("Weapon", weaponIndex);
 
         //VelAttack to animator
         _anim.SetFloat("VelAttack", velAttack);

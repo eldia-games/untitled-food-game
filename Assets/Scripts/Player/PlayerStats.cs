@@ -59,9 +59,9 @@ public class PlayerStats : ScriptableObject
     [Range(0,5)]
     public int weaponIndex = 0;
 
-    [Header("WeaponType (If to change the bullet type)")]
+    [Header("Bullets: 0 = Arrow, 1 = Fireball")]
     //Supose to be a prefab of the bullet, changed before the run starts
-    public GameObject weaponType;
+    public List<GameObject> weaponType;
 
     #endregion
 
@@ -70,9 +70,4 @@ public class PlayerStats : ScriptableObject
     {
         DontDestroyOnLoad(this);
     }
-
-
-
-
-
 }
