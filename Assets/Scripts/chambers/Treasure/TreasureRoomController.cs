@@ -63,7 +63,7 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
                     itemToSpwn= items[i];
                     Debug.Log(itemToSpwn);
                 }
-                chest.GetComponent<Interactable>().Desactive();
+                chest.GetComponent<Interactable>().Deactivate();
             }
             if (itemToSpwn != null)
             {
