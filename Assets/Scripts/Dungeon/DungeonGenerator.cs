@@ -18,10 +18,10 @@ public class DungeonGenerator : MonoBehaviour {
   private List<int> rooms;
   private Transform transform_;
 
-  void Start() {
+  public void Initialize(DungeonController controller) {
     Initialize();
     Connect();
-    Create();
+    Create(controller);
   }
 
   private void Initialize() {
@@ -74,19 +74,20 @@ public class DungeonGenerator : MonoBehaviour {
     }
   }
 
-  private void Create() {
+  private void Create(DungeonController controller) {
     Vector3 origin = new Vector3(size * -.5f, 0, 0);
     for (int i = -padding; i < size + padding; ++i) {
       for (int j = -padding; j < size + padding; ++j) {
         Vector3 position = (origin + Vector3.right * i + Vector3.forward * j) * scale;
         Quaternion rotation = Quaternion.identity;
         if (j == -1 && i == size / 2) {
-          Instantiate(exit, position, rotation, transform_);
+          GameObject room = Instantiate(exit, position, rotation, transform_);
+          room.GetComponent<DungeonChamber>().Create(controller);
         } else if (i < 0 || i >= size || j < 0 || j >= size) {
           Instantiate(grass, position, rotation, transform_);
         } else {
           GameObject room = Instantiate(frame, position, rotation, transform_);
-          room.GetComponent<DungeonTile>().Create(rooms[i * size + j], j == 0 && i == size / 2);
+          room.GetComponent<DungeonTile>().Create(rooms[i * size + j], j == 0 && i == size / 2, controller);
         }
       }
     }
