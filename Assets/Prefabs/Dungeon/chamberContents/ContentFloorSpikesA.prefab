@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9213028049172514303}
   - component: {fileID: 8254066980034586962}
   - component: {fileID: 2035966332753086045}
+  - component: {fileID: 2736009941154710852}
   m_Layer: 0
   m_Name: ContentFloorSpikesA
   m_TagString: Untagged
@@ -125,6 +126,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &2736009941154710852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2786751992166885412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c1e6c9c628e334fa902b241de6b3e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exit: {fileID: 0}
+  lever: {fileID: 0}
+  player: {fileID: 0}
+  doors: []
+  spawns: []
 --- !u!1001 &50814100047647974
 PrefabInstance:
   m_ObjectHideFlags: 0
