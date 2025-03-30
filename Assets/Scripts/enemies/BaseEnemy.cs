@@ -243,7 +243,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Dejar de atacar tras la animación
     /// </summary>
-    protected virtual void StopAttack()
+    public virtual void StopAttack()
     {
         isAttacking = false;
     }
@@ -275,7 +275,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Rota el GameObject suavemente hacia un punto.
     /// </summary>
-    protected virtual void RotateTowards(Vector3 targetPos)
+    public virtual void RotateTowards(Vector3 targetPos)
     {
         Vector3 direction = (targetPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -331,7 +331,7 @@ public abstract class BaseEnemy : MonoBehaviour
         Invoke(nameof(DestroyEnemy), 2f);
     }
 
-    protected virtual void DestroyEnemy()
+    public virtual void DestroyEnemy()
     {
         Destroy(gameObject);
     }
@@ -376,7 +376,7 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).
     /// </summary>
-    protected virtual Vector3 PredictFuturePosition(float projectileSpeed)
+    public virtual Vector3 PredictFuturePosition(float projectileSpeed)
     {
         if (player == null) return transform.position;
 

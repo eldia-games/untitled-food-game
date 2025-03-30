@@ -29,6 +29,12 @@ public class SpellProjectileManual : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
+    public void SetSpeed(float speed)
+    {
+        // Set the initial direction of the spell
+        this.speed = speed;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         // Check if it hits the player
