@@ -178,8 +178,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayEndGameMusic();
     }
 
-    private void ShowPopUpCanvas()
+    public void ShowPopUpCanvas(string action)
     {
+        popUpUIManager.displayUI(action);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
     }

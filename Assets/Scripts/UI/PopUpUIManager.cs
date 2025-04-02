@@ -25,27 +25,27 @@ public class PopUpUIManager : MonoBehaviour
     [SerializeField] private Image spriteDisplayImage;
     [SerializeField] private TMP_Text textPopUp;
 
-    private void displayUI(int index)
+    public void displayUI(string action)
     {
-        spriteDisplayImage.sprite = panels[index].panelImage;
-        textPopUp.text = panels[index].panelText;
-        print("panel index: " + index);
+        spriteDisplayImage.sprite = panels[0].panelImage;
+        textPopUp.text = panels[0].panelText + " " + action;
+        print("panel index: " + 0);
     }
 
-    public void useLeverPanel()
-    {
-        displayUI(panelIndex["Lever"]);
-    }
-
-    public void useDoorPanel()
-    {
-        displayUI(panelIndex["Door"]);
-    }
-
-    public void useChestPanel()
-    {
-        displayUI(panelIndex["Chest"]);
-    }
+   //public void useLeverPanel()
+   //{
+   //    displayUI(panelIndex["Lever"]);
+   //}
+   //
+   //public void useDoorPanel()
+   //{
+   //    displayUI(panelIndex["Door"]);
+   //}
+   //
+   //public void useChestPanel()
+   //{
+   //    displayUI(panelIndex["Chest"]);
+   //}
 
 
 }
