@@ -32,7 +32,7 @@ public class Interactable: MonoBehaviour
     }
     public string getAction()
     {
-        return actionName;
+        return actionName!=null? actionName : "";
     }
     public InteractionType getType()
     {
