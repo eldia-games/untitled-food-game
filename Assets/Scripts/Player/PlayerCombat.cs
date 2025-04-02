@@ -29,7 +29,7 @@ public class PlayerCombat : MonoBehaviour
     private float manaCost => PlayerStats.manaCost;
     private float manaRegen => PlayerStats.manaRegen;
     private int weaponIndex { get => PlayerStats.weaponIndex; set => PlayerStats.weaponIndex = value; }
-    private GameObject weaponType => PlayerStats.weaponType;
+    private GameObject weaponType;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     #region privateVariables
@@ -72,6 +72,7 @@ public class PlayerCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.enabled = false;
         rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
@@ -80,13 +81,29 @@ public class PlayerCombat : MonoBehaviour
 
         //HP = (float)maxLife;
         MP = (float)maxMana;
+
+        weaponIndex = GameManager.Instance.getCurrentWeaponType();
+        if(weaponIndex == 2)
+            weaponType = PlayerStats.weaponType[0];
+        if(weaponIndex == 4)
+            weaponType = PlayerStats.weaponType[1];
+
+        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
+        _anim.SetFloat("Weapon", weaponIndex);
+
+        UIManager.Instance.SetMaxHealth(maxLife);
+        UIManager.Instance.SetMaxMana(maxMana);
+
+        UIManager.Instance.SetHealth(HP);
+        UIManager.Instance.SetMana(MP);
+
         StaminaSlide = 10;
         _colliderMeleeSpin = player.GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
-        this.enabled = false;
         InventoryManager.Instance.setPlayer(player);
+        
     }
 
     void Update()
@@ -111,9 +128,6 @@ public class PlayerCombat : MonoBehaviour
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///Weapons
-
-        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
-        _anim.SetFloat("Weapon", weaponIndex);
 
         //VelAttack to animator
         _anim.SetFloat("VelAttack", velAttack);
@@ -243,7 +257,9 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            MP += Time.deltaTime * manaRegen;
+            MP += Time.deltaTime * manaRegen / 10;
+
+            UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
         }
 
         //push force
@@ -306,6 +322,12 @@ public class PlayerCombat : MonoBehaviour
         healCooldown = true;
     }
 
+    IEnumerator DeadCooldown()
+    {
+        yield return new WaitForSeconds(4.0f);
+        UIManager.Instance.ShowEndGameCanvas();
+    }
+
     public void OnAttack()
     {
         //print("attacking");
@@ -324,7 +346,14 @@ public class PlayerCombat : MonoBehaviour
             if (MP >= manaCost)
             {
                 MP -= manaCost;
+
+                UIManager.Instance.LoseMana(manaCost);
+
                 CreateBullet();
+            }
+            else
+            {
+                //Ventana emergente no suficiente mana
             }
         }
         else if(weaponIndex == 1)
@@ -382,6 +411,9 @@ public class PlayerCombat : MonoBehaviour
         {
             invencibility = true;
             HP -= damage;
+
+            UIManager.Instance.LoseHealth(damage);
+
             _anim.SetTrigger("Hurt");
             _anim.SetFloat("HP", HP);
             TakePush(pushForce, position);
@@ -413,12 +445,16 @@ public class PlayerCombat : MonoBehaviour
             {
                 beerFound = true;
                 //Remove the item from the inventory
-                InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.items[i].item, 1);
 
                 healCooldown = false;
                 print("heal");
                 //Make player heal
                 HP += heal;
+
+                UIManager.Instance.GainHealth(heal);
+
                 weaponIndexOld = weaponIndex;
                 weaponIndex = 3;
                 _anim.SetFloat("Weapon", weaponIndex);
@@ -463,6 +499,7 @@ public class PlayerCombat : MonoBehaviour
         //desactivar el script de movimiento y el de input
         enabled = false;
         _handler.enabled = false;
+        StartCoroutine(DeadCooldown());
         invencibility = true;
         //activar mensaje o cutscene de muerte
     }

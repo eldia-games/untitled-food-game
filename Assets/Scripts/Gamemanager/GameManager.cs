@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
   public static GameManager Instance { get; private set; }
 
+
   private void Awake() {
     if (Instance != null && Instance != this) {
       Destroy(gameObject);
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour {
   #region SceneManagement
 
   public void EnterMainMenuScene() {
+    Time.timeScale = 1;
     AudioManager.Instance.PlayMenuMusic();
     UIManager.Instance.ShowMainMenuCanvas();
     ClearMap();
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour {
   }
 
   public void EnterLobbyScene() {
+    Time.timeScale = 1;
     AudioManager.Instance.PlayLobbyMusic();
     UIManager.Instance.ShowLobbyCanvas();
     ClearMap();
@@ -63,10 +66,10 @@ public class GameManager : MonoBehaviour {
   }
 
   public void EnterMapScene() {
+    SceneManager.LoadScene("Map");
     AudioManager.Instance.PlayMapMusic();
     UIManager.Instance.ShowMapCanvas();
-    SceneManager.LoadScene("Map");
-  }
+    }
 
   public void EnterChamberScene() {
     AudioManager.Instance.PlayChamberMusic();
@@ -74,6 +77,19 @@ public class GameManager : MonoBehaviour {
     SceneManager.LoadScene("Chamber");
   }
 
-  #endregion
+    #endregion
 
+  #region WeaponType
+
+  public int _weaponType = 0;
+  public int getCurrentWeaponType()
+  {
+      return _weaponType;
+  }
+
+  public void setCurrentWeaponType(int weaponType)
+  {
+      _weaponType = weaponType;
+  }
+    #endregion
 }

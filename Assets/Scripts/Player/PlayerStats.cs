@@ -52,16 +52,16 @@ public class PlayerStats : ScriptableObject
 
     public float manaCost = 10;
 
-    public float manaRegen = 1;
+    public float manaRegen = 0.1f;
 
     [Header("Weapons: 0 = 1handAxe, 1 = 2handAxe, 2 = Bow, 3 = Mug to heal, 4 = Staff, 5 = None , more?")]
     //Weapons
     [Range(0,5)]
     public int weaponIndex = 0;
 
-    [Header("WeaponType (If to change the bullet type)")]
+    [Header("Bullets: 0 = Arrow, 1 = Fireball")]
     //Supose to be a prefab of the bullet, changed before the run starts
-    public GameObject weaponType;
+    public List<GameObject> weaponType;
 
     #endregion
 
@@ -70,9 +70,4 @@ public class PlayerStats : ScriptableObject
     {
         DontDestroyOnLoad(this);
     }
-
-
-
-
-
 }

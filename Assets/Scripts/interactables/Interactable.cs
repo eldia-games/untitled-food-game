@@ -38,6 +38,12 @@ public class Interactable: MonoBehaviour
     {
         return type;
     }
+    public void SetAction(UnityEvent<GameObject> callback, String name, InteractionType type)
+    {
+        interactFunction = callback;
+        actionName = name;
+        this.type = type;
+    }
 
     void  OnTriggerEnter(Collider other)
     {

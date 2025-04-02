@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27730325df00a0498015ef870aa6004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chamberType: 8
+  chamberType: 2
   chamberLevel: 2
 --- !u!114 &450636975
 MonoBehaviour:
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 2
   chambers:
-  - {fileID: 3629938239352718021, guid: af830e9eba965764fbd9af9e5ac2d7ac, type: 3}
+  - {fileID: 4541059027463577113, guid: 44523b8f5969e3b419a9e24c936a3e75, type: 3}
 --- !u!114 &722972521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,6 +531,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 450636973}
     m_Modifications:
+    - target: {fileID: 3417999018628074795, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417999018628074795, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417999018628074795, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406044365657774475, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
+      propertyPath: m_Name
+      value: Money
+      objectReference: {fileID: 0}
     - target: {fileID: 6571331738685519340, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -613,7 +629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7778527935745594300, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: InventoryCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

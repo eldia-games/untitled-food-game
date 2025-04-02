@@ -148,9 +148,35 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
                 {
                     Instantiate(
                         lootTable[items[i].prefab],
-                        transform.position + player.transform.forward * 2 + transform.up,
+                        player.transform.position + player.transform.forward * 2 + transform.up,
                         Quaternion.Euler(-90, player.transform.eulerAngles.y, 0));
 
+                    var tempItem = items[i];
+                    tempItem.quantity -= quantity;
+                    if (tempItem.quantity <= 0)
+                    {
+                        items.RemoveAt(i);
+                    }
+                    else
+                    {
+                        items[i] = tempItem;
+                    }
+
+                    break;
+                }
+            }
+            RefreshUI();
+        }
+    }
+
+    public void UseItem(Items item, int quantity)
+    {
+        if (player != null) {
+            itemToRemove = item;
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].item == item)
+                {
                     var tempItem = items[i];
                     tempItem.quantity -= quantity;
                     if (tempItem.quantity <= 0)
@@ -207,12 +233,10 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
         Debug.Log("Click on slot: "+i);
 
-        if(i!=0)
-        {
-            itemToRemove = items[i].item;
+        itemToRemove = items[i].item;
 
-            RemoveItem(itemToRemove, 1);
-        }
+        RemoveItem(itemToRemove, 1);
+        
        
     }
 }
