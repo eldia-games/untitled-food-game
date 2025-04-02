@@ -12,7 +12,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
   private List<GameObject> doors;
   private GameObject lever;
   private GameObject exit;
-  private List<GameObject> spawns;
+  private List<Vector3> spawns;
   private GameObject player;
   private Animator playerAnimator;
   private List<Animator> doorAnimator;
@@ -29,7 +29,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     monstersSpawned = new List<int>();
     //generator_ = GetComponent<DungeonGenerator>();
     doors = new List<GameObject>();
-    spawns = new List<GameObject>();
+    spawns = new List<Vector3>();
     doorAnimator = new List<Animator>();
     pos = new List<Vector3>();
     pos.Add(new Vector3(0, 0, 0));
@@ -51,7 +51,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     doorAnimator.Add(door.GetComponent<Animator>());
   }
 
-  public void AddSpawn(GameObject spawn) {
+  public void AddSpawn(Vector3 spawn) {
     spawns.Add(spawn);
     monstersSpawned.Add(0);
   }
@@ -110,7 +110,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       if (value <= forceLeft) {
         forceLeft -= value;
 
-        GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
+        GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint] + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
         monsterList.Add(instancedObject);
         monstersSpawned[spawnPoint] += 1;
         enemiesLeft++;

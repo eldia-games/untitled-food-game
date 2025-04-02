@@ -9,7 +9,7 @@ public class DungeonTile : MonoBehaviour {
   [SerializeField] private GameObject wall;
   [SerializeField] private GameObject[] contents;
 
-  public void Create(int corridors, bool exit, DungeonController controller) {
+  public void Create(DungeonController controller, int corridors, bool exit, bool lever) {
     GameObject template;
     Assert.IsTrue(corridors >= 0 && corridors <= 15, "Corridors debe ser un número entre 0b0000 y 0b1111");
     for (int i = 0; i < 4; ++i) {
@@ -25,6 +25,6 @@ public class DungeonTile : MonoBehaviour {
       template.transform.Rotate(0, Random.Range(0, 4) * 90, 0);
     }
 
-    template.GetComponent<DungeonChamber>().Create(controller);
+    template.GetComponent<DungeonChamber>().Create(controller, lever);
   }
 }
