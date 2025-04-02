@@ -5043,7 +5043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &559283052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6188,13 +6188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panels:
   - panelID: 0
-    panelText: Press Right Click to use the lever
-    panelImage: {fileID: 21300000, guid: 8f00195b8ce15214ca8431c65af8068a, type: 3}
-  - panelID: 1
-    panelText: Press Right Click to exit the dungeon
-    panelImage: {fileID: 21300000, guid: 8f00195b8ce15214ca8431c65af8068a, type: 3}
-  - panelID: 2
-    panelText: Press Right Click to open the chest
+    panelText: 'Press Right Click to '
     panelImage: {fileID: 21300000, guid: 8f00195b8ce15214ca8431c65af8068a, type: 3}
   spriteDisplayImage: {fileID: 985330018}
   textPopUp: {fileID: 1183157781}
@@ -13132,7 +13126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pop Up hola como estan ustedes todo bien eso espero les gustaria probarme?
+  m_text: 'Press Right Click to '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: abd539c13f71308489d92fc1c671a650, type: 2}
   m_sharedMaterial: {fileID: 809930083327041599, guid: abd539c13f71308489d92fc1c671a650, type: 2}
@@ -13159,7 +13153,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.65
+  m_fontSize: 67.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20316,7 +20310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1800012347
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23518,6 +23512,7 @@ MonoBehaviour:
   - {fileID: 387496616}
   healthManaUIManager: {fileID: 186588454}
   weaponSelectionUIManager: {fileID: 462198628}
+  popUpUIManager: {fileID: 607548708}
 --- !u!1 &2075440525
 GameObject:
   m_ObjectHideFlags: 0
