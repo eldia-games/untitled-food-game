@@ -2,7 +2,8 @@
 {
     Spawn,
     Idle,
-    Patrol,
+    Taunt,
     Chase,
-    UsingAbility
+    UsingAbility,
+    Dead
 }
