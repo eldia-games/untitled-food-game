@@ -8,6 +8,9 @@ public class MinionV2 : BaseEnemyV2
     public AudioClip attackSound;
 
     public Collider currentAttackCollider; // El collider del ataque actual
+    // Collider Mesh
+    public Collider attackMeshCollider; // El collider del ataque mesh
+
 
     public SkillScriptableObject[] skills;
 
@@ -62,20 +65,15 @@ public class MinionV2 : BaseEnemyV2
     {
         base.AttackEvent();
 
+        attackMeshCollider.enabled = true;
         currentAttackCollider.enabled = true;
 
         // Reproduce el sonido de ataque
-        if (attackSound != null && audioSource != null)
-           audioSource.PlayOneShot(attackSound);
-    }
-
-    private void StopAttackMesh()
-    {
-        StopAttack(); 
     }
 
     public void AttackStopEvent()
     {
+        attackMeshCollider.enabled = false;
         currentAttackCollider.enabled = false;
         isAttacking = false;
         StopAttack();

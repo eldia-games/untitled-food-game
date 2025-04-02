@@ -25,12 +25,9 @@ public abstract class BaseEnemy : MonoBehaviour
     public Rigidbody rb;
     public NavMeshAgent agent;
     public Animator animator;
-    public List<GameObject> weapons;
     public UnityEvent dieEvent;
 
     [Header("Sonidos")]
-
-    public AudioSource audioSource;
 
     public List<AudioClip> footstepWalkSounds;
     public List<AudioClip> footstepRunSounds;
@@ -57,13 +54,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
         // Guardamos la posición inicial para volver
         initialPosition = transform.position;
-
-        // Selección aleatoria de arma (si hay)
-        if (weapons != null && weapons.Count > 0)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, weapons.Count);
-            weapons[randomIndex].SetActive(true);
-        }
     }
 
     public void SetPlayer(GameObject player)
@@ -370,7 +360,6 @@ public abstract class BaseEnemy : MonoBehaviour
         AudioClip footstepSound = footstepSoundsArray[randomIndex];
         // Pitch aleatorio para mayor variedad
         //audioSource.pitch = Random.Range(0.8f, 1.2f);
-        audioSource.PlayOneShot(footstepSound);
     }
 
     /// <summary>
