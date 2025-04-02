@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6071726246474545359}
   - component: {fileID: 1854427699009583570}
   - component: {fileID: 5452562686324367489}
+  - component: {fileID: 8654639882900210976}
   m_Layer: 0
   m_Name: dungeon
   m_TagString: Untagged
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a0d7c2a303a4844a100eb52cfc36c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navmesh: {fileID: 8654639882900210976}
   frame: {fileID: 2937984558148778389, guid: 32e562b2c3940464ca5ad198f844a1cb, type: 3}
   grass: {fileID: 4793750340747007821, guid: 70628cf8b6c4b4e4d82abe9b7d2dae03, type: 3}
   exit: {fileID: 7468886854245522958, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
@@ -68,3 +70,34 @@ MonoBehaviour:
   - {fileID: 4818878224317059335, guid: 0c81c623a9e432e45a84ccb39f1fa876, type: 3}
   trap: 0
   generator: {fileID: 1854427699009583570}
+--- !u!114 &8654639882900210976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4541059027463577113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0

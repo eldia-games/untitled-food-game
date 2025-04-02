@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour {
@@ -8,6 +9,7 @@ public class DungeonGenerator : MonoBehaviour {
   private const int EAST  = 1 << 2;
   private const int WEST  = 1 << 3;
 
+  [SerializeField] private NavMeshSurface navmesh;
   [SerializeField] private GameObject frame;
   [SerializeField] private GameObject grass;
   [SerializeField] private GameObject exit;
@@ -22,6 +24,7 @@ public class DungeonGenerator : MonoBehaviour {
     Initialize();
     Connect();
     Create(controller);
+    BuildNavMesh();
   }
 
   private void Initialize() {
@@ -91,5 +94,9 @@ public class DungeonGenerator : MonoBehaviour {
         }
       }
     }
+  }
+
+  private void BuildNavMesh(){
+    navmesh.BuildNavMesh();
   }
 }
