@@ -11,12 +11,17 @@ public class DungeonGenerator : MonoBehaviour {
   [SerializeField] private GameObject frame;
   [SerializeField] private GameObject grass;
   [SerializeField] private GameObject exit;
+  [SerializeField] private bool initOnStart = false;
   [SerializeField] private int scale;
   [SerializeField, Range(1, 9)] private int size;
   [SerializeField, Range(1, 5)] private int padding;
 
   private List<int> rooms;
   private Transform transform_;
+
+  public void Start() {
+    if (initOnStart) Initialize(null);
+  }
 
   public void Initialize(DungeonController controller) {
     Initialize();
