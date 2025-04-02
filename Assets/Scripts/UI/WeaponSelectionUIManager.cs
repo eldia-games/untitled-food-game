@@ -9,7 +9,7 @@ public class WeaponSelectionUIManager : MonoBehaviour
     [System.Serializable]
     private class WeaponInfo
     {
-        public int weaponID; // Tipo integer como solicitaste
+        public int weaponID; 
         public string weaponName;
         public Sprite weaponImage;
     }
