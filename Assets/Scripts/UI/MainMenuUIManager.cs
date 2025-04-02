@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas[] ArrayCanvas;
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
+    [SerializeField] private PopUpUIManager popUpUIManager;
 
     public static UIManager Instance { get; private set; }
 
@@ -175,6 +176,19 @@ public class UIManager : MonoBehaviour
         HideAllCanvas();
         ShowEndGame();
         AudioManager.Instance.PlayEndGameMusic();
+    }
+
+    public void ShowPopUpCanvas(string action)
+    {
+        popUpUIManager.displayUI(action);
+        ShowPopUp();
+        AudioManager.Instance.PlaySFXSelect();
+    }
+
+    public void HidePopUpCanvas()
+    {
+        HidePopUp();
+        AudioManager.Instance.PlaySFXClose();
     }
 
     public void ExitGame()
@@ -430,6 +444,16 @@ public class UIManager : MonoBehaviour
     private void ShowEndGame()
     {
         ShowCanvasByIndex(12);
+    }
+
+    private void ShowPopUp()
+    {
+        ShowCanvasByIndex(13);
+    }
+
+    private void HidePopUp()
+    {
+        HideCanvasByIndex(13);
     }
     #endregion 
 
