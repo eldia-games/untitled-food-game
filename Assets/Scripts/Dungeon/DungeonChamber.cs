@@ -11,6 +11,7 @@ public class DungeonChamber : MonoBehaviour {
   [SerializeField] private GameObject[] spawns;
 
   public void Create(DungeonController controller) {
+    if (controller == null) return;
     if (exit   != null) controller.SetExit(exit);
     if (lever  != null) controller.SetLever(lever);
     if (player != null) controller.SetPlayer(player, playerAnimator);

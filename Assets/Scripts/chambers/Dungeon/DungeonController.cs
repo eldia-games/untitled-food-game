@@ -1,14 +1,13 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DungeonController : MonoBehaviour, IChamberController {
   [SerializeField] private List<GameObject> monsters;
   [SerializeField] private bool trap;
+  [SerializeField, Range(1, 100)] private int baseEnemyAmount;
 
   private List<GameObject> doors;
   private GameObject lever;
@@ -92,7 +91,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       totalRate += monsters[i].GetComponent<Spawneable>().getSpawnRate(level - 1);
       rateList.Add(totalRate);
     }
-    float forceLeft = level;
+    float forceLeft = level * baseEnemyAmount;
     while (spawns.Count > 0) {
       if (monstersSpawned.Min() >= 9) break;
       int spawnPoint = (int)Mathf.Round(Random.value * (spawns.Count - 1));
