@@ -185,6 +185,24 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXSelect();
     }
 
+    //public void ShowPopUpLever()
+    //{
+    //    popUpUIManager.useLeverPanel();
+    //    ShowPopUpCanvas();
+    //}
+
+    //public void ShowPopUpChest()
+    //{
+    //    popUpUIManager.useChestPanel();
+    //    ShowPopUpCanvas();
+    //}
+
+    //public void ShowPopUpDoor()
+    //{
+    //    popUpUIManager.useDoorPanel();
+    //    ShowPopUpCanvas();
+    //}
+
     public void HidePopUpCanvas()
     {
         HidePopUp();
