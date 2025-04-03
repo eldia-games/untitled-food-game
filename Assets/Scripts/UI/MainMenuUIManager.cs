@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
+    [SerializeField] private ShopUIManager shopUIManager; 
 
     public static UIManager Instance { get; private set; }
 

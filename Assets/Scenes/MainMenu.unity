@@ -2951,8 +2951,9 @@ MonoBehaviour:
   - panelID: 0
     itemText: Manzana
     itemImage: {fileID: 0}
-  spriteDisplayImage: {fileID: 0}
-  textPopUp: {fileID: 0}
+  spriteDisplayImage: {fileID: 1026200909}
+  textItemName: {fileID: 1042548119}
+  textItemQuantity: {fileID: 701389302}
 --- !u!1 &235735225
 GameObject:
   m_ObjectHideFlags: 0
@@ -13810,7 +13811,7 @@ GameObject:
   - component: {fileID: 1026200910}
   - component: {fileID: 1026200909}
   m_Layer: 5
-  m_Name: item-top
+  m_Name: item-buy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28897,6 +28898,7 @@ MonoBehaviour:
   healthManaUIManager: {fileID: 186588454}
   weaponSelectionUIManager: {fileID: 462198628}
   popUpUIManager: {fileID: 607548708}
+  shopUIManager: {fileID: 229873026}
 --- !u!1 &2075440525
 GameObject:
   m_ObjectHideFlags: 0

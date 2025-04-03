@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class shopUIManager : MonoBehaviour
+public class ShopUIManager : MonoBehaviour
 {
     [System.Serializable]
     private class ItemlInfo
