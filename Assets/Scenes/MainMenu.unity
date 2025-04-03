@@ -2110,6 +2110,7 @@ MonoBehaviour:
   currentHealthTMP: {fileID: 1453482246}
   maxManaTMP: {fileID: 1590353185}
   currentManaTMP: {fileID: 1767995327}
+  PlayerStats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
 --- !u!114 &186588455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3125,10 +3126,10 @@ MonoBehaviour:
   items:
   - panelID: 0
     itemText: Manzana
-    itemImage: {fileID: 0}
-  spriteDisplayImage: {fileID: 0}
-  textItemName: {fileID: 0}
-  textItemQuantity: {fileID: 0}
+    itemImage: {fileID: 21300000, guid: d4d6ce4c303c570438b15bad6c65598b, type: 3}
+  spriteDisplayImage: {fileID: 807689415}
+  textItemName: {fileID: 2064305560}
+  textItemQuantity: {fileID: 285660231}
 --- !u!1 &235735225
 GameObject:
   m_ObjectHideFlags: 0
@@ -29276,7 +29277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300076, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  m_Sprite: {fileID: 21300000, guid: efa4bf89ba66298448eb7b28e95239c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -186,24 +186,6 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXSelect();
     }
 
-    //public void ShowPopUpLever()
-    //{
-    //    popUpUIManager.useLeverPanel();
-    //    ShowPopUpCanvas();
-    //}
-
-    //public void ShowPopUpChest()
-    //{
-    //    popUpUIManager.useChestPanel();
-    //    ShowPopUpCanvas();
-    //}
-
-    //public void ShowPopUpDoor()
-    //{
-    //    popUpUIManager.useDoorPanel();
-    //    ShowPopUpCanvas();
-    //}
-
     public void HidePopUpCanvas()
     {
         HidePopUp();
@@ -233,6 +215,12 @@ public class UIManager : MonoBehaviour
     }
 
     #region Player Stats UI
+
+    public void ResetPlayerHealthMana()
+    {
+        healthManaUIManager.ResetPlayer();
+    }
+
     public void SetMaxHealth(float health)
     {
         healthManaUIManager.SetMaxHealth(health);
