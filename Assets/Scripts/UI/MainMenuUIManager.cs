@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
+    [SerializeField] private ShopUIManager shopUIManager; 
 
     public static UIManager Instance { get; private set; }
 
@@ -185,11 +186,42 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXSelect();
     }
 
+    //public void ShowPopUpLever()
+    //{
+    //    popUpUIManager.useLeverPanel();
+    //    ShowPopUpCanvas();
+    //}
+
+    //public void ShowPopUpChest()
+    //{
+    //    popUpUIManager.useChestPanel();
+    //    ShowPopUpCanvas();
+    //}
+
+    //public void ShowPopUpDoor()
+    //{
+    //    popUpUIManager.useDoorPanel();
+    //    ShowPopUpCanvas();
+    //}
+
     public void HidePopUpCanvas()
     {
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
+
+    public void ShowShopCanvas(string trades)
+    {
+        ShowShop();
+        AudioManager.Instance.PlaySFXOpen();
+    }
+
+    public void HideShopCanvas()
+    {
+        HideShop();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
 
     public void ExitGame()
     {
@@ -454,6 +486,16 @@ public class UIManager : MonoBehaviour
     private void HidePopUp()
     {
         HideCanvasByIndex(13);
+    }
+
+    private void ShowShop()
+    {
+        ShowCanvasByIndex(14);
+    }
+
+    private void HideShop()
+    {
+        HideCanvasByIndex(14);
     }
     #endregion 
 
