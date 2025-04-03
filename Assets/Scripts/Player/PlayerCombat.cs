@@ -52,6 +52,8 @@ public class PlayerCombat : MonoBehaviour
 
     private bool invencibility = false;
 
+    private bool lookAtMouse = false;
+
     public new Camera camera;
     public GameObject player;
     private Vector3 lookAtPosition;
@@ -66,13 +68,22 @@ public class PlayerCombat : MonoBehaviour
 
     private Vector3 mousePosition;
 
+    public int NoGameManagerWeaponIndex = 0;
+
     #endregion
 
 
     // Start is called before the first frame update
+
     void Start()
     {
-        this.enabled = false;
+        try{
+            //Gamemanager is not null
+            GameManager.Instance.gameObject.GetComponent<GameManager>();
+            this.enabled = false;
+        }catch(Exception){
+        }
+
         rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
@@ -81,8 +92,12 @@ public class PlayerCombat : MonoBehaviour
 
         //HP = (float)maxLife;
         MP = (float)maxMana;
-
-        weaponIndex = GameManager.Instance.getCurrentWeaponType();
+        try{
+            weaponIndex = GameManager.Instance.getCurrentWeaponType();
+        }
+        catch(Exception e){
+            weaponIndex = NoGameManagerWeaponIndex;
+        }
         if(weaponIndex == 2)
             weaponType = PlayerStats.weaponType[0];
         if(weaponIndex == 4)
@@ -90,20 +105,27 @@ public class PlayerCombat : MonoBehaviour
 
         //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
         _anim.SetFloat("Weapon", weaponIndex);
-
+        try{
         UIManager.Instance.SetMaxHealth(maxLife);
         UIManager.Instance.SetMaxMana(maxMana);
 
         UIManager.Instance.SetHealth(HP);
         UIManager.Instance.SetMana(MP);
-
+        }
+        catch(Exception e){
+            Debug.Log("Error: " + e);
+        }
         StaminaSlide = 10;
         _colliderMeleeSpin = player.GetComponent<SphereCollider>();
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
-        InventoryManager.Instance.setPlayer(player);
-        
+        try{
+            InventoryManager.Instance.setPlayer(player);
+        }
+        catch(Exception e){
+            Debug.Log("Error: " + e);
+        }
     }
 
     void Update()
@@ -112,16 +134,16 @@ public class PlayerCombat : MonoBehaviour
         Vector3 offset = new Vector3(0, 0.5f, 0.5f);
         //rotate offset based on player direction
         offset = player.transform.TransformDirection(offset);
-        Debug.DrawRay(transform.position + offset, Vector3.down, Color.red);
         if (Physics.Raycast(transform.position + offset, Vector3.down, 0.6f))
         {
-            
+            Debug.DrawRay(transform.position + offset, Vector3.down, Color.red);
             Physics.gravity = new Vector3(0,-5,0);
             //Debug.Log("Grounded");
             
         }
         else
         {
+            Debug.DrawRay(transform.position + offset, Vector3.down, Color.green);
             Physics.gravity = new Vector3(0, -200, 0);
             //Debug.Log("Not Grounded");
         }
@@ -161,13 +183,11 @@ public class PlayerCombat : MonoBehaviour
 
 
         //player rotate to wasd
-        if (attackAvailable)
+        if (attackAvailable && moving ==1)
         {
             player.transform.position = transform.position;
             lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
             
-            player.transform.LookAt(lookAtPosition);
-            player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,14 +214,9 @@ public class PlayerCombat : MonoBehaviour
             if (plane.Raycast(ray, out float distance))
             {
                 mousePosition = ray.GetPoint(distance);
-                //Debug.DrawLine(ray.origin, mousePosition, Color.red);
                 lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
-                //Debug.DrawLine(player.transform.position, lookAtPosition, Color.green);
-                player.transform.LookAt(lookAtPosition);
-                player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
             }
-
-            if (attackAvailable)
+            if (attackAvailable && lookAtMouse)
             {
                 attackAvailable = false;
                 _anim.SetTrigger("Attack");
@@ -209,6 +224,14 @@ public class PlayerCombat : MonoBehaviour
                 StartCoroutine(AttackCooldown());
                 OnAttack();
             }
+            if(!lookAtMouse)
+            {
+                StartCoroutine(AttackWaitMouse());
+            }
+        }
+        else
+        {
+            lookAtMouse = false;
         }
 
         //Make the slide movement
@@ -259,7 +282,12 @@ public class PlayerCombat : MonoBehaviour
         {
             MP += Time.deltaTime * manaRegen / 10;
 
-            UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
+            try{
+                UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
+            }
+            catch(Exception e){
+                Debug.Log("Error: " + e);
+            }
         }
 
         //push force
@@ -269,7 +297,24 @@ public class PlayerCombat : MonoBehaviour
             transform.Translate(pushDirection * Time.deltaTime * pushForceFactor);
         }
 
+        RotatePlayerOverTime(player, lookAtPosition, 10.0f);
+
     }
+
+    IEnumerator AttackWaitMouse()
+    {
+        yield return new WaitForSeconds(0.3f);
+        lookAtMouse = true;
+    }
+
+    private string RotatePlayerOverTime(GameObject player, Vector3 lookAtPosition, float v)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(lookAtPosition - player.transform.position);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, v * Time.deltaTime);
+        player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+        return null;
+    }
+
 
     IEnumerator InteractCooldown()
     {
@@ -282,6 +327,7 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(1 / velAttack);
         attackAvailable = true;
         _colliderMeleeSpin.enabled = false;
+        _colliderMelee.enabled = false;
     }
     IEnumerator SlideCooldown()
     {
@@ -325,7 +371,12 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator DeadCooldown()
     {
         yield return new WaitForSeconds(4.0f);
-        UIManager.Instance.ShowEndGameCanvas();
+        try{
+            UIManager.Instance.ShowEndGameCanvas();
+        }
+        catch(Exception e){
+            Debug.Log("Error: " + e);
+        }
     }
 
     public void OnAttack()
@@ -346,9 +397,12 @@ public class PlayerCombat : MonoBehaviour
             if (MP >= manaCost)
             {
                 MP -= manaCost;
-
-                UIManager.Instance.LoseMana(manaCost);
-
+                try{
+                    UIManager.Instance.LoseMana(manaCost);
+                }
+                catch(Exception e){
+                    Debug.Log("Error: " + e);
+                }
                 CreateBullet();
             }
             else
@@ -411,9 +465,12 @@ public class PlayerCombat : MonoBehaviour
         {
             invencibility = true;
             HP -= damage;
-
-            UIManager.Instance.LoseHealth(damage);
-
+            try{
+                UIManager.Instance.LoseHealth(damage);
+            }
+            catch(Exception e){
+                Debug.Log("Error: " + e);
+            }
             _anim.SetTrigger("Hurt");
             _anim.SetFloat("HP", HP);
             TakePush(pushForce, position);
@@ -446,7 +503,7 @@ public class PlayerCombat : MonoBehaviour
                 beerFound = true;
                 //Remove the item from the inventory
                 //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
-                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.items[i].item, 1);
+                InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
 
                 healCooldown = false;
                 print("heal");
