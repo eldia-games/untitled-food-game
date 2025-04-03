@@ -14,13 +14,6 @@ public class PopUpUIManager : MonoBehaviour
         public Sprite panelImage;
     }
 
-    private Dictionary<string, int> panelIndex = new Dictionary<string, int>()
-    {
-        {"Lever", 0},
-        {"Door", 1},
-        {"Chest", 2}
-    };
-
     [SerializeField] private PanelInfo[] panels;
     [SerializeField] private Image spriteDisplayImage;
     [SerializeField] private TMP_Text textPopUp;
@@ -31,21 +24,5 @@ public class PopUpUIManager : MonoBehaviour
         textPopUp.text = panels[0].panelText + " " + action;
         print("panel index: " + 0);
     }
-
-   //public void useLeverPanel()
-   //{
-   //    displayUI(panelIndex["Lever"]);
-   //}
-   //
-   //public void useDoorPanel()
-   //{
-   //    displayUI(panelIndex["Door"]);
-   //}
-   //
-   //public void useChestPanel()
-   //{
-   //    displayUI(panelIndex["Chest"]);
-   //}
-
 
 }
