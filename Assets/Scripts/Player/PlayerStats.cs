@@ -70,4 +70,47 @@ public class PlayerStats : ScriptableObject
     {
         DontDestroyOnLoad(this);
     }
+
+    public void Reset()
+    {
+        //Default values
+
+        //Movement
+        MovementSpeed = 5f;
+
+        //Stamina
+        StaminaSlide = 10;
+        velSlide = 1.0f;
+
+        //HP
+        maxLife = 100;
+        heal = 10;
+        HP = maxLife;
+
+        //Damage
+        damage = 10;
+        velAttack = 1.0f;
+        pushForce = 10;
+        damageModifier = 1;
+        pushModifier = 1;
+
+        //MP
+        maxMana = 100;
+        MP = maxMana;
+        manaCost = 10;
+        manaRegen = 0.1f;
+
+        //Weapons
+        weaponIndex = 5;
+
+        //Bullets
+        weaponType = new List<GameObject>
+        {
+            //"D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\arrow.prefab"
+            // "D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\fireball.prefab"
+
+            (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/arrow.prefab", typeof(GameObject)),
+            (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/fireball.prefab", typeof(GameObject))
+        };   
+    }
 }
