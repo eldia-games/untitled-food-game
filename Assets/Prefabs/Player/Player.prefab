@@ -57,6 +57,7 @@ MonoBehaviour:
   PlayerStats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
   camera: {fileID: 5259618539203447454}
   player: {fileID: 7370427824999346090}
+  NoGameManagerWeaponIndex: 0
 --- !u!114 &4763783330889783775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2719441171738729337}
   serializedVersion: 4
-  m_Mass: 10000
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}

@@ -13,12 +13,17 @@ public class DungeonGenerator : MonoBehaviour {
   [SerializeField] private GameObject frame;
   [SerializeField] private GameObject grass;
   [SerializeField] private GameObject exit;
+  [SerializeField] private bool initOnStart = false;
   [SerializeField] private int scale;
   [SerializeField, Range(1, 9)] private int size;
   [SerializeField, Range(1, 5)] private int padding;
 
   private List<int> rooms;
   private Transform transform_;
+
+  public void Start() {
+    if (initOnStart) Initialize(null);
+  }
 
   public void Initialize(DungeonController controller) {
     Initialize();
@@ -79,18 +84,22 @@ public class DungeonGenerator : MonoBehaviour {
 
   private void Create(DungeonController controller) {
     Vector3 origin = new Vector3(size * -.5f, 0, 0);
+    int safe = (size / 2) * size + 0;
+    int r = safe;
+    while (r == safe) r = Random.Range(0, size * size);
     for (int i = -padding; i < size + padding; ++i) {
       for (int j = -padding; j < size + padding; ++j) {
         Vector3 position = (origin + Vector3.right * i + Vector3.forward * j) * scale;
         Quaternion rotation = Quaternion.identity;
         if (j == -1 && i == size / 2) {
           GameObject room = Instantiate(exit, position, rotation, transform_);
-          room.GetComponent<DungeonChamber>().Create(controller);
+          room.GetComponent<DungeonChamber>().Create(controller, false);
         } else if (i < 0 || i >= size || j < 0 || j >= size) {
           Instantiate(grass, position, rotation, transform_);
         } else {
+          int index = i * size + j;
           GameObject room = Instantiate(frame, position, rotation, transform_);
-          room.GetComponent<DungeonTile>().Create(rooms[i * size + j], j == 0 && i == size / 2, controller);
+          room.GetComponent<DungeonTile>().Create(controller, rooms[i * size + j], index == safe, index == r);
         }
       }
     }
