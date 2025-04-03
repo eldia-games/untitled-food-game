@@ -84,7 +84,7 @@ public class ShopController : MonoBehaviour, IChamberController {
     {
         InventoryManager inventory=InventoryManager.Instance;
         //comprobar si hay items
-        inventory.RemoveItem()
+       //todo
     }
   public void OnExit() {
     GameManager.Instance.EnterMapScene();
