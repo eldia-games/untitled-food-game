@@ -17,12 +17,15 @@ public class shopUIManager : MonoBehaviour
 
     [SerializeField] private ItemlInfo[] items;
     [SerializeField] private Image spriteDisplayImage;
-    [SerializeField] private TMP_Text textPopUp;
+    [SerializeField] private TMP_Text textItemName;
+    [SerializeField] private TMP_Text textItemQuantity;
 
-    public void displayItem(string action)
+    public void displayItems(string action)
     {
+        // for recorriendo todas las casillas tienda
         spriteDisplayImage.sprite = items[0].itemImage;
-        textPopUp.text = items[0].itemImage + " " + action;
+        textItemName.text = items[0].itemText;
+        textItemQuantity.text = items[0].itemText; // preguntar a inventario cnatidad
         print("panel index: " + 0);
     }
 

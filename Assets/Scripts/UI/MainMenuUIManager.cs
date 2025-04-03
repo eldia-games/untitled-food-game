@@ -191,6 +191,19 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void ShowShopCanvas(string trades)
+    {
+        ShowShop();
+        AudioManager.Instance.PlaySFXOpen();
+    }
+
+    public void HideShopCanvas()
+    {
+        HideShop();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+
     public void ExitGame()
     {
 #if UNITY_EDITOR
@@ -454,6 +467,16 @@ public class UIManager : MonoBehaviour
     private void HidePopUp()
     {
         HideCanvasByIndex(13);
+    }
+
+    private void ShowShop()
+    {
+        ShowCanvasByIndex(14);
+    }
+
+    private void HideShop()
+    {
+        HideCanvasByIndex(14);
     }
     #endregion 
 
