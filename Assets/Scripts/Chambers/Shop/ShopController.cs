@@ -12,11 +12,12 @@ public class ShopController : MonoBehaviour, IChamberController {
     [SerializeField] private GameObject exit;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator playerAnimator;
+
     //[SerializeField] private GameObject Seller;
 
 
     private List<Trade> trades;
-
+    private bool TradeDone = false;
 
 
 
@@ -75,16 +76,24 @@ public class ShopController : MonoBehaviour, IChamberController {
   }
 
   
-   public void openShop()
+   public void OpenShop()
     {
         //que se abra la interfaz
     }
 
-    public void trade(int tradeIndex)
+    public void Trade(int tradeIndex)
     {
-        InventoryManager inventory=InventoryManager.Instance;
-        //comprobar si hay items
-       //todo
+        if (!TradeDone)
+        {
+            InventoryManager inventory = InventoryManager.Instance;
+            Trade trad = trades[tradeIndex];
+            if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
+            {
+                inventory.RemoveItem(trad.getItemIn(), trad.getQuantityIn());
+                inventory.AddItem(trad.getItemOut(), trad.getIndexOut(), trad.getQuantityOut(), true);
+            }
+        }
+
     }
   public void OnExit() {
     GameManager.Instance.EnterMapScene();

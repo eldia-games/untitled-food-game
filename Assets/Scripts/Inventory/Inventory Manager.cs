@@ -169,6 +169,58 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void RemoveItemNoDrop(Items item, int quantity)
+    {
+        if (player != null)
+        {
+            itemToRemove = item;
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].item == item)
+                {
+                    var tempItem = items[i];
+                    tempItem.quantity -= quantity;
+                    if (tempItem.quantity <= 0)
+                    {
+                        items.RemoveAt(i);
+                    }
+                    else
+                    {
+                        items[i] = tempItem;
+                    }
+
+                    break;
+                }
+            }
+            RefreshUI();
+        }
+    }
+
+    public bool HasItems(Items item, int quantity)
+    {
+        if (player != null)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].item == item)
+                {
+                    var tempItem = items[i];
+                    if (tempItem.quantity <= quantity)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+
+        }
+        return false;
+    }
     public void UseItem(Items item, int quantity)
     {
         if (player != null) {
