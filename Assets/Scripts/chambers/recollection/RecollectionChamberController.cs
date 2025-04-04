@@ -56,7 +56,7 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController
                 k++;
             }
             for (int j = 0; j < 9; j++) {
-                GameObject instancedObject = Instantiate(recollectables[k], spawns[i].transform.position + pos[j], Quaternion.identity);
+                GameObject instancedObject = Instantiate(recollectables[k], pos[j], Quaternion.identity, spawns[i].transform);
             }
         }
     }
