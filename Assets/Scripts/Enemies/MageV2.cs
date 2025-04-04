@@ -292,10 +292,11 @@ public class MageV2 : BaseEnemyV2
         if (player != null)
         {
             MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
-            mac.data.sourceObjects.Clear();
-            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            mac?.data.sourceObjects.Clear();
+            mac?.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+
             RigBuilder rigs = GetComponent<RigBuilder>();
-            rigs.Build();
+            rigs?.Build();
         }
     }
 
