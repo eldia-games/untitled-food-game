@@ -3,44 +3,61 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ShopUIManager : MonoBehaviour
 {
-    [System.Serializable]
-    private class ItemlInfo
+
+    [SerializeField] private RawImage[] spriteItemBuy;
+    [SerializeField] private RawImage[] spriteItemSell;
+    [SerializeField] private TMP_Text[] textItemBuy;
+    [SerializeField] private TMP_Text[] textItemSell;
+    [SerializeField] private TMP_Text[] textQuantityBuy;
+    [SerializeField] private TMP_Text[] textQuantitySell;
+
+    private ShopController shopController;
+    private List<Trade> tradesTemp;
+
+
+    public void RefreshShopUI(List<Trade> tradesRecieved)
     {
-        public int panelID;
-        public string itemText;
-        public Sprite itemImage;
+        tradesTemp = tradesRecieved;
+        for(int i = 0; i < tradesRecieved.Count; i++ )
+        {
+            try
+            {
+                Trade trade = tradesRecieved[i];
+                Items itemIn = trade.getItemIn();
+                Items itemOut = trade.getItemOut();
+
+                int quantityIn = trade.getQuantityIn();
+                int quantityOut = trade.getQuantityOut();
+                spriteItemBuy[i].texture = itemIn.icon;
+                spriteItemSell[i].texture = itemOut.icon;
+                textItemBuy[i].text = itemIn.itemName;
+                textItemSell[i].text = itemOut.itemName;
+                textQuantityBuy[i].text = itemIn.quantity.ToString();
+                textQuantitySell[i].text = itemOut.quantity.ToString();
+            }
+            catch
+            {
+                print("error index out of bounds: " + i);
+            }
+        }
     }
 
-    [SerializeField] private ItemlInfo[] items;
-    [SerializeField] private Image spriteDisplayImage;
-    [SerializeField] private TMP_Text textItemName;
-    [SerializeField] private TMP_Text textItemQuantity;
-
-    public void displayItems(string action)
+    public void TradeAction(int tradeIndex, bool tradeCorrect)
     {
-        // for recorriendo todas las casillas tienda
-        spriteDisplayImage.sprite = items[0].itemImage;
-        textItemName.text = items[0].itemText;
-        textItemQuantity.text = items[0].itemText; // preguntar a inventario cnatidad
-        print("panel index: " + 0);
-    }
+        InventoryManager inventory = InventoryManager.Instance;
+        Trade trad = tradesTemp[tradeIndex];
+        if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
+        {
+            shopController.Trade(tradeIndex);
+            tradeCorrect = true;
+        }
+        else
+        {
+            tradeCorrect = false;
+        }
+        }
 
-    private Sprite findItemSprite(string item)
-    {
-        return spriteDisplayImage.sprite;
-    }
-    private string findeItemName()
-    {
-        return "Ejemplo"; //alamcenar nombre de items con sus sprites correspondientes
-
-    }
-
-    private int findItemQuantity(string itemName)
-    {
-        return 1; //llamar inventario
-    }
 }
