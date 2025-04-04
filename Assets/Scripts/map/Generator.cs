@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Generator : MonoBehaviour {
   [SerializeField] private TileData tileData;
-  [SerializeField] private Vector3Int frw;  // Fence, river, wall columns
+  [SerializeField] private int fence;
+  [SerializeField] private int river;
+  [SerializeField] private int wall;
   [SerializeField] private int mapSize;
   [SerializeField] private int numPaths;
   [SerializeField] private float[] roomOdds;
@@ -30,8 +30,8 @@ public class Generator : MonoBehaviour {
     camera_ = Camera.main;
 
     Assert.IsTrue(mapSize % 2 != 0, "mapSize has to be an odd integer");
-    Assert.IsTrue(frw.x < frw.y && frw.y < frw.z, "The values in frw have to increase");
-    Assert.IsTrue(frw.x % 2 != 0 && frw.y % 2 != 0 && frw.z % 2 != 0, "The values in frw have to be odd integers");
+    Assert.IsTrue(fence < river && river < wall, "The values in frw have to increase");
+    Assert.IsTrue(fence % 2 != 0 && river % 2 != 0 && wall % 2 != 0, "The values in frw have to be odd integers");
 
     if (gameManager_.map == null) {
       // Initialize the map
@@ -73,9 +73,9 @@ public class Generator : MonoBehaviour {
       for (int j = 0; j < mapSize; ++j) {
         TileType type = TileType.Void;
         if (i % 2 == 0 || j % 2 == 0) type = TileType.Road;
-        if (i + j == frw.x) type = TileType.Fence;
-        if (i + j == frw.y) type = TileType.River;
-        if (i + j == frw.z) type = TileType.Wall;
+        if (i + j == fence) type = TileType.Fence;
+        if (i + j == river) type = TileType.River;
+        if (i + j == wall) type = TileType.Wall;
         if (i % 2 == 0 && j % 2 == 0) type = TileType.Room;
 
         Tile tile = new Tile(tileData, type);
@@ -145,8 +145,8 @@ public class Generator : MonoBehaviour {
         while (!ValidateRoom(room, i + j));
         if (i + j == 0) room = RoomType.Tavern;
         if (i + j == 2) room = RoomType.Grain;
-        // if (i + j == frw.y + 1) room = RoomType.Trees;
-        if (i + j == frw.z + 1) room = RoomType.Treasure;
+        // if (i + j == river + 1) room = RoomType.Trees;
+        if (i + j == wall + 1) room = RoomType.Treasure;
         if (i + j == 2 * mapSize - 4) room = RoomType.Rest;
         if (i + j == 2 * mapSize - 2) room = RoomType.Boss;
         tile.SetRoom(room);
@@ -205,8 +205,9 @@ public class Generator : MonoBehaviour {
       for (int j = 0; j < mapSize; ++j)
         GetTile(i, j).Instantiate(xOff * i + yOff * j + mapOff, transform_);
 
-    GetTile(tile_ + 2 * Vector2Int.up).EnableInteractions();
-    GetTile(tile_ + 2 * Vector2Int.right).EnableInteractions();
+    Tile tile = GetTile(tile_);
+    if (tile.HasRoad(Vector2Int.up   )) GetTile(tile_ + 2 * Vector2Int.up   ).EnableInteractions();
+    if (tile.HasRoad(Vector2Int.right)) GetTile(tile_ + 2 * Vector2Int.right).EnableInteractions();
 
     playerTransform.position = xOff * tile_.x + yOff * tile_.y + mapOff;
     playerMovement.ClearTarget();
@@ -217,22 +218,23 @@ public class Generator : MonoBehaviour {
   #region MapMovement
 
   private void TileSelect() {
-    Tile tileA = GetTile(tile_ + 2 * Vector2Int.up   );
-    Tile tileB = GetTile(tile_ + 2 * Vector2Int.right);
+    Tile tile = GetTile(tile_);
+    Tile nextU = tile.HasRoad(Vector2Int.up   ) ? GetTile(tile_ + 2 * Vector2Int.up   ) : null;
+    Tile nextR = tile.HasRoad(Vector2Int.right) ? GetTile(tile_ + 2 * Vector2Int.right) : null;
 
-    tileA.Outline();
-    tileB.Outline();
+    nextU?.Outline();
+    nextR?.Outline();
 
     Ray ray = camera_.ScreenPointToRay(Input.mousePosition); // Lanza un rayo desde la c�mara
     if (!Physics.Raycast(ray, out RaycastHit hit, 100.0f, tileLayer)) return;
     GameObject instance = hit.transform.parent.gameObject;
 
-    TileHover(tileA, Vector2Int.up   , instance);
-    TileHover(tileB, Vector2Int.right, instance);
+    TileHover(nextU, Vector2Int.up   , instance);
+    TileHover(nextR, Vector2Int.right, instance);
   }
 
   private void TileHover(Tile tile, Vector2Int path, GameObject instance) {
-    if (!tile.IsInstance(instance)) return;
+    if (tile == null || !tile.IsInstance(instance)) return;
 
     tile.Highlight();
     if (!Input.GetMouseButtonDown(0)) return;
@@ -242,5 +244,4 @@ public class Generator : MonoBehaviour {
   }
 
   #endregion
-
 }

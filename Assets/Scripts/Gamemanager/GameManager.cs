@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour {
 
   public static GameManager Instance { get; private set; }
 
+  public PlayerStats playerStats;
 
   private void Awake() {
     if (Instance != null && Instance != this) {
@@ -41,6 +43,10 @@ public class GameManager : MonoBehaviour {
     mapSize_ = 0;
   }
 
+  private void ClearPlayerStats() {
+    playerStats.Reset();
+  }
+
   public Vector2Int tile { get; set; }
 
   public RoomType room { get { return map[tile.x * mapSize_ + tile.y].GetRoom(); } }
@@ -62,6 +68,7 @@ public class GameManager : MonoBehaviour {
     AudioManager.Instance.PlayLobbyMusic();
     UIManager.Instance.ShowLobbyCanvas();
     ClearMap();
+    ClearPlayerStats();
     SceneManager.LoadScene("Lobby");
   }
 
