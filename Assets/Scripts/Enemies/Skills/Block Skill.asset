@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89227cfcc973c2745966d87e406cf35c, type: 3}
-  m_Name: Jump Skill
+  m_Script: {fileID: 11500000, guid: 86aa8bb1befea0b42a79bc453e88ec7d, type: 3}
+  m_Name: Block Skill
   m_EditorClassIdentifier: 
-  cooldown: 7
+  cooldown: 10
   damage: 5
   isCasting: 0
-  jumpAttackSpeed: 5
-  minRange: 5
-  maxRange: 9
-  jumpAttackHeight: 3
+  minRange: 2
+  maxRange: 2

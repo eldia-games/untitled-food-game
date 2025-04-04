@@ -500,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 77806c78b57435e45a0d06f58f4d83eb, type: 2}
+      objectReference: {fileID: 9100000, guid: c060f4f5ab6556c4c83452d176dec5b5, type: 2}
     - target: {fileID: 5866666021909216657, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -590,11 +590,9 @@ MonoBehaviour:
   rb: {fileID: 1095745720933864303}
   agent: {fileID: 2051636581066058194}
   animator: {fileID: 7791140834202530815}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds:
   - {fileID: 8300000, guid: 1f0199a4c6005ec4abbb302f71bc036d, type: 3}
   - {fileID: 8300000, guid: 53e2adf2ac488ef46bb2b4074de9e363, type: 3}
@@ -617,15 +615,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 068414160a0ccf34ca0c11b55d43ffc8, type: 3}
   - {fileID: 8300000, guid: 02d4b2dff380d194fab91c0864b0c386, type: 3}
   isAttacking: 0
-  canBlock: 1
-  blockChance: 0.5
-  blockDuration: 1.5
-  blockCooldown: 5
-  shieldCollider: {fileID: 3577386699554419429}
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 3577386699554419429}
   isBlocking: 0
-  attackCollider: {fileID: 3577386699554419429}
-  numberOfMeleeAttacks: 2
-  lookAtPlayerWhileAttacking: 0
+  fleeDistance: 7
+  fleeRadius: 1
+  approachDistance: 10
+  rayCount: 12
+  checkRadius: 1
+  orbitalChangeInterval: 3
+  attackSound: {fileID: 0}
+  skills:
+  - {fileID: 11400000, guid: 4e2291acc4094de45ada6598ad77799a, type: 2}
+  - {fileID: 11400000, guid: 784f461e52827784b9b3f8446b6f77d9, type: 2}
 --- !u!136 &3625756091097525125
 CapsuleCollider:
   m_ObjectHideFlags: 0

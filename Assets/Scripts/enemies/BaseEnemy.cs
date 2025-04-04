@@ -120,11 +120,6 @@ public abstract class BaseEnemy : MonoBehaviour
         RaycastHit hit;
         bool isHit = Physics.Raycast(origin, player.transform.position - origin, out hit, distance);
 
-        // Se ve si: 
-        //   a) está dentro del radio de visión, 
-        //   b) el ángulo es menor a viewAngle/2, 
-        //   c) el raycast golpea al jugador, 
-        //   O si está muy cerca del rango de ataque
         isSeen = (distance < viewRadius && angle < viewAngle / 2 && isHit && hit.collider.gameObject == player)
                  || (distance < (attackRange + 1f));
     }
@@ -270,6 +265,13 @@ public abstract class BaseEnemy : MonoBehaviour
         Vector3 direction = (targetPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+    }
+
+    public virtual void LookAt(Vector3 targetPos)
+    {
+        Vector3 direction = (targetPos - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = lookRotation;
     }
 
     /// <summary>

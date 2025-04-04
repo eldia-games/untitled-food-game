@@ -1,18 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Homing Attack Skill", menuName = "ScriptableObject/Skills/Homing")]
-public class HomingSpellSkill : SkillScriptableObject
+[CreateAssetMenu(fileName = "Predict Attack Skill", menuName = "ScriptableObject/Skills/Predict")]
+public class PredictSpellSkill : SkillScriptableObject
 {
     public float minRange = 5.0f;
     public float maxRange = 10.0f;
     // En caso de que no exista ningun origen especifico, se usara este offset por defecto
     public Vector3 defaultOffset = Vector3.up * 1f;
 
-    public GameObject spellPrefab;
-    protected bool fireballShooted = false;
+    public float projectileSpeed = 10f;
 
-    public GameObject staffTip;
+    public GameObject spellPrefab;
+    protected bool shooted = false;
+    protected Vector3 predictedPos;
 
     public override bool CanUseSkill(BaseEnemyV2 enemy, GameObject player)
     {
@@ -44,15 +45,14 @@ public class HomingSpellSkill : SkillScriptableObject
 
     public override void UseSkill(BaseEnemyV2 enemy, GameObject player)
     {
-        Debug.Log("Usando habilidad de ataque homing");
         base.UseSkill(enemy, player);
-        enemy.animator.SetTrigger("spellShoot");
+        enemy.animator.SetTrigger("shoot1H");
     }
 
     public override void Use(BaseEnemyV2 enemy, GameObject player)
     {
         base.Use(enemy, player);
-        enemy.animator.SetTrigger("spellShoot");
+        enemy.animator.SetTrigger("shoot1H");
         enemy.StartCoroutine(UseSkillCoroutine(enemy, player));
     }
 
@@ -64,50 +64,50 @@ public class HomingSpellSkill : SkillScriptableObject
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)
     {
-        Debug.Log("Ha salido el evento de animación de ataque homing");
         base.OnAnimationEvent(enemy, player);
 
-        if (spellPrefab != null && player != null)
+        if (spellPrefab != null)
         {
+
             Vector3 spawnPos = enemy.transform.position + defaultOffset;
-            if (enemy is MageV2 mage && mage.staffTip != null)
+            if (enemy.projectileSpawnPoint != null)
             {
-                spawnPos = mage.staffTip.position;
+                spawnPos = enemy.projectileSpawnPoint.transform.position;
             }
 
             GameObject spell = Instantiate(spellPrefab, spawnPos, Quaternion.identity);
-            SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
-            if (spellScript != null)
+            ArrowProjectile arrow = spell.GetComponent<ArrowProjectile>();
+            if (arrow != null)
             {
-                // Por ejemplo, si usas una función SetTarget en el proyectil:
-                spellScript.SetTarget(player.transform);
+                // Ejemplo de predicción
+                arrow.speed = projectileSpeed;
+                predictedPos = enemy.PredictFuturePosition(arrow.speed);
+                arrow.SetTargetPosition(predictedPos);
             }
-            
         }
-        fireballShooted = true;
+        shooted = true;
     }
 
     // Corrrutina para usar la habilidad
     private IEnumerator UseSkillCoroutine(BaseEnemyV2 enemy, GameObject player)
     {
-        // Espera a que la animación "Fireball Shoot" comience.
-        while (!enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Shoot"))
+        // Espera a que la animación comience.
+        while (!enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("1H Ranged Shoot"))
         {
             yield return null;
         }
         
         // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
-        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f
+               && enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("1H Ranged Shoot"))
         {
-            if(!fireballShooted)
-                enemy.RotateTowards(player.transform.position);
+            if(!shooted)
+                enemy.LookAt(player.transform.position);
             else
-                enemy.SlowlyRotateTowards(player.transform.position);
+                enemy.SlowlyRotateTowards(predictedPos);
                 
             yield return null;
         }
-
-        Debug.Log("La habilidad ha terminado de usarse.");
         // La animación ha finalizado.
         castTime = Time.time;
         isCasting = false;

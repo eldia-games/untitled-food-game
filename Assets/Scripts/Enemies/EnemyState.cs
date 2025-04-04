@@ -3,6 +3,7 @@
     Spawn,
     Idle,
     Taunt,
+    Combat,
     Chase,
     UsingAbility,
     Dead

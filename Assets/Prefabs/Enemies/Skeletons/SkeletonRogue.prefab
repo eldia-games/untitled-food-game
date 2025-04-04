@@ -362,7 +362,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 5.73
-  viewRadius: 7.06
+  viewRadius: 9.68
   viewAngle: 90
   timeToReset: 5
   attackCooldown: 3
@@ -370,20 +370,22 @@ MonoBehaviour:
   rb: {fileID: 3418383512610782285}
   agent: {fileID: 2589995326297769697}
   animator: {fileID: 1394325426352577820}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
   isAttacking: 0
-  fleeDistance: 3
-  fleeRadius: 3
+  projectileSpawnPoint: {fileID: 6413166931248803348}
+  fleeDistance: 5
+  fleeRadius: 5
+  approachDistance: 10
   rayCount: 12
   checkRadius: 1
-  spellPrefab: {fileID: 1403427671647912125, guid: 3feb8c4397967cc43b58be8cd759242d, type: 3}
-  staffTip: {fileID: 6741263727659961559}
+  orbitalChangeInterval: 3
+  skills:
+  - {fileID: 11400000, guid: 53e6d996f82e01247a800df947a955d5, type: 2}
+  - {fileID: 11400000, guid: f6aabde2bbf5b9c41b843fcceeeded99, type: 2}
 --- !u!95 &1394325426352577820
 Animator:
   serializedVersion: 5
@@ -394,7 +396,7 @@ Animator:
   m_GameObject: {fileID: 5074866041816356351}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
-  m_Controller: {fileID: 9100000, guid: fa555e32e5171a0419e498c6bcfa7ff5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4d614c039b399444a95d11235b5a30b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

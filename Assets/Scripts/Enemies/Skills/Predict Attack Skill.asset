@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89227cfcc973c2745966d87e406cf35c, type: 3}
-  m_Name: Jump Skill
+  m_Script: {fileID: 11500000, guid: e44eb0a27a6ef694699d3645baf20fc8, type: 3}
+  m_Name: Predict Attack Skill
   m_EditorClassIdentifier: 
-  cooldown: 7
+  cooldown: 2
   damage: 5
   isCasting: 0
-  jumpAttackSpeed: 5
-  minRange: 5
+  minRange: 2
   maxRange: 9
-  jumpAttackHeight: 3
+  defaultOffset: {x: 0, y: 1, z: 0}
+  projectileSpeed: 10
+  spellPrefab: {fileID: 1403427671647912125, guid: 5c8c1cfd06999b140a077b4214ac669c, type: 3}
