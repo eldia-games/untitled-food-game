@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
+    [SerializeField] private ShopUIManager shopUIManager; 
 
     public static UIManager Instance { get; private set; }
 
@@ -130,6 +131,14 @@ public class UIManager : MonoBehaviour
         Debug.Log("Vuelvo desde opciones a donde estaba antes");
     }
 
+    public void ReturnFromRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+        Debug.Log("Vuelvo a settings desde rebind");
+    }
+
     public void ShowCreditsCanvas()
     {
         HideMainMenu();
@@ -191,6 +200,33 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void ShowShopCanvas(string trades)
+    {
+        ShowShop();
+        AudioManager.Instance.PlaySFXOpen();
+    }
+
+    public void HideShopCanvas()
+    {
+        HideShop();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void ShowControlsRebind()
+    {
+        HideSettings();
+        ShowRebind();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void HideControlsRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+
     public void ExitGame()
     {
 #if UNITY_EDITOR
@@ -201,6 +237,12 @@ public class UIManager : MonoBehaviour
     }
 
     #region Player Stats UI
+
+    public void ResetPlayerHealthMana()
+    {
+        healthManaUIManager.ResetPlayer();
+    }
+
     public void SetMaxHealth(float health)
     {
         healthManaUIManager.SetMaxHealth(health);
@@ -454,6 +496,26 @@ public class UIManager : MonoBehaviour
     private void HidePopUp()
     {
         HideCanvasByIndex(13);
+    }
+
+    private void ShowShop()
+    {
+        ShowCanvasByIndex(14);
+    }
+
+    private void HideShop()
+    {
+        HideCanvasByIndex(14);
+    }
+
+    private void ShowRebind()
+    {
+        ShowCanvasByIndex(15);
+    }
+
+    private void HideRebind()
+    {
+        HideCanvasByIndex(15);
     }
     #endregion 
 
