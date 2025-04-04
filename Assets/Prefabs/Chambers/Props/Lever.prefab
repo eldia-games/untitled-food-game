@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 5417189111996215452}
   - component: {fileID: -8180408411261644290}
   - component: {fileID: 1678933780928368375}
+  - component: {fileID: 6829542319667174613}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -113,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 4232647716082886864}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -57.55695, y: 57.24, z: 250.15071}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -206,7 +207,7 @@ MonoBehaviour:
   interactFunction:
     m_PersistentCalls:
       m_Calls: []
-  actionName: 
+  actionName: accionar la palanca
   type: 0
 --- !u!135 &1678933780928368375
 SphereCollider:
@@ -229,3 +230,24 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.015
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6829542319667174613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232647716082886864}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0054077604, y: 0.014438994, z: 0.0023274915}
+  m_Center: {x: 0.000000049360096, y: -0.00016484363, z: -0.000090742775}

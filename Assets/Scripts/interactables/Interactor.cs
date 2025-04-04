@@ -13,20 +13,32 @@ public enum InteractionType
 public class Interactor : MonoBehaviour
 {
     private Interactable interactable;
+    private int sum = 0;
 
     public void EnterInteractableRange(Interactable interact)
     {
+        UIManager.Instance.ShowPopUpCanvas(interact.getAction(),interact.isActive());
         interactable = interact;
+        sum++;
     }
     public void ExitUnteractableRange()
     {
         interactable = null;
+        sum--;
+        if (sum == 0)
+        {
+            UIManager.Instance.HidePopUpCanvas();
+        }
     }
     public void interact()
     {
         if (interactable != null && interactable.isActive())
         {
             interactable.Interact();
+
+            UIManager.Instance.HidePopUpCanvas();
+            sum = 0;
+
         }
     }
     public InteractionType GetInteractionType()

@@ -1,19 +1,18 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DungeonController : MonoBehaviour, IChamberController {
   [SerializeField] private List<GameObject> monsters;
   [SerializeField] private bool trap;
+  [SerializeField, Range(1, 100)] private int baseEnemyAmount;
 
   private List<GameObject> doors;
   private GameObject lever;
   private GameObject exit;
-  private List<GameObject> spawns;
+  private List<Vector3> spawns;
   private GameObject player;
   private Animator playerAnimator;
   private List<Animator> doorAnimator;
@@ -30,7 +29,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     monstersSpawned = new List<int>();
     //generator_ = GetComponent<DungeonGenerator>();
     doors = new List<GameObject>();
-    spawns = new List<GameObject>();
+    spawns = new List<Vector3>();
     doorAnimator = new List<Animator>();
     pos = new List<Vector3>();
     pos.Add(new Vector3(0, 0, 0));
@@ -52,7 +51,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     doorAnimator.Add(door.GetComponent<Animator>());
   }
 
-  public void AddSpawn(GameObject spawn) {
+  public void AddSpawn(Vector3 spawn) {
     spawns.Add(spawn);
     monstersSpawned.Add(0);
   }
@@ -92,7 +91,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       totalRate += monsters[i].GetComponent<Spawneable>().getSpawnRate(level - 1);
       rateList.Add(totalRate);
     }
-    float forceLeft = level;
+    float forceLeft = level * baseEnemyAmount;
     while (spawns.Count > 0) {
       if (monstersSpawned.Min() >= 9) break;
       int spawnPoint = (int)Mathf.Round(Random.value * (spawns.Count - 1));
@@ -111,7 +110,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       if (value <= forceLeft) {
         forceLeft -= value;
 
-        GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint].transform.position + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
+        GameObject instancedObject = Instantiate(monsters[i], spawns[spawnPoint] + pos[monstersSpawned[spawnPoint]], Quaternion.identity);
         monsterList.Add(instancedObject);
         monstersSpawned[spawnPoint] += 1;
         enemiesLeft++;
