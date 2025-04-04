@@ -199,6 +199,23 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
+    public void refreshShop(List<Trade> tradesRecieved)
+    {
+        shopUIManager.RefreshShopUI(tradesRecieved);
+    }
+    public void TradeClick(int tradeIndex)
+    {
+        bool tradeCorrect = false;
+        shopUIManager.TradeAction(tradeIndex, tradeCorrect);
+        if (tradeCorrect)
+        {
+            AudioManager.Instance.PlaySFXConfirmation();
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFXClose();
+        }
+    }
 
     public void ShowShopCanvas(string trades)
     {

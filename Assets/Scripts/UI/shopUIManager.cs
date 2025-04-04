@@ -3,69 +3,61 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ShopUIManager : MonoBehaviour
 {
-    [System.Serializable]
-    private class ItemlInfo
-    {
-        public int panelID;
-        public string itemText;
-        public Sprite itemImage;
-    }
 
-    [SerializeField] private ItemlInfo[] items;
-    [SerializeField] private Image spriteDisplayImage;
-    [SerializeField] private TMP_Text textItemName;
-    [SerializeField] private TMP_Text textItemQuantity;
+    [SerializeField] private RawImage[] spriteItemBuy;
+    [SerializeField] private RawImage[] spriteItemSell;
+    [SerializeField] private TMP_Text[] textItemBuy;
+    [SerializeField] private TMP_Text[] textItemSell;
+    [SerializeField] private TMP_Text[] textQuantityBuy;
+    [SerializeField] private TMP_Text[] textQuantitySell;
 
-    public void displayItems(string action)
-    {
-        // for recorriendo todas las casillas tienda
-        spriteDisplayImage.sprite = items[0].itemImage;
-        textItemName.text = items[0].itemText;
-        textItemQuantity.text = items[0].itemText; // preguntar a inventario cnatidad
-        print("panel index: " + 0);
-    }
+    private ShopController shopController;
+    private List<Trade> tradesTemp;
 
-    private Sprite findItemSprite(string item)
-    {
-        return spriteDisplayImage.sprite;
-    }
-    private string findeItemName()
-    {
-        return "Ejemplo"; //alamcenar nombre de items con sus sprites correspondientes
 
-    }
-
-    private int findItemQuantity(string itemName)
+    public void RefreshShopUI(List<Trade> tradesRecieved)
     {
-        return 1; //llamar inventario
-    }
-    [SerializeField]
-    [SerializeField] private GameObject tradesHolder;
-    public GameObject[] trades;
-    public Dictionary<ItemInInventory> itemDictionary;
-    [SerializeField] public Items itemToAdd;
-    [SerializeField] public Items itemToRemove;
-
-    public void RefreshShopUI()
-    {
-        for (int i = 0; i < slots.Length; i++)
+        tradesTemp = tradesRecieved;
+        for(int i = 0; i < tradesRecieved.Count; i++ )
         {
-            itemTrades[i].GetComponent<Image>().sprite = items[i].item.icon;
-            itemTrades[i].GetComponentInChildren<TextMeshProUGUI>().text = items[i].quantity.ToString();
-            itemTrades[i].GetComponent<Image>().sprite = items[i].item.icon;
-            itemTrades[i].GetComponentInChildren<TextMeshProUGUI>().text = items[i].quantity.ToString();
+            try
+            {
+                Trade trade = tradesRecieved[i];
+                Items itemIn = trade.getItemIn();
+                Items itemOut = trade.getItemOut();
+
+                int quantityIn = trade.getQuantityIn();
+                int quantityOut = trade.getQuantityOut();
+                spriteItemBuy[i].texture = itemIn.icon;
+                spriteItemSell[i].texture = itemOut.icon;
+                textItemBuy[i].text = itemIn.itemName;
+                textItemSell[i].text = itemOut.itemName;
+                textQuantityBuy[i].text = itemIn.quantity.ToString();
+                textQuantitySell[i].text = itemOut.quantity.ToString();
+            }
+            catch
+            {
+                print("error index out of bounds: " + i);
+            }
         }
     }
-    //public void confirmTrade(int tradeNumber)
-    //{
-    //    switch{
-    //        case 1:
-    //            InventoryManager.Instance.AddItem(itemTrades[1], 1, itemTrades[], true);
-    //            InventoryManager.Instance.RemoveItem(itemTrades[2], 1, itemTrades[], true);
-    //    }
-    //}
+
+    public void TradeAction(int tradeIndex, bool tradeCorrect)
+    {
+        InventoryManager inventory = InventoryManager.Instance;
+        Trade trad = tradesTemp[tradeIndex];
+        if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
+        {
+            shopController.Trade(tradeIndex);
+            tradeCorrect = true;
+        }
+        else
+        {
+            tradeCorrect = false;
+        }
+        }
+
 }
