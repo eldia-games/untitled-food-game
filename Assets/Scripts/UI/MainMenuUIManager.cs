@@ -187,9 +187,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayEndGameMusic();
     }
 
-    public void ShowPopUpCanvas(string action)
+    public void ShowPopUpCanvas(string action,bool active)
     {
-        popUpUIManager.displayUI(action);
+        popUpUIManager.displayUI(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
     }
@@ -199,9 +199,9 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
-    public void refreshShop(List<Trade> tradesRecieved)
+    public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
     {
-        shopUIManager.RefreshShopUI(tradesRecieved);
+        shopUIManager.RefreshShopUI(tradesRecieved, shop);
     }
     public void TradeClick(int tradeIndex)
     {
@@ -217,7 +217,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowShopCanvas(string trades)
+    public void ShowShopCanvas()
     {
         ShowShop();
         AudioManager.Instance.PlaySFXOpen();

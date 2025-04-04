@@ -26,10 +26,6 @@ public class ShopController : MonoBehaviour, IChamberController {
 
 
 
-    public void Start()
-    {
-        trades= new List<Trade>();
-    }
 
 
 
@@ -40,7 +36,7 @@ public class ShopController : MonoBehaviour, IChamberController {
 
   // Update is called once per frame
   public void initiallise(int level) {
-
+        trades = new List<Trade>();
         int totalRateIn = 0;
         List<int> rateListIn = new List<int>();
         for (int i = 0; i < ObjectsIn.Count; i++)
@@ -48,48 +44,54 @@ public class ShopController : MonoBehaviour, IChamberController {
             totalRateIn += ObjectsIn[i].GetComponent<ObjectDrop>().getSpawnRate(level - 1);
             rateListIn.Add(totalRateIn);
         }
+
         int totalRateOut = 0;
         List<int> rateListOut = new List<int>();
-        for (int i = 0; i < ObjectsIn.Count; i++)
+        for (int i = 0; i < ObjectsOut.Count; i++)
         {
             totalRateOut += ObjectsOut[i].GetComponent<ObjectDrop>().getSpawnRate(level - 1);
             rateListOut.Add(totalRateOut);
         }
-        for(int i = 0;i < 3; i++)
+
+        for (int i = 0;i < 3; i++)
         {
             float random = Random.value * totalRateIn;
             int j = 0;
             while (rateListIn[j] < random) j++;
             float random2 = Random.value * totalRateOut;
             int k = 0;
-            while (rateListIn[k] < random) k++;
+            while (rateListOut[k] < random2) k++;
             ObjectDrop objectIn = ObjectsIn[j].GetComponent<ObjectDrop>();
             int quantityIn= Mathf.CeilToInt((float)(level)/objectIn.getValue());
             ObjectDrop objectOut = ObjectsOut[k].GetComponent<ObjectDrop>();
             int quantityOut = Mathf.CeilToInt((float)(level) / objectOut.getValue());
+
             trades.Add(new Trade(objectIn.item, quantityIn, objectIn.indexLoot, objectOut.item, quantityOut, objectOut.indexLoot));
 
 
 
         }
+        UIManager.Instance.refreshShop(trades,this);
         StartDungeonEnterAnimation();
   }
 
   
    public void OpenShop()
     {
-        //que se abra la interfaz
+        UIManager.Instance.ShowShopCanvas();
     }
 
     public void Trade(int tradeIndex)
     {
+
         if (!TradeDone)
         {
+            UIManager.Instance.HideShopCanvas();
             InventoryManager inventory = InventoryManager.Instance;
             Trade trad = trades[tradeIndex];
             if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
             {
-                inventory.RemoveItem(trad.getItemIn(), trad.getQuantityIn());
+                inventory.RemoveItemNoDrop(trad.getItemIn(), trad.getQuantityIn());
                 inventory.AddItem(trad.getItemOut(), trad.getIndexOut(), trad.getQuantityOut(), true);
             }
         }
