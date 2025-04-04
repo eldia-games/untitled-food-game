@@ -28,7 +28,10 @@ public class MapMovement : MonoBehaviour {
   }
 
   void FixedUpdate() {
-    if (target_ == Vector3.zero) return;
+    if (target_ == Vector3.zero) {
+      animator_.SetFloat("Moving", 0);
+      return;
+    }
 
     Vector3 movement = target_ - transform_.position;
     Quaternion lookAt = Quaternion.LookRotation(movement, Vector3.up);
@@ -37,13 +40,13 @@ public class MapMovement : MonoBehaviour {
 
     transform_.position = Vector3.MoveTowards(transform_.position, target_, movementSpeed * Time.fixedDeltaTime);
     float distance = movement.magnitude;
-    animator_.SetFloat("distance", distance);
+    animator_.SetFloat("Moving", 10 * distance);
     if (distance > .1f) return;
 
     target_ += Vector3.forward;
     targetTime_ = Time.time;
     targetReached_ = true;
-    animator_.SetFloat("distance", 0);
+    animator_.SetFloat("Moving", 0);
   }
 
   public void SetTarget(Vector3 position) {
