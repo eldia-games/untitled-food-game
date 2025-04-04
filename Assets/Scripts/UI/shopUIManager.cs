@@ -18,7 +18,7 @@ public class ShopUIManager : MonoBehaviour
     private List<Trade> tradesTemp;
 
 
-    public void RefreshShopUI(List<Trade> tradesRecieved)
+    public void RefreshShopUI(List<Trade> tradesRecieved, ShopController shop)
     {
         tradesTemp = tradesRecieved;
         for(int i = 0; i < tradesRecieved.Count; i++ )
@@ -35,8 +35,9 @@ public class ShopUIManager : MonoBehaviour
                 spriteItemSell[i].texture = itemOut.icon;
                 textItemBuy[i].text = itemIn.itemName;
                 textItemSell[i].text = itemOut.itemName;
-                textQuantityBuy[i].text = itemIn.quantity.ToString();
-                textQuantitySell[i].text = itemOut.quantity.ToString();
+                textQuantityBuy[i].text = quantityIn.ToString();
+                textQuantitySell[i].text = quantityOut.ToString();
+                shopController = shop;
             }
             catch
             {
@@ -45,18 +46,19 @@ public class ShopUIManager : MonoBehaviour
         }
     }
 
-    public void TradeAction(int tradeIndex, bool tradeCorrect)
+    public bool TradeAction(int tradeIndex, bool tradeCorrect)
     {
         InventoryManager inventory = InventoryManager.Instance;
         Trade trad = tradesTemp[tradeIndex];
+        Debug.Log("asdfghjk00");
         if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
         {
             shopController.Trade(tradeIndex);
-            tradeCorrect = true;
+            return  true;
         }
         else
         {
-            tradeCorrect = false;
+            return  false;
         }
         }
 

@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27730325df00a0498015ef870aa6004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chamberType: 2
+  chamberType: 4
   chamberLevel: 2
 --- !u!114 &450636975
 MonoBehaviour:
@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 722972524}
   - component: {fileID: 722972525}
   - component: {fileID: 722972526}
+  - component: {fileID: 722972527}
   m_Layer: 0
   m_Name: ChamberGenerator
   m_TagString: Untagged
@@ -523,6 +524,21 @@ MonoBehaviour:
   ChamberType: 8
   chambers:
   - {fileID: 3665512600638360782, guid: f85ba720b9f08174ab050a9bff0e7dd8, type: 3}
+--- !u!114 &722972527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722972517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac02ca471690a84880a9c09677dd08d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChamberType: 4
+  chambers:
+  - {fileID: 3665512600638360782, guid: ba92d277334118549a0b085c803854cf, type: 3}
 --- !u!1001 &766281893
 PrefabInstance:
   m_ObjectHideFlags: 0
