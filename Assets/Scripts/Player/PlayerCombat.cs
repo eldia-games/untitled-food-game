@@ -56,7 +56,6 @@ public class PlayerCombat : MonoBehaviour
 
     public new Camera camera;
     public GameObject player;
-    private Vector3 lookAtPosition;
     private Vector3 lookAtDirection;
 
     private Vector3 pushDirection;
@@ -106,7 +105,6 @@ public class PlayerCombat : MonoBehaviour
 
         //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
         _anim.SetFloat("Weapon", weaponIndex);
-        _anim.SetInteger("weaponType", weaponIndex);
         try{
         UIManager.Instance.SetMaxHealth(maxLife);
         UIManager.Instance.SetMaxMana(maxMana);
@@ -188,8 +186,8 @@ public class PlayerCombat : MonoBehaviour
         if (attackAvailable && moving ==1)
         {
             player.transform.position = transform.position;
-            lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
-            lookAtDirection = (lookAtPosition - player.transform.position).normalized;
+            //lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
+            lookAtDirection = (transform.forward*_handler.input.y+ transform.right* _handler.input.x).normalized;
             
         }
 
@@ -209,28 +207,32 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //attack
-        if (_handler.attack && attackAvailable)
+        if (_handler.attack)
         {
-            // Asignar lookAtMouse a true inmediatamente para disparar la animación sin demora
-            lookAtMouse = true;
-
-            // Rotación fija para ataque utilizando la posición del ratón
+            //Fixed rotation player attack
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             var plane = new Plane(Vector3.up, player.transform.position);
             if (plane.Raycast(ray, out float distance))
             {
                 mousePosition = ray.GetPoint(distance);
-                lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
+                //lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
                 lookAtDirection = (mousePosition - player.transform.position).normalized;
             }
-            
-            _anim.SetTrigger("Attack");
-            StartCoroutine(AttackCooldown());
-            OnAttack();
+            if (attackAvailable && lookAtMouse)
+            {
+                attackAvailable = false;
+                _anim.SetTrigger("Attack");
+
+                StartCoroutine(AttackCooldown());
+                OnAttack();
+            }
+            if(!lookAtMouse)
+            {
+                StartCoroutine(AttackWaitMouse());
+            }
         }
-        else if (!_handler.attack)
+        else
         {
-            // Reinicia lookAtMouse cuando no se mantiene el input de ataque
             lookAtMouse = false;
         }
 
@@ -302,7 +304,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator AttackWaitMouse()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         lookAtMouse = true;
     }
 
@@ -374,7 +376,6 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         weaponIndex = weaponIndexOld;
         _anim.SetFloat("Weapon", weaponIndex);
-        _anim.SetInteger("weaponType", weaponIndex);
         healCooldown = true;
     }
 
@@ -525,7 +526,6 @@ public class PlayerCombat : MonoBehaviour
                 weaponIndexOld = weaponIndex;
                 weaponIndex = 3;
                 _anim.SetFloat("Weapon", weaponIndex);
-                _anim.SetInteger("weaponType", weaponIndex);
                 _anim.SetTrigger("Attack");
                 _anim.SetFloat("HP", HP);
                 StartCoroutine(HealCooldown());
