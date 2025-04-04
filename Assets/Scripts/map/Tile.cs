@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Random = UnityEngine.Random;
 
 public class Tile {
   private TileData tileData_;
@@ -25,18 +23,18 @@ public class Tile {
 
   public void Connect(Vector2Int offset) {
     if (offset.x < 0) roads_ |= 0b0001;  // Path from top
-    if (offset.y < 0) roads_ |= 0b0010;  // Path from bottom
+    if (offset.y < 0) roads_ |= 0b0010;  // Path from right
     if (offset.y > 0) roads_ |= 0b0100;  // Path to top
-    if (offset.x > 0) roads_ |= 0b1000;  // Path to bottom
+    if (offset.x > 0) roads_ |= 0b1000;  // Path to right
   }
 
   public bool HasRoad(Vector2Int offset) {
     int road = 0;
     if (offset.x < 0) road |= roads_ & 0b0001;  // Path from top
-    if (offset.y < 0) road |= roads_ & 0b0010;  // Path from bottom
+    if (offset.y < 0) road |= roads_ & 0b0010;  // Path from right
     if (offset.y > 0) road |= roads_ & 0b0100;  // Path to top
-    if (offset.x > 0) road |= roads_ & 0b1000;  // Path to bottom
-    return road != 0;
+    if (offset.x > 0) road |= roads_ & 0b1000;  // Path to right
+    return road != 0 && type_ == TileType.Room;
   }
 
   #endregion
@@ -79,7 +77,7 @@ public class Tile {
     outline_ = instance_.GetComponentInChildren<Outline>();
     if (outline_ != null) outline_.enabled = false;
 
-    collider_ = instance_.GetComponentInChildren<Collider>();
+    collider_ = instance_.GetComponentInChildren<SphereCollider>();
     if (collider_ != null) collider_.enabled = false;
 
     if (type_ == TileType.Room && roads_ != 0) {
@@ -101,14 +99,12 @@ public class Tile {
   }
 
   public void Outline() {
-
-    if (outline_ == null ) return;
+    if (outline_ == null) return;
     outline_.OutlineColor = Color.white;
     outline_.OutlineWidth = 4.0f;
   }
 
   public void Highlight() {
-
     if (outline_ == null) return;
     outline_.OutlineColor = Color.green;
     outline_.OutlineWidth = 8.0f;

@@ -30,13 +30,21 @@ public class Trade
     {
         return this.quantityIn;
     }
-    public Items getOut()
+    public int getIndexIn()
+    {
+        return this.indexLootIn;
+    }
+    public Items getItemOut()
     {
         return this.itemOut;
     }
-    public int getQuantityOun()
+    public int getQuantityOut()
     {
         return this.quantityOun;
+    }
+    public int getIndexOut()
+    {
+        return this.indexLootOut;
     }
 
 }

@@ -131,6 +131,14 @@ public class UIManager : MonoBehaviour
         Debug.Log("Vuelvo desde opciones a donde estaba antes");
     }
 
+    public void ReturnFromRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+        Debug.Log("Vuelvo a settings desde rebind");
+    }
+
     public void ShowCreditsCanvas()
     {
         HideMainMenu();
@@ -186,24 +194,6 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXSelect();
     }
 
-    //public void ShowPopUpLever()
-    //{
-    //    popUpUIManager.useLeverPanel();
-    //    ShowPopUpCanvas();
-    //}
-
-    //public void ShowPopUpChest()
-    //{
-    //    popUpUIManager.useChestPanel();
-    //    ShowPopUpCanvas();
-    //}
-
-    //public void ShowPopUpDoor()
-    //{
-    //    popUpUIManager.useDoorPanel();
-    //    ShowPopUpCanvas();
-    //}
-
     public void HidePopUpCanvas()
     {
         HidePopUp();
@@ -222,6 +212,20 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void ShowControlsRebind()
+    {
+        HideSettings();
+        ShowRebind();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void HideControlsRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
 
     public void ExitGame()
     {
@@ -233,6 +237,12 @@ public class UIManager : MonoBehaviour
     }
 
     #region Player Stats UI
+
+    public void ResetPlayerHealthMana()
+    {
+        healthManaUIManager.ResetPlayer();
+    }
+
     public void SetMaxHealth(float health)
     {
         healthManaUIManager.SetMaxHealth(health);
@@ -496,6 +506,16 @@ public class UIManager : MonoBehaviour
     private void HideShop()
     {
         HideCanvasByIndex(14);
+    }
+
+    private void ShowRebind()
+    {
+        ShowCanvasByIndex(15);
+    }
+
+    private void HideRebind()
+    {
+        HideCanvasByIndex(15);
     }
     #endregion 
 
