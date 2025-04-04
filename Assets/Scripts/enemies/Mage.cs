@@ -120,8 +120,6 @@ public class Mage : BaseEnemy
             // Coger un sonido de paso aleatorio y reproducirlo
             AudioClip footstepSound = spellSoundsArray[randomIndex];
             // Pitch aleatorio para mayor variedad
-            audioSource.pitch = Random.Range(0.8f, 1.2f);
-            audioSource.PlayOneShot(footstepSound);
         }
     }
 

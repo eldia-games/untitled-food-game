@@ -124,7 +124,6 @@ MonoBehaviour:
   value: 1
   item: {fileID: 11400000, guid: 0c55cfc20bf8c5b49a7bc66413673347, type: 2}
   indexLoot: 1
-  hitbox: {fileID: 0}
   quantity: 1
 --- !u!65 &7189507966558232971
 BoxCollider:
@@ -140,7 +139,7 @@ BoxCollider:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

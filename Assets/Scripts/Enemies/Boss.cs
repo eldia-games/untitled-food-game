@@ -189,7 +189,6 @@ public class Boss : MonoBehaviour
 
     /// <summary>
     /// Evento que llama la animación de ataque cuando impacta
-    /// Se sobreescribe en clases hijas para distintos comportamientos.
     /// </summary>
     public virtual void OnAttackStartAnimationEvent()
     {
