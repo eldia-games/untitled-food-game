@@ -426,7 +426,7 @@ public class PlayerCombat : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //If the collider is melee, make damage to the enemy
-        if ( _colliderMeleeSpin.enabled)
+        if (_colliderMeleeSpin != null && _colliderMeleeSpin.enabled)
         {
             if(collision.gameObject.tag == "Enemy")
             {
@@ -440,11 +440,11 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
         }
-        if ( _colliderMelee.enabled)
+        if (_colliderMelee != null && _colliderMelee.enabled)
         {
             if(collision.gameObject.tag == "Enemy")
             {
-            //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
                 BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
                 ////if the enemy script is not null, call the TakeDamage function from the enemy script
