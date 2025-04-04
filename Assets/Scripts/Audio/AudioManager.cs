@@ -93,12 +93,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMenuMusic()
     {
-        if (!isMusicPlaying)
-            PlayMusicByIndex(0);
-        else
-        {
-            ChangeBackgroundMusic(0);
-        }
+        PlayMusicByIndex(0);
     }
 
     public void PlayLobbyMusic()
@@ -170,7 +165,9 @@ public class AudioManager : MonoBehaviour
     {
         if (musicIndex >= 0 && musicIndex < backgroundMusicClips.Length)
         {
-            musicAudioSource.PlayOneShot(backgroundMusicClips[musicIndex]);
+            musicAudioSource.clip = backgroundMusicClips[musicIndex];  // Assign the clip
+            musicAudioSource.loop = true;  // Enable looping
+            musicAudioSource.Play();  // Use Play() instead of PlayOneShot()
             isMusicPlaying = true;
         }
         else
