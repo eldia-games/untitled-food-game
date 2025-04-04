@@ -43,7 +43,7 @@ public class ShopUIManager : MonoBehaviour
     {
         return 1; //llamar inventario
     }
-
+    [SerializeField]
     [SerializeField] private GameObject tradesHolder;
     public GameObject[] trades;
     public Dictionary<ItemInInventory> itemDictionary;
