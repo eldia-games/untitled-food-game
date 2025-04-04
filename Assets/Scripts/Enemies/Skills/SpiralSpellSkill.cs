@@ -14,27 +14,29 @@ public class SpiralSpellSkill : SkillScriptableObject
     public float spiralSpeed = 1.0f;
     public GameObject spellPrefab;
 
-    public override bool CanUseSkill(BaseEnemyV2 enemy, GameObject player)
+    public override bool CanUse(BaseEnemyV2 enemy, GameObject player)
     {
-        if (base.CanUseSkill(enemy, player))
+        if (base.CanUse(enemy, player))
         {
-            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-            bool inRange = distance > minRange && distance <= maxRange;
             bool didCooldownEnd = castTime + cooldown < Time.time;
             
-            bool canUse = !isCasting && didCooldownEnd && inRange;
+            bool canUse = !isCasting && didCooldownEnd;
             return canUse;
         }
 
         return false;
     }
 
-    public override void UseSkill(BaseEnemyV2 enemy, GameObject player)
+    public override bool InRange(BaseEnemyV2 enemy, GameObject player)
     {
-        base.UseSkill(enemy, player);
+        float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+        return distance <= maxRange;
+    }
+    public override void Use(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Use(enemy, player);
         // Animación de cast largo
-        enemy.animator.SetInteger("attackType", 1);
-        enemy.animator.SetTrigger("attack");
+        enemy.animator.SetTrigger("spellRaise");
     }
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)
@@ -75,8 +77,15 @@ public class SpiralSpellSkill : SkillScriptableObject
         }
 
         // Se deshabilita el daño y termina el ataque
-        enemy.StopAttack();
         enemy.animator.speed = 1f;
+
+        // Espera hasta que se complete la animacion (normalizedTime >= 1.0)
+        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+               enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Raise"))
+        {
+            yield return null;
+        }
+
         castTime = Time.time;
         isCasting = false;
     }

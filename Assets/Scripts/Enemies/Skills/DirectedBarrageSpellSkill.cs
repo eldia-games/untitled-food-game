@@ -22,12 +22,31 @@ public class DirectedBarrageSpellSkill : SkillScriptableObject
         return false;
     }
 
-    public override void UseSkill(BaseEnemyV2 enemy, GameObject player)
+    public override bool CanUse(BaseEnemyV2 enemy, GameObject player)
     {
-        base.UseSkill(enemy, player);
-        // Trigger de la animación de ataque (puedes definir un attackType distinto para esta habilidad)
-        enemy.animator.SetInteger("attackType", 2);
-        enemy.animator.SetTrigger("attack");
+        if (base.CanUse(enemy, player))
+        {
+            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+            bool tooClose = distance < minRange;
+            bool didCooldownEnd = castTime + cooldown < Time.time;
+            
+            bool canUse = !isCasting && didCooldownEnd && !tooClose;
+            return canUse;
+        }
+
+        return false;
+    }
+
+    public override bool InRange(BaseEnemyV2 enemy, GameObject player)
+    {
+        float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+        return distance <= maxRange && enemy.IsInLineOfSight(player.transform.position);;
+    }
+
+    public override void Use(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Use(enemy, player);
+        enemy.animator.SetTrigger("spellCast");
     }
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)
@@ -40,7 +59,6 @@ public class DirectedBarrageSpellSkill : SkillScriptableObject
     {
         // Detener el movimiento del enemigo y pausar la animación para mayor control
         enemy.StopMovement();
-        //enemy.animator.speed = 0f;
 
         float elapsedTime = 0f;
         float interval = 1f / projectilesPerSec;
@@ -68,10 +86,17 @@ public class DirectedBarrageSpellSkill : SkillScriptableObject
             yield return new WaitForSeconds(interval);
         }
 
+        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
+        while (
+            enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Cast") &&
+            enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f
+            )
+        {
+            yield return null;
+        }
+
         // Restaurar el estado del enemigo al finalizar el ataque
-        //enemy.animator.speed = 1f;
         castTime = Time.time;
         isCasting = false;
-        enemy.StopAttack();
     }
 }

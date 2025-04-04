@@ -10,6 +10,7 @@ public class HomingSpellSkill : SkillScriptableObject
     public Vector3 defaultOffset = Vector3.up * 1f;
 
     public GameObject spellPrefab;
+    protected bool fireballShooted = false;
 
     public GameObject staffTip;
 
@@ -28,19 +29,48 @@ public class HomingSpellSkill : SkillScriptableObject
         return false;
     }
 
+    public override bool CanUse(BaseEnemyV2 enemy, GameObject player)
+    {
+        if (base.CanUse(enemy, player))
+        {
+            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+            bool tooClose = distance < minRange;
+            bool didCooldownEnd = castTime + cooldown < Time.time;
+            
+            bool canUse = !isCasting && didCooldownEnd && !tooClose;
+            return canUse;
+        }
+
+        return false;
+    }
+
     public override void UseSkill(BaseEnemyV2 enemy, GameObject player)
     {
+        Debug.Log("Usando habilidad de ataque homing");
         base.UseSkill(enemy, player);
-        enemy.animator.SetTrigger("spell");
+        enemy.animator.SetTrigger("spellShoot");
+    }
+
+    public override void Use(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Use(enemy, player);
+        enemy.animator.SetTrigger("spellShoot");
+        enemy.StartCoroutine(UseSkillCoroutine(enemy, player));
+    }
+
+    public override bool InRange(BaseEnemyV2 enemy, GameObject player)
+    {
+        float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+        return distance <= maxRange && enemy.IsInLineOfSight(player.transform.position);;
     }
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)
     {
+        Debug.Log("Ha salido el evento de animación de ataque homing");
         base.OnAnimationEvent(enemy, player);
 
         if (spellPrefab != null && player != null)
         {
-            
             Vector3 spawnPos = enemy.transform.position + defaultOffset;
             if (enemy is MageV2 mage && mage.staffTip != null)
             {
@@ -56,9 +86,34 @@ public class HomingSpellSkill : SkillScriptableObject
             }
             
         }
-        isCasting = false;
-        castTime = Time.time;
+        fireballShooted = true;
     }
 
+    // Corrrutina para usar la habilidad
+    private IEnumerator UseSkillCoroutine(BaseEnemyV2 enemy, GameObject player)
+    {
+        // Espera a que la animación "Fireball Shoot" comience.
+        while (!enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Shoot"))
+        {
+            yield return null;
+        }
+        
+        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
+        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+            enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Shoot"))
+        {
+            if(!fireballShooted)
+                enemy.RotateTowards(player.transform.position);
+            else
+                enemy.SlowlyRotateTowards(player.transform.position);
+                
+            yield return null;
+        }
+
+        Debug.Log("La habilidad ha terminado de usarse.");
+        // La animación ha finalizado.
+        castTime = Time.time;
+        isCasting = false;
+    }
 
 }

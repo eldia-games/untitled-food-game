@@ -32,16 +32,13 @@ public class ArrowProjectile : MonoBehaviour
         // Check if it hits the player
         if (other.CompareTag("Player"))
         {
-            //Debug.Log("Spell hit the player!");
-            
-            // Deal damage to player
             other.GetComponent<PlayerCombat>()?.OnHurt(10, 0.2f, transform.position);
-            Destroy(gameObject); // Destroy the spell
+            Destroy(gameObject);
         }
-        else if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile")) // Prevent self-collision
+        // Prevenir chocar consimismo
+        else if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile"))
         {
-            //Debug.Log("Arrow hit something else: " + other.gameObject.name);
-            Destroy(gameObject); // Destroy on any other collision
+            Destroy(gameObject); 
         }
     }
 }

@@ -65,8 +65,6 @@ public class TurtleShell : BaseEnemyV2
         currentAttackCollider.enabled = true;
 
         // Reproduce el sonido de ataque
-        if (attackSound != null && audioSource != null)
-           audioSource.PlayOneShot(attackSound);
     }
 
     private void StopAttackMesh()
