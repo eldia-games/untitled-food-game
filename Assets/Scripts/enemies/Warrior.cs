@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Timeline;
+using UnityEngine.Animations.Rigging;
 
 public class Warrior : BaseEnemyV2
 {
@@ -27,6 +28,16 @@ public class Warrior : BaseEnemyV2
         for (int i = 0; i < skills.Length; i++)
         {
             skills[i].Initialize();
+        }
+        if (player != null)
+        {
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            if(debug)
+                Debug.Log("Player set in warrior: " + player.name);
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
         }
     }
 
@@ -247,10 +258,11 @@ public class Warrior : BaseEnemyV2
         return bestDirection;
     }
 
-    void OnGUI()
+    public override void OnGUI()
     {
+        base.OnGUI();
         // Opcional: Mostrar solo en compilaciones de debug o mediante una bandera
-        if (Debug.isDebugBuild)
+        if (debug)
         {
             GUI.Label(new Rect(10, 10, 300, 20), "Estado del enemigo: " + currentState.ToString(),
                 new GUIStyle() { normal = new GUIStyleState() { textColor = Color.blue } });
@@ -260,6 +272,19 @@ public class Warrior : BaseEnemyV2
             else
                 GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: Ninguna", 
                     new GUIStyle() { normal = new GUIStyleState() { textColor = Color.red } });
+        }
+    }
+
+    public override void SetPlayer(GameObject player)
+    {
+        base.SetPlayer(player);
+        if (player != null)
+        {
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
         }
     }
 }

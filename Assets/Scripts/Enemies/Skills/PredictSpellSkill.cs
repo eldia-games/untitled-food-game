@@ -34,9 +34,11 @@ public class PredictSpellSkill : SkillScriptableObject
     {
         if (base.CanUse(enemy, player))
         {
+            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+            bool tooClose = distance < minRange;
             bool didCooldownEnd = castTime + cooldown < Time.time;
             
-            bool canUse = !isCasting && didCooldownEnd;
+            bool canUse = !isCasting && didCooldownEnd && !tooClose;
             return canUse;
         }
 
@@ -59,7 +61,7 @@ public class PredictSpellSkill : SkillScriptableObject
     public override bool InRange(BaseEnemyV2 enemy, GameObject player)
     {
         float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-        return distance <= maxRange;
+        return distance <= maxRange && enemy.IsInLineOfSight(player.transform.position);
     }
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)

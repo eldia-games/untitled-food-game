@@ -33,9 +33,11 @@ public class HomingSpellSkill : SkillScriptableObject
     {
         if (base.CanUse(enemy, player))
         {
+            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
+            bool tooClose = distance < minRange;
             bool didCooldownEnd = castTime + cooldown < Time.time;
             
-            bool canUse = !isCasting && didCooldownEnd;
+            bool canUse = !isCasting && didCooldownEnd && !tooClose;
             return canUse;
         }
 
@@ -59,7 +61,7 @@ public class HomingSpellSkill : SkillScriptableObject
     public override bool InRange(BaseEnemyV2 enemy, GameObject player)
     {
         float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-        return distance <= maxRange;
+        return distance <= maxRange && enemy.IsInLineOfSight(player.transform.position);;
     }
 
     public override void OnAnimationEvent(BaseEnemyV2 enemy, GameObject player)
@@ -97,7 +99,8 @@ public class HomingSpellSkill : SkillScriptableObject
         }
         
         // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
-        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+            enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Shoot"))
         {
             if(!fireballShooted)
                 enemy.RotateTowards(player.transform.position);

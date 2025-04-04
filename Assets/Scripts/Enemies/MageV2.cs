@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public class MageV2 : BaseEnemyV2
 {
@@ -30,6 +31,16 @@ public class MageV2 : BaseEnemyV2
         for (int i = 0; i < skills.Length; i++)
         {
             skills[i].Initialize();
+        }
+
+        // Si se ha introducido un objeto de destino, lo asignamos al rig
+        if (player != null)
+        {
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
         }
     }
 
@@ -275,12 +286,33 @@ public class MageV2 : BaseEnemyV2
         }
     }
 
-    void OnGUI()
+    public override void SetPlayer(GameObject player)
     {
-        // Opcional: Mostrar solo en compilaciones de debug o mediante una bandera
-        if (Debug.isDebugBuild)
+        base.SetPlayer(player);
+        if (player != null)
         {
-            GUI.Label(new Rect(10, 10, 300, 20), "Estado del enemigo: " + currentState.ToString());
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
+        }
+    }
+
+    public override void OnGUI()
+    {
+        base.OnGUI();
+        // Opcional: Mostrar solo en compilaciones de debug o mediante una bandera
+        if (debug)
+        {
+            GUI.Label(new Rect(10, 10, 300, 20), "Estado del enemigo: " + currentState.ToString(),
+                new GUIStyle() { normal = new GUIStyleState() { textColor = Color.blue } });
+            if(currentSkill)
+                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: " + currentSkill.name, 
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.green } });
+            else
+                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: Ninguna", 
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.red } });
         }
     }
 }

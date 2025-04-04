@@ -48,7 +48,7 @@ public class JumpSkill : SkillScriptableObject
     public override bool InRange(BaseEnemyV2 enemy, GameObject player)
     {
         float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-        return distance <= maxRange;
+        return distance <= maxRange && enemy.IsInLineOfSight(player.transform.position);;
     }
     
 

@@ -14,21 +14,6 @@ public class SpiralSpellSkill : SkillScriptableObject
     public float spiralSpeed = 1.0f;
     public GameObject spellPrefab;
 
-    public override bool CanUseSkill(BaseEnemyV2 enemy, GameObject player)
-    {
-        if (base.CanUseSkill(enemy, player))
-        {
-            float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-            bool inRange = distance > minRange && distance <= maxRange;
-            bool didCooldownEnd = castTime + cooldown < Time.time;
-            
-            bool canUse = !isCasting && didCooldownEnd && inRange;
-            return canUse;
-        }
-
-        return false;
-    }
-
     public override bool CanUse(BaseEnemyV2 enemy, GameObject player)
     {
         if (base.CanUse(enemy, player))
@@ -47,15 +32,6 @@ public class SpiralSpellSkill : SkillScriptableObject
         float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
         return distance <= maxRange;
     }
-
-    public override void UseSkill(BaseEnemyV2 enemy, GameObject player)
-    {
-        base.UseSkill(enemy, player);
-        // Animación de cast largo
-        enemy.animator.SetInteger("attackType", 1);
-        enemy.animator.SetTrigger("attack");
-    }
-
     public override void Use(BaseEnemyV2 enemy, GameObject player)
     {
         base.Use(enemy, player);
@@ -104,7 +80,8 @@ public class SpiralSpellSkill : SkillScriptableObject
         enemy.animator.speed = 1f;
 
         // Espera hasta que se complete la animacion (normalizedTime >= 1.0)
-        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+               enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Raise"))
         {
             yield return null;
         }

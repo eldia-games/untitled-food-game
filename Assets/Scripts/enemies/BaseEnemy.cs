@@ -56,7 +56,7 @@ public abstract class BaseEnemy : MonoBehaviour
         initialPosition = transform.position;
     }
 
-    public void SetPlayer(GameObject player)
+    public virtual void SetPlayer(GameObject player)
     {
         this.player = player;
     }
