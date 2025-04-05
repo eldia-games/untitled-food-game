@@ -298,7 +298,9 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //RotatePlayerOverTime(player, lookAtPosition, 10.0f);
-        RotatePlayerOverTimeToDirection(player, lookAtDirection, 10.0f);
+        Debug.Log(lookAtDirection);
+        if(lookAtDirection.x!=0 || lookAtDirection.y!=0|| lookAtDirection.z!=0)
+            RotatePlayerOverTimeToDirection(player, lookAtDirection, 10.0f);
 
     }
 

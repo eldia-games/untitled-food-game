@@ -12,6 +12,8 @@ public class ShopController : MonoBehaviour, IChamberController {
     [SerializeField] private GameObject exit;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private float AnimationMovementSpped;
+    [SerializeField] private float AnimationMovementTime;
 
     //[SerializeField] private GameObject Seller;
 
@@ -104,14 +106,15 @@ public class ShopController : MonoBehaviour, IChamberController {
   IEnumerator EnterDungeon() {
     yield return new WaitForSeconds(0.5f);
     playerAnimator.SetFloat("Moving", 1);
-    for (int i = 0; i < 4f / Time.fixedDeltaTime; i++) {
-      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 4);
+    for (int i = 0; i <  AnimationMovementSpped / Time.fixedDeltaTime; i++) {
+      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * AnimationMovementSpped);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }
     playerAnimator.SetFloat("Moving", 0);
     yield return new WaitForSeconds(0.5f);
 
     player.GetComponent<PlayerCombat>().enabled = true;
+    exit.SetActive(true);
     
   }
 
