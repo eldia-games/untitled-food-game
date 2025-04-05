@@ -15,12 +15,27 @@ public class SkillScriptableObject : ScriptableObject
         isCasting = false;
     } 
 
-    public virtual void UseSkill(BaseEnemyV2 Enemy, GameObject Player)
+    public virtual bool InRange(BaseEnemyV2 enemy, GameObject player)
+    {
+        return true;
+    }
+
+    public virtual void UseSkill(BaseEnemyV2 enemy, GameObject player)
     {
         isCasting = true;
     }
 
-    public virtual bool CanUseSkill(BaseEnemyV2 Enemy, GameObject Player)
+    public virtual void Use(BaseEnemyV2 enemy, GameObject player)
+    {
+        isCasting = true;
+    }
+
+    public virtual bool CanUse(BaseEnemyV2 enemy, GameObject player)
+    {
+        return true;
+    }
+
+    public virtual bool CanUseSkill(BaseEnemyV2 enemy, GameObject player)
     {
         return true;
     }

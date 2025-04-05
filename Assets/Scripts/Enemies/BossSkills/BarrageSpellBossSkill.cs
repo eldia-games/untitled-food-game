@@ -69,7 +69,7 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
         // Restaurar el estado del enemigo al finalizar el ataque
         boss.animator.speed = 1f;
 
-                // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
+        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
         while (boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
         {
             yield return null;

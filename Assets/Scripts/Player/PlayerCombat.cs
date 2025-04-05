@@ -56,7 +56,7 @@ public class PlayerCombat : MonoBehaviour
 
     public new Camera camera;
     public GameObject player;
-    private Vector3 lookAtPosition;
+    private Vector3 lookAtDirection;
 
     private Vector3 pushDirection;
 
@@ -186,7 +186,8 @@ public class PlayerCombat : MonoBehaviour
         if (attackAvailable && moving ==1)
         {
             player.transform.position = transform.position;
-            lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
+            //lookAtPosition = player.transform.position + transform.forward*_handler.input.y+ transform.right* _handler.input.x;
+            lookAtDirection = (transform.forward*_handler.input.y+ transform.right* _handler.input.x).normalized;
             
         }
 
@@ -214,7 +215,8 @@ public class PlayerCombat : MonoBehaviour
             if (plane.Raycast(ray, out float distance))
             {
                 mousePosition = ray.GetPoint(distance);
-                lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
+                //lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
+                lookAtDirection = (mousePosition - player.transform.position).normalized;
             }
             if (attackAvailable && lookAtMouse)
             {
@@ -238,11 +240,9 @@ public class PlayerCombat : MonoBehaviour
         if (slideForce)
         {
             //print("sliding");
-        movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
-        adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed * 2.0f;
-        rb.velocity = adjustedMovement;
-            //transform.Translate(-transform.forward * (_handler.input.y * Time.deltaTime * MovementSpeed) * 2f);
-            //transform.Translate(-transform.right * (_handler.input.x * Time.deltaTime * MovementSpeed) * 2f);
+            movementDirection = new Vector3(_handler.input.x, 0, _handler.input.y).normalized;
+            adjustedMovement = transform.TransformDirection(movementDirection) * MovementSpeed * 2.0f;
+            rb.velocity = adjustedMovement;
         }
 
         //Interact
@@ -297,7 +297,8 @@ public class PlayerCombat : MonoBehaviour
             transform.Translate(pushDirection * Time.deltaTime * pushForceFactor);
         }
 
-        RotatePlayerOverTime(player, lookAtPosition, 10.0f);
+        //RotatePlayerOverTime(player, lookAtPosition, 10.0f);
+        RotatePlayerOverTimeToDirection(player, lookAtDirection, 10.0f);
 
     }
 
@@ -315,6 +316,14 @@ public class PlayerCombat : MonoBehaviour
         return null;
     }
 
+    private string RotatePlayerOverTimeToDirection(GameObject player, Vector3 lookAtDirection, float v)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(lookAtDirection);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, v * Time.deltaTime);
+        player.transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+        return null;
+    }
+
 
     IEnumerator InteractCooldown()
     {
@@ -324,11 +333,13 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator AttackCooldown()
     {
+        attackAvailable = false;
         yield return new WaitForSeconds(1 / velAttack);
         attackAvailable = true;
         _colliderMeleeSpin.enabled = false;
         _colliderMelee.enabled = false;
     }
+
     IEnumerator SlideCooldown()
     {
         float elapsedTime = 0f;
@@ -563,20 +574,28 @@ public class PlayerCombat : MonoBehaviour
 
     private void CreateBullet()
     {
-        // Create the Bullet from the Bullet Prefab
-        //Move the bullet in front of the player
-        //rotate bullet -90 x and direction of the player
-        var bullet = (GameObject)Instantiate(
+        // Utiliza la dirección calculada a partir del ratón
+        Vector3 shootDirection = lookAtDirection;
+        
+        // (Opcional) Actualiza la rotación del jugador instantáneamente para que apunte al objetivo
+        player.transform.rotation = Quaternion.LookRotation(shootDirection);
+        
+        // Calcula la rotación para la bala
+        Quaternion bulletRotation = Quaternion.Euler(-90, Quaternion.LookRotation(shootDirection).eulerAngles.y, 0);
+        
+        // Instancia la bala en la posición actual, con un pequeño offset en la dirección de disparo
+        var bullet = Instantiate(
             weaponType,
-            transform.position + player.transform.forward * 2 + transform.up,
-            Quaternion.Euler(-90, player.transform.eulerAngles.y, 0));
-
+            transform.position + shootDirection * 2 + transform.up,
+            bulletRotation);
+        
+        // Configura las propiedades de la bala
         bullet.GetComponent<Bullet>().damage = (int)damage;
         bullet.GetComponent<Bullet>().pushForce = PushForce;
         bullet.GetComponent<Bullet>().damageModifier = damageModifier;
         bullet.GetComponent<Bullet>().pushModifier = pushModifier;
 
-        // Destroy the bullet after 5 seconds
+        // Destruye la bala después de 5 segundos
         Destroy(bullet, 5.0f);
     }
 
