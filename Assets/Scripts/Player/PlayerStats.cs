@@ -104,13 +104,13 @@ public class PlayerStats : ScriptableObject
         weaponIndex = 5;
 
         //Bullets
-        weaponType = new List<GameObject>
-        {
-            //"D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\arrow.prefab"
-            // "D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\fireball.prefab"
-
-            (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/arrow.prefab", typeof(GameObject)),
-            (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/fireball.prefab", typeof(GameObject))
-        };   
+        //weaponType = new List<GameObject>
+        //{
+        //    //"D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\arrow.prefab"
+        //    // "D:\github_unibotics\EldiaGames\untitled-food-game\Assets\Prefabs\Player\Bullets\fireball.prefab"
+        //
+        //    //(GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/arrow.prefab", typeof(GameObject)),
+        //    //(GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/fireball.prefab", typeof(GameObject))
+        //};   
     }
 }
