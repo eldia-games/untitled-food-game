@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
       propertyPath: speed
       value: 4
       objectReference: {fileID: 0}
@@ -16,6 +20,10 @@ PrefabInstance:
       propertyPath: skills.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: projectileSpawnPoint
+      value: 
+      objectReference: {fileID: 2462113146013074640}
     - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
       propertyPath: skills.Array.data[2]
       value: 
@@ -86,6 +94,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7552554037521376860}
   m_SourcePrefab: {fileID: 100100000, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+--- !u!1 &2462113146013074640 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5935189896535963958, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+  m_PrefabInstance: {fileID: 8103428319144230374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5904219654907317231 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2415382275497653769, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}

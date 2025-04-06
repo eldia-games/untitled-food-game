@@ -38,6 +38,10 @@ public class BossHomingSpellSkill : BossSkillScriptableObject
         boss.StartCoroutine(UseSkillCoroutine(boss, player));
     }
 
+    public override void HandleMovement(Boss boss, GameObject player){
+        boss.StopMovement();
+    }
+
     public override void OnAnimationEvent(Boss boss, GameObject player)
     {
         base.OnAnimationEvent(boss, player);
@@ -56,7 +60,7 @@ public class BossHomingSpellSkill : BossSkillScriptableObject
             Vector3 spawnPos = bossMouthPos;
 
             GameObject spell = Instantiate(spellPrefab, spawnPos, Quaternion.identity);
-            SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
+            BossSpellProjectile spellScript = spell.GetComponent<BossSpellProjectile>();
             if (spellScript != null)
             {
                 Debug.LogError("No existe el prefab del proyectil.");
@@ -76,9 +80,10 @@ public class BossHomingSpellSkill : BossSkillScriptableObject
         {
             yield return null;
         }
-        
-        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
-        while (boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+
+        // Una vez que ha comenzado, espera hasta que se complete
+        while (boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+               boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Fireball Shoot"))
         {
             if(!fireballShooted)
                 boss.RotateTowards(player.transform.position);

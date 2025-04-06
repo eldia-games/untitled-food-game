@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Boss Barrage Spell Skill", menuName = "ScriptableObject/BossSkills/BossBarrage")]
-public class BarrageSpellBossSkill : BossSkillScriptableObject
+[CreateAssetMenu(fileName = "Boss Barrage Predict Spell Skill", menuName = "ScriptableObject/BossSkills/BossBarragePredict")]
+public class BarragePredictSpellBossSkill : BossSkillScriptableObject
 {
     public float projectilesPerSec = 10.0f;
     public float duration = 1.5f;
@@ -26,8 +26,7 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
         boss.animator.SetTrigger("fireballCast");
     }
 
-    public override void HandleMovement(Boss boss, GameObject player)
-    {
+    public override void HandleMovement(Boss boss, GameObject player){
         // Perseguir al jugador durante el ataque
         boss.AllowMovement();
         boss.agent.SetDestination(player.transform.position);
@@ -67,7 +66,9 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
             BossSpellProjectileManual sp = projectile.GetComponent<BossSpellProjectileManual>();
             if (sp != null)
             {
-                sp.SetDirection(direction);
+                Vector3 predictedPos = boss.PredictFuturePosition(sp.speed);
+                predictedPos += Random.insideUnitSphere * 1f; // Añadir un pequeño offset aleatorio
+                sp.SetTargetPosition(predictedPos);
             }
 
             elapsedTime += interval;

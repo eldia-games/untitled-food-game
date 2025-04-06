@@ -494,7 +494,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4065624273618060}
@@ -632,14 +632,16 @@ MonoBehaviour:
   rb: {fileID: 1268959014725649855}
   agent: {fileID: 1946776063430520557}
   animator: {fileID: 95457531584545886}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
   isAttacking: 0
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 0}
+  isBlocking: 0
+  debug: 0
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 2338026778262579660}
   skills:
@@ -1138,15 +1140,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f68b9663d7318944d8ec3e4c1628b0b7, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.19
+      value: 1.4340692
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f68b9663d7318944d8ec3e4c1628b0b7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.19
+      value: 1.4340692
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f68b9663d7318944d8ec3e4c1628b0b7, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.19
+      value: 1.4340692
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f68b9663d7318944d8ec3e4c1628b0b7, type: 3}
       propertyPath: m_LocalPosition.x

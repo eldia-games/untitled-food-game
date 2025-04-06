@@ -236,7 +236,7 @@ public class MageV2 : BaseEnemyV2
         if (currentSkill != null)
         {
             currentSkill.OnAnimationEvent(this, player);
-            currentSkill = null;
+            // currentSkill = null;
         }
     }
 
@@ -302,17 +302,43 @@ public class MageV2 : BaseEnemyV2
     public override void OnGUI()
     {
         base.OnGUI();
-        // Opcional: Mostrar solo en compilaciones de debug o mediante una bandera
         if (debug)
         {
-            GUI.Label(new Rect(10, 10, 300, 20), "Estado del enemigo: " + currentState.ToString(),
+            // Obtener la posición en pantalla del enemigo
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            // Ajustar el eje Y para que el origen sea la parte superior de la pantalla
+            screenPos.y = Screen.height - screenPos.y;
+            
+            // Definir offsets para mostrar la información al lado del enemigo
+            float offsetX = 20f;  // Desplazamiento horizontal (ajusta según necesites)
+            float offsetY = 00f; // Desplazamiento vertical (ajusta según necesites)
+
+            // Crear un rectángulo para la etiqueta del estado
+            Rect stateRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY, 300, 20);
+            GUI.Label(stateRect, "Estado del enemigo: " + currentState.ToString(),
                 new GUIStyle() { normal = new GUIStyleState() { textColor = Color.blue } });
-            if(currentSkill)
-                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: " + currentSkill.name, 
+            
+            // Crear un rectángulo para la etiqueta de la habilidad actual, justo debajo
+            Rect skillRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY + 10, 300, 20);
+            if (currentSkill)
+            {
+                GUI.Label(skillRect, "Habilidad actual: " + currentSkill.name,
                     new GUIStyle() { normal = new GUIStyleState() { textColor = Color.green } });
+            }
             else
-                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: Ninguna", 
+            {
+                GUI.Label(skillRect, "Habilidad actual: Ninguna",
                     new GUIStyle() { normal = new GUIStyleState() { textColor = Color.red } });
+            }
+            // Mostrar nombre de animacion actual en layer 0
+            Rect animRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY + 20, 300, 20);
+            if (animator != null)
+            {
+                string currentAnim = animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") 
+                ? "Idle" : animator.GetCurrentAnimatorStateInfo(0).ToString();
+                GUI.Label(animRect, "Animación actual: " + currentAnim,
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.yellow } });
+            }
         }
     }
 }

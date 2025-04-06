@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.Animations.Rigging;
 
 public class Boss : MonoBehaviour
 {
+    public bool debug = false;
     [Header("Stats generales")]
     public float speed = 4f;
+    public float sprintSpeed = 8f;
     public float health = 100f;
     public float damage = 10f;
 
@@ -19,7 +22,7 @@ public class Boss : MonoBehaviour
 
     [Header("Otros parámetros")]
     public float timeToReset = 5f;
-    public float attackCooldown = 3f;
+    public float attackCooldown = 1f;
 
     [Header("Referencias")]
     public GameObject player;
@@ -38,11 +41,21 @@ public class Boss : MonoBehaviour
     [Header("Habilidades")]
     public BossSkillScriptableObject[] skills;
     protected BossSkillScriptableObject currentSkill;
+    
+    private bool canUseAbility = true;
 
     [Header("Habilidades")]
     public GameObject mouth;
-    public Collider attackCollider;
+    public Collider mouthAttackCollider;
+    // Mesh of collider 
+    public MeshRenderer mouthColliderMeshRenderer;
     private Quaternion lastRotation;
+
+    [Header("Rigging")]
+    public Rig rig;
+    public RigBuilder rigBuilder;
+    public MultiAimConstraint aimConstraint;
+    
 
     // Estado interno
     protected bool isDead = false;
@@ -63,6 +76,15 @@ public class Boss : MonoBehaviour
         {
             skills[i].Initialize();
         }
+
+        if (player != null)
+        {
+            Debug.Log("Player reference set in Boss script.");
+            aimConstraint.data.sourceObjects.Clear();
+            aimConstraint.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            rigBuilder.Build();
+        }
+
     }
 
     public void SetPlayer(GameObject player)
@@ -82,6 +104,10 @@ public class Boss : MonoBehaviour
                 // Lógica de spawn
                 // Espera a que el jugador esté cerca, grita y se pone en combate
                 StopMovement();
+                for (int i = 0; i < skills.Length; i++)
+                {
+                    skills[i].Initialize();
+                }
                 if (Vector3.Distance(transform.position, player.transform.position) < viewRadius)
                 {
                     currentState = EnemyState.Taunt;
@@ -104,14 +130,24 @@ public class Boss : MonoBehaviour
                 StopMovement();
                 SlowlyRotateTowards(player.transform.position);
 
-                if(!currentSkill)
+                if (!canUseAbility) break;
+
+                if (!currentSkill)
+                {
+                    List<BossSkillScriptableObject> availableSkills = new List<BossSkillScriptableObject>();
                     for (int i = 0; i < skills.Length; i++)
                     {
                         if (skills[i].CanUse(this, player))
                         {
-                            currentSkill = skills[i];
+                            availableSkills.Add(skills[i]);
                         }
                     }
+                    if (availableSkills.Count > 0)
+                    {
+                        int randomIndex = Random.Range(0, availableSkills.Count);
+                        currentSkill = availableSkills[randomIndex];
+                    }
+                }
                 
                 if(currentSkill)
                     if(currentSkill.InMinRange(this, player))
@@ -132,6 +168,17 @@ public class Boss : MonoBehaviour
                 AllowMovement();
                 agent.SetDestination(player.transform.position);
 
+                // Si la habilidad es melee se hace sprint
+                if(currentSkill != null && currentSkill.isMelee)
+                {
+                    agent.speed = sprintSpeed;
+                }
+                else
+                {
+                    agent.speed = speed;
+                }
+
+                // Si ya se encuentra en rango de ataque, se lanza la habilidad
                 if(currentSkill.InMinRange(this, player))
                 {
                     if(!currentSkill.isCasting)
@@ -142,9 +189,14 @@ public class Boss : MonoBehaviour
                 break;
 
             case EnemyState.UsingAbility:
-                StopMovement();
-                if(!currentSkill.isCasting)
+                currentSkill.HandleMovement(this, player);
+
+                // Si la habilidad ya se ha lanzado, se vuelve a Idle
+                if (!currentSkill.isCasting)
                 {
+                    // Inicia el cooldown y vuelve a Idle
+                    StartCoroutine(AbilityCooldown());
+                    agent.speed = speed;
                     currentSkill = null;
                     currentState = EnemyState.Idle;
                 }
@@ -159,7 +211,33 @@ public class Boss : MonoBehaviour
 
 
         // Forzamos que el jefe solo rote en Y (para evitar inclinaciones)
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);    }
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);    
+    }
+
+    private IEnumerator AbilityCooldown()
+    {
+        canUseAbility = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canUseAbility = true;
+    }
+
+    public virtual void ActivateMouthCollider()
+    {
+        if (mouthAttackCollider != null)
+        {
+            mouthAttackCollider.enabled = true;
+            mouthColliderMeshRenderer.enabled = true;
+        }
+    }
+
+    public virtual void DeactivateMouthCollider()
+    {
+        if (mouthAttackCollider != null)
+        {
+            mouthAttackCollider.enabled = false;
+            mouthColliderMeshRenderer.enabled = false;
+        }
+    }
 
     /// <summary>
     /// Comprueba si el jugador está dentro del rango de visión y sin obstáculos
@@ -180,26 +258,14 @@ public class Boss : MonoBehaviour
     }
 
     /// <summary>
-    /// Lógica de combate: moverse hacia el jugador, atacar, etc.
-    /// </summary>
-    protected virtual void HandleCombat()
-    {
-
-    }
-
-    /// <summary>
     /// Evento que llama la animación de ataque cuando impacta
     /// </summary>
-    public virtual void OnAttackStartAnimationEvent()
+    public virtual void OnAnimationEvent()
     {
         if(currentSkill != null)
         {
             currentSkill.OnAnimationEvent(this, player);
         }
-    }
-
-    public virtual void OnAttackEndAnimationEvent()
-    {
     }
 
     /// <summary>
@@ -239,7 +305,7 @@ public class Boss : MonoBehaviour
     public virtual void OnHurt(float dmg, float knockback, Vector3 direction)
     {
         // Disparar animación "hurt" si se desea
-        animator.SetTrigger("hurt");
+        //animator.SetTrigger("hurt");
 
         health -= dmg;
 
@@ -369,4 +435,45 @@ public class Boss : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + rightRayRotation * forward);
     }
     
+    public void OnGUI()
+    {
+        if (debug)
+        {
+            // Obtener la posición en pantalla del enemigo
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            // Ajustar el eje Y para que el origen sea la parte superior de la pantalla
+            screenPos.y = Screen.height - screenPos.y;
+            
+            // Definir offsets para mostrar la información al lado del enemigo
+            float offsetX = 0f;  // Desplazamiento horizontal (ajusta según necesites)
+            float offsetY = 0f; // Desplazamiento vertical (ajusta según necesites)
+
+            // Crear un rectángulo para la etiqueta del estado
+            Rect stateRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY, 300, 20);
+            GUI.Label(stateRect, "Estado del enemigo: " + currentState.ToString(),
+                new GUIStyle() { normal = new GUIStyleState() { textColor = Color.blue } });
+            
+            // Crear un rectángulo para la etiqueta de la habilidad actual, justo debajo
+            Rect skillRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY + 10, 300, 20);
+            if (currentSkill)
+            {
+                GUI.Label(skillRect, "Habilidad actual: " + currentSkill.name,
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.green } });
+            }
+            else
+            {
+                GUI.Label(skillRect, "Habilidad actual: Ninguna",
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.red } });
+            }
+            // Mostrar nombre de animacion actual en layer 0
+            Rect animRect = new Rect(screenPos.x + offsetX, screenPos.y + offsetY + 20, 300, 20);
+            if (animator != null)
+            {
+                string currentAnim = animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") 
+                ? "Idle" : animator.GetCurrentAnimatorStateInfo(0).ToString();
+                GUI.Label(animRect, "Animación actual: " + currentAnim,
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.yellow } });
+            }
+        }
+    }
 }

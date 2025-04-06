@@ -6,6 +6,7 @@ public class BossSkillScriptableObject : ScriptableObject
     public int damage = 5;
     public float minRange = 5.0f;
     public float maxRange = 10.0f;
+    public bool isMelee = false;
 
     public bool isCasting = false;
 
@@ -20,6 +21,10 @@ public class BossSkillScriptableObject : ScriptableObject
     public virtual void Use(Boss boss, GameObject player)
     {
         isCasting = true;
+    }
+
+    public virtual void HandleMovement(Boss boss, GameObject player){
+        boss.StopMovement();
     }
 
     public virtual bool CanUse(Boss boss, GameObject player)
