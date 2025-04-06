@@ -29,7 +29,6 @@ public class InventorySafe : ScriptableObject
     }
     public void addItem(Items lootItem,int quantity)
     {
-        bool found = false;
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
         {
@@ -85,5 +84,14 @@ public class InventorySafe : ScriptableObject
     public void clearMissions()
     {
         missions.Clear();
+    }
+    public int getQuantity(Items lootItem)
+    {
+        int index;
+        if ((index = loot.IndexOf(lootItem)) == -1)
+        {
+            return 0;
+        }
+        return lootquantity[index];
     }
 }
