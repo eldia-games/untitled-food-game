@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 0800000008000000080000000800000008000000
+  SpawnRate: 000000000000000000000000000000000000000000000000000000000000000064000000
   value: 1
 --- !u!114 &8059140369406375274
 MonoBehaviour:
@@ -706,7 +706,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 1.2
-  viewRadius: 10
+  viewRadius: 50
   viewAngle: 90
   timeToReset: 5
   attackCooldown: 3
@@ -714,14 +714,21 @@ MonoBehaviour:
   rb: {fileID: 4404297867491531329}
   agent: {fileID: 7751224620530466185}
   animator: {fileID: 1702907450300589945}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
+  drop: {fileID: 0}
+  chanceDrop: 0
+  canDrop: 1
+  minDrop: 0
+  maxDrop: 0
   isAttacking: 0
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 0}
+  isBlocking: 0
+  debug: 0
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 5377397381434770982}
   skills:
