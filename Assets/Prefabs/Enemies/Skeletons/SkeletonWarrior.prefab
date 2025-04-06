@@ -698,11 +698,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f62829ff926c24eaee51fbb1ea2885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 4
   health: 30
-  damage: 6
+  damage: 25
   attackRange: 1.5
-  viewRadius: 10
+  viewRadius: 30
   viewAngle: 90
   timeToReset: 5
   attackCooldown: 3
@@ -812,7 +812,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -836,7 +836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 0600000006000000090000000900000009000000
+  SpawnRate: 000000000000000000000000000000000000000000000000000000000000000064000000
   value: 2
 --- !u!114 &-6853922113232261150
 MonoBehaviour:
