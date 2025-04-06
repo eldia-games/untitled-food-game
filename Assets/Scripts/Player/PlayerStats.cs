@@ -76,7 +76,7 @@ public class PlayerStats : ScriptableObject
         //Default values
 
         //Movement
-        MovementSpeed = 5f;
+        MovementSpeed = 7.5f;
 
         //Stamina
         StaminaSlide = 10;

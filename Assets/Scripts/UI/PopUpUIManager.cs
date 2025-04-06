@@ -18,10 +18,17 @@ public class PopUpUIManager : MonoBehaviour
     [SerializeField] private Image spriteDisplayImage;
     [SerializeField] private TMP_Text textPopUp;
 
-    public void displayUI(string action)
+    public void displayUI(string action,bool active)
     {
         spriteDisplayImage.sprite = panels[0].panelImage;
-        textPopUp.text = panels[0].panelText + " " + action;
+        if (active)
+        {
+            textPopUp.text = panels[0].panelText + " " + action;
+        }
+        else
+        {
+            textPopUp.text = panels[1].panelText + " " + action;
+        }
         print("panel index: " + 0);
     }
 

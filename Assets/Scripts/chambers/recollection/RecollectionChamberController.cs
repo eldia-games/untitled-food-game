@@ -58,8 +58,8 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController {
   }
 
   IEnumerator EnterDungeon() {
-    for (int i = 0; i < 1.5f / Time.fixedDeltaTime; i++) {
-      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 1.5f);
+    for (float i = 0; i < 0.5f; i += Time.fixedDeltaTime) {
+      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 7.5f);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }
     playerAnimator.SetFloat("Moving", 0);

@@ -32,6 +32,12 @@ public abstract class BaseEnemy : MonoBehaviour
     public List<AudioClip> footstepWalkSounds;
     public List<AudioClip> footstepRunSounds;
 
+    [Header("Drops")]
+     public  GameObject drop;
+    [Range(0,1)] public float chanceDrop;
+    public bool canDrop=true;
+    public int minDrop;
+    public int maxDrop;
     // Estado interno
     protected bool isDead = false;
     
@@ -39,6 +45,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool inCombat = false;
     protected bool isSeen = false;
     protected bool isWaitAndMove = false;
+
 
     // Timers y posiciones
     protected float timer = 0f;         // Para volver a posición inicial
@@ -318,7 +325,16 @@ public abstract class BaseEnemy : MonoBehaviour
         // Llamar evento (si existe)
         if (dieEvent != null)
             dieEvent.Invoke();
-
+        if (drop !=null && canDrop)
+        {
+            float rand= Random.value;
+            if(rand < chanceDrop)
+            {
+                GameObject objectCreated = Instantiate(drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
+                ObjectDrop objectdrop = drop.GetComponent<ObjectDrop>();
+                objectdrop.quantity =Random.Range(minDrop,maxDrop);
+            }
+        }
         // Destruir el enemigo tras unos segundos
         Invoke(nameof(DestroyEnemy), 2f);
     }

@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
-    [SerializeField] private ShopUIManager shopUIManager; 
+    [SerializeField] private ShopUIManager shopUIManager;
+    [SerializeField] private MissionUIManager missionUIManager;
 
     public static UIManager Instance { get; private set; }
 
@@ -30,13 +31,10 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3)
+        
+        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3 && !InventoryManager.Instance.inventoryUI)
         {
-            ShowPauseCanvas();
-        }
-        if (Input.GetKeyDown(KeyCode.M) && SceneManager.GetActiveScene().buildIndex == 3)
-        {
-            ShowEndGameCanvas();
+            TogglePauseCanvas();
         }
     }
 
@@ -102,14 +100,30 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseCanvas()
     {
-        Time.timeScale = 0; // Pausar el juego
+        Time.timeScale = 0; // Pause the game
         ShowPause();
         AudioManager.Instance.PlaySFXClick();
     }
 
+    public void TogglePauseCanvas()
+    {
+        if (Time.timeScale > 0) {
+            Time.timeScale = 0; // Pause the game
+            ShowPause();
+            AudioManager.Instance.PlaySFXClick();
+        }
+        else {
+            Time.timeScale = 1; // Resume the game
+            HidePause();
+            int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            ShowCanvasByIndex(activeSceneIndex);
+            AudioManager.Instance.PlaySFXClose();
+        }
+    }
+
     public void ReturnFromPause()
     {
-        Time.timeScale = 1; // Reanudar el juego
+        Time.timeScale = 1; // Resume the game
         HidePause();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         ShowCanvasByIndex(activeSceneIndex);
@@ -150,6 +164,7 @@ public class UIManager : MonoBehaviour
     {
         HideLobby();
         ShowMissions();
+        refreshMission();
         AudioManager.Instance.PlaySFXClick();
     }
 
@@ -187,9 +202,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayEndGameMusic();
     }
 
-    public void ShowPopUpCanvas(string action)
+    public void ShowPopUpCanvas(string action,bool active)
     {
-        popUpUIManager.displayUI(action);
+        popUpUIManager.displayUI(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
     }
@@ -199,9 +214,29 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
-    public void refreshShop(List<Trade> tradesRecieved)
+    public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
     {
-        shopUIManager.RefreshShopUI(tradesRecieved);
+        shopUIManager.RefreshShopUI(tradesRecieved, shop);
+    }
+
+    public void refreshMission()
+    {
+        missionUIManager.RefreshMissionUI();
+    }
+
+    public void MissionClick(int missionIndex)
+    {
+        bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
+        missionUIManager.MissionAction(missionIndex);
+        if (missionCorrect)
+        {
+            AudioManager.Instance.PlaySFXConfirmation();
+            missionUIManager.RefreshMissionUI();
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFXClose();
+        }
     }
     public void TradeClick(int tradeIndex)
     {
@@ -217,18 +252,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowShopCanvas(string trades)
+    public void ShowShopCanvas()
     {
+        Time.timeScale = 0;
         ShowShop();
         AudioManager.Instance.PlaySFXOpen();
     }
 
     public void HideShopCanvas()
     {
+        Time.timeScale = 1;
         HideShop();
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void HideMissionsCanvas()
+    {
+        HideMissions();
+        AudioManager.Instance.PlaySFXClose();
+    }
     public void ShowControlsRebind()
     {
         HideSettings();
@@ -240,6 +282,19 @@ public class UIManager : MonoBehaviour
     {
         HideRebind();
         ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void ShowVictoryCanvas()
+    {
+        HideAllCanvas();
+        AudioManager.Instance.PlayVictoryMusic();
+        ShowVictory();
+    }
+
+    public void HideVictoryCanvas()
+    {
+        HideVictory();
         AudioManager.Instance.PlaySFXClose();
     }
 
@@ -343,7 +398,7 @@ public class UIManager : MonoBehaviour
                 break;
 
             case 3:
-                GameManager.Instance.EnterMapScene();
+                GameManager.Instance.EnterLobbyScene();
                 break;
 
             case 1:
@@ -534,6 +589,16 @@ public class UIManager : MonoBehaviour
     {
         HideCanvasByIndex(15);
     }
+    private void ShowVictory()
+    {
+        ShowCanvasByIndex(16);
+    }
+
+    private void HideVictory()
+    {
+        HideCanvasByIndex(16);
+    }
+
     #endregion 
 
     #region Hide Show Groups
