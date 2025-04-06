@@ -283,6 +283,19 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void ShowVictoryCanvas()
+    {
+        HideAllCanvas();
+        AudioManager.Instance.PlayVictoryMusic();
+        ShowVictory();
+    }
+
+    public void HideVictoryCanvas()
+    {
+        HideVictory();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
 
     public void ExitGame()
     {
@@ -574,6 +587,16 @@ public class UIManager : MonoBehaviour
     {
         HideCanvasByIndex(15);
     }
+    private void ShowVictory()
+    {
+        ShowCanvasByIndex(16);
+    }
+
+    private void HideVictory()
+    {
+        HideCanvasByIndex(16);
+    }
+
     #endregion 
 
     #region Hide Show Groups

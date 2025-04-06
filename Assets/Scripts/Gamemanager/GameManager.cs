@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviour {
 
   public void VictoryReturn()
   {
-      //añadir persistencia guardar loot en inventario taberna 
+      //añadir persistencia guardar loot en inventario taberna
+      UIManager.Instance.HideVictoryCanvas();
       EnterLobbyScene();
       //añadir persistencia
   }
