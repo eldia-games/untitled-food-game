@@ -302,7 +302,10 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
-
+    public bool canLoadGame()
+    {
+        return InventorySafeController.Instance.canLoadGame() && PowerUpStatsController.Instance.canLoadGame();
+    }
     public void ExitGame()
     {
 #if UNITY_EDITOR

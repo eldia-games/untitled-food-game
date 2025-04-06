@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerStatsController : MonoBehaviour
 {
+
     [SerializeField] private PlayerStats stats;
     // Start is called before the first frame update
     public static PlayerStatsController Instance { get; private set; }
@@ -25,30 +26,44 @@ public class PlayerStatsController : MonoBehaviour
 
     public void heal(float heal)
     {
-        Debug.Log(stats.HP);
         stats.HP = Mathf.Min(stats.HP + heal, stats.maxLife);
-        Debug.Log(stats.HP);
     }
     public void healprct(float heal)
     {
         stats.HP = Mathf.Min(stats.HP + stats.maxLife *heal, stats.maxLife);
     }
 
-    public void augmentMaxHealht(int heal)
+    public void augmentMaxHealht(int healht)
     {
-        stats.maxLife += heal;
+        stats.maxLife += healht;
     }
-    public void augmentMaxHealhtprct(float heal)
+    public void augmentMaxHealhtprct(float healht)
     {
-        stats.maxLife = (int)Mathf.Round(stats.maxLife*(1 + heal));
+        stats.maxLife = (int)Mathf.Round(stats.maxLife*(1 + healht));
     }
-    public void augmentMaxDamage(int damage)
+    public void augmentHeal(float heal)
+    {
+        stats.heal += heal;
+    }
+    public void augmentHealprct(float heal)
+    {
+        stats.heal = Mathf.Round(stats.heal * (1 + heal));
+    }
+    public void augmentMaxDamage(float damage)
     {
         stats.damage += damage;
     }
     public void augmentMaxDamageprct(float damage)
     {
-        stats.damage = (int)Mathf.Round(stats.damage * (1 + damage));
+        stats.damage = Mathf.Round(stats.damage * (1 + damage));
+    }
+    public void augmentAttackSpeed(float attackSpeed)
+    {
+        stats.velAttack += attackSpeed;
+    }
+    public void augmentAttackSpeedprct(float attackSpeed)
+    {
+        stats.velAttack = Mathf.Round(stats.velAttack * (1 + attackSpeed));
     }
     public void augmentMaxmoveSpeed(float speed)
     {
@@ -56,6 +71,32 @@ public class PlayerStatsController : MonoBehaviour
     }
     public void augmentMaxmoveSpeedprct(float speed)
     {
-        stats.MovementSpeed = (int)Mathf.Round(stats.MovementSpeed * (1 + speed));
+        stats.MovementSpeed = Mathf.Round(stats.MovementSpeed * (1 + speed));
     }
+    public void augmentPushForce(float pushForce)
+    {
+        stats.pushForce += pushForce;
+    }
+    public void augmentPushForceprct(float pushForce)
+    {
+        stats.pushForce = Mathf.Round(stats.pushForce * (1 + pushForce));
+    }
+    public void augmentMaxMana(int mana)
+    {
+        stats.maxMana += mana;
+    }
+    public void augmentMaxManaprct(float mana)
+    {
+        stats.maxMana = (int)Mathf.Round(stats.maxMana * (1 + mana));
+    }
+    public void augmentManaRegen(float regen)
+    {
+        stats.manaRegen += regen;
+    }
+    public void augmentManaRegenrct(float regen)
+    {
+        stats.manaRegen = Mathf.Round(stats.manaRegen * (1 + regen));
+    }
+
+
 }

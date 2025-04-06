@@ -1,11 +1,20 @@
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class InventorySafeController : MonoBehaviour
 {
-    [SerializeField] private InventorySafe inventory;
-    // Start is called before the first frame update
+
+    #region Variables
+    [SerializeField] private string filePath;
+
+    private InventorySave inventory;
+    #endregion
+
+    #region MonoBehaviour
     public static InventorySafeController Instance { get; private set; }
 
     private void Awake()
@@ -16,54 +25,153 @@ public class InventorySafeController : MonoBehaviour
         }
         else
         {
+
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            inventory = new InventorySave(); 
         }
 
     }
-    public void setsMissions(List<Mission> misions)
+    #endregion
+
+    #region Persistence
+    public void loadGame()
     {
-        inventory.setMissions(misions);
-    }
-    public List<Mission> getMissions()
-    {
-        return inventory.getMissions();
-    }
-    public void addMoney(int money)
-    {
-        inventory.addMoney(money);
-    }
-    public void setMission(Mission mission,int index)
-    {
-        inventory.changeMission(mission,index);
-    }
-    public void addInventory(List<ItemInInventory> items)
-    {
-        foreach (ItemInInventory item in items)
-        {
-            inventory.addItem(item.item, item.quantity);
-        }
+        StreamReader reader = new StreamReader(filePath);
+        string json=reader.ReadToEnd();
+        reader.Close();
+        inventory = InventorySave.FromJSON(json);
     }
 
-    public bool hasItem(Items item,int quantity)
+    public void newGame()
     {
-        return inventory.hasEnough(item,quantity);
+        inventory = new InventorySave();
+        saveInventory();
+    }
+    public void saveInventory()
+    {
+        StreamWriter writer=new StreamWriter(filePath);
+        writer.WriteLine(inventory.ToJSON());
+        writer.Close();
+
     }
 
-    public void removeItem(Items item, int quantity)
-    {
-        inventory.removeItem(item,quantity);
-    }
     public void Reset()
     {
         inventory.resetMoney();
         inventory.clearLoot();
         inventory.clearMissions();
+        saveInventory();
     }
-  public int getQuantity(Items item) {
-    return inventory.getQuantity(item);
+
+    public bool canLoadGame()
+    {
+        try
+        {
+            StreamReader reader = new StreamReader(filePath);
+            string json = reader.ReadToEnd();
+            reader.Close();
+            if (json == "" || InventorySave.FromJSON(json) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+    }
 
 
-  }
+    #endregion
+
+    #region Missions
+    public void setsMissions(List<Mission> misions)
+    {
+        inventory.setMissions(misions);
+        saveInventory();
+
+    }
+
+    public List<Mission> getMissions()
+    {
+        return inventory.getMissions();
+    }
+
+    public void setMission(Mission mission, int index)
+    {
+        inventory.changeMission(mission, index);
+        saveInventory();
+    }
+    #endregion
+
+    #region Money
+    public void addMoney(int money)
+    {
+        inventory.addMoney(money);
+        saveInventory();
+    }
+
+    public void substractMoney(int money)
+    {
+        if(hasMoney(money))
+        {
+            inventory.substractMoney(money);
+        }
+        else
+        {
+            inventory.resetMoney();
+        }
+    }
+    public bool hasMoney(int money)
+    {
+        if (inventory.getMoney() > money)
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
+    #region Items
+    public void addInventory(List<ItemInInventory> items)
+    {
+        foreach (ItemInInventory item in items)
+        {
+
+         inventory.addItem(item.item, item.quantity);
+            
+        }
+        saveInventory();
+    }
+
+    public bool hasItem(Items item,int quantity)
+    {
+
+            return inventory.hasEnough(item, quantity);
+
+    }
+
+    public void removeItem(Items item, int quantity)
+    {
+
+        inventory.removeItem(item, quantity);
+        saveInventory();
+
+    }
+    public int getQuantity(Items item)
+    {
+
+        return inventory.getQuantity(item);
+
+
+    }
+    #endregion
 
 }
