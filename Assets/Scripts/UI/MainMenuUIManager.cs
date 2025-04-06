@@ -30,13 +30,10 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3)
+        
+        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3 && !InventoryManager.Instance.inventoryUI)
         {
-            ShowPauseCanvas();
-        }
-        if (Input.GetKeyDown(KeyCode.M) && SceneManager.GetActiveScene().buildIndex == 3)
-        {
-            ShowEndGameCanvas();
+            TogglePauseCanvas();
         }
     }
 
@@ -102,14 +99,30 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseCanvas()
     {
-        Time.timeScale = 0; // Pausar el juego
+        Time.timeScale = 0; // Pause the game
         ShowPause();
         AudioManager.Instance.PlaySFXClick();
     }
 
+    public void TogglePauseCanvas()
+    {
+        if (Time.timeScale > 0) {
+            Time.timeScale = 0; // Pause the game
+            ShowPause();
+            AudioManager.Instance.PlaySFXClick();
+        }
+        else {
+            Time.timeScale = 1; // Resume the game
+            HidePause();
+            int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            ShowCanvasByIndex(activeSceneIndex);
+            AudioManager.Instance.PlaySFXClose();
+        }
+    }
+
     public void ReturnFromPause()
     {
-        Time.timeScale = 1; // Reanudar el juego
+        Time.timeScale = 1; // Resume the game
         HidePause();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         ShowCanvasByIndex(activeSceneIndex);
@@ -343,7 +356,7 @@ public class UIManager : MonoBehaviour
                 break;
 
             case 3:
-                GameManager.Instance.EnterMapScene();
+                GameManager.Instance.EnterLobbyScene();
                 break;
 
             case 1:
