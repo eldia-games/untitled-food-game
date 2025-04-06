@@ -373,7 +373,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c356573f5fd184bbaab2d55e894062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: f8e99cf66b163694d899b003f17fc113, type: 2}
+  filePath: 
+  maxLevel: 0
+  movementSpeedAdd: 0
+  movementSpeedBase: 0
+  healAdd: 0
+  healBase: 0
+  maxLifeAdd: 0
+  maxLifeBase: 0
+  damageAdd: 0
+  damageBase: 0
+  atackSpeedAdd: 0
+  atackSpeedBase: 0
+  pushForceAdd: 0
+  pushForceBase: 0
+  maxManaAdd: 0
+  maxManaBase: 0
+  manaRegenAdd: 0
+  manaRegenBase: 0
 --- !u!1 &621762353 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4406044365657774475, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
@@ -450,7 +467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd2197b1c3845c468af878d07b37675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  persistanceStart: 1
+  persistanceStart: 0
 --- !u!114 &722972522
 MonoBehaviour:
   m_ObjectHideFlags: 0
