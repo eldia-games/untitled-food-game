@@ -73,17 +73,17 @@ public class GameManager : MonoBehaviour {
   }
 
   public void ContinueGame() {
-        //añadir persistencia cargar datos guardados
-  EnterLobbyScene();
-        //añadir persistencia
+    //añadir persistencia cargar datos guardados
+    EnterLobbyScene();
+    //añadir persistencia
   }
 
   public void VictoryReturn()
   {
-      //añadir persistencia guardar loot en inventario taberna
-      UIManager.Instance.HideVictoryCanvas();
-      EnterLobbyScene();
-      //añadir persistencia
+    //añadir persistencia guardar loot en inventario taberna
+    UIManager.Instance.HideVictoryCanvas();
+    EnterLobbyScene();
+    //añadir persistencia
   }
 
 
