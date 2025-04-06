@@ -1625,7 +1625,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4530003306004526968}
@@ -1750,14 +1750,16 @@ MonoBehaviour:
   rb: {fileID: 388747108254078703}
   agent: {fileID: 7137589111752121930}
   animator: {fileID: 4530003305994672282}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
   isAttacking: 0
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 0}
+  isBlocking: 0
+  debug: 0
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 6678845489115346548}
   skills: []

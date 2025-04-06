@@ -63,8 +63,6 @@ public class SpikeFormationSpellSkill : SkillScriptableObject
         
         // Se asume que projectileCount es impar para que el centro quede alineado.
         int halfCount = projectileCount / 2;
-
-        Debug.Log("SPIKE");
         
         for (int i = 0; i < projectileCount; i++)
         {

@@ -13,6 +13,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
     [Header("Rango y visión")]
     public float attackRange;
+    public float hearingRange = 10f;
+
     public float viewRadius = 20f;
     public float viewAngle = 90f;
 
@@ -129,7 +131,7 @@ public abstract class BaseEnemy : MonoBehaviour
         bool isHit = Physics.Raycast(origin, player.transform.position - origin, out hit, distance);
 
         isSeen = (distance < viewRadius && angle < viewAngle / 2 && isHit && hit.collider.gameObject == player)
-                 || (distance < (attackRange + 1f));
+                 || (distance < hearingRange);
     }
 
     /// <summary>

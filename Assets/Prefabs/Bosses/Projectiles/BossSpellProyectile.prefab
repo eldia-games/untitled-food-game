@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7507879411514172260}
-  - component: {fileID: 113688181660298237}
   - component: {fileID: 3964355337741710873}
   - component: {fileID: 6079791561471023079}
+  - component: {fileID: 3217024674962442835}
   m_Layer: 0
-  m_Name: SpellProyectile
+  m_Name: BossSpellProyectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,28 +29,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1083096463056303648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &113688181660298237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763926121025538394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31e8b90b9d26d424e8fcc505b6446bbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2.5
-  steeringStrength: 2
-  lifetime: 6
-  steeringTime: 4
 --- !u!54 &3964355337741710873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,6 +83,24 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.16
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3217024674962442835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763926121025538394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d940f193de700f945b3ef967cb5d5fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  steeringStrength: 5
+  lifetime: 5
+  steeringTime: 1.5
+  groundHeightOffset: 1
+  descentSpeed: 6
 --- !u!1 &6994739030092734227
 GameObject:
   m_ObjectHideFlags: 0

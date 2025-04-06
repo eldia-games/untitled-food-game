@@ -86,7 +86,7 @@ public class DirectedBarrageSpellSkill : SkillScriptableObject
             yield return new WaitForSeconds(interval);
         }
 
-        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
+        // Una vez que ha comenzado, espera hasta que se complete
         while (
             enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Cast") &&
             enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f
