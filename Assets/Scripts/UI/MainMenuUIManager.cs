@@ -187,7 +187,6 @@ public class UIManager : MonoBehaviour
     public void ShowUpgradesCanvas()
     {
         HideLobby();
-        upgradesUIManager.RefreshUpgrades();
         ShowUpgrades();
         upgradesUIManager.RefreshUpgrades();
         AudioManager.Instance.PlaySFXClick();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using System.Diagnostics;
 
 public class UpgradesUIManager : MonoBehaviour
 {
@@ -14,16 +15,17 @@ public class UpgradesUIManager : MonoBehaviour
     private PowerUpStatsController powerUpStatsController;
     private InventorySafeController inventory;
     private List<int> powerups;
-    private int basePrice;
-    private void Start()
+    private int basePrice = 25;
+    void Start()
     {
-        powerUpStatsController = PowerUpStatsController.Instance;
         inventory = InventorySafeController.Instance;
     }
     public void RefreshUpgrades()
     {
-        powerups = powerUpStatsController.getLevels();
+        powerups = PowerUpStatsController.Instance.getLevels();
         currentLevel[0].text = powerups[(int)powerUpType.MaxHealth].ToString();
+        int i = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.MaxHealth]) / 1.0f);
+        upgradePrice[1].text = i.ToString();
         currentLevel[1].text = powerups[(int)powerUpType.Heal].ToString();
         currentLevel[2].text = powerups[(int)powerUpType.Mana].ToString();
         currentLevel[3].text = powerups[(int)powerUpType.ManaRegen].ToString();
@@ -37,59 +39,95 @@ public class UpgradesUIManager : MonoBehaviour
 
     public void LevelUpHeal()
     {
-        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.MaxHealth]) / 1.0f);
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Heal]) / 1.0f);
         if (inventory.hasMoney(price) )
         {
-            powerUpStatsController.LevelUpPowerUp(powerUpType.Heal);
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Heal);
             inventory.substractMoney(price);
             RefreshUpgrades();
         }
     }
     public void LevelUpGeneral(powerUpType type)
     {
-        powerUpStatsController.LevelUpPowerUp(type);
+
+        PowerUpStatsController.Instance.LevelUpPowerUp(type);
         RefreshUpgrades();
     }
 
     public void LevelUpMaxHealth()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.MaxHealth);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.MaxHealth]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.MaxHealth);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
     public void LevelUpMana()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.Mana);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Mana]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Mana);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
     public void LevelUpManaRegen()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.ManaRegen);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.ManaRegen]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.ManaRegen);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
     public void LevelUpDamage()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.Damage);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Damage]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Damage);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
     public void LevelUpAttackSpeed()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.AttackSpeed);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.AttackSpeed]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.AttackSpeed);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
     public void LevelUpPush()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.Push);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Push]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Push);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
     public void LevelUpMovement()
     {
-        powerUpStatsController.LevelUpPowerUp(powerUpType.Movement);
-        RefreshUpgrades();
+        int price = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Movement]) / 1.0f);
+        if (inventory.hasMoney(price))
+        {
+            PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Movement);
+            inventory.substractMoney(price);
+            RefreshUpgrades();
+        }
     }
 
 

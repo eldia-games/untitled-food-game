@@ -244,6 +244,7 @@ public class PowerUpStatsController : MonoBehaviour
             switch (type)
             {
                 case powerUpType.None:
+                    levels.Add(0);
                     break;
                 case powerUpType.MaxHealth:
 
