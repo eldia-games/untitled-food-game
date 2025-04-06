@@ -79,10 +79,12 @@ public class GameManager : MonoBehaviour {
     }
   public void ContinueGame() {
 
+
       InventorySafeController.Instance.loadGame();
       PowerUpStatsController.Instance.loadGame();
       EnterLobbyScene();
         //añadir persistencia
+
 
   }
 
@@ -94,6 +96,7 @@ public class GameManager : MonoBehaviour {
         InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
         EnterLobbyScene();
       //añadir persistencia
+
 
   }
 
