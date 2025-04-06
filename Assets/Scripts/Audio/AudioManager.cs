@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,6 +16,13 @@ public class AudioManager : MonoBehaviour
 
     private bool isMusicPlaying;
     public static AudioManager Instance { get; private set; }
+
+    private Dictionary<string, int> indexesMusic = new Dictionary<string, int>()
+{
+    {"SafeMusic", 1},
+    {"BossMusic", 2},  
+    {"ShopMusic", 3}
+};
 
     private void Awake()
     {
@@ -49,7 +57,7 @@ public class AudioManager : MonoBehaviour
     {
         musicAudioSource.mute = !musicAudioSource.mute;
     }
-    public void UnuteMusic()
+    public void UnmuteMusic()
     {
         musicAudioSource.mute= false;
     }
@@ -119,6 +127,15 @@ public class AudioManager : MonoBehaviour
     public void PlayVictoryMusic()
     {
         ChangeBackgroundMusic(5);
+    }
+
+    public void PlaySafeChamberMusic()
+    {
+        ChangeBackgroundMusic(6);
+    }
+    public void PlayBossMusic()
+    {
+        ChangeBackgroundMusic(7);
     }
 
     public void PlaySFXClick()
