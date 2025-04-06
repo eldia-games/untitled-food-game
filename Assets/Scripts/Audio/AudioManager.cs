@@ -116,6 +116,11 @@ public class AudioManager : MonoBehaviour
         ChangeBackgroundMusic(4);
     }
 
+    public void PlayVictoryMusic()
+    {
+        ChangeBackgroundMusic(5);
+    }
+
     public void PlaySFXClick()
     {
         PlaySFXByIndex(0);
