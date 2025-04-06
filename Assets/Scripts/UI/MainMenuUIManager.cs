@@ -254,12 +254,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowShopCanvas()
     {
+        Time.timeScale = 0;
         ShowShop();
         AudioManager.Instance.PlaySFXOpen();
     }
 
     public void HideShopCanvas()
     {
+        Time.timeScale = 1;
         HideShop();
         AudioManager.Instance.PlaySFXClose();
     }
