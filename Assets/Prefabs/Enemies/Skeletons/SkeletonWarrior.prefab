@@ -592,8 +592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f62829ff926c24eaee51fbb1ea2885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  health: 150
+  speed: 5
+  health: 30
   damage: 6
   attackRange: 1.5
   viewRadius: 10
@@ -628,6 +628,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 82354d1fee336984994fbdcc8154c89c, type: 3}
   - {fileID: 8300000, guid: 068414160a0ccf34ca0c11b55d43ffc8, type: 3}
   - {fileID: 8300000, guid: 02d4b2dff380d194fab91c0864b0c386, type: 3}
+  drop: {fileID: 0}
+  chanceDrop: 0
+  canDrop: 1
+  minDrop: 0
+  maxDrop: 0
   isAttacking: 0
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 3577386699554419429}

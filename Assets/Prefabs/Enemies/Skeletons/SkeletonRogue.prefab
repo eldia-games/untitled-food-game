@@ -440,8 +440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c25b51c39716c4b8b4eaf92b8a61de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  health: 100
+  speed: 8
+  health: 10
   damage: 10
   attackRange: 5.73
   viewRadius: 15
@@ -457,10 +457,16 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
+  drop: {fileID: 0}
+  chanceDrop: 0
+  canDrop: 1
+  minDrop: 0
+  maxDrop: 0
   isAttacking: 0
   projectileSpawnPoint: {fileID: 6413166931248803348}
   meleeAttackCollider: {fileID: 0}
   isBlocking: 0
+  debug: 0
   fleeDistance: 5
   fleeRadius: 5
   approachDistance: 10

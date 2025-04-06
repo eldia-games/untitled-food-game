@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  health: 100
+  health: 20
   damage: 10
   attackRange: 1.3
   viewRadius: 20
@@ -573,10 +573,16 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
+  drop: {fileID: 0}
+  chanceDrop: 0
+  canDrop: 1
+  minDrop: 0
+  maxDrop: 0
   isAttacking: 0
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 4474835140253016986}
   isBlocking: 0
+  debug: 0
   rig: {fileID: 0}
   fleeDistance: 4
   fleeRadius: 4

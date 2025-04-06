@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  health: 100
+  health: 10
   damage: 10
   attackRange: 9
   viewRadius: 15
@@ -269,19 +269,28 @@ MonoBehaviour:
   rb: {fileID: 3104524741789884660}
   agent: {fileID: 9031349979221749279}
   animator: {fileID: 3039355591102321680}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
+  drop: {fileID: 0}
+  chanceDrop: 0
+  canDrop: 1
+  minDrop: 0
+  maxDrop: 0
   isAttacking: 0
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 0}
+  isBlocking: 0
+  debug: 0
   spellSounds: []
   fleeDistance: 5
+  approachDistance: 10
   fleeRadius: 5
   rayCount: 12
   checkRadius: 1
+  orbitalChangeInterval: 3
   staffTip: {fileID: 6607289924445994534}
   skills:
   - {fileID: 11400000, guid: 438b2a8d1f94c0a49950bcfcd7041b60, type: 2}
