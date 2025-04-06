@@ -72,7 +72,7 @@ public class InventorySafeController : MonoBehaviour
             StreamReader reader = new StreamReader(filePath);
             string json = reader.ReadToEnd();
             reader.Close();
-            if (InventorySave.FromJSON(json) == null)
+            if (json == "" || InventorySave.FromJSON(json) == null)
             {
                 return false;
             }

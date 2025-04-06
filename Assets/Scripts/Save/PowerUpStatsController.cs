@@ -103,7 +103,7 @@ public class PowerUpStatsController : MonoBehaviour
             StreamReader reader = new StreamReader(filePath);
             string json = reader.ReadToEnd();
             reader.Close();
-            if (PowerUpSave.FromJSON(json) == null)
+            if (json=="" || PowerUpSave.FromJSON(json) == null)
             {
                 return false;
             }
@@ -111,6 +111,10 @@ public class PowerUpStatsController : MonoBehaviour
             {
                 return true;
             }
+        }
+        catch (Exception e)
+        {
+            return false;
         }
 
     }
