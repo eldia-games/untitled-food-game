@@ -1,0 +1,90 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MissionUIManager : MonoBehaviour
+{
+    [SerializeField] private RawImage[] spriteItemMission;
+    [SerializeField] private TMP_Text[] textMoneyQuantity;
+    [SerializeField] private TMP_Text[] textItemQuantity;
+    [SerializeField] private TMP_Text[] textInventoryQuantity;
+    [SerializeField] private TMP_Text[] textMission;
+    [SerializeField] private Button[] buttonMission;
+    [SerializeField] private TMP_Text[] buttonTextMission;
+
+    private MissionController _missionController;
+    private List<Mission> missionTemp;
+    private bool[] missionStatus;
+
+    void Awake()
+    {
+        Debug.Log("estoy despierto");
+        _missionController = GetComponent<MissionController>();
+    }
+
+    public void RefreshMissionUI()
+    {
+        missionTemp = _missionController.GetMissions();
+        for (int i = 0; i < missionTemp.Count; i++)
+        {
+            try
+            {
+                Mission mission = missionTemp[i];
+                Items item = mission.getItem();
+                int quantityItem = mission.getQuantity();
+                int quantityMoney = mission.getPrice();
+
+                spriteItemMission[i].texture = item.icon;
+                string itemString = item.itemName;
+                textItemQuantity[i].text = quantityItem.ToString();
+                textMoneyQuantity[i].text = quantityMoney.ToString();
+
+              
+                textMission[i].text = string.Format("Loot <color=yellow>{0}</color> number of {1} to obtain the following reward: ",
+                                        quantityItem.ToString(),
+                                        itemString
+                                        );
+
+                InventorySafeController inventory = InventorySafeController.Instance;
+                bool missionCompletable = inventory.hasItem(mission.getItem(), mission.getQuantity());
+                if(missionCompletable){
+                    buttonTextMission[i].text = "Complete mission";
+                    buttonMission[i].enabled = true;
+                }
+                else
+                {
+                    buttonTextMission[i].text = "Can't complete";
+                    buttonMission[i].enabled = false;
+                }
+                missionStatus[i] = missionCompletable;
+                
+            }
+            catch
+            {
+                print("error index out of bounds: " + i);
+            }
+        }
+    }
+    public bool ObtainMissionStatus(int missionIndex)
+    {
+        return missionStatus[missionIndex];
+    }
+
+    public bool MissionAction(int missionIndex)
+    {
+        InventorySafeController inventory = InventorySafeController.Instance;
+        Mission mission = missionTemp[missionIndex];
+        if (inventory.hasItem(mission.getItem(), mission.getQuantity()))
+        {
+            _missionController.completeMission(missionIndex);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}

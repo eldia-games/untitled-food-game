@@ -19,20 +19,25 @@ public class MissionController : MonoBehaviour
     }
     public List<Mission> GetMissions()
     {
-        if (inventory != null)
+        Debug.Log("holaaaa");
+        if (inventory == null)
         {
-            if(inventory.getMissions().Count == 0)
-            {
-                List<Mission> missions = new List<Mission>();
-                for (int i = 0; i < numMissions; i++)
-                {
-                    missions.Add(GenerateMission(i));
+            inventory = InventorySafeController.Instance;
 
-                }
-                inventory.setsMissions(missions);
+        }
+
+        if(inventory.getMissions().Count == 0)
+        {
+            List<Mission> missions = new List<Mission>();
+            for (int i = 0; i < numMissions; i++)
+            {
+                missions.Add(GenerateMission(i));
+
             }
+            inventory.setsMissions(missions);
         }
         return inventory.getMissions();
+
     }
     public Mission GenerateMission(int index)
     {
@@ -70,6 +75,8 @@ public class MissionController : MonoBehaviour
 
             inventory.addMoney(mis.getPrice());
             inventory.removeItem(mis.getItem(), mis.getQuantity());
+            mis = GenerateMission(index);
+            inventory.setMission(mis, index);
         }
     }
 
