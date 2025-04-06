@@ -183,7 +183,7 @@ SpriteRenderer:
   m_Size: {x: 25.6, y: 14.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5680688428688249093
@@ -522,6 +522,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5619805137069759240}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6119597103529184868}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2161320111791402649}
   m_SourcePrefab: {fileID: 100100000, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
 --- !u!1 &5074866041816356351 stripped
 GameObject:
@@ -557,11 +563,10 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
-  drop: {fileID: 0}
+  drop:
+  - {fileID: 0}
   chanceDrop: 0
   canDrop: 1
-  minDrop: 0
-  maxDrop: 0
   isAttacking: 0
   projectileSpawnPoint: {fileID: 6413166931248803348}
   meleeAttackCollider: {fileID: 0}
@@ -767,6 +772,38 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!114 &6119597103529184868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074866041816356351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6803df6c8269bd4eb5b1294d78f682c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drop: {fileID: 8105929881696230242, guid: f116e107204b5f341b87c80c750dd5cc, type: 3}
+  chanceDrop: 1
+  minDrop: 1
+  maxDrop: 2
+--- !u!114 &-2161320111791402649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074866041816356351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6803df6c8269bd4eb5b1294d78f682c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drop: {fileID: 3489315976540881254, guid: 9f7465a3963f33747b1f45545a158c8d, type: 3}
+  chanceDrop: 0.311
+  minDrop: 5
+  maxDrop: 15
 --- !u!4 &5559231302531043141 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
