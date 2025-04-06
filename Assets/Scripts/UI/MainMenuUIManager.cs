@@ -163,8 +163,8 @@ public class UIManager : MonoBehaviour
     public void ShowMisionCanvas()
     {
         HideLobby();
-        refreshMission();
         ShowMissions();
+        refreshMission();
         AudioManager.Instance.PlaySFXClick();
     }
 

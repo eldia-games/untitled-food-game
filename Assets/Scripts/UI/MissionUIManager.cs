@@ -19,8 +19,9 @@ public class MissionUIManager : MonoBehaviour
     private List<Mission> missionTemp;
     private bool[] missionStatus;
 
-    void Start()
+    void Awake()
     {
+        Debug.Log("estoy despierto");
         _missionController = GetComponent<MissionController>();
     }
 

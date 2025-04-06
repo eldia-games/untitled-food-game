@@ -19,6 +19,7 @@ public class MissionController : MonoBehaviour
     }
     public List<Mission> GetMissions()
     {
+        Debug.Log("holaaaa");
         if (inventory != null)
         {
             if(inventory.getMissions().Count == 0)
@@ -31,8 +32,9 @@ public class MissionController : MonoBehaviour
                 }
                 inventory.setsMissions(missions);
             }
+            return inventory.getMissions();
         }
-        return inventory.getMissions();
+        return null;
     }
     public Mission GenerateMission(int index)
     {
