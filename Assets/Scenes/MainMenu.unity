@@ -12011,22 +12011,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   filePath: Assets/Saves/PowerUpStats.json
   maxLevel: 10
-  movementSpeedAdd: 0
-  movementSpeedBase: 0
-  healAdd: 0
-  healBase: 0
-  maxLifeAdd: 0
-  maxLifeBase: 0
-  damageAdd: 0
-  damageBase: 0
-  atackSpeedAdd: 0
-  atackSpeedBase: 0
-  pushForceAdd: 0
-  pushForceBase: 0
-  maxManaAdd: 0
-  maxManaBase: 0
-  manaRegenAdd: 0
-  manaRegenBase: 0
+  movementSpeedAdd: 0.2
+  movementSpeedBase: 2
+  healAdd: 20
+  healBase: 5
+  maxLifeAdd: 10
+  maxLifeBase: 10
+  damageAdd: 5
+  damageBase: 10
+  atackSpeedAdd: 0.1
+  atackSpeedBase: 0.1
+  pushForceAdd: 0.01
+  pushForceBase: 0.01
+  maxManaAdd: 20
+  maxManaBase: 10
+  manaRegenAdd: 0.1
+  manaRegenBase: 0.1
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0
