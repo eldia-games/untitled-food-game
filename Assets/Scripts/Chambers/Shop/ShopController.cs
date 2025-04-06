@@ -106,7 +106,7 @@ public class ShopController : MonoBehaviour, IChamberController {
   IEnumerator EnterDungeon() {
     yield return new WaitForSeconds(0.5f);
     playerAnimator.SetFloat("Moving", 1);
-    for (int i = 0; i <  AnimationMovementSpped / Time.fixedDeltaTime; i++) {
+    for (int i = 0; i < AnimationMovementTime / Time.fixedDeltaTime; i++) {
       player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * AnimationMovementSpped);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }

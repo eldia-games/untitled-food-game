@@ -97,6 +97,7 @@ public class PlayerCombat : MonoBehaviour
         }
         catch(Exception e){
             weaponIndex = NoGameManagerWeaponIndex;
+            Debug.Log("Error: " + e);
         }
         if(weaponIndex == 2)
             weaponType = PlayerStats.weaponType[0];
@@ -437,6 +438,11 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
+    {
+        print("I am hurt");
+    }
+
+    void OnTriggerEnter(Collider collision)
     {
         //If the collider is melee, make damage to the enemy
         if (_colliderMeleeSpin != null && _colliderMeleeSpin.enabled)
