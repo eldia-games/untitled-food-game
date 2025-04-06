@@ -96,6 +96,24 @@ public class PowerUpStatsController : MonoBehaviour
         stats = new PowerUpSave();
         saveStats();
     }
+    public bool canLoadGame()
+    {
+        try
+        {
+            StreamReader reader = new StreamReader(filePath);
+            string json = reader.ReadToEnd();
+            reader.Close();
+            if (PowerUpSave.FromJSON(json) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+    }
     public void saveStats()
     {
         StreamWriter writer = new StreamWriter(filePath);

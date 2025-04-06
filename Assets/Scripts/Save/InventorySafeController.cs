@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -63,6 +64,31 @@ public class InventorySafeController : MonoBehaviour
         inventory.clearMissions();
         saveInventory();
     }
+
+    public bool canLoadGame()
+    {
+        try
+        {
+            StreamReader reader = new StreamReader(filePath);
+            string json = reader.ReadToEnd();
+            reader.Close();
+            if (InventorySave.FromJSON(json) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+    }
+
+
     #endregion
 
     #region Missions
