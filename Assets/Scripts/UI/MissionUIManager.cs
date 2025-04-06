@@ -32,23 +32,26 @@ public class MissionUIManager : MonoBehaviour
         {
             try
             {
+                InventorySafeController inventory = InventorySafeController.Instance;
                 Mission mission = missionTemp[i];
                 Items item = mission.getItem();
                 int quantityItem = mission.getQuantity();
                 int quantityMoney = mission.getPrice();
+                int quantityInventory = inventory.getQuantity(item);
 
                 spriteItemMission[i].texture = item.icon;
                 string itemString = item.itemName;
                 textItemQuantity[i].text = quantityItem.ToString();
                 textMoneyQuantity[i].text = quantityMoney.ToString();
+                textInventoryQuantity[i].text = quantityInventory.ToString();
 
-              
+
                 textMission[i].text = string.Format("Loot <color=yellow>{0}</color> number of {1} to obtain the following reward: ",
                                         quantityItem.ToString(),
                                         itemString
                                         );
 
-                InventorySafeController inventory = InventorySafeController.Instance;
+
                 bool missionCompletable = inventory.hasItem(mission.getItem(), mission.getQuantity());
                 if(missionCompletable){
                     buttonTextMission[i].text = "Complete mission";
