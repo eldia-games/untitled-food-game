@@ -9,6 +9,7 @@ public class TypeChamberGenerator : MonoBehaviour {
   public void createChamber(int level) {
     int TypeDesign = Random.Range(0, chambers.Count);
     GameObject instancedObject = Instantiate(chambers[TypeDesign], new Vector3(0, 0, 0), Quaternion.identity);
+    instancedObject.GetComponent<DungeonController>().SetTrap(true);
     instancedObject.GetComponent<IChamberController>().initiallise(level);
   }
 

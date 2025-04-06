@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PopUpUIManager popUpUIManager;
     [SerializeField] private ShopUIManager shopUIManager;
     [SerializeField] private MissionUIManager missionUIManager;
-
+    [SerializeField] private PauseUIManager pauseUIManager;
     public static UIManager Instance { get; private set; }
 
     private void Awake()
@@ -100,6 +100,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseCanvas()
     {
+        pauseUIManager.RefreshPauseUI();
         Time.timeScale = 0; // Pause the game
         ShowPause();
         AudioManager.Instance.PlaySFXClick();
@@ -197,6 +198,7 @@ public class UIManager : MonoBehaviour
     }
     public void ShowEndGameCanvas()
     {
+        Time.timeScale = 0;
         HideAllCanvas();
         ShowEndGame();
         AudioManager.Instance.PlayEndGameMusic();
@@ -254,12 +256,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowShopCanvas()
     {
+        Time.timeScale = 0;
         ShowShop();
         AudioManager.Instance.PlaySFXOpen();
     }
 
     public void HideShopCanvas()
     {
+        Time.timeScale = 1;
         HideShop();
         AudioManager.Instance.PlaySFXClose();
     }
@@ -285,6 +289,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowVictoryCanvas()
     {
+        Time.timeScale = 0;
         HideAllCanvas();
         AudioManager.Instance.PlayVictoryMusic();
         ShowVictory();
@@ -292,6 +297,7 @@ public class UIManager : MonoBehaviour
 
     public void HideVictoryCanvas()
     {
+        Time.timeScale = 1;
         HideVictory();
         AudioManager.Instance.PlaySFXClose();
     }

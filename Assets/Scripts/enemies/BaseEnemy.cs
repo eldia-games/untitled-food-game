@@ -13,6 +13,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
     [Header("Rango y visión")]
     public float attackRange;
+    public float hearingRange = 10f;
+
     public float viewRadius = 20f;
     public float viewAngle = 90f;
 
@@ -33,11 +35,9 @@ public abstract class BaseEnemy : MonoBehaviour
     public List<AudioClip> footstepRunSounds;
 
     [Header("Drops")]
-     public  GameObject drop;
+     public List<EnemyDrop> drop;
     [Range(0,1)] public float chanceDrop;
     public bool canDrop=true;
-    public int minDrop;
-    public int maxDrop;
     // Estado interno
     protected bool isDead = false;
     
@@ -61,6 +61,9 @@ public abstract class BaseEnemy : MonoBehaviour
 
         // Guardamos la posición inicial para volver
         initialPosition = transform.position;
+
+        drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
+
     }
 
     public virtual void SetPlayer(GameObject player)
@@ -128,7 +131,7 @@ public abstract class BaseEnemy : MonoBehaviour
         bool isHit = Physics.Raycast(origin, player.transform.position - origin, out hit, distance);
 
         isSeen = (distance < viewRadius && angle < viewAngle / 2 && isHit && hit.collider.gameObject == player)
-                 || (distance < (attackRange + 1f));
+                 || (distance < hearingRange);
     }
 
     /// <summary>
@@ -327,12 +330,19 @@ public abstract class BaseEnemy : MonoBehaviour
             dieEvent.Invoke();
         if (drop !=null && canDrop)
         {
-            float rand= Random.value;
-            if(rand < chanceDrop)
+            for(int i = 0; i < drop.Count; i++)
             {
-                GameObject objectCreated = Instantiate(drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
-                ObjectDrop objectdrop = drop.GetComponent<ObjectDrop>();
-                objectdrop.quantity =Random.Range(minDrop,maxDrop);
+                EnemyDrop enemyDrop = drop[i];
+                float rand= Random.value;
+                //print("Random: " + rand + " ChanceDrop: " + chanceDrop);
+                if(rand < enemyDrop.chanceDrop)
+                {
+
+                        GameObject objectCreated = Instantiate(enemyDrop.drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
+                            
+                        ObjectDrop objectdrop = objectCreated.GetComponent<ObjectDrop>();
+                        objectdrop.quantity = Random.Range(enemyDrop.minDrop, enemyDrop.maxDrop + 1);
+                }
             }
         }
         // Destruir el enemigo tras unos segundos

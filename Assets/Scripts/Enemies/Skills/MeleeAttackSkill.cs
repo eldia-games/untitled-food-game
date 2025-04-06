@@ -88,13 +88,14 @@ public class MeleeAttackSkill : SkillScriptableObject
             yield return null;
         }
         
+        // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
         while (enemy.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f
                && enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("1H Melee Horizontal"))
         {
             if(!firstEvent)
-                enemy.SlowlyRotateTowards(player.transform.position);
-            else
                 enemy.RotateTowards(player.transform.position);
+            else
+                enemy.SlowlyRotateTowards(player.transform.position);
                 
             yield return null;
         }

@@ -19,7 +19,8 @@ public class Mission
 
     public Items getItem()
     {
-        return item;
+         return item;
+        //return null;
     }
     public int getQuantity()
     {

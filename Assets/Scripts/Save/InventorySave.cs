@@ -9,39 +9,60 @@ using UnityEngine;
 [Serializable]
 public class InventorySave
 {
-    //[SerializeField] private List<Mission> missions;
-    [SerializeField] public int money = 0;
-    [SerializeField] public List<int> loot;
-    [SerializeField] public List<int> lootquantity;
 
+    #region Variables
+    [SerializeField] private List<Mission> missions;
+    [SerializeField] private int money = 0;
+    [SerializeField] private List<Items> loot;
+    [SerializeField] private List<int> lootquantity;
+
+    #endregion
+
+    #region Persistence
     public InventorySave()
     {
         money = 0;
-        loot = new List<int>();
+        loot = new List<Items>();
         lootquantity= new List<int>();
+        missions = new List<Mission>();
     }
-    public static InventorySave FromJSON(string json)
+    public static InventorySave FromJSON(string inventoryjson)
     {
-        return JsonUtility.FromJson<InventorySave>(json);
+        return JsonUtility.FromJson<InventorySave>(inventoryjson);
     }
 
     public string ToJSON()
     {
         return JsonUtility.ToJson(this);
     }
+
+    public void clearLoot()
+    {
+        lootquantity.Clear();
+        loot.Clear();
+    }
+    public void clearMissions()
+    {
+        missions.Clear();
+    }
+    #endregion
+
+    #region Missions
     public void setMissions(List<Mission> missions)
     {
-       // this.missions = missions;
+       this.missions = missions;
     }
     public void changeMission(Mission mission, int index)
     {
-        //missions[index] = mission;
+        missions[index] = mission;
     }
     public List<Mission> getMissions()
     {
-        //return missions;
-        return null;
+        return missions;
     }
+    #endregion
+
+    #region Money
     public void addMoney(int money)
     {
         this.money += money;
@@ -50,7 +71,19 @@ public class InventorySave
     {
         this.money = 0;
     }
-    public void addItem(int lootItem, int quantity)
+    public void substractMoney(int money)
+    {
+        this.money -= money;
+    }
+
+    public int getMoney()
+    {
+        return this.money;
+    }
+    #endregion
+
+    #region Items
+    public void addItem(Items lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -65,7 +98,7 @@ public class InventorySave
 
     }
 
-    public void removeItem(int lootItem, int quantity)
+    public void removeItem(Items lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) != -1)
@@ -83,7 +116,7 @@ public class InventorySave
 
         }
     }
-    public bool hasEnough(int lootItem, int quantity)
+    public bool hasEnough(Items lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -96,16 +129,7 @@ public class InventorySave
         }
         return true;
     }
-    public void clearLoot()
-    {
-        lootquantity.Clear();
-        loot.Clear();
-    }
-    public void clearMissions()
-    {
-       // missions.Clear();
-    }
-    public int getQuantity(int lootItem)
+    public int getQuantity(Items lootItem)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -114,5 +138,9 @@ public class InventorySave
         }
         return lootquantity[index];
     }
+
+
+    #endregion
+
 }
 

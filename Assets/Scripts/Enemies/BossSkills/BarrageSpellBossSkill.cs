@@ -23,7 +23,14 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
     {
         base.Use(boss, player);
         // Trigger de la animación de ataque (puedes definir un attackType distinto para esta habilidad)
-        boss.animator.SetTrigger("fireball");
+        boss.animator.SetTrigger("fireballCast");
+    }
+
+    public override void HandleMovement(Boss boss, GameObject player)
+    {
+        // Perseguir al jugador durante el ataque
+        boss.AllowMovement();
+        boss.agent.SetDestination(player.transform.position);
     }
 
     public override void OnAnimationEvent(Boss boss, GameObject player)
@@ -41,7 +48,8 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
         float elapsedTime = 0f;
         float interval = 1f / projectilesPerSec;
 
-        boss.animator.speed = 0f; // Pausar la animación durante el ataque
+        // Pausar la animación para mayor control
+        boss.animator.SetFloat("layer1Speed", 0.1f);
 
         while (elapsedTime < duration)
         {
@@ -56,7 +64,7 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
             direction = Quaternion.Euler(1, angleOffset, 1) * direction;
 
             GameObject projectile = Instantiate(spellPrefab, spawnPos, Quaternion.identity);
-            SpellProjectileManual sp = projectile.GetComponent<SpellProjectileManual>();
+            BossSpellProjectileManual sp = projectile.GetComponent<BossSpellProjectileManual>();
             if (sp != null)
             {
                 sp.SetDirection(direction);
@@ -67,10 +75,11 @@ public class BarrageSpellBossSkill : BossSkillScriptableObject
         }
 
         // Restaurar el estado del enemigo al finalizar el ataque
-        boss.animator.speed = 1f;
+        boss.animator.SetFloat("layer1Speed", 1f);
 
         // Una vez que ha comenzado, espera hasta que se complete (normalizedTime >= 1.0)
-        while (boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while (boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f &&
+            boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Spell Cast"))
         {
             yield return null;
         }

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5662841272038797724}
+  - component: {fileID: 2168646552181882777}
   m_Layer: 0
   m_Name: Minimap
   m_TagString: Untagged
@@ -33,6 +34,21 @@ Transform:
   - {fileID: 255545537787766007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2168646552181882777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593799922008469283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0597bd8cf70e12c4abec71b9fa9da895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minimapCamera: {fileID: 2548265662524416097}
+  player: {fileID: 0}
+  bossCameraScale: 0
 --- !u!1 &2548265662524416097
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +121,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 0
   m_TargetTexture: {fileID: 8400000, guid: 3ea1bf3008709f84594c80ee1e52f194, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
