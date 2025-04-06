@@ -162,6 +162,7 @@ public class UIManager : MonoBehaviour
     public void ShowMisionCanvas()
     {
         HideLobby();
+        refreshMission();
         ShowMissions();
         AudioManager.Instance.PlaySFXClick();
     }
@@ -216,6 +217,26 @@ public class UIManager : MonoBehaviour
     {
         shopUIManager.RefreshShopUI(tradesRecieved, shop);
     }
+
+    public void refreshMission()
+    {
+        missionUIManager.RefreshMissionUI();
+    }
+
+    public void MissionClick(int missionIndex)
+    {
+        bool missionCorrect = MissionUIManager.ObtainMissionStatus(missionIndex);
+        missionUIManager.MissionAction(missionIndex);
+        if (missionCorrect)
+        {
+            AudioManager.Instance.PlaySFXConfirmation();
+            missionUIManager.RefreshMissionUI();
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFXClose();
+        }
+    }
     public void TradeClick(int tradeIndex)
     {
         bool tradeCorrect = false;
@@ -242,6 +263,11 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void HideMissionsCanvas()
+    {
+        HideMissions();
+        AudioManager.Instance.PlaySFXClose();
+    }
     public void ShowControlsRebind()
     {
         HideSettings();
