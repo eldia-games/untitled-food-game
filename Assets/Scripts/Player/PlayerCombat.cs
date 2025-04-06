@@ -280,10 +280,10 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            MP += Time.deltaTime * manaRegen / 10;
+            MP += Time.deltaTime * manaRegen;
 
             try{
-                UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
+                UIManager.Instance.RegenMana(Time.deltaTime * manaRegen);
             }
             catch(Exception e){
                 Debug.Log("Error: " + e);
@@ -298,7 +298,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //RotatePlayerOverTime(player, lookAtPosition, 10.0f);
-        Debug.Log(lookAtDirection);
+        //Debug.Log(lookAtDirection);
         if(lookAtDirection.x!=0 || lookAtDirection.y!=0|| lookAtDirection.z!=0)
             RotatePlayerOverTimeToDirection(player, lookAtDirection, 10.0f);
 

@@ -116,8 +116,8 @@ public class JumpSkill : SkillScriptableObject
             yield return null;
         }
 
-        // Al aterrizar, podríamos activar un “hitbox” o llamar AttackEvent() si procede
-        enemy.AttackEvent();
+        // Al aterrizar, activamos el hitbox de ataque
+        enemy.meleeAttackCollider.enabled = true;
 
         // Reactivar NavMeshAgent
         enemy.agent.enabled = true;
@@ -131,6 +131,11 @@ public class JumpSkill : SkillScriptableObject
             // Si no se encuentra una posición válida, usa la posición original o maneja el error
             enemy.agent.Warp(endPos);
         }
+
+        yield return new WaitForSeconds(0.1f); // Espera un poco antes de continuar
+
+        // Desactivamos el hitbox de ataque
+        enemy.meleeAttackCollider.enabled = false;
 
         castTime = Time.time;
         isCasting = false;
