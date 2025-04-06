@@ -191,7 +191,9 @@ public class PowerUpStatsController : MonoBehaviour
                 break;
             default:
                 break;
+
         }
+        saveStats();
     }
 
 
