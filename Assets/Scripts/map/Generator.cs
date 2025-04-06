@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -139,16 +138,26 @@ public class Generator : MonoBehaviour {
     Assert.IsTrue(tile.HasRoom());
     tile.SetRoom(room);
 
-    RoomType nextU = RoomType.Tavern;
-    RoomType nextR = RoomType.Tavern;
+    bool pathU = tile.HasRoad(Vector2Int.up);
+    bool pathR = tile.HasRoad(Vector2Int.right);
+
+    Tile tileU = pathU ? GetTile(i, j + 2) : null;
+    Tile tileR = pathR ? GetTile(i + 2, j) : null;
+
+    bool doneU = pathU && tileU.GetRoom() != RoomType.Boss;
+    bool doneR = pathR && tileR.GetRoom() != RoomType.Boss;
+
+    RoomType nextU = doneU ? tileU.GetRoom() : RoomType.Tavern;
+    RoomType nextR = doneR ? tileR.GetRoom() : RoomType.Tavern;
+
     int depth = i + j + 2;
     do {
-      nextU = SampleRoom(depth);
-      nextR = SampleRoom(depth);
+      if (!doneU) nextU = SampleRoom(depth);
+      if (!doneR) nextR = SampleRoom(depth);
     } while (!ValidateRooms(nextU, nextR, depth));
 
-    if (tile.HasRoad(Vector2Int.up   )) Fill(i, j + 2, nextU);
-    if (tile.HasRoad(Vector2Int.right)) Fill(i + 2, j, nextR);
+    if (pathU && !doneU) Fill(i, j + 2, nextU);
+    if (pathR && !doneR) Fill(i + 2, j, nextR);
   }
 
   RoomType SampleRoom(int depth) {
