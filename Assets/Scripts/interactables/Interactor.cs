@@ -17,7 +17,7 @@ public class Interactor : MonoBehaviour
 
     public void EnterInteractableRange(Interactable interact)
     {
-        UIManager.Instance.ShowPopUpCanvas(interact.getAction());
+        UIManager.Instance.ShowPopUpCanvas(interact.getAction(),interact.isActive());
         interactable = interact;
         sum++;
     }

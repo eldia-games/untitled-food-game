@@ -32,32 +32,21 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter(Collider hitInfo)
     {
-        print("hit");
-        //check if the object hit has the tag "Enemy" or "Player"
         if(hitInfo.tag == "Enemy")
         {
-            //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
             BaseEnemy enemy = hitInfo.GetComponent<BaseEnemy>();
-            ////if the enemy script is not null, call the TakeDamage function from the enemy script
             if(enemy != null)
             {
                 enemy.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
-            }
-        }
-        else if(hitInfo.tag == "Player")
-        {
-            //get the Player script from the object hit
-            PlayerCombat player = hitInfo.GetComponent<PlayerCombat>();
-            //if the player script is not null, call the OnHurt function from the player script
-            if(player != null)
-            {
-                player.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
+                Destroy(this);
             }
         }
         else if(hitInfo.tag == "Wall")
         {
             Destroy(this);
+        }
+        else {
+            
         }
     }
 }

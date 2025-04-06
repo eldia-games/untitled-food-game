@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44eb0a27a6ef694699d3645baf20fc8, type: 3}
+  m_Name: Predict Attack Skill
+  m_EditorClassIdentifier: 
+  cooldown: 2
+  damage: 5
+  isCasting: 0
+  minRange: 2
+  maxRange: 9
+  defaultOffset: {x: 0, y: 1, z: 0}
+  projectileSpeed: 10
+  spellPrefab: {fileID: 1403427671647912125, guid: 3feb8c4397967cc43b58be8cd759242d, type: 3}

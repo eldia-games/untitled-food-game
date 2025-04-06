@@ -25,16 +25,19 @@ public abstract class BaseEnemy : MonoBehaviour
     public Rigidbody rb;
     public NavMeshAgent agent;
     public Animator animator;
-    public List<GameObject> weapons;
     public UnityEvent dieEvent;
 
     [Header("Sonidos")]
 
-    public AudioSource audioSource;
-
     public List<AudioClip> footstepWalkSounds;
     public List<AudioClip> footstepRunSounds;
 
+    [Header("Drops")]
+     public  GameObject drop;
+    [Range(0,1)] public float chanceDrop;
+    public bool canDrop=true;
+    public int minDrop;
+    public int maxDrop;
     // Estado interno
     protected bool isDead = false;
     
@@ -42,6 +45,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool inCombat = false;
     protected bool isSeen = false;
     protected bool isWaitAndMove = false;
+
 
     // Timers y posiciones
     protected float timer = 0f;         // Para volver a posición inicial
@@ -57,16 +61,9 @@ public abstract class BaseEnemy : MonoBehaviour
 
         // Guardamos la posición inicial para volver
         initialPosition = transform.position;
-
-        // Selección aleatoria de arma (si hay)
-        if (weapons != null && weapons.Count > 0)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, weapons.Count);
-            weapons[randomIndex].SetActive(true);
-        }
     }
 
-    public void SetPlayer(GameObject player)
+    public virtual void SetPlayer(GameObject player)
     {
         this.player = player;
     }
@@ -130,11 +127,6 @@ public abstract class BaseEnemy : MonoBehaviour
         RaycastHit hit;
         bool isHit = Physics.Raycast(origin, player.transform.position - origin, out hit, distance);
 
-        // Se ve si: 
-        //   a) está dentro del radio de visión, 
-        //   b) el ángulo es menor a viewAngle/2, 
-        //   c) el raycast golpea al jugador, 
-        //   O si está muy cerca del rango de ataque
         isSeen = (distance < viewRadius && angle < viewAngle / 2 && isHit && hit.collider.gameObject == player)
                  || (distance < (attackRange + 1f));
     }
@@ -282,6 +274,13 @@ public abstract class BaseEnemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 
+    public virtual void LookAt(Vector3 targetPos)
+    {
+        Vector3 direction = (targetPos - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = lookRotation;
+    }
+
     /// <summary>
     /// Recibe daño y knockback.
     /// </summary>
@@ -326,7 +325,16 @@ public abstract class BaseEnemy : MonoBehaviour
         // Llamar evento (si existe)
         if (dieEvent != null)
             dieEvent.Invoke();
-
+        if (drop !=null && canDrop)
+        {
+            float rand= Random.value;
+            if(rand < chanceDrop)
+            {
+                GameObject objectCreated = Instantiate(drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
+                ObjectDrop objectdrop = drop.GetComponent<ObjectDrop>();
+                objectdrop.quantity =Random.Range(minDrop,maxDrop);
+            }
+        }
         // Destruir el enemigo tras unos segundos
         Invoke(nameof(DestroyEnemy), 2f);
     }
@@ -370,7 +378,6 @@ public abstract class BaseEnemy : MonoBehaviour
         AudioClip footstepSound = footstepSoundsArray[randomIndex];
         // Pitch aleatorio para mayor variedad
         //audioSource.pitch = Random.Range(0.8f, 1.2f);
-        audioSource.PlayOneShot(footstepSound);
     }
 
     /// <summary>
