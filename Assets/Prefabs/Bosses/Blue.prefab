@@ -1857,8 +1857,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a85fd2b55cf18724eaa5af21e92fec52, type: 2}
   - {fileID: 11400000, guid: 7df34f1c2a7ba894c8dd91ab6a2dbfb0, type: 2}
   mouth: {fileID: 412039701569570514}
-  mouthAttackCollider: {fileID: 0}
-  mouthColliderMeshRenderer: {fileID: 0}
+  mouthAttackCollider: {fileID: 2956677211366995426}
+  mouthColliderMeshRenderer: {fileID: 5928461806466294008}
   rig: {fileID: 3846975632053590927}
   rigBuilder: {fileID: 8068833250521746440}
   aimConstraint: {fileID: 1966615719972151535}
@@ -1879,7 +1879,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 2.24
   m_Height: 7.73
@@ -1926,12 +1926,12 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 2.45
+  m_BaseOffset: 0.3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &2215558718387593767
