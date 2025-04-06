@@ -127,7 +127,9 @@ public class InventorySafeController : MonoBehaviour
         else
         {
             inventory.resetMoney();
+
         }
+        saveInventory();
     }
     public bool hasMoney(int money)
     {
