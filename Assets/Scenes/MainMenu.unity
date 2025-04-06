@@ -8117,6 +8117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556083508}
   - component: {fileID: 556083509}
+  - component: {fileID: 556083510}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -8151,7 +8152,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d860d6a0874cecd459868a9b183f2c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: ada9804fd9d7cac4da8e6b5728e54c20, type: 2}
+  lootList:
+  - {fileID: 11400000, guid: 1758799f822b6b84ab13c6b338123134, type: 2}
+  - {fileID: 11400000, guid: 56ccd5178ae266c49a78bb834aa7f65e, type: 2}
+  - {fileID: 11400000, guid: 5de90bd3b58d1b24f8a6d9e0dffaf56b, type: 2}
+  - {fileID: 11400000, guid: 0f4374d97812f264389cae00d1e728bc, type: 2}
+  file: {fileID: 4900000, guid: 3566bf5394c60844cb7f883c85dc7a46, type: 3}
+  filePath: Assets/Saves/Inventory.json
+--- !u!114 &556083510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556083507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc45dba8a34c9f40aa543e5d158c913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missions: []
+  money: 0
+  loot: 
+  lootquantity: 
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0

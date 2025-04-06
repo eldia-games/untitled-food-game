@@ -3,21 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="InventorySafe",menuName = "Save/InventorySafe", order =1)]
-public class InventorySafe : ScriptableObject
-{
-    [SerializeField] private List<Mission> missions;
-    [SerializeField] private int money=0;
-    [SerializeField] private List<Items> loot;
-    [SerializeField] private List<int> lootquantity;
 
+
+
+[Serializable]
+public class InventorySave
+{
+    //[SerializeField] private List<Mission> missions;
+    [SerializeField] public int money = 0;
+    [SerializeField] public List<int> loot;
+    [SerializeField] public List<int> lootquantity;
+
+    public InventorySave()
+    {
+        money = 0;
+        loot = new List<int>();
+        lootquantity= new List<int>();
+    }
+    public static InventorySave FromJSON(string json)
+    {
+        return JsonUtility.FromJson<InventorySave>(json);
+    }
+
+    public string ToJSON()
+    {
+        return JsonUtility.ToJson(this);
+    }
     public void setMissions(List<Mission> missions)
     {
-        this.missions = missions;
+       // this.missions = missions;
     }
     public void changeMission(Mission mission, int index)
     {
-        missions[index]=mission;
+        //missions[index] = mission;
+    }
+    public List<Mission> getMissions()
+    {
+        //return missions;
+        return null;
     }
     public void addMoney(int money)
     {
@@ -27,7 +50,7 @@ public class InventorySafe : ScriptableObject
     {
         this.money = 0;
     }
-    public void addItem(Items lootItem,int quantity)
+    public void addItem(int lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -41,11 +64,8 @@ public class InventorySafe : ScriptableObject
         }
 
     }
-    public List<Mission> getMissions()
-    {
-        return missions;
-    }
-    public void removeItem(Items lootItem, int quantity)
+
+    public void removeItem(int lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) != -1)
@@ -63,7 +83,7 @@ public class InventorySafe : ScriptableObject
 
         }
     }
-    public bool hasEnough(Items lootItem, int quantity)
+    public bool hasEnough(int lootItem, int quantity)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -83,9 +103,9 @@ public class InventorySafe : ScriptableObject
     }
     public void clearMissions()
     {
-        missions.Clear();
+       // missions.Clear();
     }
-    public int getQuantity(Items lootItem)
+    public int getQuantity(int lootItem)
     {
         int index;
         if ((index = loot.IndexOf(lootItem)) == -1)
@@ -95,3 +115,4 @@ public class InventorySafe : ScriptableObject
         return lootquantity[index];
     }
 }
+
