@@ -71,12 +71,41 @@ public class GameManager : MonoBehaviour {
     ClearPlayerStats();
     SceneManager.LoadScene("Lobby");
   }
+    public void NewGame()
+    {
+        InventorySafeController.Instance.newGame();
+        PowerUpStatsController.Instance.newGame();
+        EnterLobbyScene();
+    }
+  public void ContinueGame() {
+
+
+      InventorySafeController.Instance.loadGame();
+      PowerUpStatsController.Instance.loadGame();
+      EnterLobbyScene();
+        //añadir persistencia
+
+
+  }
+
+  public void VictoryReturn()
+  {
+
+      //añadir persistencia guardar loot en inventario taberna
+        UIManager.Instance.HideVictoryCanvas();
+        InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
+        EnterLobbyScene();
+      //añadir persistencia
+
+
+  }
+
 
   public void EnterMapScene() {
-    SceneManager.LoadScene("Map");
-    AudioManager.Instance.PlayMapMusic();
-    UIManager.Instance.ShowMapCanvas();
-    }
+  SceneManager.LoadScene("Map");
+  AudioManager.Instance.PlayMapMusic();
+  UIManager.Instance.ShowMapCanvas();
+  }
 
   public void EnterChamberScene() {
     AudioManager.Instance.PlayChamberMusic();

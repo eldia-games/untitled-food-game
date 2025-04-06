@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,6 +16,13 @@ public class AudioManager : MonoBehaviour
 
     private bool isMusicPlaying;
     public static AudioManager Instance { get; private set; }
+
+    private Dictionary<string, int> indexesMusic = new Dictionary<string, int>()
+{
+    {"SafeMusic", 1},
+    {"BossMusic", 2},  
+    {"ShopMusic", 3}
+};
 
     private void Awake()
     {
@@ -49,7 +57,7 @@ public class AudioManager : MonoBehaviour
     {
         musicAudioSource.mute = !musicAudioSource.mute;
     }
-    public void UnuteMusic()
+    public void UnmuteMusic()
     {
         musicAudioSource.mute= false;
     }
@@ -93,12 +101,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMenuMusic()
     {
-        if (!isMusicPlaying)
-            PlayMusicByIndex(0);
-        else
-        {
-            ChangeBackgroundMusic(0);
-        }
+        PlayMusicByIndex(0);
     }
 
     public void PlayLobbyMusic()
@@ -119,6 +122,20 @@ public class AudioManager : MonoBehaviour
     public void PlayEndGameMusic()
     {
         ChangeBackgroundMusic(4);
+    }
+
+    public void PlayVictoryMusic()
+    {
+        ChangeBackgroundMusic(5);
+    }
+
+    public void PlaySafeChamberMusic()
+    {
+        ChangeBackgroundMusic(6);
+    }
+    public void PlayBossMusic()
+    {
+        ChangeBackgroundMusic(7);
     }
 
     public void PlaySFXClick()
@@ -170,7 +187,9 @@ public class AudioManager : MonoBehaviour
     {
         if (musicIndex >= 0 && musicIndex < backgroundMusicClips.Length)
         {
-            musicAudioSource.PlayOneShot(backgroundMusicClips[musicIndex]);
+            musicAudioSource.clip = backgroundMusicClips[musicIndex];  // Assign the clip
+            musicAudioSource.loop = true;  // Enable looping
+            musicAudioSource.Play();  // Use Play() instead of PlayOneShot()
             isMusicPlaying = true;
         }
         else

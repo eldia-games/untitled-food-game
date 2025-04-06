@@ -48,7 +48,6 @@ public class SpiralSpellSkill : SkillScriptableObject
     private IEnumerator Spiral(BaseEnemyV2 enemy, GameObject player)
     {
         // Detenemos NavMeshAgent para que no se mueva
-        enemy.StopMovement();
         enemy.RotateTowards(player.transform.position);
         enemy.animator.speed = 0f;
 
@@ -58,7 +57,6 @@ public class SpiralSpellSkill : SkillScriptableObject
 
         while (elapsedTime < duration)
         {
-            enemy.StopMovement();
             enemy.RotateTowards(player.transform.position);
             float timningOffsetPercentage = Random.Range(-0.2f, 0.2f);
             float angleOffsetted = angle * (1f + timningOffsetPercentage);

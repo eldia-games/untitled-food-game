@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27730325df00a0498015ef870aa6004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chamberType: 2
+  chamberType: 1
   chamberLevel: 2
 --- !u!114 &450636975
 MonoBehaviour:
@@ -266,6 +266,7 @@ MonoBehaviour:
   GameObjectToRemove: 0
   money: 0
   moneyHolder: {fileID: 621762353}
+  inventoryUI: 0
   items: []
   slots: []
   player: {fileID: 0}
@@ -372,7 +373,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c356573f5fd184bbaab2d55e894062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: f8e99cf66b163694d899b003f17fc113, type: 2}
+  filePath: 
+  maxLevel: 0
+  movementSpeedAdd: 0
+  movementSpeedBase: 0
+  healAdd: 0
+  healBase: 0
+  maxLifeAdd: 0
+  maxLifeBase: 0
+  damageAdd: 0
+  damageBase: 0
+  atackSpeedAdd: 0
+  atackSpeedBase: 0
+  pushForceAdd: 0
+  pushForceBase: 0
+  maxManaAdd: 0
+  maxManaBase: 0
+  manaRegenAdd: 0
+  manaRegenBase: 0
 --- !u!1 &621762353 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4406044365657774475, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
@@ -494,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 1
   chambers:
-  - {fileID: 3629938239352718021, guid: 7df10effeee266e48a5a93b79afdd9e2, type: 3}
+  - {fileID: 4541059027463577113, guid: 44523b8f5969e3b419a9e24c936a3e75, type: 3}
 --- !u!114 &722972525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,7 +542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 8
   chambers:
-  - {fileID: 3665512600638360782, guid: f85ba720b9f08174ab050a9bff0e7dd8, type: 3}
+  - {fileID: 2213032639817128992, guid: 606c49584dbb8774dbc535d268a02553, type: 3}
 --- !u!114 &722972527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChamberType: 4
   chambers:
-  - {fileID: 3665512600638360782, guid: ba92d277334118549a0b085c803854cf, type: 3}
+  - {fileID: 7753520508869450348, guid: 0a2054d571579d945a3c6db68062d5d7, type: 3}
 --- !u!1001 &766281893
 PrefabInstance:
   m_ObjectHideFlags: 0

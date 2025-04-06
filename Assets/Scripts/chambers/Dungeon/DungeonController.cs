@@ -46,6 +46,10 @@ public class DungeonController : MonoBehaviour, IChamberController {
   void Start() {
   }
 
+  public void SetTrap(bool trap) {
+    this.trap = trap;
+  }
+
   public void AddDoor(GameObject door) {
     doors.Add(door);
     doorAnimator.Add(door.GetComponent<Animator>());
@@ -155,10 +159,14 @@ public class DungeonController : MonoBehaviour, IChamberController {
     yield return new WaitForSeconds(2);
     player.GetComponent<PlayerCombat>().enabled = true;
     for (int i = 0; i < monsterList.Count; i++) {
-      BaseEnemy en = monsterList[i].GetComponent<BaseEnemy>();
-      en.SetPlayer(player);
-      en.dieEvent = new UnityEngine.Events.UnityEvent();
-      en.dieEvent.AddListener(killEnemy);
+          BaseEnemy en = monsterList[i].GetComponent<BaseEnemy>();
+          en.SetPlayer(player);
+          en.dieEvent = new UnityEngine.Events.UnityEvent();
+          en.dieEvent.AddListener(killEnemy);
+          if (trap)
+          {
+                en.canDrop = false;
+          }
     }
   }
 
