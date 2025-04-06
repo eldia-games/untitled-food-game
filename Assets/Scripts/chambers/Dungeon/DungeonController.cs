@@ -46,6 +46,10 @@ public class DungeonController : MonoBehaviour, IChamberController {
   void Start() {
   }
 
+  public void SetTrap(bool trap) {
+    this.trap = trap;
+  }
+
   public void AddDoor(GameObject door) {
     doors.Add(door);
     doorAnimator.Add(door.GetComponent<Animator>());
