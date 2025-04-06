@@ -60,9 +60,10 @@ public class InventorySafeController : MonoBehaviour
         inventory.clearLoot();
         inventory.clearMissions();
     }
-    public int getQuantity(Items item) {
+    public int getQuantity(Items item)
+    {
         return inventory.getQuantity(item);
 
 
-
+    }
 }

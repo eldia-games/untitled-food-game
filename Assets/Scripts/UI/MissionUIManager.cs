@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionUIManager : MonoBehaviour
 {
     [SerializeField] private RawImage[] spriteItemMission;
-    [SerializeField] private TMP_Text[] textItemName;
     [SerializeField] private TMP_Text[] textMoneyQuantity;
     [SerializeField] private TMP_Text[] textItemQuantity;
     [SerializeField] private TMP_Text[] textInventoryQuantity;
@@ -13,50 +15,48 @@ public class MissionUIManager : MonoBehaviour
     [SerializeField] private Button[] buttonMission;
     [SerializeField] private TMP_Text[] buttonTextMission;
 
-    private MissionController missionController;
+    private MissionController _missionController;
     private List<Mission> missionTemp;
     private bool[] missionStatus;
 
     void Start()
     {
-        _missionController = getComponent<MissionController>();
+        _missionController = GetComponent<MissionController>();
     }
 
     public void RefreshMissionUI()
     {
-        missionTemp = _missionController.getMissions();
-        for (int i = 0; i < missionsRecieved.Count; i++)
+        missionTemp = _missionController.GetMissions();
+        for (int i = 0; i < missionTemp.Count; i++)
         {
             try
             {
-                Mission mission = missionsRecieved[i];
+                Mission mission = missionTemp[i];
                 Items item = mission.getItem();
                 int quantityItem = mission.getQuantity();
-                int quantityMoney = mission.getQuantityMoney();
+                int quantityMoney = mission.getPrice();
 
-                spriteItem[i].texture = item.icon;
-                textItemName[i].text = item.itemName;
+                spriteItemMission[i].texture = item.icon;
+                string itemString = item.itemName;
                 textItemQuantity[i].text = quantityItem.ToString();
                 textMoneyQuantity[i].text = quantityMoney.ToString();
 
               
                 textMission[i].text = string.Format("Loot <color=yellow>{0}</color> number of {1} to obtain the following reward: ",
                                         quantityItem.ToString(),
-                                        item.itemName
+                                        itemString
                                         );
 
-                missionController = mission;
-                InventoInventorySafeControllerryManager inventory = InventorySafeController.Instance;
-                Mission mission = missionTemp[missionIndex];
-                bool missionCompletable = inventory.HasItems(mission.getItem(), mission.getQuantity());
+                InventorySafeController inventory = InventorySafeController.Instance;
+                bool missionCompletable = inventory.hasItem(mission.getItem(), mission.getQuantity());
                 if(missionCompletable){
                     buttonTextMission[i].text = "Complete mission";
-                    buttonMission[i] = enabled;
+                    buttonMission[i].enabled = true;
                 }
                 else
                 {
                     buttonTextMission[i].text = "Can't complete";
-                    buttonMission[i] = disabled;
+                    buttonMission[i].enabled = false;
                 }
                 missionStatus[i] = missionCompletable;
                 
@@ -76,9 +76,9 @@ public class MissionUIManager : MonoBehaviour
     {
         InventorySafeController inventory = InventorySafeController.Instance;
         Mission mission = missionTemp[missionIndex];
-        if (inventory.HasItems(mission.getItem(), mission.getQuantity()))
+        if (inventory.hasItem(mission.getItem(), mission.getQuantity()))
         {
-            missionController.completeMission(missionIndex);
+            _missionController.completeMission(missionIndex);
             return true;
         }
         else

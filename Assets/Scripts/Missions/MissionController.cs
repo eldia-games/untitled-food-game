@@ -70,6 +70,8 @@ public class MissionController : MonoBehaviour
 
             inventory.addMoney(mis.getPrice());
             inventory.removeItem(mis.getItem(), mis.getQuantity());
+            mis = GenerateMission(index);
+            inventory.setMission(mis, index);
         }
     }
 

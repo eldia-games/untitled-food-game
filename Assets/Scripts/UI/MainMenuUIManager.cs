@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private HealthManaUIManager healthManaUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
-    [SerializeField] private ShopUIManager shopUIManager; 
+    [SerializeField] private ShopUIManager shopUIManager;
+    [SerializeField] private MissionUIManager missionUIManager;
 
     public static UIManager Instance { get; private set; }
 
@@ -225,7 +226,7 @@ public class UIManager : MonoBehaviour
 
     public void MissionClick(int missionIndex)
     {
-        bool missionCorrect = MissionUIManager.ObtainMissionStatus(missionIndex);
+        bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
         missionUIManager.MissionAction(missionIndex);
         if (missionCorrect)
         {
