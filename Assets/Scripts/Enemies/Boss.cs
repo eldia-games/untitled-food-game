@@ -226,7 +226,8 @@ public class Boss : MonoBehaviour
         if (mouthAttackCollider != null)
         {
             mouthAttackCollider.enabled = true;
-            mouthColliderMeshRenderer.enabled = true;
+            if(debug)
+                mouthColliderMeshRenderer.enabled = true;
         }
     }
 
@@ -235,7 +236,8 @@ public class Boss : MonoBehaviour
         if (mouthAttackCollider != null)
         {
             mouthAttackCollider.enabled = false;
-            mouthColliderMeshRenderer.enabled = false;
+            if(debug)
+                mouthColliderMeshRenderer.enabled = false;
         }
     }
 
