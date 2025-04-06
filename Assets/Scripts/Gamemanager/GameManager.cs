@@ -72,11 +72,25 @@ public class GameManager : MonoBehaviour {
     SceneManager.LoadScene("Lobby");
   }
 
+  public void ContinueGame() {
+        //añadir persistencia cargar datos guardados
+  EnterLobbyScene();
+        //añadir persistencia
+  }
+
+  public void VictoryReturn()
+  {
+      //añadir persistencia guardar loot en inventario taberna 
+      EnterLobbyScene();
+      //añadir persistencia
+  }
+
+
   public void EnterMapScene() {
-    SceneManager.LoadScene("Map");
-    AudioManager.Instance.PlayMapMusic();
-    UIManager.Instance.ShowMapCanvas();
-    }
+  SceneManager.LoadScene("Map");
+  AudioManager.Instance.PlayMapMusic();
+  UIManager.Instance.ShowMapCanvas();
+  }
 
   public void EnterChamberScene() {
     AudioManager.Instance.PlayChamberMusic();
