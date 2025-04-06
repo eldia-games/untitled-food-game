@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mission : ScriptableObject
+[Serializable]
+public class Mission 
 {
     [SerializeField] private Items item;
     [SerializeField] private int quantity;
@@ -17,7 +19,8 @@ public class Mission : ScriptableObject
 
     public Items getItem()
     {
-        return item;
+         return item;
+        //return null;
     }
     public int getQuantity()
     {
@@ -29,7 +32,12 @@ public class Mission : ScriptableObject
     {
         return money;
     }
-
+    public void setValues(Items item,int quantity,int money)
+    {
+        this.item = item;
+        this.quantity = quantity;
+        this.money = money;
+    }
 
    
 }

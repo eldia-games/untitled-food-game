@@ -591,7 +591,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1902657860}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: EnterLobbyScene
+        m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11536,6 +11536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556083508}
   - component: {fileID: 556083509}
+  - component: {fileID: 556083510}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -11570,7 +11571,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d860d6a0874cecd459868a9b183f2c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: ada9804fd9d7cac4da8e6b5728e54c20, type: 2}
+  filePath: Assets/Saves/Inventory.json
+--- !u!114 &556083510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556083507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c356573f5fd184bbaab2d55e894062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: Assets/Saves/PowerUpStats.json
+  maxLevel: 10
+  movementSpeedAdd: 0
+  movementSpeedBase: 0
+  healAdd: 0
+  healBase: 0
+  maxLifeAdd: 0
+  maxLifeBase: 0
+  damageAdd: 0
+  damageBase: 0
+  atackSpeedAdd: 0
+  atackSpeedBase: 0
+  pushForceAdd: 0
+  pushForceBase: 0
+  maxManaAdd: 0
+  maxManaBase: 0
+  manaRegenAdd: 0
+  manaRegenBase: 0
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0

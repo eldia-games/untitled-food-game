@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class MissionController : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private List<GameObject> PosibleItem;
     [SerializeField] private int numMissions;
     [SerializeField] private List<int> missionDifficulty;
     [SerializeField] private List<int> missionPrice;
 
     private InventorySafeController inventory;
-    
+    #endregion
+
+    #region MonoBehaviour
     void Start()
     {
         inventory= InventorySafeController.Instance;
 
     }
+    #endregion
+
+    #region Missions
     public List<Mission> GetMissions()
     {
         Debug.Log("holaaaa");
@@ -48,8 +54,9 @@ public class MissionController : MonoBehaviour
         {
             Spawneable spw = PosibleItem[i].GetComponent<ObjectDrop>();
             int actualRate = 0;
-            for (int j = 0; j < numMissions; j++) {
-                actualRate = spw.getSpawnRate(index * numMissions + j);
+            int levelsPerIndex = 15 / numMissions;
+            for (int j = 0; j < levelsPerIndex; j++) {
+                actualRate = spw.getSpawnRate(index * levelsPerIndex + j);
             }
             actualRate= actualRate/numMissions;
             totalRate += actualRate;
@@ -79,6 +86,6 @@ public class MissionController : MonoBehaviour
             inventory.setMission(mis, index);
         }
     }
-
+    #endregion
 
 }
