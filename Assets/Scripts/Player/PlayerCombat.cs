@@ -280,10 +280,10 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            MP += Time.deltaTime * manaRegen / 10;
+            MP += Time.deltaTime * manaRegen;
 
             try{
-                UIManager.Instance.RegenMana(Time.deltaTime * manaRegen / 10);
+                UIManager.Instance.RegenMana(Time.deltaTime * manaRegen);
             }
             catch(Exception e){
                 Debug.Log("Error: " + e);

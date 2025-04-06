@@ -52,7 +52,7 @@ public class PlayerStats : ScriptableObject
 
     public float manaCost = 10;
 
-    public float manaRegen = 0.1f;
+    public float manaRegen = 5f;
 
     [Header("Weapons: 0 = 1handAxe, 1 = 2handAxe, 2 = Bow, 3 = Mug to heal, 4 = Staff, 5 = None , more?")]
     //Weapons
