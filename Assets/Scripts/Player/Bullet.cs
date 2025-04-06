@@ -40,6 +40,14 @@ public class Bullet : MonoBehaviour
                 enemy.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
                 Destroy(this);
             }
+        } else if(hitInfo.tag == "Boss")
+        {
+            Boss enemy = hitInfo.GetComponent<Boss>();
+            if(enemy != null)
+            {
+                enemy.OnHurt(damage * damageModifier, pushForce * pushModifier, transform.position);
+                Destroy(this);
+            }
         }
         else if(hitInfo.tag == "Wall")
         {
