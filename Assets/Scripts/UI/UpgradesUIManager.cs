@@ -10,6 +10,7 @@ public class UpgradesUIManager : MonoBehaviour
     [SerializeField] private Button[] buttonsUpgrade;
     [SerializeField] private TMP_Text[] currentLevel;
     [SerializeField] private TMP_Text[] upgradePrice;
+    [SerializeField] private TMP_Text playerMoney;
 
     private PowerUpStatsController powerUpStatsController;
     private InventorySafeController inventory;
@@ -23,6 +24,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void RefreshUpgrades()
     {
         powerups = PowerUpStatsController.Instance.getLevels();
+        playerMoney.text = InventorySafeController.Instance.getMoney().ToString();
 
         priceList[0] = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.MaxHealth]) / 1.0f);
         upgradePrice[0].text = priceList[0].ToString();

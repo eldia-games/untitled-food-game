@@ -139,6 +139,12 @@ public class InventorySafeController : MonoBehaviour
         }
         return false;
     }
+
+    public int getMoney()
+    {
+        return inventory.getMoney();
+    }
+
     #endregion
 
     #region Items
