@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
-using System.Diagnostics;
+using Debug = System.Diagnostics.Debug;
 
 public class UpgradesUIManager : MonoBehaviour
 {
@@ -26,12 +26,14 @@ public class UpgradesUIManager : MonoBehaviour
         powerups = PowerUpStatsController.Instance.getLevels();
         playerMoney.text = InventorySafeController.Instance.getMoney().ToString();
 
+        UnityEngine.Debug.Log(InventorySafeController.Instance.getMoney().ToString());
+
         priceList[0] = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.MaxHealth]) / 1.0f);
         upgradePrice[0].text = priceList[0].ToString();
         currentLevel[0].text = powerups[(int)powerUpType.MaxHealth].ToString();
 
         priceList[1] = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Heal]) / 1.0f);
-        upgradePrice[1].text = priceList[0].ToString();
+        upgradePrice[1].text = priceList[1].ToString();
         currentLevel[1].text = powerups[(int)powerUpType.Heal].ToString();
 
         priceList[2] = (int)(basePrice * Mathf.Pow(2.0f, powerups[(int)powerUpType.Mana]) / 1.0f);
@@ -70,9 +72,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -86,9 +91,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -102,9 +110,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -118,9 +129,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -134,9 +148,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -150,9 +167,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -165,9 +185,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
@@ -181,9 +204,12 @@ public class UpgradesUIManager : MonoBehaviour
             inventory.substractMoney(price);
             RefreshUpgrades();
             AudioManager.Instance.PlaySFXConfirmation();
+            UnityEngine.Debug.Log("buy upgrade");
         }
         else
         {
+            UnityEngine.Debug.Log("not enough money");
+            UnityEngine.Debug.Log(inventory.getMoney().ToString());
             AudioManager.Instance.PlaySFXClose();
         }
     }
