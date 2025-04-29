@@ -133,12 +133,18 @@ public class InventorySafeController : MonoBehaviour
     }
     public bool hasMoney(int money)
     {
-        if (inventory.getMoney() > money)
+        if (inventory.getMoney() >= money)
         {
             return true;
         }
         return false;
     }
+
+    public int getMoney()
+    {
+        return inventory.getMoney();
+    }
+
     #endregion
 
     #region Items

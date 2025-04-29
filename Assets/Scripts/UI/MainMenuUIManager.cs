@@ -391,7 +391,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.EnterMapScene();
     }
 
-    #endregion 
+    #endregion
 
     #region Scene Handling
 
