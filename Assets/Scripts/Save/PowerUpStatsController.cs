@@ -114,6 +114,7 @@ public class PowerUpStatsController : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log(e);
             return false;
         }
 

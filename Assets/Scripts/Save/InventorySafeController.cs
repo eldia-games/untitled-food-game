@@ -52,7 +52,9 @@ public class InventorySafeController : MonoBehaviour
     public void saveInventory()
     {
         StreamWriter writer=new StreamWriter(filePath);
+        Debug.Log(inventory.ToJSON());
         writer.WriteLine(inventory.ToJSON());
+
         writer.Close();
 
     }
@@ -83,6 +85,7 @@ public class InventorySafeController : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log(e);
             return false;
         }
 
