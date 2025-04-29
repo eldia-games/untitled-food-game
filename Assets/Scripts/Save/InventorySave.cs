@@ -33,6 +33,7 @@ public class InventorySave
 
     public string ToJSON()
     {
+        String json= JsonUtility.ToJson(this);
         return JsonUtility.ToJson(this);
     }
 

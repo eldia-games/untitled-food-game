@@ -6,38 +6,42 @@ using UnityEngine;
 [Serializable]
 public class Mission 
 {
-    [SerializeField] private Items item;
-    [SerializeField] private int quantity;
-    [SerializeField] private int money;
+    #region Variables
+    [SerializeField] private List<RecipeItem> item;
 
-    public Mission(Items item, int quantity, int money)
+    [SerializeField] private int money;
+    [SerializeField] private string title;
+    #endregion
+
+    #region Missions
+    public Mission(List<RecipeItem> item, int money,string title)
     {
         this.item = item;
-        this.quantity = quantity;
         this.money = money;
+        this.title = title;
     }
 
-    public Items getItem()
+    public List<RecipeItem> getItems()
     {
          return item;
         //return null;
     }
-    public int getQuantity()
-    {
 
-        return quantity;
-    }
 
     public int getPrice()
     {
         return money;
     }
-    public void setValues(Items item,int quantity,int money)
+    public string getTitle()
+    {
+        return title;
+    }
+    public void setValues(List<RecipeItem> item,int quantity,int money)
     {
         this.item = item;
-        this.quantity = quantity;
+
         this.money = money;
     }
+    #endregion
 
-   
 }
