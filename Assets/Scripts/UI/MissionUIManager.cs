@@ -23,6 +23,8 @@ public class MissionUIManager : MonoBehaviour
     {
         Debug.Log("estoy despierto");
         _missionController = GetComponent<MissionController>();
+        missionTemp = _missionController.GetMissions();
+        missionStatus = new bool[missionTemp.Count];
     }
 
     public void RefreshMissionUI()
