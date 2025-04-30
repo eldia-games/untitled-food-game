@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MissionUIManager : MonoBehaviour
 {
@@ -36,8 +36,8 @@ public class MissionUIManager : MonoBehaviour
             {
                 InventorySafeController inventory = InventorySafeController.Instance;
                 Mission mission = missionTemp[i];
-                Items item = mission.getItem();
-                int quantityItem = mission.getQuantity();
+                Items item = mission.getItems()[0].GetItem();
+                int quantityItem = mission.getItems()[0].GetQuantity();
                 int quantityMoney = mission.getPrice();
                 int quantityInventory = inventory.getQuantity(item);
 
@@ -54,7 +54,7 @@ public class MissionUIManager : MonoBehaviour
                                         );
 
 
-                bool missionCompletable = inventory.hasItem(mission.getItem(), mission.getQuantity());
+                bool missionCompletable = inventory.hasItem(mission.getItems()[0].GetItem(), mission.getItems()[0].GetQuantity());
                 if(missionCompletable){
                     buttonTextMission[i].text = "Complete mission";
                     buttonMission[i].enabled = true;
@@ -67,8 +67,9 @@ public class MissionUIManager : MonoBehaviour
                 missionStatus[i] = missionCompletable;
                 
             }
-            catch
+            catch (Exception e)
             {
+                Debug.Log(e);
                 print("error index out of bounds: " + i);
             }
         }
@@ -82,7 +83,7 @@ public class MissionUIManager : MonoBehaviour
     {
         InventorySafeController inventory = InventorySafeController.Instance;
         Mission mission = missionTemp[missionIndex];
-        if (inventory.hasItem(mission.getItem(), mission.getQuantity()))
+        if (inventory.hasItem(mission.getItems()[0].GetItem(), mission.getItems()[0].GetQuantity()))
         {
             _missionController.completeMission(missionIndex);
             return true;

@@ -20078,15 +20078,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd35dc484575aa14281e821442531c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PosibleItem:
-  - {fileID: 6167168544811013300, guid: 4599e49030d96404aad3d1388da8359b, type: 3}
-  - {fileID: 3477851647278912764, guid: 17be5a2abcdfb0e43beec4e812490df1, type: 3}
-  - {fileID: 6383384534180513779, guid: 6eb98c259b8140f4181e2056bc95d954, type: 3}
-  - {fileID: 627416393195023320, guid: aff55c7b0ab33f246ac8242f5169a337, type: 3}
-  - {fileID: 3489315976540881254, guid: 9f7465a3963f33747b1f45545a158c8d, type: 3}
   numMissions: 3
-  missionDifficulty: 0a0000001400000032000000
   missionPrice: 190000003200000096000000
+  posibleMissions:
+  - {fileID: 11400000, guid: a3fcc5512c6788b4c9a832cf0c8c44b2, type: 2}
+  - {fileID: 11400000, guid: 0c31a73e2ae33e94487c202ef84cc0fb, type: 2}
+  - {fileID: 11400000, guid: ad8dff6151e3f234594bc1901511c829, type: 2}
 --- !u!1 &925923759
 GameObject:
   m_ObjectHideFlags: 0
