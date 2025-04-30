@@ -25,6 +25,8 @@ public class Interactable: MonoBehaviour
     public void Deactivate()
     {
         activated = false;
+       // OnTriggerExit(null);
+
     }
     public bool isActive()
     {
@@ -61,6 +63,7 @@ public class Interactable: MonoBehaviour
         if (inter != null)
         {
             inter.ExitUnteractableRange();
+            inter = null;
         }
     }
 }
