@@ -964,9 +964,7 @@ MonoBehaviour:
   - {fileID: 5277881885386973824}
   - {fileID: 6926130006590977829}
   - {fileID: 4520367136787593405}
-  loot:
-  - {fileID: 571741858825773605, guid: c367e7f12d006c94dbb446b5b47572b3, type: 3}
-  - {fileID: 627416393195023320, guid: aff55c7b0ab33f246ac8242f5169a337, type: 3}
+  loot: []
   player: {fileID: 6188600849128039360}
   exit: {fileID: 7336511996843564513}
   playerAnimator: {fileID: 5457746536556009427}
@@ -5343,45 +5341,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3704258748903761181}
     m_Modifications:
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.size
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3314330856426297246}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenChest
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TreasureRoomController, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.x
-      value: -0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.z
-      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 5033520177794339257, guid: de5219e2d29538940878c51f3d286440, type: 3}
       propertyPath: m_LocalScale.x
@@ -7260,37 +7238,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3704258748903761181}
     m_Modifications:
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3314330856426297246}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenChest
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TreasureRoomController, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.x
-      value: -0.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.z
-      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 5033520177794339257, guid: de5219e2d29538940878c51f3d286440, type: 3}
       propertyPath: m_LocalScale.x
@@ -7763,7 +7729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5912827691717867619, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5965436602721664180, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
       propertyPath: m_Radius
@@ -10024,37 +9990,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3704258748903761181}
     m_Modifications:
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3314330856426297246}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenChest
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TreasureRoomController, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -7651995388630596992, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+    - target: {fileID: 522555002344481975, guid: de5219e2d29538940878c51f3d286440, type: 3}
+      propertyPath: openFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.x
-      value: -0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 2110344402628048658, guid: de5219e2d29538940878c51f3d286440, type: 3}
-      propertyPath: m_Center.z
-      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 5033520177794339257, guid: de5219e2d29538940878c51f3d286440, type: 3}
       propertyPath: m_LocalScale.x
