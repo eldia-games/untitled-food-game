@@ -290,7 +290,12 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
         itemToRemove = items[i].item;
 
-        RemoveItem(itemToRemove, 1);
+        if (items[i].item.itemName == "Beer")
+        {
+            player.GetComponentInParent<PlayerCombat>().OnHeal();
+        }
+        RefreshUI();
+        //RemoveItem(itemToRemove, 1);
         
        
     }

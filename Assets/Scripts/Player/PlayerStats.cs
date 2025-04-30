@@ -11,12 +11,14 @@ public class PlayerStats : ScriptableObject
 
     [Header("Movement")]
     //movement
-    public float MovementSpeed = 5f;
+    public float MovementSpeed = 9f;
     
     [Header("Stamina")]
     //Stamina
     [Range(0,10)]
-    public float StaminaSlide = 10;
+    public float StaminaSlide = 10f;
+
+    public float StaminaRegen = 5f;
 
     //Stamina/Slide
     public float velSlide = 1.0f;
@@ -26,23 +28,23 @@ public class PlayerStats : ScriptableObject
     //HP
     public int maxLife = 100;
 
-    public float heal = 10;
+    public float heal = 10f;
 
     public float HP;
 
     [Header("Damage")]
     //Damage
-    public float damage = 10;
+    public float damage = 10f;
 
     //VelAttack
     public float velAttack = 1.0f;
 
     //PushForce
-    public float pushForce = 10;
+    public float pushForce = 10f;
 
-    public float damageModifier = 1;
+    public float damageModifier = 1f;
 
-    public float pushModifier = 1;
+    public float pushModifier = 1f;
 
     [Header("MP")]
     //MP
@@ -50,7 +52,7 @@ public class PlayerStats : ScriptableObject
 
     public float MP;
 
-    public float manaCost = 10;
+    public float manaCost = 10f;
 
     public float manaRegen = 0.1f;
 
@@ -76,10 +78,11 @@ public class PlayerStats : ScriptableObject
         //Default values
 
         //Movement
-        MovementSpeed = 7.5f;
+        MovementSpeed = 9f;
 
         //Stamina
         StaminaSlide = 10;
+        StaminaRegen = 5;
         velSlide = 1.0f;
 
         //HP
@@ -112,5 +115,42 @@ public class PlayerStats : ScriptableObject
         //    //(GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/arrow.prefab", typeof(GameObject)),
         //    //(GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Bullets/fireball.prefab", typeof(GameObject))
         //};   
+    }
+
+    internal void SetWeaponType(int weaponType)
+    {
+        switch (weaponType)
+      {
+          case 0:
+              Debug.Log("Weapon type: " + weaponType + " - Sword");
+              damage = 10f;
+              velAttack = 1f;
+              weaponIndex = 0;
+              break;
+          case 1:
+              Debug.Log("Weapon type: " + weaponType + " - Axe");
+              damage = 10f;
+              velAttack = 0.7f;
+              weaponIndex = 1;
+              break;
+          case 2:
+              Debug.Log("Weapon type: " + weaponType + " - Bow");
+              damage = 5f;
+              velAttack = 1f;
+              weaponIndex = 2;
+              break;
+          case 4:
+              Debug.Log("Weapon type: " + weaponType + " - Staff");
+              damage = 20f;
+              velAttack = 0.5f;
+              weaponIndex = 4;
+              break;
+          default:
+              Debug.Log("Invalid weapon type: " + weaponType);
+            damage = 0f;
+            velAttack = 0f;
+            weaponIndex = 5;
+              break;
+      }
     }
 }
