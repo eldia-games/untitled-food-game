@@ -6764,10 +6764,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 448522426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &290840013
 MonoBehaviour:
@@ -6789,9 +6789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Chamber description pop up
-
-'
+  m_text: 'Chamber description pop up '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: abd539c13f71308489d92fc1c671a650, type: 2}
   m_sharedMaterial: {fileID: 809930083327041599, guid: abd539c13f71308489d92fc1c671a650, type: 2}
@@ -6818,13 +6816,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 45
-  m_fontStyle: 0
+  m_fontSizeMax: 40
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -6854,7 +6852,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 58.28888, y: 15.205761, z: 58.288727, w: 12.671501}
+  m_margin: {x: 3.0515137, y: 3.4531212, z: 3.0515442, w: 2.0941315}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -10131,8 +10129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 1000, y: 104}
+  m_AnchoredPosition: {x: 0, y: -90}
+  m_SizeDelta: {x: 800, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &448522427
 MonoBehaviour:
@@ -10147,15 +10145,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: a454050719005b444b59a84eaafba779, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -38865,11 +38863,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6c83d57c82dd140a724f2193d8c906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panels: []
-  spriteDisplayImage: {fileID: 0}
-  helpPopUp: {fileID: 0}
-  chamberPopUp: {fileID: 0}
-  descriptionPopUp: {fileID: 0}
+  panels:
+  - panelID: 0
+    panelText: Press right click to
+    panelImage: {fileID: 21300000, guid: 8f00195b8ce15214ca8431c65af8068a, type: 3}
+  - panelID: 1
+    panelText: You can't
+    panelImage: {fileID: 21300000, guid: 99c421337f9fbe24ca4ffcd897d80e57, type: 3}
+  chambers:
+  - panelID: 0
+    panelText: The final boss
+    descriptionText: Defeat your greatest enemy!
+  - panelID: 1
+    panelText: A trap room
+    descriptionText: Make your way out of here fighting!
+  - panelID: 2
+    panelText: A monster dungeon
+    descriptionText: Find the lever to escape and search for chests to become stronger
+  - panelID: 3
+    panelText: A grain
+    descriptionText: Recolect valuable ingredients
+  - panelID: 4
+    panelText: A shop
+    descriptionText: Trade your ingredients for useful items
+  - panelID: 5
+    panelText: A peaceful camp
+    descriptionText: Rest by the fire and recover yourself
+  - panelID: 6
+    panelText: The tavern
+    descriptionText: I should not appear here
+  - panelID: 7
+    panelText: A treasure room
+    descriptionText: Choose a chest carefully
+  - panelID: 8
+    panelText: A forest
+    descriptionText: Smash some trees for ingredients
+  spriteDisplayImage: {fileID: 985330018}
+  helpPopUp: {fileID: 1183157781}
+  chamberPopUp: {fileID: 1804274042}
+  descriptionPopUp: {fileID: 290840013}
+  chamberPopUpGameObject: {fileID: 1806615396}
+  helpPopUpGameObject: {fileID: 607548704}
 --- !u!1 &1802887824
 GameObject:
   m_ObjectHideFlags: 0
@@ -38977,10 +39011,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1806615397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 25, y: 0}
-  m_SizeDelta: {x: -50, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 600, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1804274042
 MonoBehaviour:
@@ -39031,7 +39065,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63
+  m_fontSize: 49.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -39039,7 +39073,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -39067,7 +39101,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 58.28888, y: 15.205761, z: 58.288727, w: 12.671501}
+  m_margin: {x: 4.2268066, y: 2.2778435, z: 4.226593, w: 2.0941544}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -39350,11 +39384,11 @@ RectTransform:
   - {fileID: 1592977912}
   m_Father: {fileID: 1285235608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 104}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 750}
+  m_SizeDelta: {x: 800, y: 80}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1806615398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39368,15 +39402,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 054411784c3fdf74d9db120b4a792a71, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -45867,7 +45901,7 @@ MonoBehaviour:
   - {fileID: 1173521572}
   healthManaUIManager: {fileID: 186588454}
   weaponSelectionUIManager: {fileID: 462198628}
-  popUpUIManager: {fileID: 0}
+  popUpUIManager: {fileID: 1800012351}
   shopUIManager: {fileID: 229873026}
   missionUIManager: {fileID: 920194843}
   pauseUIManager: {fileID: 1201060449}
