@@ -96,8 +96,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 6c650f4bea03aa04e8c807016eaf4fe6, type: 2}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 17648bc21428627479a5664dcd99e3ab, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 8b48ebf6ba37aca4b942e0f464d0f951, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -10906,32 +10906,17 @@ MonoBehaviour:
   - weaponID: 0
     weaponName: One Hand Sword
     weaponImage: {fileID: 21300000, guid: 0fb8b3a7faa9363429dd5ec1ff5d62b2, type: 3}
-    damage: 10
-    fireRate: 1
-    rangedType: Melee
   - weaponID: 1
     weaponName: Two Hand Axe
     weaponImage: {fileID: 21300000, guid: 52d5e682463a2124f9fd69d5b2245aec, type: 3}
-    damage: 10
-    fireRate: 0.7
-    rangedType: Area Melee
   - weaponID: 2
     weaponName: Bow
     weaponImage: {fileID: 21300000, guid: facbbce8a9df0824f9714a63875fdd82, type: 3}
-    damage: 5
-    fireRate: 1
-    rangedType: Ranged
   - weaponID: 4
     weaponName: Staff
     weaponImage: {fileID: 21300000, guid: 9d2cae864efb51441ace3083ed2693d5, type: 3}
-    damage: 20
-    fireRate: 0.7
-    rangedType: Magic Ranged
   weaponDisplayImage: {fileID: 2011910644}
   weaponNameText: {fileID: 672233265}
-  weaponDamageText: {fileID: 593813311}
-  weaponFireRateText: {fileID: 1353874407}
-  weaponRangedTypeText: {fileID: 972632206}
 --- !u!224 &464027592 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1944249942377693470, guid: 65e879cfe2a157441b26d277c4f93944, type: 3}
