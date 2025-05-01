@@ -124,10 +124,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
   }
 
   public void killEnemy() {
-    enemiesLeft--;
-    if (enemiesLeft == 0 && trap) {
-      StartCoroutine(OpenDoor());
-    }
+    if (--enemiesLeft == 0 && trap) StartCoroutine(OpenDoor());
   }
 
   public void UseLever(GameObject leverActual) {
@@ -145,40 +142,42 @@ public class DungeonController : MonoBehaviour, IChamberController {
   }
 
   IEnumerator EnterDungeon() {
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(0.1f);
     playerAnimator.SetFloat("Moving", 1);
-    for (int i = 0; i < 4f / Time.fixedDeltaTime; i++) {
-      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 4);
+    for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++) {
+      player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 10);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }
     playerAnimator.SetFloat("Moving", 0);
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(0.1f);
     for (int i = 0; i < doorAnimator.Count; i++) {
       Debug.Log("close door " + i);
       doorAnimator[i].SetBool("Closed", true);
     }
-    AudioManager.Instance.PlayMoveDoor();
-    yield return new WaitForSeconds(2);
+
+  AudioManager.Instance.PlayMoveDoor();
+    yield return new WaitForSeconds(0.25f);
+
+
     player.GetComponent<PlayerCombat>().enabled = true;
     for (int i = 0; i < monsterList.Count; i++) {
-          BaseEnemy en = monsterList[i].GetComponent<BaseEnemy>();
-          en.SetPlayer(player);
-          en.dieEvent = new UnityEngine.Events.UnityEvent();
-          en.dieEvent.AddListener(killEnemy);
-          if (trap)
-          {
-                en.canDrop = false;
-          }
+      BaseEnemy enemy = monsterList[i].GetComponent<BaseEnemy>();
+      enemy.SetPlayer(player);
+      enemy.dieEvent = new UnityEngine.Events.UnityEvent();
+      enemy.dieEvent.AddListener(killEnemy);
+      //if (trap) enemy.canDrop = false;
     }
   }
 
   IEnumerator OpenDoor() {
-    yield return new WaitForSeconds(2);
-    for (int i = 0; i < doorAnimator.Count; i++) {
+    yield return new WaitForSeconds(0.1f);
+    for (int i = 0; i < doorAnimator.Count; i++)
       doorAnimator[i].SetBool("Closed", false);
+
    }
         AudioManager.Instance.PlayMoveDoor();
   }
+
 
 
 }

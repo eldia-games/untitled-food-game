@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
     set {
       Assert.IsNull(map_);  // Do NOT overwrite maps...
       map_ = value;
-      mapSize_ = (int) Mathf.Sqrt(map_.Count);
+      mapSize_ = (int)Mathf.Sqrt(map_.Count);
     }
   }
 
@@ -71,40 +71,32 @@ public class GameManager : MonoBehaviour {
     ClearPlayerStats();
     SceneManager.LoadScene("Lobby");
   }
-    public void NewGame()
-    {
-        InventorySafeController.Instance.newGame();
-        PowerUpStatsController.Instance.newGame();
-        EnterLobbyScene();
-    }
+
+  public void NewGame() {
+    InventorySafeController.Instance.newGame();
+    PowerUpStatsController.Instance.newGame();
+    EnterLobbyScene();
+  }
+
   public void ContinueGame() {
-
-
-      InventorySafeController.Instance.loadGame();
-      PowerUpStatsController.Instance.loadGame();
-      EnterLobbyScene();
-        //añadir persistencia
-
-
+    InventorySafeController.Instance.loadGame();
+    PowerUpStatsController.Instance.loadGame();
+    EnterLobbyScene();
+    //aï¿½adir persistencia
   }
 
-  public void VictoryReturn()
-  {
-
-      //añadir persistencia guardar loot en inventario taberna
-        UIManager.Instance.HideVictoryCanvas();
-        InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
-        EnterLobbyScene();
-      //añadir persistencia
-
-
+  public void VictoryReturn() {
+    //aï¿½adir persistencia guardar loot en inventario taberna
+    UIManager.Instance.HideVictoryCanvas();
+    InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
+    EnterLobbyScene();
+    //aï¿½adir persistencia
   }
-
 
   public void EnterMapScene() {
-  SceneManager.LoadScene("Map");
-  AudioManager.Instance.PlayMapMusic();
-  UIManager.Instance.ShowMapCanvas();
+    SceneManager.LoadScene("Map");
+    AudioManager.Instance.PlayMapMusic();
+    UIManager.Instance.ShowMapCanvas();
   }
 
   public void EnterChamberScene() {
@@ -113,19 +105,18 @@ public class GameManager : MonoBehaviour {
     SceneManager.LoadScene("Chamber");
   }
 
-    #endregion
+  #endregion
 
   #region WeaponType
 
   public int _weaponType = 0;
-  public int getCurrentWeaponType()
-  {
-      return _weaponType;
+  public int getCurrentWeaponType() {
+    return _weaponType;
   }
 
-  public void setCurrentWeaponType(int weaponType)
-  {
-      _weaponType = weaponType;
+  public void setCurrentWeaponType(int weaponType) {
+    _weaponType = weaponType;
+    playerStats.SetWeaponType(weaponType);
   }
-    #endregion
+  #endregion
 }

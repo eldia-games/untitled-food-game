@@ -15,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
 
     private float MovementSpeed => PlayerStats.MovementSpeed;
     private float StaminaSlide { get => PlayerStats.StaminaSlide; set => PlayerStats.StaminaSlide = value; }
+    private float StaminaRegen => PlayerStats.StaminaRegen;
     private float velSlide => PlayerStats.velSlide;
     private int maxLife => PlayerStats.maxLife;
     private float heal => PlayerStats.heal;
@@ -99,13 +100,27 @@ public class PlayerCombat : MonoBehaviour
             weaponIndex = NoGameManagerWeaponIndex;
             Debug.Log("Error: " + e);
         }
-        if(weaponIndex == 2)
-            weaponType = PlayerStats.weaponType[0];
-        if(weaponIndex == 4)
-            weaponType = PlayerStats.weaponType[1];
+
+        switch(weaponIndex)
+        {
+            case 2:
+                //Bow
+                weaponType = PlayerStats.weaponType[0];
+                break;
+            case 4:
+                //Staff
+                weaponType = PlayerStats.weaponType[1];
+                break;
+        }
 
         //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
         _anim.SetFloat("Weapon", weaponIndex);
+
+        //VelAttack to animator
+        _anim.SetFloat("VelAttack", velAttack);
+
+        //VelSlide to animator
+        _anim.SetFloat("VelSlide", velSlide);
         try{
         UIManager.Instance.SetMaxHealth(maxLife);
         UIManager.Instance.SetMaxMana(maxMana);
@@ -125,7 +140,7 @@ public class PlayerCombat : MonoBehaviour
             InventoryManager.Instance.setPlayer(player);
         }
         catch(Exception e){
-            Debug.Log("Error: " + e);
+            Debug.Log("Is player in main map? : " + e);
         }
     }
 
@@ -148,15 +163,6 @@ public class PlayerCombat : MonoBehaviour
             Physics.gravity = new Vector3(0, -200, 0);
             //Debug.Log("Not Grounded");
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///Weapons
-
-        //VelAttack to animator
-        _anim.SetFloat("VelAttack", velAttack);
-
-        //VelSlide to animator
-        _anim.SetFloat("VelSlide", velSlide);
 
     }
 
@@ -260,7 +266,7 @@ public class PlayerCombat : MonoBehaviour
         //if heal
         if (_handler.heal && healCooldown && HP < (float)maxLife)
         {
-            OnHeal(heal);
+            OnHeal();
         }
 
         //if HP <= 0 die
@@ -348,7 +354,7 @@ public class PlayerCombat : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < velSlide)
         {
-            StaminaSlide = elapsedTime / velSlide * 10;
+            StaminaSlide = elapsedTime / velSlide * StaminaRegen;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -511,35 +517,40 @@ public class PlayerCombat : MonoBehaviour
         pushDirection.Normalize();
     }
 
-    public void OnHeal(float heal)
+    public void OnHeal()
     {
         bool beerFound = false;
-        //Search in the scene for the inventory manager
-        for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+        if(HP >= (float)maxLife)
         {
-            if (InventoryManager.Instance.items[i].item.itemName == "Beer")
-            {
-                beerFound = true;
-                //Remove the item from the inventory
-                //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
-                InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
-
-                healCooldown = false;
-                print("heal");
-                //Make player heal
-                HP += heal;
-
-                UIManager.Instance.GainHealth(heal);
-
-                weaponIndexOld = weaponIndex;
-                weaponIndex = 3;
-                _anim.SetFloat("Weapon", weaponIndex);
-                _anim.SetTrigger("Attack");
-                _anim.SetFloat("HP", HP);
-                StartCoroutine(HealCooldown());
-                break;
-            }   
+            print("You are full life, you dont need to heal");
+            return;
         }
+        //Search in the scene for the inventory manager
+            for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+            {
+                if (InventoryManager.Instance.items[i].item.itemName == "Beer")
+                {
+                    beerFound = true;
+                    //Remove the item from the inventory
+                    //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+                    InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+
+                    healCooldown = false;
+                    print("heal");
+                    //Make player heal
+                    HP += heal;
+
+                    UIManager.Instance.GainHealth(heal);
+
+                    weaponIndexOld = weaponIndex;
+                    weaponIndex = 3;
+                    _anim.SetFloat("Weapon", weaponIndex);
+                    _anim.SetTrigger("Attack");
+                    _anim.SetFloat("HP", HP);
+                    StartCoroutine(HealCooldown());
+                    break;
+                }   
+            }
         if (!beerFound)
         {
             print("You need a beer to heal");
