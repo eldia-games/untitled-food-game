@@ -16,7 +16,8 @@ public class ObjectDrop : Spawneable
         if(hitInfo.tag == "Player")
         {
             print("To inventory");
-            InventoryManager.Instance.AddItem(item, indexLoot, quantity!=0?quantity:item.quantity, item.stackeable);  
+            InventoryManager.Instance.AddItem(item, indexLoot, quantity!=0?quantity:item.quantity, item.stackeable);
+            playSound();
             Destroy(gameObject);
         }
 
