@@ -171,7 +171,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
 
   IEnumerator OpenDoor() {
     yield return new WaitForSeconds(0.1f);
-    for (int i = 0; i < doorAnimator.Count; i++)
+    for (int i = 0; i < doorAnimator.Count; i++) { 
       doorAnimator[i].SetBool("Closed", false);
 
    }
