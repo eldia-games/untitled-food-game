@@ -134,6 +134,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     if (leverActual == lever && !leverUsed) {
       leverUsed = true;
       leverAnimator.SetBool("LeverLeft", !leverAnimator.GetBool("LeverLeft"));
+      AudioManager.Instance.PlayMoveLever();
       exit.SetActive(true);
       StartCoroutine(OpenDoor());
     }
@@ -156,6 +157,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       Debug.Log("close door " + i);
       doorAnimator[i].SetBool("Closed", true);
     }
+    AudioManager.Instance.PlayMoveDoor();
     yield return new WaitForSeconds(2);
     player.GetComponent<PlayerCombat>().enabled = true;
     for (int i = 0; i < monsterList.Count; i++) {
@@ -174,13 +176,9 @@ public class DungeonController : MonoBehaviour, IChamberController {
     yield return new WaitForSeconds(2);
     for (int i = 0; i < doorAnimator.Count; i++) {
       doorAnimator[i].SetBool("Closed", false);
-    }
+   }
+        AudioManager.Instance.PlayMoveDoor();
   }
 
-  IEnumerator CloseDoor() {
-    yield return new WaitForSeconds(2);
-    for (int i = 0; i < doorAnimator.Count; i++) {
-      doorAnimator[i].SetBool("Closed", true);
-    }
-  }
+
 }
