@@ -47,9 +47,12 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
     }
     IEnumerator EnterDungeon()
     {
-        for (int i = 0; i < 1.5f / Time.fixedDeltaTime; i++)
+        float anTime=0.5f;
+        float anVel = 2f;
+
+        for (int i = 0; i < anTime / Time.fixedDeltaTime; i++)
         {
-            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 1.5f);
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * anVel);
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
         playerAnimator.SetFloat("Moving", 0);

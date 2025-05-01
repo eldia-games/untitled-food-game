@@ -17,8 +17,9 @@ public class PowerUpDrop : Spawneable
         {
 
             PowerUpStatsController.Instance.PowerUp(type);
+            playSound();
             Destroy(gameObject);
-            UIManager.Instance.ResetPlayerHealthMana();
+            //UIManager.Instance.ResetPlayerHealthMana();
         }
 
     }

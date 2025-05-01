@@ -22,11 +22,12 @@ public class ChestController : MonoBehaviour
 
     public void OnOpen()
     {
-s        if (chosenItem != null)
+       if (chosenItem != null)
         {
             GameObject objectCreated = Instantiate(chosenItem, transform.position, Quaternion.identity);
             ObjectDrop objectdrop;
             GetComponent<Animator>().SetBool("isClosed", false);
+            AudioManager.Instance.PlayUseChest();
             if ((objectdrop = chosenItem.GetComponent<ObjectDrop>()) != null)
             {
                 objectdrop.quantity = (int)Mathf.Ceil((float)(persistence.Instance.getLevel()) / objectCreated.GetComponent<ObjectDrop>().getValue());
