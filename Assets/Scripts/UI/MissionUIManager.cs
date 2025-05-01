@@ -93,4 +93,90 @@ public class MissionUIManager : MonoBehaviour
             return false;
         }
     }
+
+    // Nuevo
+    [System.Serializable]
+    public class InventoryItem
+    {
+        public string itemName;
+        public int quantity;
+    }
+    
+    [System.Serializable]
+    public class UIObjectData
+    {
+        public string objectName;
+        public int moneyAmount; 
+        public List<InventoryItem> items = new List<InventoryItem>();
+    }
+    
+        [Header("UI References")]
+        public GameObject itemUIPrefab;
+        public Transform contentParent;
+    
+        [Header("Test Data")]
+        public List<UIObjectData> objectsToDisplay = new List<UIObjectData>();
+    
+        void Start()
+        {
+            GenerateUI(objectsToDisplay);
+        }
+    
+        public void GenerateUI(List<UIObjectData> dataList)
+        {
+            ClearExistingUI();
+    
+            foreach (UIObjectData data in dataList)
+            {
+                GameObject newItem = Instantiate(itemUIPrefab, contentParent);
+                SetupItemUI(newItem, data);
+            }
+        }
+    
+        void ClearExistingUI()
+        {
+            foreach (Transform child in contentParent)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    
+        void SetupItemUI(GameObject uiElement, UIObjectData data)
+        {
+            // Configurar nombre
+            Text nameText = uiElement.transform.Find("NameText").GetComponent<Text>();
+            nameText.text = data.objectName;
+    
+            // Configurar dinero (nuevo campo)
+            Text moneyText = uiElement.transform.Find("MoneyText").GetComponent<Text>();
+            moneyText.text = $"Dinero: {data.moneyAmount}";
+    
+            // Configurar items
+            Transform itemsContainer = uiElement.transform.Find("ItemsContainer");
+            SetupItems(data.items, itemsContainer);
+        }
+    
+        void SetupItems(List<InventoryItem> items, Transform container)
+        {
+            for (int i = 0; i < items.Count && i < 3; i++)
+            {
+                if (i < container.childCount)
+                {
+                    Transform itemSlot = container.GetChild(i);
+                    Text itemText = itemSlot.GetComponentInChildren<Text>();
+                    itemText.text = $"{items[i].itemName} x{items[i].quantity}";
+                    itemSlot.gameObject.SetActive(true);
+                }
+            }
+    
+            // Desactivar slots vacíos
+            for (int i = items.Count; i < 3; i++)
+            {
+                if (i < container.childCount)
+                {
+                    container.GetChild(i).gameObject.SetActive(false);
+                }
+            }
+        }
+    
 }
