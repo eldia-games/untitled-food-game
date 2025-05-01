@@ -114,6 +114,7 @@ public class PowerUpStatsController : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log(e);
             return false;
         }
 
@@ -191,7 +192,9 @@ public class PowerUpStatsController : MonoBehaviour
                 break;
             default:
                 break;
+
         }
+        saveStats();
     }
 
 
@@ -242,6 +245,7 @@ public class PowerUpStatsController : MonoBehaviour
             switch (type)
             {
                 case powerUpType.None:
+                    levels.Add(0);
                     break;
                 case powerUpType.MaxHealth:
 

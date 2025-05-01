@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ShopUIManager shopUIManager;
     [SerializeField] private MissionUIManager missionUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
+    [SerializeField] private UpgradesUIManager upgradesUIManager;
     public static UIManager Instance { get; private set; }
 
     private void Awake()
@@ -187,6 +188,7 @@ public class UIManager : MonoBehaviour
     {
         HideLobby();
         ShowUpgrades();
+        upgradesUIManager.RefreshUpgrades();
         AudioManager.Instance.PlaySFXClick();
     }
 
@@ -367,6 +369,7 @@ public class UIManager : MonoBehaviour
         healthManaUIManager.LoseHealth(healthlost);
     }
 
+
     #endregion
 
     #region Weapon Selector
@@ -389,7 +392,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.EnterMapScene();
     }
 
-    #endregion 
+    #endregion
 
     #region Scene Handling
 

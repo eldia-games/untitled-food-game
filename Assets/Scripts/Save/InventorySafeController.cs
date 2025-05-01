@@ -53,6 +53,7 @@ public class InventorySafeController : MonoBehaviour
     {
         StreamWriter writer=new StreamWriter(filePath);
         writer.WriteLine(inventory.ToJSON());
+
         writer.Close();
 
     }
@@ -83,6 +84,7 @@ public class InventorySafeController : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log(e);
             return false;
         }
 
@@ -127,16 +129,24 @@ public class InventorySafeController : MonoBehaviour
         else
         {
             inventory.resetMoney();
+
         }
+        saveInventory();
     }
     public bool hasMoney(int money)
     {
-        if (inventory.getMoney() > money)
+        if (inventory.getMoney() >= money)
         {
             return true;
         }
         return false;
     }
+
+    public int getMoney()
+    {
+        return inventory.getMoney();
+    }
+
     #endregion
 
     #region Items

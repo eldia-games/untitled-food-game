@@ -24,7 +24,7 @@ public class Interactor : MonoBehaviour
     public void ExitUnteractableRange()
     {
         interactable = null;
-        sum--;
+        sum=Mathf.Max(sum-1,0);
         if (sum == 0)
         {
             UIManager.Instance.HidePopUpCanvas();

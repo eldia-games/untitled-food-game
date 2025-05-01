@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
       InventorySafeController.Instance.loadGame();
       PowerUpStatsController.Instance.loadGame();
       EnterLobbyScene();
-        //añadir persistencia
+        //aï¿½adir persistencia
 
 
   }
@@ -91,11 +91,11 @@ public class GameManager : MonoBehaviour {
   public void VictoryReturn()
   {
 
-      //añadir persistencia guardar loot en inventario taberna
+      //aï¿½adir persistencia guardar loot en inventario taberna
         UIManager.Instance.HideVictoryCanvas();
         InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
         EnterLobbyScene();
-      //añadir persistencia
+      //aï¿½adir persistencia
 
 
   }
@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour {
   public void setCurrentWeaponType(int weaponType)
   {
       _weaponType = weaponType;
+      playerStats.SetWeaponType(weaponType);
   }
     #endregion
 }
