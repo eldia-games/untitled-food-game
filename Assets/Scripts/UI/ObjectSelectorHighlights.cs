@@ -25,6 +25,12 @@ public class ObjectSelector : MonoBehaviour
         {
             _highlight.gameObject.GetComponent<Outline>().enabled = false;
             _highlight = null;
+
+            Explore.SetActive(false);
+            Upgrades.SetActive(false);
+            Missions.SetActive(false);
+            Achievements.SetActive(false);
+            Training.SetActive(false);
         }
 
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);  // Lanza un rayo desde la cámara
@@ -46,31 +52,44 @@ public class ObjectSelector : MonoBehaviour
                 _highlight.gameObject.GetComponent<Outline>().OutlineColor = Color.green;
                 _highlight.gameObject.GetComponent<Outline>().OutlineWidth = 4.0f;
             }
-            //switch (hit.collider.gameObject.name)
-            //{
-            //    case "wall_doorway_scaffold_door":
-            //        Explore.SetActive(true);
-            //        break;
-            //    case "WaiterTable":
-            //        Upgrades.SetActive(true);
-            //        break;
-            //    case "armour":
-            //        Missions.SetActive(true);
-            //        break;
-            //    case "sword_shield_gold":
-            //        Achievements.SetActive(true);
-            //        break;
-            //    case "selectable_objects":
-            //        Training.SetActive(true);
-            //        break;
-            //default:
-            //    Explore.SetActive(false);
-            //    Upgrades.SetActive(false);
-            //    Missions.SetActive(false);
-            //    Achievements.SetActive(false);
-            //    Training.SetActive(false);
-            //    break;
-            //}
+            switch (hit.collider.gameObject.name)
+            {
+                case "wall_doorway_scaffold_door":
+                    Explore.SetActive(true);
+                    Upgrades.SetActive(false);
+                    Missions.SetActive(false);
+                    Achievements.SetActive(false);
+                    Training.SetActive(false);
+                    break;
+                case "WaiterTable":
+                    Missions.SetActive(true);
+                    Explore.SetActive(false);
+                    Upgrades.SetActive(false);
+                    Achievements.SetActive(false);
+                    Training.SetActive(false);
+                    break;
+                case "armour":
+                    Upgrades.SetActive(true);
+                    Explore.SetActive(false);
+                    Missions.SetActive(false);
+                    Achievements.SetActive(false);
+                    Training.SetActive(false);
+                    break;
+                case "sword_shield_gold":
+                    Achievements.SetActive(true);
+                    Explore.SetActive(false);
+                    Upgrades.SetActive(false);
+                    Missions.SetActive(false);
+                    Training.SetActive(false);
+                    break;
+                case "selectable_objects":
+                    Training.SetActive(true);
+                    Explore.SetActive(false);
+                    Upgrades.SetActive(false);
+                    Missions.SetActive(false);
+                    Achievements.SetActive(false);
+                    break;
+            }
 
         }
         else
@@ -94,18 +113,23 @@ public class ObjectSelector : MonoBehaviour
                     switch (hit.collider.gameObject.name)
                     {
                         case "wall_doorway_scaffold_door":
+                            Explore.SetActive(false);
                             UIManager.Instance.ShowWeaponsCanvas();  // Mostrar seleccion de arma
                             break;
                         case "WaiterTable":
+                            Missions.SetActive(false);
                             UIManager.Instance.ShowMisionCanvas();  // Mostrar misiones
                             break;
                         case "armour":
+                            Upgrades.SetActive(false);
                             UIManager.Instance.ShowUpgradesCanvas();  // Mostrar mejoras
                             break;
                         case "sword_shield_gold":
+                            Achievements.SetActive(false);
                             UIManager.Instance.ShowAchievementsCanvas();  // Mostrar logros
                             break;
                         case "selectable_objects":
+                            Training.SetActive(false);  
                             Debug.Log("Cargar zona entrenamiento");
                             break;
                     }
