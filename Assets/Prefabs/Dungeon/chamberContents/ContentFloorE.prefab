@@ -4684,6 +4684,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall_crossing
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 93478878a92334d448751d95002281dc, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4724,7 +4728,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 4.0000005, z: 14}
+  m_Size: {x: 1, y: 4.0000005, z: 16}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!65 &175010771499689686
 BoxCollider:
@@ -4745,7 +4749,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 14, y: 4.0000005, z: 1}
+  m_Size: {x: 16, y: 4.0000005, z: 1}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &8660025832487386075
 PrefabInstance:
