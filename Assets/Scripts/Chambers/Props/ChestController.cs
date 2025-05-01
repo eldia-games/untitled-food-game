@@ -22,7 +22,7 @@ public class ChestController : MonoBehaviour
 
     public void OnOpen()
     {
-s        if (chosenItem != null)
+        if (chosenItem != null)
         {
             GameObject objectCreated = Instantiate(chosenItem, transform.position, Quaternion.identity);
             ObjectDrop objectdrop;

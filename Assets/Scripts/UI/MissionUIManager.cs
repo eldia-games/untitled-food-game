@@ -21,59 +21,60 @@ public class MissionUIManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("estoy despierto");
         _missionController = GetComponent<MissionController>();
         missionTemp = _missionController.GetMissions();
         missionStatus = new bool[missionTemp.Count];
+        fillUIObject(missionTemp, objectsToDisplay);
+        RefreshMissionUI();
     }
 
-    public void RefreshMissionUI()
-    {
-        missionTemp = _missionController.GetMissions();
-        for (int i = 0; i < missionTemp.Count; i++)
-        {
-            try
-            {
-                InventorySafeController inventory = InventorySafeController.Instance;
-                Mission mission = missionTemp[i];
-                Items item = mission.getItems()[0].GetItem();
-                int quantityItem = mission.getItems()[0].GetQuantity();
-                int quantityMoney = mission.getPrice();
-                int quantityInventory = inventory.getQuantity(item);
-
-                spriteItemMission[i].texture = item.icon;
-                string itemString = item.itemName;
-                textItemQuantity[i].text = quantityItem.ToString();
-                textMoneyQuantity[i].text = quantityMoney.ToString();
-                textInventoryQuantity[i].text = quantityInventory.ToString();
-
-
-                textMission[i].text = string.Format("Loot <color=yellow>{0}</color> number of {1} to obtain the following reward: ",
-                                        quantityItem.ToString(),
-                                        itemString
-                                        );
-
-
-                bool missionCompletable = inventory.hasItem(mission.getItems()[0].GetItem(), mission.getItems()[0].GetQuantity());
-                if(missionCompletable){
-                    buttonTextMission[i].text = "Complete mission";
-                    buttonMission[i].enabled = true;
-                }
-                else
-                {
-                    buttonTextMission[i].text = "Can't complete";
-                    buttonMission[i].enabled = false;
-                }
-                missionStatus[i] = missionCompletable;
-                
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-                print("error index out of bounds: " + i);
-            }
-        }
-    }
+    //public void RefreshMissionUI()
+    //{
+    //    missionTemp = _missionController.GetMissions();
+    //    for (int i = 0; i < missionTemp.Count; i++)
+    //    {
+    //        try
+    //        {
+    //            InventorySafeController inventory = InventorySafeController.Instance;
+    //            Mission mission = missionTemp[i];
+    //            Items item = mission.getItems()[0].GetItem();
+    //            int quantityItem = mission.getItems()[0].GetQuantity();
+    //            int quantityMoney = mission.getPrice();
+    //            int quantityInventory = inventory.getQuantity(item);
+    //
+    //            spriteItemMission[i].texture = item.icon;
+    //            string itemString = item.itemName;
+    //            textItemQuantity[i].text = quantityItem.ToString();
+    //            textMoneyQuantity[i].text = quantityMoney.ToString();
+    //            textInventoryQuantity[i].text = quantityInventory.ToString();
+    //
+    //
+    //            textMission[i].text = string.Format("Loot <color=yellow>{0}</color> number of {1} to obtain the following reward: ",
+    //                                    quantityItem.ToString(),
+    //                                    itemString
+    //                                    );
+    //
+    //
+    //            bool missionCompletable = inventory.hasItem(mission.getItems()[0].GetItem(), mission.getItems()[0].GetQuantity());
+    //            if(missionCompletable){
+    //                buttonTextMission[i].text = "Complete mission";
+    //                buttonMission[i].enabled = true;
+    //            }
+    //            else
+    //            {
+    //                buttonTextMission[i].text = "Can't complete";
+    //                buttonMission[i].enabled = false;
+    //            }
+    //            missionStatus[i] = missionCompletable;
+    //            
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            Debug.Log(e);
+    //            print("error index out of bounds: " + i);
+    //        }
+    //    }
+    //}
     public bool ObtainMissionStatus(int missionIndex)
     {
         return missionStatus[missionIndex];
@@ -94,39 +95,45 @@ public class MissionUIManager : MonoBehaviour
         }
     }
 
-    // Nuevo
-    [System.Serializable]
-    public class InventoryItem
-    {
-        public string itemName;
-        public int quantity;
-    }
-    
+    // Nuevo    
     [System.Serializable]
     public class UIObjectData
     {
-        public string objectName;
+        public string recipeName;
         public int moneyAmount; 
-        public List<InventoryItem> items = new List<InventoryItem>();
+        public List<RecipeItem> recipes = new List<RecipeItem>();
     }
     
-        [Header("UI References")]
-        public GameObject itemUIPrefab;
-        public Transform contentParent;
-    
-        [Header("Test Data")]
-        public List<UIObjectData> objectsToDisplay = new List<UIObjectData>();
-    
-        void Start()
+   [Header("UI References")]
+   public GameObject itemUIPrefab;
+   public Transform contentParent;
+   
+   [Header("Test Data")]
+   public List<UIObjectData> objectsToDisplay = new List<UIObjectData>();
+   
+   void Start()
+   {
+
+   }
+    public void fillUIObject(List<Mission> missionList, List<UIObjectData> objectsToDisplay)
+    {
+        foreach (Mission mis in missionList)
         {
-            GenerateUI(objectsToDisplay);
+            foreach (UIObjectData ui in objectsToDisplay)
+            {
+                ui.recipeName = mis.getTitle(); 
+                ui.moneyAmount = mis.getPrice();
+                ui.recipes = mis.getItems();
+            }
         }
+        Debug.Log("UI object llenado");
+    }
     
-        public void GenerateUI(List<UIObjectData> dataList)
+        public void RefreshMissionUI()
         {
             ClearExistingUI();
     
-            foreach (UIObjectData data in dataList)
+            foreach (UIObjectData data in objectsToDisplay)
             {
                 GameObject newItem = Instantiate(itemUIPrefab, contentParent);
                 SetupItemUI(newItem, data);
@@ -144,19 +151,19 @@ public class MissionUIManager : MonoBehaviour
         void SetupItemUI(GameObject uiElement, UIObjectData data)
         {
             // Configurar nombre
-            Text nameText = uiElement.transform.Find("NameText").GetComponent<Text>();
-            nameText.text = data.objectName;
+            Text nameText = uiElement.transform.Find("tmp-mission-name").GetComponent<Text>();
+            nameText.text = data.recipeName;
     
             // Configurar dinero (nuevo campo)
-            Text moneyText = uiElement.transform.Find("MoneyText").GetComponent<Text>();
+            Text moneyText = uiElement.transform.Find("money-quantity-text").GetComponent<Text>();
             moneyText.text = $"Dinero: {data.moneyAmount}";
     
             // Configurar items
-            Transform itemsContainer = uiElement.transform.Find("ItemsContainer");
-            SetupItems(data.items, itemsContainer);
+            Transform itemsContainer = uiElement.transform.Find("layout-items");
+            SetupItems(data.recipes, itemsContainer);
         }
     
-        void SetupItems(List<InventoryItem> items, Transform container)
+        void SetupItems(List<RecipeItem> items, Transform container)
         {
             for (int i = 0; i < items.Count && i < 3; i++)
             {
@@ -164,8 +171,9 @@ public class MissionUIManager : MonoBehaviour
                 {
                     Transform itemSlot = container.GetChild(i);
                     Text itemText = itemSlot.GetComponentInChildren<Text>();
-                    itemText.text = $"{items[i].itemName} x{items[i].quantity}";
-                    itemSlot.gameObject.SetActive(true);
+                //itemText.text = $"{items[i].itemName} x{items[i].quantity
+                    itemText.text = $"{items[i].GetItem().name} x{items[i].GetQuantity()}";
+                itemSlot.gameObject.SetActive(true);
                 }
             }
     
