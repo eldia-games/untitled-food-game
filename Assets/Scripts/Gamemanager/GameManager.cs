@@ -73,10 +73,10 @@ public class GameManager : MonoBehaviour {
   }
     public void NewGame()
     {
-        InventorySafeController.Instance.newGame();
-        PowerUpStatsController.Instance.newGame();
-        EnterLobbyScene();
-    }
+    InventorySafeController.Instance.newGame();
+    PowerUpStatsController.Instance.newGame();
+    EnterLobbyScene();
+}
   public void ContinueGame() {
 
 
@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour {
     AudioManager.Instance.PlayChamberMusic();
     UIManager.Instance.ShowChamberCanvas();
     SceneManager.LoadScene("Chamber");
+    //UIManager.Instance.PopUpChamberName(room);
   }
 
     #endregion

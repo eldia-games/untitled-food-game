@@ -13,23 +13,38 @@ public class PopUpUIManager : MonoBehaviour
         public string panelText;
         public Sprite panelImage;
     }
+    private class ChamberInfo
+    {
+        public int panelID;
+        public string panelText;
+        public string descriptionText;
+    }
 
     [SerializeField] private PanelInfo[] panels;
+    [SerializeField] private ChamberInfo[] chambers;
     [SerializeField] private Image spriteDisplayImage;
-    [SerializeField] private TMP_Text textPopUp;
+    [SerializeField] private TMP_Text helpPopUp;
+    [SerializeField] private TMP_Text chamberPopUp;
+    [SerializeField] private TMP_Text descriptionPopUp;
 
-    public void displayUI(string action,bool active)
+    public void displaypopUpHelp(string action,bool affirmative)
     {
-        spriteDisplayImage.sprite = panels[0].panelImage;
-        if (active)
+        if (affirmative)
         {
-            textPopUp.text = panels[0].panelText + " " + action;
+            spriteDisplayImage.sprite = panels[0].panelImage;
+            helpPopUp.text = panels[0].panelText + action.ToLower() + ".";
         }
         else
         {
-            textPopUp.text = panels[1].panelText + " " + action;
+            spriteDisplayImage.sprite = panels[1].panelImage;
+            helpPopUp.text = panels[1].panelText + action.ToLower() + ".";
         }
-        print("panel index: " + 0);
+    }
+
+    public void displayPopUpChamber(RoomType room)
+    {
+        chamberPopUp.text = chambers[(int)room].panelText;
+        descriptionPopUp.text = chambers[(int)room].panelText;
     }
 
 }

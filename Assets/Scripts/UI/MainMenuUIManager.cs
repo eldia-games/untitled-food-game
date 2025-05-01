@@ -208,7 +208,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowPopUpCanvas(string action,bool active)
     {
-        popUpUIManager.displayUI(action, active);
+        popUpUIManager.displaypopUpHelp(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
     }
