@@ -369,6 +369,7 @@ public class UIManager : MonoBehaviour
         healthManaUIManager.LoseHealth(healthlost);
     }
 
+
     #endregion
 
     #region Weapon Selector

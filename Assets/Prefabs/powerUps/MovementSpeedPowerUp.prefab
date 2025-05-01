@@ -48,9 +48,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 05202ff6afd8bb74bb0e60cd2033a5bf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 167c6655725b2f946b16b2915d3d7629, type: 2}
     - target: {fileID: 919132149155446097, guid: 05202ff6afd8bb74bb0e60cd2033a5bf, type: 3}
       propertyPath: m_Name
-      value: bottle_C_green
+      value: MovementSpeedPowerUp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -86,9 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd062da99acfc944b32fc7f89615239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 01000000020000000300000032000000
+  SpawnRate: 01000000
   value: 100
-  type: 1
+  type: 5
 --- !u!54 &6714023481783846485
 Rigidbody:
   m_ObjectHideFlags: 0
