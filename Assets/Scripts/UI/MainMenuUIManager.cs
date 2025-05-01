@@ -216,7 +216,7 @@ public class UIManager : MonoBehaviour
     public void HidePopUpCanvas()
     {
         HidePopUp();
-        AudioManager.Instance.PlaySFXClose();
+        //AudioManager.Instance.PlaySFXClose();
     }
     public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
     {

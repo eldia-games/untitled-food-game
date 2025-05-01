@@ -20,5 +20,9 @@ public class Spawneable : MonoBehaviour
     {
         return value;
     }
+    public void playSound()
+    {
+        AudioManager.Instance.PlayItemTaken();
+    }
 
 }
