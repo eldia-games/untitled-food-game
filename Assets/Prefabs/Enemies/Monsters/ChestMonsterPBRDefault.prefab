@@ -50,7 +50,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 1.35
@@ -160,7 +160,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc73c96474aa433e8b99209fccd68cdb, type: 2}
+  - {fileID: 2100000, guid: fc4480a6082243a4195c3c85902a40ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -291,6 +291,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 2
+  hearingRange: 10
   viewRadius: 7.6
   viewAngle: 90
   timeToReset: 5
@@ -304,11 +305,15 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
-  isAttacking: 0
+  drop: []
+  chanceDrop: 0
+  canDrop: 1
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
-  meleeAttackCollider: {fileID: 0}
+  meleeAttackCollider: {fileID: 1116870954826314161}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 1116870954826314161}
   skills: []

@@ -373,6 +373,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 1.2
+  hearingRange: 10
   viewRadius: 20
   viewAngle: 90
   timeToReset: 5
@@ -386,11 +387,15 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
-  isAttacking: 0
+  drop: []
+  chanceDrop: 0
+  canDrop: 1
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
-  meleeAttackCollider: {fileID: 0}
+  meleeAttackCollider: {fileID: 8225934465998570902}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 8225934465998570902}
   skills: []
@@ -850,7 +855,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5b14a408ea91d4c47beba346957a3d99, type: 2}
+  - {fileID: 2100000, guid: fc4480a6082243a4195c3c85902a40ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

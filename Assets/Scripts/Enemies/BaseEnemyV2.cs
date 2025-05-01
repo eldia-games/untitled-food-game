@@ -10,6 +10,13 @@ public abstract class BaseEnemyV2 : BaseEnemy
     public Collider meleeAttackCollider;
     public bool isBlocking = false;
     public bool debug = false;
+    // Velocidad a la que la barra roja (daño) se drena hacia la salud actual
+    [SerializeField]
+    private float healthBarDrainSpeed = 10f;
+    // Porcentaje actual de la "barra de daño" que se anima
+    private float redHealthPercentage;
+    // Declara esta variable para guardar la salud máxima
+    private float maxHealth;
     public void RunTowardsPlayer(){
         //animator.SetBool("isRunning", true);
         if(agent != null && agent.isActiveAndEnabled)
@@ -53,41 +60,88 @@ public abstract class BaseEnemyV2 : BaseEnemy
         return false;
     }
 
-    // Declara esta variable para guardar la salud máxima
-    private float maxHealth;
+    private void UpdateHealthBar()
+    {
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        if (redHealthPercentage > currentPct)
+        {
+            redHealthPercentage = Mathf.MoveTowards(
+                redHealthPercentage,
+                currentPct,
+                healthBarDrainSpeed * Time.deltaTime
+            );
+        }
+        else
+        {
+            redHealthPercentage = currentPct;
+        }
+    }
+
+    protected override void Update()
+    {
+        UpdateHealthBar();
+        base.Update();
+    }
 
     protected override void Start()
     {
         base.Start();
-        maxHealth = health; // Guarda la salud inicial como máxima
+        maxHealth = health;
+        // Inicializamos la barra roja al 100%
+        redHealthPercentage = 1f;
     }
 
     public virtual void OnGUI()
     {
-        // Ajusta la posición para que la barra aparezca encima del enemigo (ej. 2 unidades arriba)
-        Vector3 worldPosition = transform.position + Vector3.up * 2f;
-        // Convierte la posición del mundo a coordenadas de pantalla
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
-        // Ajusta la coordenada Y (la posición de pantalla tiene Y invertido)
-        screenPosition.y = Screen.height - screenPosition.y;
-        
-        // Dimensiones de la barra
+        if (Camera.main == null) return;
+
+        // Posición 2 unidades sobre el enemigo
+        Vector3 worldPos = transform.position + Vector3.up * 2f;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+        screenPos.y = Screen.height - screenPos.y;
+
         float barWidth = 50f;
         float barHeight = 5f;
-        
-        // Calcula el porcentaje de salud
-        float healthPercentage = health / maxHealth;
-        
-        // Dibuja la barra de fondo (rojo)
-        // GUI.color = Color.red;
-        // GUI.Box(new Rect(screenPosition.x - barWidth / 2, screenPosition.y, barWidth, barHeight), GUIContent.none);
-        
-        // Dibuja la barra de salud actual (verde)
+
+        // Porcentajes
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        float redPct = redHealthPercentage;
+
+        // Rectángulos
+        Rect bgRect = new Rect(
+            screenPos.x - barWidth / 2f,
+            screenPos.y,
+            barWidth,
+            barHeight
+        );
+        Rect redRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * redPct,
+            barHeight
+        );
+        Rect greenRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * currentPct,
+            barHeight
+        );
+
+        // Fondo negro
+        GUI.color = Color.black;
+        GUI.DrawTexture(bgRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra roja
+        GUI.color = Color.red;
+        GUI.DrawTexture(redRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra verde (salud actual)
         GUI.color = Color.green;
-        GUI.Box(new Rect(screenPosition.x - barWidth / 2, screenPosition.y, barWidth * healthPercentage, barHeight), GUIContent.none);
-        
-        // Restaura el color original
+        GUI.DrawTexture(greenRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Restaurar
         GUI.color = Color.white;
     }
+
 
 }

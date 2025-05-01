@@ -364,6 +364,7 @@ MonoBehaviour:
   health: 10
   damage: 10
   attackRange: 9
+  hearingRange: 10
   viewRadius: 30
   viewAngle: 90
   timeToReset: 5
@@ -380,7 +381,7 @@ MonoBehaviour:
   drop: []
   chanceDrop: 0
   canDrop: 1
-  isAttacking: 0
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 0}
   isBlocking: 0
