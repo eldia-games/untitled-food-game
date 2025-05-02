@@ -49,12 +49,9 @@ public class Bullet : MonoBehaviour
                 Destroy(this);
             }
         }
-        else if(hitInfo.tag == "Wall")
+        else //if(hitInfo.tag == "Wall")
         {
-            Destroy(this);
-        }
-        else {
-            
+            Destroy(gameObject);
         }
     }
 }
