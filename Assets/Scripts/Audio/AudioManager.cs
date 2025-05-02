@@ -172,8 +172,23 @@ public class AudioManager : MonoBehaviour
     {
         PlaySFXByIndex(5);
     }
+    public void PlayItemTaken()
+    {
+        PlaySFXByIndex(6);
+    }
 
-
+    public void PlayMoveDoor()
+    {
+        PlaySFXByIndex(7);
+    }
+    public void PlayMoveLever()
+    {
+        PlaySFXByIndex(8);
+    }
+    public void PlayUseChest()
+    {
+        PlaySFXByIndex(9);
+    }
     // Method to play sfx by index
     private void PlaySFXByIndex(int sfxIndex)
     {
