@@ -311,11 +311,11 @@ public class Boss : MonoBehaviour
 
         health -= dmg;
 
-        // Aplica knockback
-        if (rb != null)
-        {
-            //rb.AddForce(direction * knockback, ForceMode.Impulse);
-        }
+        //// Aplica knockback
+        //if (rb != null)
+        //{
+        //  rb.AddForce(direction * knockback, ForceMode.Impulse);
+        //}
 
         // Comprobamos muerte
         if (health <= 0f)

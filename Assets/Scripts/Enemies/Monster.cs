@@ -69,6 +69,7 @@ public class Monster : BaseEnemyV2
     }
     public override void AttackEvent()
     {
+        if(isDead) return;
         base.AttackEvent();
 
         currentAttackCollider.enabled = true;
@@ -96,5 +97,16 @@ public class Monster : BaseEnemyV2
             currentSkill.OnAnimationEvent(this, player);
             currentSkill = null;
         }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        // Desactivar el collider de ataque
+        if (currentAttackCollider != null)
+            currentAttackCollider.enabled = false;
+        // Parar habilidad
+        if(currentSkill != null)
+            currentSkill.Stop(this, player);
     }
 }

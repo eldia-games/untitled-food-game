@@ -615,6 +615,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 1.5
+  hearingRange: 10
   viewRadius: 20
   viewAngle: 90
   timeToReset: 5
@@ -623,14 +624,19 @@ MonoBehaviour:
   rb: {fileID: 1268959014725649855}
   agent: {fileID: 1946776063430520557}
   animator: {fileID: 95457531584545886}
-  weapons: []
   dieEvent:
     m_PersistentCalls:
       m_Calls: []
-  audioSource: {fileID: 0}
   footstepWalkSounds: []
   footstepRunSounds: []
-  isAttacking: 0
+  drop: []
+  chanceDrop: 0
+  canDrop: 1
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
+  projectileSpawnPoint: {fileID: 0}
+  meleeAttackCollider: {fileID: 0}
+  isBlocking: 0
+  debug: 0
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 2338026778262579660}
   skills:

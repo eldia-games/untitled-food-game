@@ -82,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 25.6, y: 14.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2868896452060090869
@@ -322,7 +322,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3
+  m_Speed: 8
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 1000
@@ -360,10 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c20376334346c408fbf507a286853f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 8
   health: 10
   damage: 10
   attackRange: 9
+  hearingRange: 10
   viewRadius: 30
   viewAngle: 90
   timeToReset: 5
@@ -380,11 +381,12 @@ MonoBehaviour:
   drop: []
   chanceDrop: 0
   canDrop: 1
-  isAttacking: 0
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 0}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   spellSounds: []
   fleeDistance: 5
   approachDistance: 10

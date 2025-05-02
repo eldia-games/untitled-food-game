@@ -44,4 +44,9 @@ public class SkillScriptableObject : ScriptableObject
     {
         return;
     }
+
+    public virtual void Stop(BaseEnemyV2 enemy, GameObject player)
+    {
+        isCasting = false;
+    }
 }

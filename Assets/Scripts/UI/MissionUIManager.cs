@@ -167,13 +167,18 @@ public class MissionUIManager : MonoBehaviour
    {
        for (int i = 0; i < items.Count && i < 3; i++)
        {
+
             Transform itemSlot = container.GetChild(i);
+
+            TextMeshProUGUI itemInventoryAmount = itemSlot.GetComponentInChildren<TextMeshProUGUI>();
+            int quantityInventory = inventory.getQuantity(items[i].GetItem());
+            itemInventoryAmount.text = quantityInventory.ToString();
+
             TextMeshProUGUI itemMissionAmount = itemSlot.Find("item-quantity-box/item-mission-quantity-text").GetComponent<TextMeshProUGUI>();
-            //TextMeshProUGUI itemInventoryAmount = itemSlot.Find("item-quantity-box/item-inventory-quantity-text").GetComponent<TextMeshProUGUI>();
-            //int quantityInventory = inventory.getQuantity(items[i].GetItem());
-            
             itemMissionAmount.text = items[i].GetQuantity().ToString();
-            //itemInventoryAmount.text = quantityInventory.ToString();
+
+            RawImage spriteItem = itemSlot.GetComponentInChildren<RawImage>();
+            spriteItem.texture = items[i].GetItem().icon;
 
             itemSlot.gameObject.SetActive(true);
        }
