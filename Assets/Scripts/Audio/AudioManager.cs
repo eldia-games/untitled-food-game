@@ -11,18 +11,18 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float musicFade;
     [SerializeField] private AudioSource sfxUIAudioSource, musicAudioSource, sfxEnemyAudioSource, sfxPlayerAudioSource, otherAudioSource;
     [SerializeField] private AudioClip[] sfxClips, enemyWalkClips, enemyRunClips, enemyAttackClips;
-    [SerializeField] private AudioClip[] backgroundMusicClips;
+    [SerializeField] private AudioClip[] backgroundMusicClips, chamberMusicClips;
     [SerializeField] private AudioMixer masterAudioMixer;
 
     private bool isMusicPlaying;
     public static AudioManager Instance { get; private set; }
 
-    private Dictionary<string, int> indexesMusic = new Dictionary<string, int>()
-{
-    {"SafeMusic", 1},
-    {"BossMusic", 2},  
-    {"ShopMusic", 3}
-};
+//    private Dictionary<string, int> indexesMusic = new Dictionary<string, int>()
+//{
+//    {"SafeMusic", 1},
+//    {"BossMusic", 2},  
+//    {"ShopMusic", 3}
+//};
 
     private void Awake()
     {
@@ -136,6 +136,11 @@ public class AudioManager : MonoBehaviour
     public void PlayBossMusic()
     {
         ChangeBackgroundMusic(7);
+    }
+
+    public void PlayChamberMusicByRoom(RoomType room)
+    {
+        //ChangeBackgroundMusic(room);
     }
 
     public void PlaySFXClick()

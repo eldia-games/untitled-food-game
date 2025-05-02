@@ -24,8 +24,10 @@ public class MissionUIManager : MonoBehaviour
         _missionController = GetComponent<MissionController>();
         missionTemp = _missionController.GetMissions();
         missionStatus = new bool[missionTemp.Count];
-        fillUIObject(missionTemp, objectsToDisplay);
-        RefreshMissionUI();
+    }
+    void Start()
+    {
+        //RefreshMissionUI();
     }
 
     //public void RefreshMissionUI()
@@ -111,10 +113,6 @@ public class MissionUIManager : MonoBehaviour
    [Header("Test Data")]
    public List<UIObjectData> objectsToDisplay = new List<UIObjectData>();
    
-   void Start()
-   {
-
-   }
     public void fillUIObject(List<Mission> missionList, List<UIObjectData> objectsToDisplay)
     {
         foreach (Mission mis in missionList)
@@ -131,12 +129,13 @@ public class MissionUIManager : MonoBehaviour
     
         public void RefreshMissionUI()
         {
+            missionTemp = _missionController.GetMissions();
             ClearExistingUI();
     
-            foreach (UIObjectData data in objectsToDisplay)
+            foreach (Mission mis in missionTemp)
             {
                 GameObject newItem = Instantiate(itemUIPrefab, contentParent);
-                SetupItemUI(newItem, data);
+                SetupItemUI(newItem, mis);
             }
         }
     
@@ -148,43 +147,41 @@ public class MissionUIManager : MonoBehaviour
             }
         }
     
-        void SetupItemUI(GameObject uiElement, UIObjectData data)
+        void SetupItemUI(GameObject uiElement, Mission mis)
         {
-            // Configurar nombre
-            Text nameText = uiElement.transform.Find("tmp-mission-name").GetComponent<Text>();
-            nameText.text = data.recipeName;
+        // Configurar nombre
+        TextMeshProUGUI nameText = uiElement.transform.Find("mission-backpanel/text-mask/tmp-mission-name").GetComponent<TextMeshProUGUI>();
+        nameText.text = mis.getTitle();
+
+        // Configurar dinero 
+        TextMeshProUGUI moneyText = uiElement.transform.Find("money-mask/money-quantity-box/money-quantity-text").GetComponent<TextMeshProUGUI>();
+        moneyText.text = mis.getPrice().ToString();
+
+        // Configurar items (asumiendo que SetupItems también usa TextMeshPro)
+        Transform itemsContainer = uiElement.transform.Find("mission-backpanel/layout-items");
+        InventorySafeController inventory = InventorySafeController.Instance;
+        SetupItems(mis.getItems(), itemsContainer, inventory);
+    }
     
-            // Configurar dinero (nuevo campo)
-            Text moneyText = uiElement.transform.Find("money-quantity-text").GetComponent<Text>();
-            moneyText.text = $"Dinero: {data.moneyAmount}";
-    
-            // Configurar items
-            Transform itemsContainer = uiElement.transform.Find("layout-items");
-            SetupItems(data.recipes, itemsContainer);
+   void SetupItems(List<RecipeItem> items, Transform container, InventorySafeController inventory)
+   {
+       for (int i = 0; i < items.Count && i < 3; i++)
+       {
+            Transform itemSlot = container.GetChild(i);
+            TextMeshProUGUI itemMissionAmount = itemSlot.Find("item-quantity-box/item-mission-quantity-text").GetComponent<TextMeshProUGUI>();
+            //TextMeshProUGUI itemInventoryAmount = itemSlot.Find("item-quantity-box/item-inventory-quantity-text").GetComponent<TextMeshProUGUI>();
+            //int quantityInventory = inventory.getQuantity(items[i].GetItem());
+            
+            itemMissionAmount.text = items[i].GetQuantity().ToString();
+            //itemInventoryAmount.text = quantityInventory.ToString();
+
+            itemSlot.gameObject.SetActive(true);
+       }
+       for(int i = 0; i < 3 - items.Count; i++)
+       {
+            Transform itemSlot = container.GetChild(2-i);
+            itemSlot.gameObject.SetActive(false);
         }
-    
-        void SetupItems(List<RecipeItem> items, Transform container)
-        {
-            for (int i = 0; i < items.Count && i < 3; i++)
-            {
-                if (i < container.childCount)
-                {
-                    Transform itemSlot = container.GetChild(i);
-                    Text itemText = itemSlot.GetComponentInChildren<Text>();
-                //itemText.text = $"{items[i].itemName} x{items[i].quantity
-                    itemText.text = $"{items[i].GetItem().name} x{items[i].GetQuantity()}";
-                itemSlot.gameObject.SetActive(true);
-                }
-            }
-    
-            // Desactivar slots vacíos
-            for (int i = items.Count; i < 3; i++)
-            {
-                if (i < container.childCount)
-                {
-                    container.GetChild(i).gameObject.SetActive(false);
-                }
-            }
-        }
+   }
     
 }
