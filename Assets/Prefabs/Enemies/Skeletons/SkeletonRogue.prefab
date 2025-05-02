@@ -154,7 +154,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -294,6 +294,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -7038250837359292048, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: -6841453339587283975, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: -6763287802318049379, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -6451060117440161977, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -306,6 +318,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -5504173167124346650, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -5347222918006164120, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -418,6 +434,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2010285631546199246, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 2510206884250021105, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -474,14 +494,34 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7695178781703894463, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 7731692104210768441, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8195657802391427757, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: 8279205121106493199, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: 8764460053345135610, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 8905466736296333193, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9169900213592049973, guid: f4244cbc75beaf74aa57b1121afe375a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -550,6 +590,7 @@ MonoBehaviour:
   health: 10
   damage: 20
   attackRange: 5.73
+  hearingRange: 10
   viewRadius: 30
   viewAngle: 90
   timeToReset: 5
@@ -567,7 +608,7 @@ MonoBehaviour:
   - {fileID: 0}
   chanceDrop: 0
   canDrop: 1
-  isAttacking: 0
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 6413166931248803348}
   meleeAttackCollider: {fileID: 0}
   isBlocking: 0
@@ -867,6 +908,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.003
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1556a362fdfdae24fa21ee941441cb87, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 919132149155446097, guid: 1556a362fdfdae24fa21ee941441cb87, type: 3}
       propertyPath: m_Name
       value: Skeleton_Crossbow

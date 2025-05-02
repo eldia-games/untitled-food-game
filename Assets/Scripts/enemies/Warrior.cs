@@ -287,4 +287,13 @@ public class Warrior : BaseEnemyV2
             rigs.Build();
         }
     }
+
+    public override void Die()
+    {
+        base.Die();
+        if(meleeAttackCollider != null)
+            meleeAttackCollider.enabled = false;
+        if(currentSkill != null)
+            currentSkill.Stop(this, player);
+    }
 }

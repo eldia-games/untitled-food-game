@@ -87,4 +87,14 @@ public class SpiralSpellSkill : SkillScriptableObject
         castTime = Time.time;
         isCasting = false;
     }
+
+    public override void Stop(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Stop(enemy, player);
+        // Interrumpimos la corrutina si está en curso
+        if (enemy.IsInvoking("Spiral"))
+        {
+            enemy.StopCoroutine(Spiral(enemy, player));
+        }
+    }
 }
