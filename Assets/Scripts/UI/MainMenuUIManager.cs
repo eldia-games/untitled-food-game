@@ -218,7 +218,7 @@ public class UIManager : MonoBehaviour
         popUpUIManager.displayPopUpChamber(room);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
-        StartCoroutine(HidePopUpCanvasAfterDelay(4f));
+        StartCoroutine(HidePopUpCanvasAfterDelay(3.5f));
     }
 
     public void HidePopUpCanvas()
@@ -404,7 +404,11 @@ public class UIManager : MonoBehaviour
     public void SelectWeapon()
     {
         weaponSelectionUIManager.PlayerSelectedWeapon();
-        GameManager.Instance.EnterMapScene();
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (activeSceneIndex == 1)
+            GameManager.Instance.EnterMapScene();
+        else
+            print("Estoy en la sala de entrenamiento");
     }
 
     #endregion
