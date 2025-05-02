@@ -208,15 +208,30 @@ public class UIManager : MonoBehaviour
 
     public void ShowPopUpCanvas(string action,bool active)
     {
-        popUpUIManager.displayUI(action, active);
+        popUpUIManager.displaypopUpHelp(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
+    }
+
+    public void ShowChamberNamePopUpCanvas(RoomType room)
+    {
+        popUpUIManager.displayPopUpChamber(room);
+        ShowPopUp();
+        AudioManager.Instance.PlaySFXSelect();
+        StartCoroutine(HidePopUpCanvasAfterDelay(4f));
     }
 
     public void HidePopUpCanvas()
     {
         HidePopUp();
         //AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HidePopUpCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        HidePopUp();
+        AudioManager.Instance.PlaySFXClose();
     }
     public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
     {
@@ -577,6 +592,7 @@ public class UIManager : MonoBehaviour
 
     private void HidePopUp()
     {
+        popUpUIManager.hidePopUps();
         HideCanvasByIndex(13);
     }
 
