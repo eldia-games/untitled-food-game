@@ -54069,9 +54069,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactFunction:
     m_PersistentCalls:
-      m_Calls: []
-  actionName: 
-  type: 0
+      m_Calls:
+      - m_Target: {fileID: 718293273700251833}
+        m_TargetAssemblyTypeName: BossChamberController, Assembly-CSharp
+        m_MethodName: OnExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  actionName: Use Exit
+  type: 1
 --- !u!1 &7950020363126564072
 GameObject:
   m_ObjectHideFlags: 0
@@ -57457,7 +57469,7 @@ MonoBehaviour:
   exit: {fileID: 7940659400558871143}
   player: {fileID: 855039258460982905}
   playerAnimator: {fileID: 1549846906814577258}
-  Boss: {fileID: 0}
+  Boss: {fileID: 583090392206246756}
   Door: {fileID: 5204846166338977880}
 --- !u!114 &1455053433118929104
 MonoBehaviour:
@@ -64467,11 +64479,31 @@ PrefabInstance:
       objectReference: {fileID: 855039258460982905}
     - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
       propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 718293273700251833}
     - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
       propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: killBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BossChamberController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: dieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7282970286576045893, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
       propertyPath: m_Name
@@ -64486,6 +64518,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+--- !u!1 &583090392206246756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7282970286576045893, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+  m_PrefabInstance: {fileID: 7855900066025999393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2559969097024803989 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5657388819563321524, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}

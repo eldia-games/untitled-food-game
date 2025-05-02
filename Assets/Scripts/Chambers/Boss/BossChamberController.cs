@@ -62,7 +62,8 @@ public class BossChamberController : MonoBehaviour, IChamberController {
     yield return new WaitForSeconds(0.5f);
    
     doorAnimator.SetBool("Closed", true);
-   
+    AudioManager.Instance.PlayMoveDoor();
+
     yield return new WaitForSeconds(2);
     player.GetComponent<PlayerCombat>().enabled = true;
    
@@ -77,11 +78,8 @@ public class BossChamberController : MonoBehaviour, IChamberController {
   IEnumerator OpenDoor() {
     yield return new WaitForSeconds(2);
       doorAnimator.SetBool("Closed", false);
-  }
+      AudioManager.Instance.PlayMoveDoor();
+    }
 
-  IEnumerator CloseDoor() {
-    yield return new WaitForSeconds(2);
-      doorAnimator.SetBool("Closed", true);
-    
-  }
+ 
 }
