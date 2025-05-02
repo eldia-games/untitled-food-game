@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Search;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -59,6 +61,8 @@ public class PlayerCombat : MonoBehaviour
 
     private int weaponIndexOld;
     private bool attackAvailable = true;
+
+    private bool clickToAttack = false;
 
     private bool slideForce = false;
 
@@ -261,6 +265,7 @@ public class PlayerCombat : MonoBehaviour
         //attack
         if (_handler.attack)
         {
+            clickToAttack = true;
             //Fixed rotation player attack
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             var plane = new Plane(Vector3.up, player.transform.position);
@@ -269,9 +274,15 @@ public class PlayerCombat : MonoBehaviour
                 mousePosition = ray.GetPoint(distance);
                 //lookAtPosition = (mousePosition - player.transform.position).normalized + player.transform.position;
                 lookAtDirection = (mousePosition - player.transform.position).normalized;
-            }
+            }    
+        }
+
+        if (clickToAttack)
+        {
+            lookAtDirection = (mousePosition - player.transform.position).normalized;
             if (attackAvailable && lookAtMouse)
             {
+                clickToAttack = false;
                 attackAvailable = false;
                 _anim.SetTrigger("Attack");
 
@@ -431,8 +442,7 @@ public class PlayerCombat : MonoBehaviour
     {
         //NOT NEADED HEAL VELOCITY
         yield return new WaitForSeconds(1.0f);
-        weaponIndex = weaponIndexOld;
-        _anim.SetFloat("Weapon", weaponIndex);
+        _anim.SetFloat("Weapon", weaponIndexOld);
         healCooldown = true;
     }
 
@@ -660,9 +670,7 @@ public class PlayerCombat : MonoBehaviour
 
                     UIManager.Instance.GainHealth(heal);
 
-                    weaponIndexOld = weaponIndex;
-                    weaponIndex = 3;
-                    _anim.SetFloat("Weapon", weaponIndex);
+                    _anim.SetFloat("Weapon", 3); //Mug
                     _anim.SetTrigger("Attack");
                     _anim.SetFloat("HP", HP);
                     StartCoroutine(HealCooldown());
@@ -685,11 +693,13 @@ public class PlayerCombat : MonoBehaviour
 
             case InteractionType.NormalInteraction :
                 _anim.SetTrigger("Interact");
+                _anim.SetInteger("InteractionType", 0);
                 break;
-            //case InteractionType.FirePlaceInteraction :
-            //    _anim.SetTrigger("Interact");
-            //    StartCoroutine(InteractCooldown());
-            //    break;
+            case InteractionType.FirePlaceInteraction :
+                _anim.SetTrigger("Interact");
+                _anim.SetFloat("InteractionType", 1);
+                StartCoroutine(InteractCooldown());
+                break;
 
         }
         StartCoroutine(InteractCooldown());
