@@ -8,6 +8,8 @@ public abstract class BaseEnemyV2 : BaseEnemy
 {
     public GameObject projectileSpawnPoint;
     public Collider meleeAttackCollider;
+    [Header("Trail")]
+    public TrailRenderer trail;
     public bool isBlocking = false;
     public bool debug = false;
     // Velocidad a la que la barra roja (daño) se drena hacia la salud actual

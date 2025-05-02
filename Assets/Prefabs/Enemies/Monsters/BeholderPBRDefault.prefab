@@ -1737,8 +1737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ad5a29ae7bd874f891f8e404489a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  health: 100
+  speed: 8
+  health: 20
   damage: 10
   attackRange: 1.2
   hearingRange: 10
@@ -1761,12 +1761,14 @@ MonoBehaviour:
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 6678845489115346548}
+  trail: {fileID: 0}
   isBlocking: 0
   debug: 0
   healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 6678845489115346548}
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 784f461e52827784b9b3f8446b6f77d9, type: 2}
   currentSkill: {fileID: 0}
 --- !u!114 &3514528973046974958
 MonoBehaviour:
@@ -1780,7 +1782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 07000000070000000700000007000000
+  SpawnRate: 32000000320000003200000032000000
   value: 1
 --- !u!1 &4530003306004163420
 GameObject:

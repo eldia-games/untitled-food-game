@@ -8,8 +8,27 @@ using UnityEngine.InputSystem;
 public class PlayerCombat : MonoBehaviour
 {
 
+    [Header("Effects Config")]
+    [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
+    public EnemyEffectsConfig effectsConfig;
+
     public Animator _anim;
     public PlayerStats PlayerStats;
+    [Header("AfterImage Config")]
+    [Tooltip("Material semitransparente para el efecto fantasma")]
+    public Material afterImageMaterial;
+    [Tooltip("Duración en segundos de cada afterimage antes de destruirse")]
+    public float afterImageDuration = 0.5f;
+    [Tooltip("Intervalo en segundos entre cada afterimage generado")]
+    public float afterImageSpawnInterval = 0.1f;
+    [Header("AfterImage Rainbow Settings")]
+    [Tooltip("Velocidad a la que rota el color (vueltas por segundo)")]
+    public float rainbowSpeed = 1f;
+
+    private Coroutine afterImageCoroutine;
+    private List<Material> flashMats = new List<Material>();
+    private Vector3 originalScale;
+    private Coroutine scaleRoutine;
 
     //private Interactor _interactor;
 
@@ -78,11 +97,14 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        try{
+        try
+        {
             //Gamemanager is not null
             GameManager.Instance.gameObject.GetComponent<GameManager>();
             this.enabled = false;
-        }catch(Exception){
+        }
+        catch(Exception)
+        {
         }
 
         rb = GetComponent<Rigidbody>();
@@ -141,6 +163,25 @@ public class PlayerCombat : MonoBehaviour
         }
         catch(Exception e){
             Debug.Log("Is player in main map? : " + e);
+        }
+
+        // Se guarda la escala inicial
+        originalScale = transform.localScale;
+
+        // Se recogen todos los Renderers del prefab
+        var renderers = GetComponentsInChildren<Renderer>(true);
+        foreach (var r in renderers)
+        {
+            // Se clona el array de materiales
+            var mats = r.materials;  // esto instancia cada material en el array
+            r.materials = mats;      // re-asignamos para que use esas instancias
+
+            // Se añaden todas esas instancias a nuestra lista
+            flashMats.AddRange(mats);
+
+            // Se forza emission keyword en cada material
+            foreach (var m in mats)
+                m.EnableKeyword("_EMISSION");
         }
     }
 
@@ -208,6 +249,10 @@ public class PlayerCombat : MonoBehaviour
             _anim.SetTrigger("Slide");
             StaminaSlide = 0;
             slideForce = true;
+
+            // Iniciar la corrutina para generar afterimages
+            afterImageCoroutine = StartCoroutine(SpawnAfterImages());
+
             StartCoroutine(SlideForceCooldown());
             //addforce to dodge
             StartCoroutine(SlideCooldown());
@@ -365,6 +410,9 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(0.2f * (1 / velSlide));
         slideForce = false;
         invencibility = false;
+
+        if (afterImageCoroutine != null)
+            StopCoroutine(afterImageCoroutine);
     }
 
     IEnumerator PushForceCooldown()
@@ -481,6 +529,66 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private IEnumerator FlashCoroutine()
+    {
+        float timer   = 0f;
+        float maxPow  = effectsConfig.flashMaxPower;
+        float duration = effectsConfig.flashDuration;
+
+        // Begin at full power
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", maxPow);
+
+        // Fade out
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = 1f - (timer / duration);
+            float pow = t * maxPow;
+
+            foreach (var m in flashMats)
+                m.SetFloat("_FlashPower", pow);
+
+            yield return null;
+        }
+
+        // Ensure off
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", 0f);
+    }
+
+    
+    private IEnumerator ShrinkCoroutine()
+    {
+        float halfDur = effectsConfig.shrinkDuration * 0.5f;
+        float factor  = Mathf.Clamp(effectsConfig.shrinkFactor, 0.1f, 1f);
+        Vector3 targetScale = originalScale * factor;
+
+        float timer = 0f;
+
+        // Fase de encoger
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        // Fase de volver
+        timer = 0f;
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            yield return null;
+        }
+
+        transform.localScale = originalScale;
+        scaleRoutine = null;
+    }
+
 
     public void OnHurt(float damage, float pushForce, Vector3 position)
     {
@@ -496,6 +604,16 @@ public class PlayerCombat : MonoBehaviour
             catch(Exception e){
                 Debug.Log("Error: " + e);
             }
+
+            if (scaleRoutine != null)
+                StopCoroutine(scaleRoutine);
+            scaleRoutine = StartCoroutine(ShrinkCoroutine());
+
+            if (flashMats.Count > 0)
+                StartCoroutine(FlashCoroutine());
+            else
+                Debug.LogWarning("No hay materials para hacer flash. ¿Renderers encontrados?");
+
             _anim.SetTrigger("Hurt");
             _anim.SetFloat("HP", HP);
             TakePush(pushForce, position);
@@ -617,6 +735,88 @@ public class PlayerCombat : MonoBehaviour
         // Destruye la bala después de 5 segundos
         Destroy(bullet, 5.0f);
     }
+
+    private IEnumerator SpawnAfterImages()
+    {
+        // Mientras slideForce esté activo, generamos afterimages
+        while (slideForce)
+        {
+            SpawnAfterImage();
+            yield return new WaitForSeconds(afterImageSpawnInterval);
+        }
+    }
+
+    private void SpawnAfterImage()
+    {
+        foreach (var smr in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            // 1) Bakeamos la malla
+            Mesh bakedMesh = new Mesh();
+            smr.BakeMesh(bakedMesh);
+
+            // 2) Creamos el GameObject fantasma
+            GameObject ghost = new GameObject("AfterImage");
+            ghost.transform.SetPositionAndRotation(smr.transform.position, smr.transform.rotation);
+            ghost.transform.localScale = smr.transform.lossyScale;
+
+            // 3) MeshFilter
+            var mf = ghost.AddComponent<MeshFilter>();
+            mf.mesh = bakedMesh;
+
+            // 4) MeshRenderer + materiales tintados
+            var mr = ghost.AddComponent<MeshRenderer>();
+            var origMats = smr.sharedMaterials;
+            var ghostMats = new Material[origMats.Length];
+
+            // Calcula el color hue al momento actual
+            float hue = Mathf.Repeat(Time.time * rainbowSpeed, 1f);
+            Color tint = Color.HSVToRGB(hue, 1f, 1f);
+
+            for (int i = 0; i < origMats.Length; i++)
+            {
+                var m = new Material(afterImageMaterial);
+                if (origMats[i].HasProperty("_MainTex"))
+                    m.mainTexture = origMats[i].mainTexture;
+                // Conserva el alpha del material base
+                Color baseCol = m.color;
+                tint.a = baseCol.a;
+                m.color = tint;
+                ghostMats[i] = m;
+            }
+            mr.materials = ghostMats;
+
+            // 5) Lanza la corrutina de fade, que al final destruirá el ghost
+            StartCoroutine(FadeAndDestroyAfterImage(mr));
+        }
+    }
+
+    private IEnumerator FadeAndDestroyAfterImage(MeshRenderer mr)
+    {
+        // Cacheamos el GameObject y los materiales (para que sobrevivan aunque mr se destruya)
+        GameObject ghostGO = mr.gameObject;
+        Material[] mats = mr.materials;
+        float elapsed = 0f;
+
+        while (elapsed < afterImageDuration)
+        {
+            elapsed += Time.deltaTime;
+            float a = Mathf.Lerp(mats[0].color.a, 0f, elapsed / afterImageDuration);
+
+            // Fade en cada material
+            for (int i = 0; i < mats.Length; i++)
+            {
+                Color c = mats[i].color;
+                c.a = a;
+                mats[i].color = c;
+            }
+
+            yield return null;
+        }
+
+        // Al terminar el fade, destruimos el ghost
+        Destroy(ghostGO);
+    }
+
 
     void OnDrawGizmosSelected()
     {

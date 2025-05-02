@@ -7,8 +7,8 @@ public static class ReplacePrefabMaterials
     static void ReplaceMaterialsInPrefab()
     {
         // Ruta relativa al Assets de tu prefab y tu material
-        const string prefabPath    = "Assets/Prefabs/Enemies/Skeletons/SkeletonWarrior.prefab";
-        const string materialPath  = "Assets/Materials/Enemies/Skeletons/SkeletonMaterial.mat";
+        const string prefabPath    = "Assets/Prefabs/Player/Player.prefab";
+        const string materialPath  = "Assets/Materials/Player/BarbarianMat.mat";
 
         // Carga assets
         var prefab   = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);

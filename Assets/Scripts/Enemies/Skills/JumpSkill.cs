@@ -71,6 +71,9 @@ public class JumpSkill : SkillScriptableObject
         // Esperamos 1.5s
         yield return new WaitForSeconds(1.5f);
 
+        if(enemy.trail != null)
+            enemy.trail.emitting = true; // Activar el trail
+
         // Elige la posición de destino para el salto en un círculo alrededor del jugador
         Vector3 randomDirection = Random.insideUnitCircle.normalized;
         float randomRadius = Random.Range(0.1f, 2f);
@@ -135,7 +138,11 @@ public class JumpSkill : SkillScriptableObject
         yield return new WaitForSeconds(0.1f); // Espera un poco antes de continuar
 
         // Desactivamos el hitbox de ataque
-        enemy.meleeAttackCollider.enabled = false;
+        if (enemy.meleeAttackCollider != null)
+            enemy.meleeAttackCollider.enabled = false;
+
+        if (enemy.trail != null)
+            enemy.trail.emitting = false; // Desactivar el trail
 
         castTime = Time.time;
         isCasting = false;
