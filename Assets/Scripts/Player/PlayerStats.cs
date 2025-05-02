@@ -101,7 +101,7 @@ public class PlayerStats : ScriptableObject
         maxMana = 100;
         MP = maxMana;
         manaCost = 10;
-        manaRegen = 0.1f;
+        manaRegen = 2f;
 
         //Weapons
         weaponIndex = 5;
