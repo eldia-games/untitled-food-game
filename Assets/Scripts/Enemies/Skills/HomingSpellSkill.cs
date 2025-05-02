@@ -116,4 +116,16 @@ public class HomingSpellSkill : SkillScriptableObject
         isCasting = false;
     }
 
+    
+    public override void Stop(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Stop(enemy, player);
+        enemy.meleeAttackCollider.enabled = false;
+        // Interrumpimos la corrutina si está en curso
+        if (enemy.IsInvoking("UseSkillCoroutine"))
+        {
+            enemy.StopCoroutine(UseSkillCoroutine(enemy, player));
+        }
+    }
+
 }

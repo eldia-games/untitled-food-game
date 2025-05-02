@@ -71,7 +71,7 @@ public class BossSpellProjectile : MonoBehaviour
             other.GetComponent<PlayerCombat>()?.OnHurt(10, 0.2f, transform.position);
             Destroy(gameObject);
         }
-        else if (!other.CompareTag("Enemy") && !other.CompareTag("Projectile"))
+        else if (!other.CompareTag("Boss") && !other.CompareTag("Projectile"))
         {
             Destroy(gameObject);
         }

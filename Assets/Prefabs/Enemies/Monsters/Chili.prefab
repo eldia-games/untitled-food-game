@@ -847,6 +847,7 @@ MonoBehaviour:
   health: 100
   damage: 10
   attackRange: 1.2
+  hearingRange: 10
   viewRadius: 10
   viewAngle: 90
   timeToReset: 5
@@ -860,11 +861,15 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
-  isAttacking: 0
+  drop: []
+  chanceDrop: 0
+  canDrop: 1
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
-  meleeAttackCollider: {fileID: 0}
+  meleeAttackCollider: {fileID: 368636461744285175}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 368636461744285175}
   skills: []
@@ -953,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 0800000008000000080000000800000008000000
+  SpawnRate: 6400000064000000640000006400000064000000
   value: 1
 --- !u!1 &9069807141032214067
 GameObject:
