@@ -10979,31 +10979,31 @@ MonoBehaviour:
   - weaponID: 0
     weaponName: One Hand Sword
     weaponImage: {fileID: 21300000, guid: 0fb8b3a7faa9363429dd5ec1ff5d62b2, type: 3}
-    damage: 0
-    fireRate: 0
-    rangedType: 
+    damage: 10
+    fireRate: 1
+    rangedType: Melee
   - weaponID: 1
     weaponName: Two Hand Axe
     weaponImage: {fileID: 21300000, guid: 52d5e682463a2124f9fd69d5b2245aec, type: 3}
-    damage: 0
-    fireRate: 0
-    rangedType: 
+    damage: 10
+    fireRate: 0.75
+    rangedType: Area Melee
   - weaponID: 2
     weaponName: Bow
     weaponImage: {fileID: 21300000, guid: facbbce8a9df0824f9714a63875fdd82, type: 3}
-    damage: 0
-    fireRate: 0
-    rangedType: 
+    damage: 10
+    fireRate: 1
+    rangedType: Ranged
   - weaponID: 4
     weaponName: Staff
     weaponImage: {fileID: 21300000, guid: 9d2cae864efb51441ace3083ed2693d5, type: 3}
-    damage: 0
-    fireRate: 0
-    rangedType: 
+    damage: 20
+    fireRate: 0.75
+    rangedType: Magic Ranged
   weaponDisplayImage: {fileID: 2011910644}
   weaponNameText: {fileID: 672233265}
-  weaponDamageText: {fileID: 40005652}
-  weaponFireRateText: {fileID: 790211030}
+  weaponDamageText: {fileID: 593813311}
+  weaponFireRateText: {fileID: 1353874407}
   weaponRangedTypeText: {fileID: 972632206}
 --- !u!224 &464027592 stripped
 RectTransform:
