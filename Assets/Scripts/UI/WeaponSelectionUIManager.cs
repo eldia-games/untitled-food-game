@@ -12,12 +12,18 @@ public class WeaponSelectionUIManager : MonoBehaviour
         public int weaponID; 
         public string weaponName;
         public Sprite weaponImage;
+        public float damage;
+        public float fireRate;
+        public string rangedType;
     }
     private int currentWeaponIndex = 0;
 
     [SerializeField] private WeaponInfo[] weapons;
     [SerializeField] private Image weaponDisplayImage;
     [SerializeField] private TMP_Text weaponNameText;
+    [SerializeField] private TMP_Text weaponDamageText;
+    [SerializeField] private TMP_Text weaponFireRateText;
+    [SerializeField] private TMP_Text weaponRangedTypeText;
 
     private void Start()
     {
@@ -28,6 +34,9 @@ public class WeaponSelectionUIManager : MonoBehaviour
     {
         weaponDisplayImage.sprite = weapons[currentWeaponIndex].weaponImage;
         weaponNameText.text = weapons[currentWeaponIndex].weaponName;
+        weaponDamageText.text = weapons[currentWeaponIndex].damage.ToString();
+        weaponFireRateText.text = weapons[currentWeaponIndex].fireRate.ToString();
+        weaponRangedTypeText.text = weapons[currentWeaponIndex].rangedType.ToString();
         print("weapon index: " + currentWeaponIndex);
     }
 
