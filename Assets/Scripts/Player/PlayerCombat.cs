@@ -522,6 +522,17 @@ public class PlayerCombat : MonoBehaviour
                     enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
                 }
             }
+            if(collision.gameObject.tag == "Boss")
+            {
+                //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                Boss enemy = collision.gameObject.GetComponent<Boss>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
+            }
         }
         if (_colliderMelee != null && _colliderMelee.enabled)
         {
@@ -530,6 +541,17 @@ public class PlayerCombat : MonoBehaviour
                 //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
                 BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+                ////if the enemy script is not null, call the TakeDamage function from the enemy script
+                if(enemy != null)
+                {
+                    enemy.OnHurt(damage * damageModifier, PushForce * pushModifier, transform.position);
+                }
+            }
+            if(collision.gameObject.tag == "Boss")
+            {
+                //get the Enemy script from the object hit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                Boss enemy = collision.gameObject.GetComponent<Boss>();
                 ////if the enemy script is not null, call the TakeDamage function from the enemy script
                 if(enemy != null)
                 {
