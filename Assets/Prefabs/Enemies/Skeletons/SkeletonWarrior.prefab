@@ -152,7 +152,7 @@ SpriteRenderer:
   m_Size: {x: 25.6, y: 14.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8940373730251621028
@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -70.11301
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a1aa61a8dc03c0b4895327602da41bcf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 919132149155446097, guid: a1aa61a8dc03c0b4895327602da41bcf, type: 3}
       propertyPath: m_Name
       value: Skeleton_Shield_Large_A
@@ -309,6 +313,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -86.65
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 531f086b07d691a4994fdcde15e11560, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 919132149155446097, guid: 531f086b07d691a4994fdcde15e11560, type: 3}
       propertyPath: m_Name
       value: Skeleton_Axe
@@ -422,6 +430,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -8245797010387634538, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -8110273064344171391, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -446,6 +458,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -4682055171558298789, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -4561428113007914036, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -462,6 +478,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -3704122670239639365, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: -3284951349164997476, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -2921805225741265118, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -478,10 +502,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -2019561667449856967, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -1971157526087973125, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -1390989414950888931, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: -790494647600827746, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -614,10 +646,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7656125411362483174, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 7731692104210768441, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7746471577276131153, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: 8326658089755223954, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
+    - target: {fileID: 8632919179428785547, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d0acab8780c5864389839ac5797fd57, type: 2}
     - target: {fileID: 8905466736296333193, guid: 2e03d3c0a1454c7498527579c22b33f0, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -698,10 +746,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f62829ff926c24eaee51fbb1ea2885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 8
   health: 30
   damage: 25
   attackRange: 1.5
+  hearingRange: 10
   viewRadius: 30
   viewAngle: 90
   timeToReset: 5
@@ -737,11 +786,13 @@ MonoBehaviour:
   drop: []
   chanceDrop: 0
   canDrop: 1
-  isAttacking: 0
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 3577386699554419429}
+  trail: {fileID: 0}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   fleeDistance: 7
   fleeRadius: 1
   approachDistance: 10
@@ -812,7 +863,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 4
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -836,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 000000000000000000000000000000000000000000000000000000000000000064000000
+  SpawnRate: 640000006400000064000000640000006400000064000000640000006400000064000000
   value: 2
 --- !u!114 &-6853922113232261150
 MonoBehaviour:

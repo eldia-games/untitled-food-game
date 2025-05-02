@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065870396614516492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.727, z: 0.856}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: -0.7071069}
+  m_LocalPosition: {x: 0.003495188, y: -0.6241679, z: 0.2561271}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4530003306004526970}
+  m_Father: {fileID: 4530003306004526972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &6678845489115346548
 CapsuleCollider:
@@ -50,7 +50,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.7
   m_Height: 1
@@ -1514,7 +1514,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cc73c96474aa433e8b99209fccd68cdb, type: 2}
+  - {fileID: 2100000, guid: fc4480a6082243a4195c3c85902a40ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1630,7 +1630,6 @@ Transform:
   m_Children:
   - {fileID: 4530003306004526968}
   - {fileID: 4530003306004526948}
-  - {fileID: 508640743962703529}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4530003305994672282
@@ -1738,10 +1737,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ad5a29ae7bd874f891f8e404489a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  health: 100
+  speed: 8
+  health: 20
   damage: 10
   attackRange: 1.2
+  hearingRange: 10
   viewRadius: 15
   viewAngle: 90
   timeToReset: 5
@@ -1755,14 +1755,20 @@ MonoBehaviour:
       m_Calls: []
   footstepWalkSounds: []
   footstepRunSounds: []
-  isAttacking: 0
+  drop: []
+  chanceDrop: 0
+  canDrop: 1
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
   projectileSpawnPoint: {fileID: 0}
-  meleeAttackCollider: {fileID: 0}
+  meleeAttackCollider: {fileID: 6678845489115346548}
+  trail: {fileID: 0}
   isBlocking: 0
   debug: 0
+  healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 6678845489115346548}
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 784f461e52827784b9b3f8446b6f77d9, type: 2}
   currentSkill: {fileID: 0}
 --- !u!114 &3514528973046974958
 MonoBehaviour:
@@ -1776,7 +1782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7480b4cc736f8040af5395725e67eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 07000000070000000700000007000000
+  SpawnRate: 32000000320000003200000032000000
   value: 1
 --- !u!1 &4530003306004163420
 GameObject:
@@ -1806,7 +1812,8 @@ Transform:
   m_LocalPosition: {x: -0.3301667, y: -8.881784e-18, z: -1.04971437e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 508640743962703529}
   m_Father: {fileID: 4530003306004526974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4530003306004163422

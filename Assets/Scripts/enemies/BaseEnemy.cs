@@ -37,11 +37,16 @@ public abstract class BaseEnemy : MonoBehaviour
     [Header("Drops")]
      public List<EnemyDrop> drop;
     [Range(0,1)] public float chanceDrop;
+    
     public bool canDrop=true;
+
+    [Header("Effects Config")]
+    [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
+    public EnemyEffectsConfig effectsConfig;
     // Estado interno
     protected bool isDead = false;
     
-    public bool isAttacking = false;
+    protected bool isAttacking = false;
     protected bool inCombat = false;
     protected bool isSeen = false;
     protected bool isWaitAndMove = false;
@@ -51,6 +56,11 @@ public abstract class BaseEnemy : MonoBehaviour
     protected float timer = 0f;         // Para volver a posición inicial
     protected float attackTimer = 0f;   // Para controlar cooldown de ataque
     protected Vector3 initialPosition;
+    private Vector3 originalScale;
+    private Coroutine scaleRoutine;
+
+    // Guardamos todos los materials instanciados
+    private List<Material> flashMats = new List<Material>();
 
     protected virtual void Start()
     {
@@ -61,6 +71,25 @@ public abstract class BaseEnemy : MonoBehaviour
 
         // Guardamos la posición inicial para volver
         initialPosition = transform.position;
+
+        // Guardamos escala inicial
+        originalScale = transform.localScale;
+
+        // 1. Recogemos todos los Renderers del prefab
+        var renderers = GetComponentsInChildren<Renderer>(true);
+        foreach (var r in renderers)
+        {
+            // 2. Clonamos su array de materiales
+            var mats = r.materials;  // esto instancia cada material en el array
+            r.materials = mats;      // re-asignamos para que use esas instancias
+
+            // 3. Añadimos todas esas instancias a nuestra lista
+            flashMats.AddRange(mats);
+
+            //  opcional: forzar emission keyword en cada material
+            foreach (var m in mats)
+                m.EnableKeyword("_EMISSION");
+        }
 
         drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
 
@@ -122,6 +151,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void CheckPlayerVisibility()
     {
         if(player == null) return; // Por seguridad
+
         Vector3 origin = transform.position + Vector3.up * 1.5f;
         float distance = Vector3.Distance(origin, player.transform.position);
         float angle = Vector3.Angle(transform.forward, player.transform.position - origin);
@@ -284,11 +314,82 @@ public abstract class BaseEnemy : MonoBehaviour
         transform.rotation = lookRotation;
     }
 
+    private IEnumerator FlashCoroutine()
+    {
+        float timer   = 0f;
+        float maxPow  = effectsConfig.flashMaxPower;
+        float duration = effectsConfig.flashDuration;
+
+        // Begin at full power
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", maxPow);
+
+        // Fade out
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = 1f - (timer / duration);
+            float pow = t * maxPow;
+
+            foreach (var m in flashMats)
+                m.SetFloat("_FlashPower", pow);
+
+            yield return null;
+        }
+
+        // Ensure off
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", 0f);
+    }
+
+    
+    private IEnumerator ShrinkCoroutine()
+    {
+        float halfDur = effectsConfig.shrinkDuration * 0.5f;
+        float factor  = Mathf.Clamp(effectsConfig.shrinkFactor, 0.1f, 1f);
+        Vector3 targetScale = originalScale * factor;
+
+        float timer = 0f;
+
+        // Fase de encoger
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        // Fase de volver
+        timer = 0f;
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            yield return null;
+        }
+
+        transform.localScale = originalScale;
+        scaleRoutine = null;
+    }
+
     /// <summary>
     /// Recibe daño y knockback.
     /// </summary>
     public virtual void OnHurt(float dmg, float knockback, Vector3 direction)
     {
+        if (isDead) return;
+
+        if (flashMats.Count > 0)
+            StartCoroutine(FlashCoroutine());
+        else
+            Debug.LogWarning("No hay materials para hacer flash. ¿Renderers encontrados?");
+
+        if (scaleRoutine != null)
+            StopCoroutine(scaleRoutine);
+        scaleRoutine = StartCoroutine(ShrinkCoroutine());
+
         // Disparar animación "hurt" si se desea
         animator.SetTrigger("hurt");
 
@@ -310,13 +411,17 @@ public abstract class BaseEnemy : MonoBehaviour
     /// <summary>
     /// Maneja la muerte del enemigo (animación, collider, rigidbody, etc.)
     /// </summary>
-    protected virtual void Die()
+    public virtual void Die()
     {
+        // Si ya está muerto, no hacemos nada
         if (isDead) return;
+
         isDead = true;
 
         animator.SetTrigger("die");
         animator.SetBool("isDead", true);
+
+        StartCoroutine(DeathDissolve());
 
         // Deshabilitar collider y rigidbody
         Collider col = GetComponent<Collider>();
@@ -347,6 +452,24 @@ public abstract class BaseEnemy : MonoBehaviour
         }
         // Destruir el enemigo tras unos segundos
         Invoke(nameof(DestroyEnemy), 2f);
+    }
+
+    IEnumerator DeathDissolve() {
+        float timer = 0f;
+        float duration = 1f; // Duración del disolverse
+
+        yield return new WaitForSeconds(1f); // Esperar un poco antes de empezar a disolverse
+
+        
+        while (timer < duration) {
+            timer += Time.deltaTime;
+            foreach (var m in flashMats)
+                m.SetFloat("_DissolveThreshold", timer / duration);
+            yield return null;
+        }
+
+        foreach (var m in flashMats)
+            m.SetFloat("_DissolveThreshold", 1f);
     }
 
     public virtual void DestroyEnemy()

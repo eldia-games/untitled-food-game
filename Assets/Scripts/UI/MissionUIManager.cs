@@ -7,27 +7,20 @@ using System;
 
 public class MissionUIManager : MonoBehaviour
 {
-    [SerializeField] private RawImage[] spriteItemMission;
-    [SerializeField] private TMP_Text[] textMoneyQuantity;
-    [SerializeField] private TMP_Text[] textItemQuantity;
-    [SerializeField] private TMP_Text[] textInventoryQuantity;
-    [SerializeField] private TMP_Text[] textMission;
-    [SerializeField] private Button[] buttonMission;
-    [SerializeField] private TMP_Text[] buttonTextMission;
-
+    [Header("Mission variables")]
     private MissionController _missionController;
     private List<Mission> missionTemp;
     private bool[] missionStatus;
+
+    [Header("UI References")]
+    public GameObject itemUIPrefab;
+    public Transform contentParent;
 
     void Awake()
     {
         _missionController = GetComponent<MissionController>();
         missionTemp = _missionController.GetMissions();
         missionStatus = new bool[missionTemp.Count];
-    }
-    void Start()
-    {
-        //RefreshMissionUI();
     }
 
     //public void RefreshMissionUI()
@@ -82,73 +75,49 @@ public class MissionUIManager : MonoBehaviour
         return missionStatus[missionIndex];
     }
 
-    public bool MissionAction(int missionIndex)
+    public void MissionAction(int missionIndex)
     {
-        InventorySafeController inventory = InventorySafeController.Instance;
-        Mission mission = missionTemp[missionIndex];
-        if (inventory.hasItem(mission.getItems()[0].GetItem(), mission.getItems()[0].GetQuantity()))
+        if (missionStatus[missionIndex - 1])
         {
+            AudioManager.Instance.PlaySFXConfirmation();
             _missionController.completeMission(missionIndex);
-            return true;
+            RefreshMissionUI();
         }
         else
         {
-            return false;
+            AudioManager.Instance.PlaySFXClose();
         }
     }
 
-    // Nuevo    
-    [System.Serializable]
-    public class UIObjectData
-    {
-        public string recipeName;
-        public int moneyAmount; 
-        public List<RecipeItem> recipes = new List<RecipeItem>();
+   public void RefreshMissionUI()
+   {
+        missionTemp = _missionController.GetMissions();
+        ClearExistingUI();
+        //FillMissionStatus(missionStatus, missionTemp);
+
+        for (int i = 0; i < missionTemp.Count; i++)
+        {
+            GameObject newItem = Instantiate(itemUIPrefab, contentParent);
+            missionStatus[i] = SetupItemUI(newItem, missionTemp[i]);
+            //Configurar funciones botones
+            Button button = newItem.transform.Find("complete-button").GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                MissionAction(i);
+            });
+        }
     }
-    
-   [Header("UI References")]
-   public GameObject itemUIPrefab;
-   public Transform contentParent;
    
-   [Header("Test Data")]
-   public List<UIObjectData> objectsToDisplay = new List<UIObjectData>();
-   
-    public void fillUIObject(List<Mission> missionList, List<UIObjectData> objectsToDisplay)
-    {
-        foreach (Mission mis in missionList)
+   void ClearExistingUI()
+   {
+   foreach (Transform child in contentParent)
         {
-            foreach (UIObjectData ui in objectsToDisplay)
-            {
-                ui.recipeName = mis.getTitle(); 
-                ui.moneyAmount = mis.getPrice();
-                ui.recipes = mis.getItems();
-            }
+        Destroy(child.gameObject);
         }
-        Debug.Log("UI object llenado");
-    }
+   }
     
-        public void RefreshMissionUI()
-        {
-            missionTemp = _missionController.GetMissions();
-            ClearExistingUI();
-    
-            foreach (Mission mis in missionTemp)
-            {
-                GameObject newItem = Instantiate(itemUIPrefab, contentParent);
-                SetupItemUI(newItem, mis);
-            }
-        }
-    
-        void ClearExistingUI()
-        {
-            foreach (Transform child in contentParent)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-    
-        void SetupItemUI(GameObject uiElement, Mission mis)
-        {
+   private bool SetupItemUI(GameObject uiElement, Mission mis)
+   {
         // Configurar nombre
         TextMeshProUGUI nameText = uiElement.transform.Find("mission-backpanel/text-mask/tmp-mission-name").GetComponent<TextMeshProUGUI>();
         nameText.text = mis.getTitle();
@@ -157,31 +126,135 @@ public class MissionUIManager : MonoBehaviour
         TextMeshProUGUI moneyText = uiElement.transform.Find("money-mask/money-quantity-box/money-quantity-text").GetComponent<TextMeshProUGUI>();
         moneyText.text = mis.getPrice().ToString();
 
-        // Configurar items (asumiendo que SetupItems también usa TextMeshPro)
+        // Configurar items 
         Transform itemsContainer = uiElement.transform.Find("mission-backpanel/layout-items");
         InventorySafeController inventory = InventorySafeController.Instance;
-        SetupItems(mis.getItems(), itemsContainer, inventory);
-    }
-    
-   void SetupItems(List<RecipeItem> items, Transform container, InventorySafeController inventory)
-   {
-       for (int i = 0; i < items.Count && i < 3; i++)
-       {
-            Transform itemSlot = container.GetChild(i);
-            TextMeshProUGUI itemMissionAmount = itemSlot.Find("item-quantity-box/item-mission-quantity-text").GetComponent<TextMeshProUGUI>();
-            //TextMeshProUGUI itemInventoryAmount = itemSlot.Find("item-quantity-box/item-inventory-quantity-text").GetComponent<TextMeshProUGUI>();
-            //int quantityInventory = inventory.getQuantity(items[i].GetItem());
-            
-            itemMissionAmount.text = items[i].GetQuantity().ToString();
-            //itemInventoryAmount.text = quantityInventory.ToString();
+        bool status = SetupIngredients(mis.getItems(), itemsContainer, inventory);
 
-            itemSlot.gameObject.SetActive(true);
-       }
-       for(int i = 0; i < 3 - items.Count; i++)
-       {
-            Transform itemSlot = container.GetChild(2-i);
+        //Configurar botones
+        TextMeshProUGUI buttonText = uiElement.transform.Find("complete-button/tmp-mission-complete").GetComponent<TextMeshProUGUI>();
+        if (status)
+            buttonText.text = "Complete Recipe";
+        else
+            buttonText.text = "Can't complete";
+
+        return status;
+    }
+
+    //void SetupItems(List<RecipeItem> items, Transform container, InventorySafeController inventory)
+    //{
+    //    for (int i = 0; i < items.Count && i < 3; i++)
+    //    {
+    //         Transform itemSlot = container.GetChild(i);
+    //
+    //         //Mission items
+    //         TextMeshProUGUI itemMissionAmount = itemSlot.Find("item-quantity-box/item-mission-quantity-text").GetComponent<TextMeshProUGUI>();
+    //         itemMissionAmount.text = items[i].GetQuantity().ToString();
+    //
+    //         //Inventory items 
+    //         //TextMeshProUGUI itemInventoryAmount = itemSlot.GetComponentInChildren<TextMeshProUGUI>();
+    //         TextMeshProUGUI itemInventoryAmount = itemSlot.Find("item-quantity-box/item-inventory-quantity-text").GetComponent<TextMeshProUGUI>();
+    //         int quantityInventory = inventory.getQuantity(items[i].GetItem());
+    //         itemInventoryAmount.text = quantityInventory.ToString();
+    //
+    //         //Sprite items
+    //         RawImage spriteItem = itemSlot.GetComponentInChildren<RawImage>();
+    //         spriteItem.texture = items[i].GetItem().icon;
+    //         
+    //         
+    //
+    //         itemSlot.gameObject.SetActive(true);
+    //    }
+    //    for(int i = 0; i < 3 - items.Count; i++)
+    //    {
+    //         Transform itemSlot = container.GetChild(2-i);
+    //         itemSlot.gameObject.SetActive(false);
+    //     }
+    //}
+
+    private bool SetupIngredients(List<RecipeItem> items, Transform container, InventorySafeController inventory)
+    {
+        int missingItems = 0;
+        for (int i = 0; i < items.Count && i < 3; i++)
+        {
+            Transform itemSlot = container.GetChild(i);
+
+            try
+            {
+                int quantityMission = items[i].GetQuantity();
+                int quantityInventory = inventory.getQuantity(items[i].GetItem());
+                missingItems += quantityMission - quantityInventory;
+
+                // Mission items
+                var missionBox = itemSlot.Find("item-quantity-box");
+                if (missionBox == null)
+                {
+                    Debug.LogError($"Mission box not found in iteration {i}");
+                    continue;
+                }
+
+                var missionText = missionBox.Find("item-mission-quantity-text");
+                if (missionText != null)
+                {
+                    var itemMissionAmount = missionText.GetComponent<TextMeshProUGUI>();
+                    itemMissionAmount.text = quantityMission.ToString();
+                }
+
+                // Inventory items 
+                var inventoryText = missionBox.Find("item-inventory-quantity-text");
+                if (inventoryText == null)
+                {
+                    Debug.LogError($"Inventory text not found in iteration {i}. Current children:");
+                    foreach (Transform child in missionBox)
+                    {
+                        Debug.Log(child.name);
+                    }
+                    continue;
+                }
+
+                var itemInventoryAmount = inventoryText.GetComponent<TextMeshProUGUI>();
+                if (itemInventoryAmount == null)
+                {
+                    Debug.LogError($"TextMeshPro component missing in iteration {i}");
+                    continue;
+                }
+                
+                //Color format
+                if(quantityInventory < quantityMission)
+                { 
+                    itemInventoryAmount.color = Color.red;
+                }else
+                {
+                    itemInventoryAmount.color = Color.green;
+                }
+                itemInventoryAmount.text = quantityInventory.ToString();
+
+                // Sprite items
+                var spriteItem = itemSlot.GetComponentInChildren<RawImage>();
+                if (spriteItem != null)
+                {
+                    spriteItem.texture = items[i].GetItem().icon;
+                }
+
+                itemSlot.gameObject.SetActive(true);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error in iteration {i}: {e.Message}");
+                continue;
+            }
+        }
+
+        for (int i = 0; i < 3 - items.Count; i++)
+        {
+            Transform itemSlot = container.GetChild(2 - i);
             itemSlot.gameObject.SetActive(false);
         }
-   }
-    
+
+        if (missingItems > 0)
+            return false;
+        else 
+            return true;
+    }
+
 }

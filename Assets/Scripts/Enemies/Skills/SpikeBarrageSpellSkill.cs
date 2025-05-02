@@ -94,4 +94,14 @@ public class SpikeFormationSpellSkill : SkillScriptableObject
         isCasting = false;
         enemy.StopAttack();
     }
+
+    public override void Stop(BaseEnemyV2 enemy, GameObject player)
+    {
+        base.Stop(enemy, player);
+        // Interrumpimos la corrutina si está en curso
+        if (enemy.IsInvoking("SpikeFormation"))
+        {
+            enemy.StopCoroutine(SpikeFormation(enemy, player));
+        }
+    }
 }

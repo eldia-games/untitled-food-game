@@ -20,7 +20,7 @@ public class MissionController : MonoBehaviour
     #region MonoBehaviour
     void Start()
     {
-        inventory= InventorySafeController.Instance;
+        inventory = InventorySafeController.Instance;
 
     }
     #endregion
