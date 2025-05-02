@@ -55,7 +55,14 @@ public class PopUpUIManager : MonoBehaviour
     public void hidePopUps()
     {
         chamberPopUpGameObject.SetActive(false);
-        helpPopUpGameObject.SetActive(true);
+        helpPopUpGameObject.SetActive(false);
     }
-
+    public void hideHelpPopUp()
+    {
+        helpPopUpGameObject.SetActive(false);
+    }
+    public void hideChamberPopUp()
+    {
+        chamberPopUpGameObject.SetActive(false);
+    }
 }
