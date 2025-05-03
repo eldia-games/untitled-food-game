@@ -29,13 +29,17 @@ public abstract class BaseEnemy : MonoBehaviour
     public Animator animator;
     public UnityEvent dieEvent;
 
-    [Header("Sonidos")]
+    [Header("Configuración de pasos")]
+    [Tooltip("Referencia al ScriptableObject con la lista de clips de audio.")]
+    public FootstepAudioList footstepAudioList;
+    public ParticleSystem footstepDustPrefab;
 
-    public List<AudioClip> footstepWalkSounds;
-    public List<AudioClip> footstepRunSounds;
+    [Tooltip("Cuánto volumen tendrá el sonido de paso.")]
+    [Range(0f, 1f)]
+    public float stepVolume = 0.5f;
 
     [Header("Drops")]
-     public List<EnemyDrop> drop;
+    public List<EnemyDrop> drop;
     [Range(0,1)] public float chanceDrop;
     
     public bool canDrop=true;
@@ -43,8 +47,11 @@ public abstract class BaseEnemy : MonoBehaviour
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
     public EnemyEffectsConfig effectsConfig;
+
     // Estado interno
     protected bool isDead = false;
+
+
     
     protected bool isAttacking = false;
     protected bool inCombat = false;
@@ -58,6 +65,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Vector3 initialPosition;
     private Vector3 originalScale;
     private Coroutine scaleRoutine;
+    private AudioSource _audioSource;
 
     // Guardamos todos los materials instanciados
     private List<Material> flashMats = new List<Material>();
@@ -93,6 +101,12 @@ public abstract class BaseEnemy : MonoBehaviour
 
         drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
 
+    }
+
+    void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.playOnAwake = false;
     }
 
     public virtual void SetPlayer(GameObject player)
@@ -439,14 +453,13 @@ public abstract class BaseEnemy : MonoBehaviour
             {
                 EnemyDrop enemyDrop = drop[i];
                 float rand= Random.value;
-                //print("Random: " + rand + " ChanceDrop: " + chanceDrop);
                 if(rand < enemyDrop.chanceDrop)
                 {
 
-                        GameObject objectCreated = Instantiate(enemyDrop.drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
-                            
-                        ObjectDrop objectdrop = objectCreated.GetComponent<ObjectDrop>();
-                        objectdrop.quantity = Random.Range(enemyDrop.minDrop, enemyDrop.maxDrop + 1);
+                    GameObject objectCreated = Instantiate(enemyDrop.drop, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+                        
+                    ObjectDrop objectdrop = objectCreated.GetComponent<ObjectDrop>();
+                    objectdrop.quantity = Random.Range(enemyDrop.minDrop, enemyDrop.maxDrop + 1);
                 }
             }
         }
@@ -495,23 +508,31 @@ public abstract class BaseEnemy : MonoBehaviour
             agent.isStopped = false;
     }
 
-    public virtual void FootstepEvent()
+    public void PlayFootstep()
     {
-        // Convertir la lista de sonidos de paso a un array
-        AudioClip[] footstepSoundsArray;
-        if (!inCombat)
-            footstepSoundsArray = footstepWalkSounds.ToArray();
-        else
-            footstepSoundsArray = footstepRunSounds.ToArray();
+        if (footstepAudioList == null || footstepAudioList.footstepClips.Count == 0)
+        {
+            Debug.LogWarning("No hay clips de paso asignados en FootstepAudioList.", this);
+            return;
+        }
 
-        // Obtener un índice aleatorio dentro del rango del array
-        int randomIndex = Random.Range(0, footstepSoundsArray.Length);
+        // Elegimos un clip aleatorio
+        int index = Random.Range(0, footstepAudioList.footstepClips.Count);
+        AudioClip clip = footstepAudioList.footstepClips[index];
 
-        // Coger un sonido de paso aleatorio y reproducirlo
-        AudioClip footstepSound = footstepSoundsArray[randomIndex];
-        // Pitch aleatorio para mayor variedad
-        //audioSource.pitch = Random.Range(0.8f, 1.2f);
+        _audioSource.clip = clip;
+        _audioSource.volume = stepVolume;
+        _audioSource.Play();
     }
+
+    public virtual void FootstepAnimationEvent()
+    {
+        PlayFootstep();
+    
+        Debug.Log("PASO");
+        footstepDustPrefab?.Play();
+    }
+
 
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).
