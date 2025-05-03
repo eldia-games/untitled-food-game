@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Search;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
     #region "Variables publicas"
+
+    [Header("Minimap")]
+    [SerializeField] private GameObject minimapCanvas;
 
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
@@ -462,6 +463,7 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         try{
             UIManager.Instance.ShowEndGameCanvas();
+            minimapCanvas?.SetActive(false);
         }
         catch(Exception e){
             Debug.Log("Error: " + e);

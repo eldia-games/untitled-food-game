@@ -129,8 +129,8 @@ public class ObjectSelector : MonoBehaviour
                             UIManager.Instance.ShowAchievementsCanvas();  // Mostrar logros
                             break;
                         case "selectable_objects":
-                            Training.SetActive(false);  
-                            Debug.Log("Cargar zona entrenamiento");
+                            Training.SetActive(false);
+                            GameManager.Instance.EnterTrainingScene(); // carga escena entrenamiento
                             break;
                     }
                 }

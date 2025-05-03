@@ -106,11 +106,19 @@ public class GameManager : MonoBehaviour {
     SceneManager.LoadScene("Chamber");
   }
 
-  #endregion
+  public void EnterTrainingScene()
+  {
+      SceneManager.LoadScene("Basement");
+      AudioManager.Instance.PlayLobbyMusic();
+      UIManager.Instance.HidePopUpCanvas();
+      UIManager.Instance.HideAllCanvas();
+  }
 
-  #region WeaponType
+    #endregion
 
-  public int _weaponType = 0;
+    #region WeaponType
+
+    public int _weaponType = 0;
   public int getCurrentWeaponType() {
     return _weaponType;
   }
