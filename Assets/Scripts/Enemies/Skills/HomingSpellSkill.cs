@@ -11,6 +11,7 @@ public class HomingSpellSkill : SkillScriptableObject
 
     public GameObject spellPrefab;
     protected bool fireballShooted = false;
+    public float projectileSpeed = 10f; // Velocidad de los proyectiles
 
     public GameObject staffTip;
 
@@ -81,8 +82,10 @@ public class HomingSpellSkill : SkillScriptableObject
             SpellProjectile spellScript = spell.GetComponent<SpellProjectile>();
             if (spellScript != null)
             {
-                // Por ejemplo, si usas una función SetTarget en el proyectil:
                 spellScript.SetTarget(player.transform);
+                spellScript.SetSpeed(projectileSpeed);
+            } else {
+                Debug.LogError("El prefab de proyectil no tiene el componente SpellProjectile.");
             }
             
         }

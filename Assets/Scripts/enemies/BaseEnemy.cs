@@ -451,7 +451,9 @@ public abstract class BaseEnemy : MonoBehaviour
         // Aplica knockback
         if (rb != null)
         {
-            rb.AddForce(direction * knockback, ForceMode.Impulse);
+            // Calculamos la dirección del knockback
+            Vector3 pla = (player.transform.position - transform.position).normalized;
+            rb.AddForce(pla * knockback, ForceMode.Impulse);
         }
 
         // Reproducir SFX de daño
