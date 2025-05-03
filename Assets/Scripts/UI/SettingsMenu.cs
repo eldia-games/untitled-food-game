@@ -16,8 +16,10 @@ public class Settings : MonoBehaviour
     Resolution[] resolutions;
 
     private void Awake()
-
     {
+        // Initialize fullscreen toggle
+        fullScreenToggle.isOn = Screen.fullScreen;
+
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
@@ -39,6 +41,7 @@ public class Settings : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
     }
 
     public void Start()
@@ -51,10 +54,6 @@ public class Settings : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 
-    }
-    public void ChangeGraphicQuality()
-    {
-        //QualitySettings.SetQualityLevel(graphicsDropdown.value);
     }
 
     private void resetSounds()
@@ -83,26 +82,14 @@ public class Settings : MonoBehaviour
         AudioManager.Instance.ChangeSFXVolume(dB);
     }
 
-
-    private void SetQuality(int qualityIndex)
-    {
-        QualitySettings.SetQualityLevel(qualityIndex);
-    }
-
     private void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
 
-    public void ToggleFullScreen()
+    public void ToggleFullScreen(bool isFullscreen)
     {
-        if(fullScreenToggle.IsActive()){
-            SetFullscreen(false);
-        }
-        else
-        {
-            SetFullscreen(true);
-        }
+        SetFullscreen(isFullscreen);
     }
 
 }
