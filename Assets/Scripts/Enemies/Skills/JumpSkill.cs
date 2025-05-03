@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class JumpSkill : SkillScriptableObject
 {
     private Vector3 chargeAttackTarget; 
-    public float jumpAttackSpeed = 4.0f;
+    public float jumpAttackSpeed = 6.0f;
     public float minRange = 1.0f;
     public float maxRange = 9.0f;
     public float jumpAttackHeight = 3.0f;
@@ -69,7 +69,7 @@ public class JumpSkill : SkillScriptableObject
         enemy.RotateTowards(player.transform.position);
 
         // Esperamos 1.5s
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
 
         if(enemy.trail != null)
             enemy.trail.emitting = true; // Activar el trail

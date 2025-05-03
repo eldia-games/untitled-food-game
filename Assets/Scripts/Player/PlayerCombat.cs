@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
+    #region "Variables publicas"
 
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
@@ -27,10 +28,18 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("Velocidad a la que rota el color (vueltas por segundo)")]
     public float rainbowSpeed = 1f;
 
+    #endregion
+
+    #region "Variables privadas"
+
     private Coroutine afterImageCoroutine;
     private List<Material> flashMats = new List<Material>();
     private Vector3 originalScale;
     private Coroutine scaleRoutine;
+
+    #endregion
+
+    #region "Variables de configuración"
 
     //private Interactor _interactor;
 
@@ -51,6 +60,8 @@ public class PlayerCombat : MonoBehaviour
     private float manaCost => PlayerStats.manaCost;
     private float manaRegen => PlayerStats.manaRegen;
     private int weaponIndex { get => PlayerStats.weaponIndex; set => PlayerStats.weaponIndex = value; }
+
+    #endregion
     private GameObject weaponType;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -778,24 +789,26 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    #region "AfterImage"
+
     private void SpawnAfterImage()
     {
         foreach (var smr in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
-            // 1) Bakeamos la malla
+            // Bakeamos la malla
             Mesh bakedMesh = new Mesh();
             smr.BakeMesh(bakedMesh);
 
-            // 2) Creamos el GameObject fantasma
+            // Creamos el GameObject fantasma
             GameObject ghost = new GameObject("AfterImage");
             ghost.transform.SetPositionAndRotation(smr.transform.position, smr.transform.rotation);
             ghost.transform.localScale = smr.transform.lossyScale;
 
-            // 3) MeshFilter
+            // MeshFilter
             var mf = ghost.AddComponent<MeshFilter>();
             mf.mesh = bakedMesh;
 
-            // 4) MeshRenderer + materiales tintados
+            // MeshRenderer + materiales tintados
             var mr = ghost.AddComponent<MeshRenderer>();
             var origMats = smr.sharedMaterials;
             var ghostMats = new Material[origMats.Length];
@@ -817,14 +830,15 @@ public class PlayerCombat : MonoBehaviour
             }
             mr.materials = ghostMats;
 
-            // 5) Lanza la corrutina de fade, que al final destruirá el ghost
+            // Lanza la corrutina de fade, que al final destruirá el fantasma
             StartCoroutine(FadeAndDestroyAfterImage(mr));
         }
     }
 
     private IEnumerator FadeAndDestroyAfterImage(MeshRenderer mr)
     {
-        // Cacheamos el GameObject y los materiales (para que sobrevivan aunque mr se destruya)
+        // Cacheamos el GameObject y los materiales 
+        // (para que sobrevivan aunque el meshrenderer se destruya)
         GameObject ghostGO = mr.gameObject;
         Material[] mats = mr.materials;
         float elapsed = 0f;
@@ -848,6 +862,8 @@ public class PlayerCombat : MonoBehaviour
         // Al terminar el fade, destruimos el ghost
         Destroy(ghostGO);
     }
+
+    #endregion
 
 
     void OnDrawGizmosSelected()

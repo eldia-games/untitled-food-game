@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0f62829ff926c24eaee51fbb1ea2885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 12
   health: 30
   damage: 25
   attackRange: 1.5
@@ -769,18 +769,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   footstepAudioList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
-  stepVolume: 0.5
+  footstepDustPrefab: {fileID: 5167838303198833290}
+  stepVolume: 1
   drop: []
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
-  footstepDustPrefab: {fileID: 5167838303198833290}
+  healthBarDrainSpeed: 10
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 3577386699554419429}
   trail: {fileID: 0}
   isBlocking: 0
   debug: 0
-  healthBarDrainSpeed: 10
   fleeDistance: 7
   fleeRadius: 1
   approachDistance: 10
@@ -823,7 +823,7 @@ Rigidbody:
   m_GameObject: {fileID: 3581572502928962367}
   serializedVersion: 4
   m_Mass: 80
-  m_Drag: 2
+  m_Drag: 100
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -851,7 +851,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 8
+  m_Speed: 12
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

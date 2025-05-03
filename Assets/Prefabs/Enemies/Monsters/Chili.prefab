@@ -186,7 +186,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7ab30638ee11d4a33ae4f8c0f4534107, type: 2}
+  - {fileID: 2100000, guid: d1bb738ce90714c45a0d8570ab1db79e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -863,17 +863,17 @@ MonoBehaviour:
       m_Calls: []
   footstepAudioList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
   footstepDustPrefab: {fileID: 6058361257551233537}
-  stepVolume: 0.5
+  stepVolume: 1
   drop: []
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
+  healthBarDrainSpeed: 10
   projectileSpawnPoint: {fileID: 0}
   meleeAttackCollider: {fileID: 368636461744285175}
   trail: {fileID: 0}
   isBlocking: 0
   debug: 0
-  healthBarDrainSpeed: 10
   attackSound: {fileID: 0}
   currentAttackCollider: {fileID: 368636461744285175}
   skills: []

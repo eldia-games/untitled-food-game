@@ -676,19 +676,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   footstepAudioList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
-  stepVolume: 0.5
+  footstepDustPrefab: {fileID: 3462699116901456722}
+  stepVolume: 1
   drop:
   - {fileID: 0}
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
-  footstepDustPrefab: {fileID: 3462699116901456722}
+  healthBarDrainSpeed: 10
   projectileSpawnPoint: {fileID: 6413166931248803348}
   meleeAttackCollider: {fileID: 0}
   trail: {fileID: 0}
   isBlocking: 0
   debug: 0
-  healthBarDrainSpeed: 10
   fleeDistance: 5
   fleeRadius: 5
   approachDistance: 10
@@ -728,7 +728,7 @@ Rigidbody:
   m_GameObject: {fileID: 5074866041816356351}
   serializedVersion: 4
   m_Mass: 80
-  m_Drag: 2
+  m_Drag: 40
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

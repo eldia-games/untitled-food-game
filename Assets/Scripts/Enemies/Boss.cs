@@ -38,6 +38,8 @@ public class Boss : MonoBehaviour
     public List<AudioClip> footstepWalkSounds;
     public List<AudioClip> footstepRunSounds;
 
+
+
     [Header("Habilidades")]
     public BossSkillScriptableObject[] skills;
     protected BossSkillScriptableObject currentSkill;
@@ -55,6 +57,10 @@ public class Boss : MonoBehaviour
     public Rig rig;
     public RigBuilder rigBuilder;
     public MultiAimConstraint aimConstraint;
+
+    [Header("Effects Config")]
+    [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
+    public EnemyEffectsConfig effectsConfig;
     
 
     // Estado interno
@@ -62,6 +68,9 @@ public class Boss : MonoBehaviour
     protected bool onGround = true;
     
     protected EnemyState currentState = EnemyState.Spawn;
+    private List<Material> flashMats = new List<Material>();
+    private Vector3 originalScale;
+
 
     protected virtual void Start()
     {
@@ -83,6 +92,25 @@ public class Boss : MonoBehaviour
             aimConstraint.data.sourceObjects.Clear();
             aimConstraint.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
             rigBuilder.Build();
+        }
+
+        // Guardamos escala inicial
+        originalScale = transform.localScale;
+
+        // 1. Recogemos todos los Renderers del prefab
+        var renderers = GetComponentsInChildren<Renderer>(true);
+        foreach (var r in renderers)
+        {
+            // 2. Clonamos su array de materiales
+            var mats = r.materials;  // esto instancia cada material en el array
+            r.materials = mats;      // re-asignamos para que use esas instancias
+
+            // 3. Añadimos todas esas instancias a nuestra lista
+            flashMats.AddRange(mats);
+
+            //  opcional: forzar emission keyword en cada material
+            foreach (var m in mats)
+                m.EnableKeyword("_EMISSION");
         }
 
     }
@@ -311,12 +339,6 @@ public class Boss : MonoBehaviour
 
         health -= dmg;
 
-        //// Aplica knockback
-        //if (rb != null)
-        //{
-        //  rb.AddForce(direction * knockback, ForceMode.Impulse);
-        //}
-
         // Comprobamos muerte
         if (health <= 0f)
         {
@@ -335,6 +357,8 @@ public class Boss : MonoBehaviour
         animator.SetTrigger("die");
         animator.SetBool("isDead", true);
 
+        StartCoroutine(DeathDissolve());
+
         // Deshabilitar collider y rigidbody
         Collider col = GetComponent<Collider>();
         if (col) col.enabled = false;
@@ -352,6 +376,25 @@ public class Boss : MonoBehaviour
         // Destruir el enemigo tras unos segundos
         Invoke(nameof(DestroyEnemy), 2f);
     }
+
+    IEnumerator DeathDissolve() {
+        float timer = 0f;
+        float duration = 1f; // Duración del disolverse
+
+        yield return new WaitForSeconds(1f); // Esperar un poco antes de empezar a disolverse
+
+        
+        while (timer < duration) {
+            timer += Time.deltaTime;
+            foreach (var m in flashMats)
+                m.SetFloat("_DissolveThreshold", timer / duration);
+            yield return null;
+        }
+
+        foreach (var m in flashMats)
+            m.SetFloat("_DissolveThreshold", 1f);
+    }
+
 
     public virtual void DestroyEnemy()
     {

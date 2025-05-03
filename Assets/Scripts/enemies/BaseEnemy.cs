@@ -48,6 +48,14 @@ public abstract class BaseEnemy : MonoBehaviour
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
     public EnemyEffectsConfig effectsConfig;
 
+    // Velocidad a la que la barra roja (daño) se drena hacia la salud actual
+    [SerializeField]
+    public float healthBarDrainSpeed = 10f;
+    // Porcentaje actual de la "barra de daño" que se anima
+    protected float redHealthPercentage;
+    // Declara esta variable para guardar la salud máxima
+    protected float maxHealth;
+
     // Estado interno
     protected bool isDead = false;
 
@@ -101,6 +109,10 @@ public abstract class BaseEnemy : MonoBehaviour
 
         drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
 
+        maxHealth = health;
+        // Inicializamos la barra roja al 100%
+        redHealthPercentage = 1f;
+
     }
 
     void Awake()
@@ -116,6 +128,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Update()
     {
+        UpdateHealthBar();
 
         if (isDead) return;
         if (player == null) return; // Por seguridad
@@ -328,6 +341,8 @@ public abstract class BaseEnemy : MonoBehaviour
         transform.rotation = lookRotation;
     }
 
+    #region "On Hit Effects"
+
     private IEnumerator FlashCoroutine()
     {
         float timer   = 0f;
@@ -421,6 +436,10 @@ public abstract class BaseEnemy : MonoBehaviour
             Die();
         }
     }
+    
+    #endregion
+
+    #region "Death"
 
     /// <summary>
     /// Maneja la muerte del enemigo (animación, collider, rigidbody, etc.)
@@ -490,6 +509,8 @@ public abstract class BaseEnemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    #endregion
+
     /// <summary>
     /// Llamado desde la animación (por ejemplo, TauntStartEvent en Animator).
     /// </summary>
@@ -508,6 +529,28 @@ public abstract class BaseEnemy : MonoBehaviour
             agent.isStopped = false;
     }
 
+    #region "Health Bar"
+
+    private void UpdateHealthBar()
+    {
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        if (redHealthPercentage > currentPct)
+        {
+            redHealthPercentage = Mathf.MoveTowards(
+                redHealthPercentage,
+                currentPct,
+                healthBarDrainSpeed * Time.deltaTime
+            );
+        }
+        else
+        {
+            redHealthPercentage = currentPct;
+        }
+    }
+
+    #endregion
+
+    #region "Footsteps"
     public void PlayFootstep()
     {
         if (footstepAudioList == null || footstepAudioList.footstepClips.Count == 0)
@@ -528,10 +571,10 @@ public abstract class BaseEnemy : MonoBehaviour
     public virtual void FootstepAnimationEvent()
     {
         PlayFootstep();
-    
-        Debug.Log("PASO");
         footstepDustPrefab?.Play();
     }
+
+    #endregion
 
 
     /// <summary>
@@ -554,6 +597,8 @@ public abstract class BaseEnemy : MonoBehaviour
         return futurePos;
     }
 
+    #region "Debug"
+
     // Puedes sobrescribir OnDrawGizmos si quieres debug de visión, etc.
     protected virtual void OnDrawGizmosSelected()
     {
@@ -567,5 +612,58 @@ public abstract class BaseEnemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + leftRayRotation * forward);
         Gizmos.DrawLine(transform.position, transform.position + rightRayRotation * forward);
     }
+
+    public virtual void OnGUI()
+    {
+        if (Camera.main == null) return;
+
+        // Posición 2 unidades sobre el enemigo
+        Vector3 worldPos = transform.position + Vector3.up * 2f;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+        screenPos.y = Screen.height - screenPos.y;
+
+        float barWidth = 50f;
+        float barHeight = 5f;
+
+        // Porcentajes
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        float redPct = redHealthPercentage;
+
+        // Rectángulos
+        Rect bgRect = new Rect(
+            screenPos.x - barWidth / 2f,
+            screenPos.y,
+            barWidth,
+            barHeight
+        );
+        Rect redRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * redPct,
+            barHeight
+        );
+        Rect greenRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * currentPct,
+            barHeight
+        );
+
+        // Fondo negro
+        GUI.color = Color.black;
+        GUI.DrawTexture(bgRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra roja
+        GUI.color = Color.red;
+        GUI.DrawTexture(redRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra verde (salud actual)
+        GUI.color = Color.green;
+        GUI.DrawTexture(greenRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Restaurar
+        GUI.color = Color.white;
+    }
     
+    #endregion
 }

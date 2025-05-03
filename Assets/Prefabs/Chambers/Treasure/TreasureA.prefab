@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1636540249857148072}
   - component: {fileID: 3693013921566420770}
   - component: {fileID: 5106308937313035419}
-  - component: {fileID: 2541238302088515952}
+  - component: {fileID: 5825592342779025889}
   m_Layer: 0
   m_Name: RockPath_Round_Small_3
   m_TagString: Untagged
@@ -84,14 +84,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2541238302088515952
-MeshCollider:
+--- !u!65 &5825592342779025889
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689297459579423384}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -102,10 +102,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7665692320352445396, guid: 7aa51b0049f27524eafc2329b01e62ac, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1790302, y: 0.10927321, z: 1.2899951}
+  m_Center: {x: -0.0022359793, y: 0.046838634, z: -0.045274507}
 --- !u!1 &696234098285275194
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +448,7 @@ GameObject:
   - component: {fileID: 1601019551377700770}
   - component: {fileID: 1055315376159828013}
   - component: {fileID: 7146005584598786647}
-  - component: {fileID: 8622224210367731492}
+  - component: {fileID: 51793194932779743}
   m_Layer: 0
   m_Name: RockPath_Round_Small_1 (5)
   m_TagString: Untagged
@@ -522,14 +521,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8622224210367731492
-MeshCollider:
+--- !u!65 &51793194932779743
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308101152728139831}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -540,10 +539,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7150401402928122947, guid: 8790b33418419084abe4b4a4e181b664, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.056514, y: 0.112831816, z: 1.4763589}
+  m_Center: {x: 0.009800137, y: 0.047533296, z: 0.034834925}
 --- !u!1 &1344093260495118601
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +962,6 @@ MonoBehaviour:
   - {fileID: 5277881885386973824}
   - {fileID: 6926130006590977829}
   - {fileID: 4520367136787593405}
-  loot: []
   player: {fileID: 6188600849128039360}
   exit: {fileID: 7336511996843564513}
   playerAnimator: {fileID: 5457746536556009427}
@@ -979,7 +976,7 @@ GameObject:
   - component: {fileID: 4924615143202837560}
   - component: {fileID: 6838825395577122356}
   - component: {fileID: 5304787274897183348}
-  - component: {fileID: 3795522906713064854}
+  - component: {fileID: 2957100459441081090}
   m_Layer: 0
   m_Name: RockPath_Round_Small_1
   m_TagString: Untagged
@@ -1052,14 +1049,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3795522906713064854
-MeshCollider:
+--- !u!65 &2957100459441081090
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2204889194932988884}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1070,10 +1067,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7150401402928122947, guid: 8790b33418419084abe4b4a4e181b664, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.0565139, y: 0.112831816, z: 1.4763588}
+  m_Center: {x: 0.009798467, y: 0.047533296, z: 0.034835875}
 --- !u!1 &2408504477037003845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,7 +1223,7 @@ GameObject:
   - component: {fileID: 1808525265870202899}
   - component: {fileID: 6669948121514738796}
   - component: {fileID: 1514318782094279147}
-  - component: {fileID: 7238110637168201536}
+  - component: {fileID: 3487131778686229255}
   m_Layer: 0
   m_Name: RockPath_Round_Small_3 (6)
   m_TagString: Untagged
@@ -1300,14 +1296,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7238110637168201536
-MeshCollider:
+--- !u!65 &3487131778686229255
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2583100491170602947}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1318,10 +1314,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7665692320352445396, guid: 7aa51b0049f27524eafc2329b01e62ac, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.17903, y: 0.10927321, z: 1.2899947}
+  m_Center: {x: -0.0022331178, y: 0.046838634, z: -0.04527402}
 --- !u!1 &2762704336719932276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,7 +1766,7 @@ GameObject:
   - component: {fileID: 3800133708952895481}
   - component: {fileID: 8643060159466029821}
   - component: {fileID: 4857192311842076943}
-  - component: {fileID: 3784918634273692982}
+  - component: {fileID: 2206447054023028333}
   m_Layer: 0
   m_Name: RockPath_Round_Small_2
   m_TagString: Untagged
@@ -1844,14 +1839,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3784918634273692982
-MeshCollider:
+--- !u!65 &2206447054023028333
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4094973151672802347}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1862,10 +1857,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2374418370212988714, guid: bc5c8e5c381d01645868c9da977cce10, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1395197, y: 0.10466732, z: 1.354284}
+  m_Center: {x: -0.009483369, y: 0.04453569, z: -0.08165576}
 --- !u!1 &4131428768412951104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,7 +2378,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4435574689270739192}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2773,7 +2767,7 @@ GameObject:
   - component: {fileID: 5653252003056012331}
   - component: {fileID: 3513178664588937773}
   - component: {fileID: 5963591539267041935}
-  - component: {fileID: 3024584716803707830}
+  - component: {fileID: 8354669902202493677}
   m_Layer: 0
   m_Name: RockPath_Round_Small_3 (1)
   m_TagString: Untagged
@@ -2846,14 +2840,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3024584716803707830
-MeshCollider:
+--- !u!65 &8354669902202493677
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5331223714076300553}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2864,10 +2858,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7665692320352445396, guid: 7aa51b0049f27524eafc2329b01e62ac, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1790302, y: 0.10927321, z: 1.2899951}
+  m_Center: {x: -0.0022341912, y: 0.046838634, z: -0.04527403}
 --- !u!1 &5364842348792735551
 GameObject:
   m_ObjectHideFlags: 0
@@ -3711,9 +3704,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  loot:
-  - {fileID: 6383384534180513779, guid: 6eb98c259b8140f4181e2056bc95d954, type: 3}
-  - {fileID: 571741858825773605, guid: c367e7f12d006c94dbb446b5b47572b3, type: 3}
   player: {fileID: 0}
   exit: {fileID: 0}
   playerAnimator: {fileID: 0}
@@ -3833,7 +3823,7 @@ GameObject:
   - component: {fileID: 713886600656476554}
   - component: {fileID: 7943594508400435181}
   - component: {fileID: 1779767909570956782}
-  - component: {fileID: 8371284894611677917}
+  - component: {fileID: 1320933433214116770}
   m_Layer: 0
   m_Name: RockPath_Round_Small_2 (1)
   m_TagString: Untagged
@@ -3906,14 +3896,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8371284894611677917
-MeshCollider:
+--- !u!65 &1320933433214116770
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7333606947409370007}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3924,10 +3914,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2374418370212988714, guid: bc5c8e5c381d01645868c9da977cce10, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1395197, y: 0.10466732, z: 1.354284}
+  m_Center: {x: -0.009483131, y: 0.04453569, z: -0.08165576}
 --- !u!1 &7700849490667172638
 GameObject:
   m_ObjectHideFlags: 0
@@ -4579,7 +4568,7 @@ GameObject:
   - component: {fileID: 5456184522133757394}
   - component: {fileID: 3500005178833537049}
   - component: {fileID: 2107727975006258138}
-  - component: {fileID: 3851041710036997887}
+  - component: {fileID: 8367032692525841851}
   m_Layer: 0
   m_Name: RockPath_Round_Small_3 (5)
   m_TagString: Untagged
@@ -4652,14 +4641,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3851041710036997887
-MeshCollider:
+--- !u!65 &8367032692525841851
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641621210784039547}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4670,10 +4659,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7665692320352445396, guid: 7aa51b0049f27524eafc2329b01e62ac, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1790302, y: 0.10927321, z: 1.2899951}
+  m_Center: {x: -0.0022345488, y: 0.046838634, z: -0.04527403}
 --- !u!1 &8975579133207708091
 GameObject:
   m_ObjectHideFlags: 0

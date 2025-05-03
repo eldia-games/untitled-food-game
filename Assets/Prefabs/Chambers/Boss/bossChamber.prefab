@@ -6118,7 +6118,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783096243210716312}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6352,8 +6352,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f55c61ea6ba7b64d80a2b5c07be29a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectsConfig: {fileID: 0}
   _anim: {fileID: 1549846906814577258}
   PlayerStats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
+  afterImageMaterial: {fileID: 0}
+  afterImageDuration: 0.5
+  afterImageSpawnInterval: 0.1
+  rainbowSpeed: 1
   camera: {fileID: 7394131907817791390}
   player: {fileID: 5199922493005380266}
   NoGameManagerWeaponIndex: 0
@@ -8831,7 +8836,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085681479835202107}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -35057,7 +35062,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4926949266670927633}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -40819,7 +40824,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5771926780635623430}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 274757aead2526a42adaf249eedcd590, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
