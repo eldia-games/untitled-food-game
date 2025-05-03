@@ -31,11 +31,13 @@ public class BossChamberController : MonoBehaviour, IChamberController {
 
   IEnumerator EnterDungeon() {
     yield return new WaitForSeconds(0.1f);
+
     playerAnimator.SetFloat("Moving", 1);
     for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++) {
       player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 10f);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }
+
     playerAnimator.SetFloat("Moving", 0);
     yield return new WaitForSeconds(0.1f);
 
@@ -44,7 +46,6 @@ public class BossChamberController : MonoBehaviour, IChamberController {
     yield return new WaitForSeconds(0.25f);
 
     player.GetComponent<PlayerCombat>().enabled = true;
-
     Boss en = boss.GetComponent<Boss>();
     en.SetPlayer(player);
     en.dieEvent = new UnityEngine.Events.UnityEvent();

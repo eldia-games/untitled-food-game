@@ -17,7 +17,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
   private Animator playerAnimator;
   private List<Animator> doorAnimator;
   private Animator leverAnimator;
-  private List<Vector3> pos;
+  private Vector3[] pos;
   private List<int> monstersSpawned;
   private bool leverUsed = false;
   private int enemiesLeft;
@@ -31,20 +31,20 @@ public class DungeonController : MonoBehaviour, IChamberController {
     doors = new List<GameObject>();
     spawns = new List<Vector3>();
     doorAnimator = new List<Animator>();
-    pos = new List<Vector3>();
-    pos.Add(new Vector3(0, 0, 0));
-    pos.Add(new Vector3(1.5f, 0, 0));
-    pos.Add(new Vector3(-1.5f, 0, 0));
-    pos.Add(new Vector3(0, 0, 1.5f));
-    pos.Add(new Vector3(-1.5f, 0, 1.5f));
-    pos.Add(new Vector3(1.5f, 0, 1.5f));
-    pos.Add(new Vector3(0, 0, -1.5f));
-    pos.Add(new Vector3(-1.5f, 0, -1.5f));
-    pos.Add(new Vector3(1.5f, 0, -1.5f));
+    pos = new Vector3[] { 
+      new Vector3(-1.5f, 0, -1.5f),
+      new Vector3(+0.0f, 0, -1.5f),
+      new Vector3(+1.5f, 0, -1.5f),
+      new Vector3(-1.5f, 0, +0.0f),
+      new Vector3(+0.0f, 0, +0.0f),
+      new Vector3(+1.5f, 0, +0.0f),
+      new Vector3(-1.5f, 0, +1.5f),
+      new Vector3(+0.0f, 0, +1.5f),
+      new Vector3(+1.5f, 0, +1.5f),
+    };
   }
 
-  void Start() {
-  }
+  void Start() {}
 
   public void SetTrap(bool trap) {
     this.trap = trap;
@@ -143,21 +143,19 @@ public class DungeonController : MonoBehaviour, IChamberController {
 
   IEnumerator EnterDungeon() {
     yield return new WaitForSeconds(0.1f);
+
     playerAnimator.SetFloat("Moving", 1);
     for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++) {
       player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 10);
       yield return new WaitForSeconds(Time.fixedDeltaTime);
     }
+
     playerAnimator.SetFloat("Moving", 0);
     yield return new WaitForSeconds(0.1f);
-    for (int i = 0; i < doorAnimator.Count; i++) {
-      Debug.Log("close door " + i);
-      doorAnimator[i].SetBool("Closed", true);
-    }
 
+    for (int i = 0; i < doorAnimator.Count; i++) doorAnimator[i].SetBool("Closed", true);
     AudioManager.Instance.PlayMoveDoor();
     yield return new WaitForSeconds(0.25f);
-
 
     player.GetComponent<PlayerCombat>().enabled = true;
     for (int i = 0; i < monsterList.Count; i++) {
@@ -165,19 +163,13 @@ public class DungeonController : MonoBehaviour, IChamberController {
       enemy.SetPlayer(player);
       enemy.dieEvent = new UnityEngine.Events.UnityEvent();
       enemy.dieEvent.AddListener(killEnemy);
-      //if (trap) enemy.canDrop = false;
+      // if (trap) enemy.canDrop = false;
     }
   }
 
   IEnumerator OpenDoor() {
     yield return new WaitForSeconds(0.1f);
-    for (int i = 0; i < doorAnimator.Count; i++) { 
-      doorAnimator[i].SetBool("Closed", false);
-
-   }
-        AudioManager.Instance.PlayMoveDoor();
+    for (int i = 0; i < doorAnimator.Count; i++) doorAnimator[i].SetBool("Closed", false);
+    AudioManager.Instance.PlayMoveDoor();
   }
-
-
-
 }
