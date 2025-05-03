@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class MissionUIManager : MonoBehaviour
 {
@@ -77,7 +78,7 @@ public class MissionUIManager : MonoBehaviour
 
     public void MissionAction(int missionIndex)
     {
-        if (missionStatus[missionIndex - 1])
+        if (missionStatus[missionIndex])
         {
             AudioManager.Instance.PlaySFXConfirmation();
             _missionController.completeMission(missionIndex);
@@ -98,13 +99,7 @@ public class MissionUIManager : MonoBehaviour
         for (int i = 0; i < missionTemp.Count; i++)
         {
             GameObject newItem = Instantiate(itemUIPrefab, contentParent);
-            missionStatus[i] = SetupItemUI(newItem, missionTemp[i]);
-            //Configurar funciones botones
-            Button button = newItem.transform.Find("complete-button").GetComponent<Button>();
-            button.onClick.AddListener(() =>
-            {
-                MissionAction(i);
-            });
+            missionStatus[i] = SetupItemUI(newItem, missionTemp[i], i);
         }
     }
    
@@ -116,7 +111,7 @@ public class MissionUIManager : MonoBehaviour
         }
    }
     
-   private bool SetupItemUI(GameObject uiElement, Mission mis)
+   private bool SetupItemUI(GameObject uiElement, Mission mis, int missionStep)
    {
         // Configurar nombre
         TextMeshProUGUI nameText = uiElement.transform.Find("mission-backpanel/text-mask/tmp-mission-name").GetComponent<TextMeshProUGUI>();
@@ -137,6 +132,12 @@ public class MissionUIManager : MonoBehaviour
             buttonText.text = "Complete Recipe";
         else
             buttonText.text = "Can't complete";
+
+        Button button = uiElement.transform.Find("complete-button").GetComponent<Button>();
+        button.onClick.AddListener(() =>
+        {
+            MissionAction(missionStep);
+        });
 
         return status;
     }

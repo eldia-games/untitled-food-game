@@ -25,7 +25,7 @@ public class TreasureRoomController : MonoBehaviour, IChamberController
        
 
     }
-
+     
     public void OpenChest()
     {
         if (!openedChest)
