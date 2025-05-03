@@ -54,13 +54,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f55c61ea6ba7b64d80a2b5c07be29a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimapCanvas: {fileID: 0}
   effectsConfig: {fileID: 11400000, guid: 2c613e6e9f14fbd4d9ed6091f7be3c81, type: 2}
+  gruntController: {fileID: 5748104823053608056}
   _anim: {fileID: 4315285679793778538}
   PlayerStats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
   afterImageMaterial: {fileID: 2100000, guid: bb04d6cf6ab965d4b95beb82bc46ad05, type: 2}
   afterImageDuration: 1
   afterImageSpawnInterval: 0.005
   rainbowSpeed: 1
+  isDead: 0
   camera: {fileID: 5259618539203447454}
   player: {fileID: 7370427824999346090}
   NoGameManagerWeaponIndex: 0
@@ -1037,6 +1040,9 @@ PrefabInstance:
       addedObject: {fileID: 6721800852803438898}
     - targetCorrespondingSourceObject: {fileID: 2790140121948847695, guid: a27694e68751b5143aff5f8b3da6ae07, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5748104823053608056}
+    - targetCorrespondingSourceObject: {fileID: 2790140121948847695, guid: a27694e68751b5143aff5f8b3da6ae07, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1339494432127111320}
   m_SourcePrefab: {fileID: 100100000, guid: a27694e68751b5143aff5f8b3da6ae07, type: 3}
 --- !u!4 &321451491184074197 stripped
@@ -1111,9 +1117,22 @@ MonoBehaviour:
   footstepDustPrefab: {fileID: 8207189808335414499}
   database: {fileID: 11400000, guid: e5fae414bc217ef49a78fdfd3b80e333, type: 2}
   defaultList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
-  raycastDistance: 1.2
+  raycastDistance: 1.8
   stepVolume: 1
   _audioSource: {fileID: 1339494432127111320}
+--- !u!114 &5748104823053608056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7370427824999346090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dee3246e0d40fd4da0f5ae703df798e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioList: {fileID: 11400000, guid: ae107576f6c9db94dac7a826e0150748, type: 2}
 --- !u!82 &1339494432127111320
 AudioSource:
   m_ObjectHideFlags: 0

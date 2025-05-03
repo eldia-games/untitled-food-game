@@ -72,6 +72,7 @@ public class MageV2 : BaseEnemyV2
                 if(isSeen)
                 {
                     currentState = EnemyState.Combat;
+                    drawGUI = true;
                     inCombat = true;
                 }
                 break;

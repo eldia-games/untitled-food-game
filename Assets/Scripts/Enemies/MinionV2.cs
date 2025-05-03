@@ -70,6 +70,7 @@ public class MinionV2 : BaseEnemyV2
                 {
                     currentState = EnemyState.Combat;
                     inCombat = true;
+                    drawGUI = true;
                 }
                 break;
 

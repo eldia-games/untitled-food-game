@@ -44,7 +44,7 @@ public class PlayerFootstepController : MonoBehaviour
     public void PlayFootstep()
     {
         // Raycast hacia abajo para detectar el suelo
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raycastDistance))
+        if (Physics.Raycast(transform.position + Vector3.up * 0.2f, Vector3.down, out RaycastHit hit, raycastDistance))
         {
             // Intentamos extraer el physic material
             PhysicMaterial mat = hit.collider.sharedMaterial;

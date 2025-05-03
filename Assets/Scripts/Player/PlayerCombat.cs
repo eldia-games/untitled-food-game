@@ -15,6 +15,8 @@ public class PlayerCombat : MonoBehaviour
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
     public EnemyEffectsConfig effectsConfig;
+    [Tooltip("GruntController para reproducir sonidos de dolor")]
+    public GruntController gruntController;
 
     public Animator _anim;
     public PlayerStats PlayerStats;
@@ -28,6 +30,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("AfterImage Rainbow Settings")]
     [Tooltip("Velocidad a la que rota el color (vueltas por segundo)")]
     public float rainbowSpeed = 1f;
+    public bool isDead = false;
 
     #endregion
 
@@ -37,6 +40,7 @@ public class PlayerCombat : MonoBehaviour
     private List<Material> flashMats = new List<Material>();
     private Vector3 originalScale;
     private Coroutine scaleRoutine;
+    
 
     #endregion
 
@@ -637,7 +641,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnHurt(float damage, float pushForce, Vector3 position)
     {
-        print("hurt");
+        //print("hurt");
         //Make player take damage if not in invincibility
         if(!invencibility)
         {
@@ -653,6 +657,12 @@ public class PlayerCombat : MonoBehaviour
             if (scaleRoutine != null)
                 StopCoroutine(scaleRoutine);
             scaleRoutine = StartCoroutine(ShrinkCoroutine());
+
+            // Aquí reproducimos el sonido de dolor
+            if (gruntController != null)
+                gruntController.PlayRandomGrunt();
+            else
+                Debug.LogWarning("GruntController no encontrado. No se reproducirá el sonido de dolor.");
 
             if (flashMats.Count > 0)
                 StartCoroutine(FlashCoroutine());
@@ -745,6 +755,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnDie()
     {
+        isDead = true;
         print("You died");
         //desactivar el script de movimiento y el de input
         enabled = false;

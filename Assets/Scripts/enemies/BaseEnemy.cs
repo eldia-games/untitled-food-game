@@ -52,6 +52,14 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField]
     public float healthBarDrainSpeed = 10f;
     // Porcentaje actual de la "barra de daño" que se anima
+
+    [Header("SFX")]
+    public AudioSource attackAudioSource;
+    public AudioClip attackSFX;
+    public AudioClip hurtSFX;
+    public AudioClip deathSFX;
+
+
     protected float redHealthPercentage;
     // Declara esta variable para guardar la salud máxima
     protected float maxHealth;
@@ -74,6 +82,7 @@ public abstract class BaseEnemy : MonoBehaviour
     private Vector3 originalScale;
     private Coroutine scaleRoutine;
     private AudioSource _audioSource;
+    public bool drawGUI = false;
 
     // Guardamos todos los materials instanciados
     private List<Material> flashMats = new List<Material>();
@@ -157,6 +166,7 @@ public abstract class BaseEnemy : MonoBehaviour
         // 3. Lógica de combate o patrullaje
         if (inCombat)
         {
+            drawGUI = true;
             HandleCombat();
         }
         else
@@ -306,6 +316,20 @@ public abstract class BaseEnemy : MonoBehaviour
         StopAttack();
     }
 
+    public virtual void AttackStartAnimationEvent()
+    {
+        // Reproducir SFX de ataque
+        if (attackSFX != null && attackAudioSource != null)
+        {
+            attackAudioSource.clip = attackSFX;
+            attackAudioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No hay SFX de ataque asignado o AudioSource no encontrado.", this);
+        }
+    }
+
     /// <summary>
     /// Actualiza el attackTimer y otros contadores que hagan falta.
     /// </summary>
@@ -430,13 +454,23 @@ public abstract class BaseEnemy : MonoBehaviour
             rb.AddForce(direction * knockback, ForceMode.Impulse);
         }
 
+        // Reproducir SFX de daño
+        if (hurtSFX != null && _audioSource != null)
+        {
+            _audioSource.clip = hurtSFX;
+            _audioSource.Play();
+        } else 
+        {
+            Debug.LogWarning("No hay SFX de daño asignado o AudioSource no encontrado.", this);
+        }
+
         // Comprobamos muerte
         if (health <= 0f)
         {
             Die();
         }
     }
-    
+
     #endregion
 
     #region "Death"
@@ -616,11 +650,14 @@ public abstract class BaseEnemy : MonoBehaviour
     public virtual void OnGUI()
     {
         if (Camera.main == null) return;
+        if (player && player.GetComponent<PlayerCombat>().isDead) return;
+        if (!drawGUI) return;
 
         // Posición 2 unidades sobre el enemigo
         Vector3 worldPos = transform.position + Vector3.up * 2f;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
         screenPos.y = Screen.height - screenPos.y;
+        
 
         float barWidth = 50f;
         float barHeight = 5f;
