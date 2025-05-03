@@ -405,10 +405,13 @@ public class UIManager : MonoBehaviour
     {
         weaponSelectionUIManager.PlayerSelectedWeapon();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (activeSceneIndex == 1)
+        if (activeSceneIndex == 1) 
             GameManager.Instance.EnterMapScene();
         else
             print("Estoy en la sala de entrenamiento");
+
+        AudioManager.Instance.PlaySFXConfirmation();
+        HideWeapon();
     }
 
     #endregion
