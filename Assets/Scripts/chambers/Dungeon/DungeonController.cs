@@ -155,7 +155,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
       doorAnimator[i].SetBool("Closed", true);
     }
 
-  AudioManager.Instance.PlayMoveDoor();
+    AudioManager.Instance.PlayMoveDoor();
     yield return new WaitForSeconds(0.25f);
 
 
