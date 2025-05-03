@@ -2,13 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Search;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCombat : MonoBehaviour
-{
+public class PlayerCombat : MonoBehaviour {
+    [Header("Minimap")]
+    [SerializeField] private GameObject minimapCanvas;
 
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
@@ -26,6 +25,8 @@ public class PlayerCombat : MonoBehaviour
     [Header("AfterImage Rainbow Settings")]
     [Tooltip("Velocidad a la que rota el color (vueltas por segundo)")]
     public float rainbowSpeed = 1f;
+
+
 
     private Coroutine afterImageCoroutine;
     private List<Material> flashMats = new List<Material>();
@@ -451,6 +452,7 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         try{
             UIManager.Instance.ShowEndGameCanvas();
+            minimapCanvas?.SetActive(false);
         }
         catch(Exception e){
             Debug.Log("Error: " + e);

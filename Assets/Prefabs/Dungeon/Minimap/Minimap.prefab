@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0597bd8cf70e12c4abec71b9fa9da895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minimapCamera: {fileID: 2548265662524416097}
+  minimapCamera: {fileID: 2548265662524416097}
   player: {fileID: 0}
   bossCameraScale: 0
 --- !u!1 &2548265662524416097
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 2216938161682766768}
   - component: {fileID: 7689540145158853351}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MinimapCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
