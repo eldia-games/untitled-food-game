@@ -38,7 +38,7 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController {
     List<int> rateList = new List<int>();
     int totalRate = 0;
     for (int i = 0; i < recollectables.Count; i++) {
-      totalRate += recollectables[i].GetComponent<Spawneable>().getSpawnRate(persistence.Instance.getLevel() - 1);
+      totalRate += recollectables[i].GetComponent<Spawneable>().getSpawnRate(level - 1);
       rateList.Add(totalRate);
     }
 

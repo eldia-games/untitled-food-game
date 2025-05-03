@@ -653,7 +653,7 @@ public class UIManager : MonoBehaviour
         HideMap();
         HidePause();
     }
-    private void HideAllCanvas()
+    public void HideAllCanvas()
     {
         for (int i = 0; i >= 0 && i < ArrayCanvas.Length; i++)
         {
