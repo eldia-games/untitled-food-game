@@ -92,6 +92,7 @@ public class DungeonController : MonoBehaviour, IChamberController {
     List<int> rateList = new List<int>();
     int totalRate = 0;
     for (int i = 0; i < monsters.Count; i++) {
+      if (monsters[i] == null) continue;
       totalRate += monsters[i].GetComponent<Spawneable>().getSpawnRate(level - 1);
       rateList.Add(totalRate);
     }
