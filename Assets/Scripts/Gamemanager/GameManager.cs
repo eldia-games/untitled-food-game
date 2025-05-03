@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour {
   public void EnterChamberScene() {
     AudioManager.Instance.PlayChamberMusic();
     UIManager.Instance.ShowChamberCanvas();
+    UIManager.Instance.ShowChamberNamePopUpCanvas(room);
     SceneManager.LoadScene("Chamber");
   }
 

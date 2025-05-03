@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class Monster : BaseEnemyV2
 {
-    private bool inRange = false;
+    //private bool inRange = false;
     [Header("Sonidos")]
     public AudioClip attackSound;
 
