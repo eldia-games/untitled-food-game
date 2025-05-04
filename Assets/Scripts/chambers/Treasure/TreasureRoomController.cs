@@ -15,6 +15,7 @@ public class TreasureRoomController : MonoBehaviour, IChamberController {
 
   public void initiallise(int level /* unused */) {
     openedChest = false;
+    StartDungeonEnterAnimation();
   }
 
   public void OpenChest() {
@@ -25,22 +26,24 @@ public class TreasureRoomController : MonoBehaviour, IChamberController {
   }
 
   public void StartDungeonEnterAnimation() {
-    playerAnimator.SetFloat("Moving", 1);
+
     StartCoroutine(EnterDungeon());
   }
 
-  IEnumerator EnterDungeon() {
-    yield return new WaitForSeconds(0.1f);
+    IEnumerator EnterDungeon()
+    {
+        yield return new WaitForSeconds(0.1f);
+        playerAnimator.SetFloat("Moving", 1);
+        for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++)
+        {
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 4);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
 
-    //for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++) {
-    //  player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 10f);
-    //  yield return new WaitForSeconds(Time.fixedDeltaTime);
-    //}
+        playerAnimator.SetFloat("Moving", 0);
+        yield return new WaitForSeconds(0.1f);
+        exit.SetActive(true);
 
-    playerAnimator.SetFloat("Moving", 0);
-    //yield return new WaitForSeconds(0.1f);
-
-    exit.SetActive(true);
-    player.GetComponent<PlayerCombat>().enabled = true;
-  }
+        player.GetComponent<PlayerCombat>().enabled = true;
+    }
 }

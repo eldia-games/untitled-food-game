@@ -12,10 +12,9 @@ public class ShopController : MonoBehaviour, IChamberController {
   [SerializeField] private GameObject exit;
   [SerializeField] private GameObject player;
   [SerializeField] private Animator playerAnimator;
-  [SerializeField] private float AnimationMovementSpped;
-  [SerializeField] private float AnimationMovementTime;
+  [SerializeField] private ObjectDrop Beer;
 
-  private List<Trade> trades_;
+    private List<Trade> trades_;
   private bool tradeDone_ = false;
 
   public void StartDungeonEnterAnimation() {
@@ -24,6 +23,7 @@ public class ShopController : MonoBehaviour, IChamberController {
 
   public void initiallise(int level) {
     trades_ = new List<Trade>();
+
     int totalRateIn = 0;
     List<int> rateListIn = new List<int>();
     for (int i = 0; i < ObjectsIn.Count; i++) {
@@ -38,7 +38,9 @@ public class ShopController : MonoBehaviour, IChamberController {
       rateListOut.Add(totalRateOut);
     }
 
-    for (int i = 0; i < 3; i++) {
+
+
+    for (int i = 0; i < 4; i++) {
       int j = 0;
       float random = Random.value * totalRateIn;
       while (rateListIn[j] < random) j++;
@@ -49,6 +51,10 @@ public class ShopController : MonoBehaviour, IChamberController {
 
       ObjectDrop objectIn = ObjectsIn[j].GetComponent<ObjectDrop>();
       ObjectDrop objectOut = ObjectsOut[k].GetComponent<ObjectDrop>();
+        if (i == 3)
+        {
+                objectOut = Beer;
+        }
 
       int quantityIn = Mathf.CeilToInt((float)(level) / objectIn.getValue());
       int quantityOut = Mathf.CeilToInt((float)(level) / objectOut.getValue());
@@ -60,16 +66,24 @@ public class ShopController : MonoBehaviour, IChamberController {
     StartDungeonEnterAnimation();
   }
 
+public void OpenShop()
+{
+    UIManager.Instance.ShowShopCanvas();
+}
   public List<Trade> getTrades() {
     return trades_;
   }
 
   public void Trade(int tradeIndex) {
     if (!tradeDone_) {
-      UIManager.Instance.HideShopCanvas();
-      InventoryManager inventory = InventoryManager.Instance;
+
+            InventoryList inventory = InventoryList.Instance;
       Trade trad = trades_[tradeIndex];
-      if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn())) {
+      if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
+      {
+        UIManager.Instance.HideShopCanvas();
+
+     
         inventory.RemoveItemNoDrop(trad.getItemIn(), trad.getQuantityIn());
         inventory.AddItem(trad.getItemOut(), trad.getIndexOut(), trad.getQuantityOut(), true);
       }
@@ -81,17 +95,18 @@ public class ShopController : MonoBehaviour, IChamberController {
   }
 
   IEnumerator EnterDungeon() {
-    yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
+        playerAnimator.SetFloat("Moving", 1);
+        for (int i = 0; i < 0.5f / Time.fixedDeltaTime; i++)
+        {
+            player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * 4);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
 
-    //playerAnimator.SetFloat("Moving", 1);
-    //for (int i = 0; i < AnimationMovementTime / Time.fixedDeltaTime; i++) {
-    //  player.transform.Translate(Vector3.forward * Time.fixedDeltaTime * AnimationMovementSpped);
-    //  yield return new WaitForSeconds(Time.fixedDeltaTime);
-    //}
-    playerAnimator.SetFloat("Moving", 0);
-    //yield return new WaitForSeconds(0.5f);
+        playerAnimator.SetFloat("Moving", 0);
+        yield return new WaitForSeconds(0.1f);
+        exit.SetActive(true);
 
-    player.GetComponent<PlayerCombat>().enabled = true;
-    exit.SetActive(true);
-  }
+        player.GetComponent<PlayerCombat>().enabled = true;
+    }
 }

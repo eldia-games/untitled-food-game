@@ -22,6 +22,7 @@ public class PlayerStatsController : MonoBehaviour {
 
   public void healprct(float heal) {
     stats.HP = Mathf.Min(stats.HP + stats.maxLife * heal, stats.maxLife);
+    UIManager.Instance.ResetPlayerHealthMana();
   }
 
   public void augmentMaxHealht(int healht) {
@@ -87,4 +88,41 @@ public class PlayerStatsController : MonoBehaviour {
   public void augmentManaRegenrct(float regen) {
     stats.manaRegen = Mathf.Round(stats.manaRegen * (1 + regen));
   }
+
+    public int getMaxHealth()
+    {
+        return stats.maxLife;
+    }
+        public float getHealth()
+    {
+        return stats.HP;
+    }
+    public int getMaxMana()
+    {
+        return stats.maxMana;
+    }
+
+    public float getMana()
+    {
+        return stats.MP;
+    }
+    public float getHeal()
+    {
+        return stats.heal;
+    }
+    public float getDamage()
+    {
+        return stats.damage;
+    }
+
+    public float getAttackSpeed()
+    {
+        return stats.velAttack;
+    }
+
+    public float getPush()
+    {
+        return stats.pushForce;
+    }
 }
+
