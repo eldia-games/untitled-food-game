@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 2218019870080978876}
   m_Layer: 0
   m_Name: path
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 823711471042202642}
   m_Layer: 0
   m_Name: fenceL
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 7623938985298203086}
   m_Layer: 0
   m_Name: shop
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 4740672957473863771}
   m_Layer: 0
   m_Name: fenceR
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1284,7 +1284,7 @@ GameObject:
   - component: {fileID: 7415074576487418702}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1914,7 +1914,7 @@ GameObject:
   - component: {fileID: 4135980325260249413}
   m_Layer: 0
   m_Name: cameras
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2050,7 +2050,7 @@ GameObject:
   - component: {fileID: 5181244215110724915}
   m_Layer: 0
   m_Name: fenceBush2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3247,7 +3247,7 @@ GameObject:
   - component: {fileID: 4185664108212200807}
   m_Layer: 0
   m_Name: ShopA
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3781,7 +3781,7 @@ GameObject:
   - component: {fileID: 4012163792125491732}
   m_Layer: 0
   m_Name: fenceBush
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4174,6 +4174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4251,6 +4255,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b148de1945b1fef4a8c29862df89209d, type: 3}
       propertyPath: m_Name
       value: crate_tomatoes
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b148de1945b1fef4a8c29862df89209d, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4406,6 +4414,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: coin (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 30e21fe391f18dc4493cb869fbadb7bc, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4467,6 +4479,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 24121b0c82e0c2b468b94c1a5554ddfb, type: 3}
       propertyPath: m_Name
       value: column (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 24121b0c82e0c2b468b94c1a5554ddfb, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4558,6 +4574,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
       propertyPath: m_Name
       value: Petal_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4745,6 +4765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_5 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4807,6 +4831,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonTree_2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc354f1f21cde3c4f833eab7c3014c3e, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4868,6 +4896,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
       propertyPath: m_Name
       value: Petal_5 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4992,6 +5024,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
       propertyPath: m_Name
       value: Petal_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5235,6 +5271,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: table_long (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5325,6 +5365,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 30e21fe391f18dc4493cb869fbadb7bc, type: 3}
       propertyPath: m_Name
       value: coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 30e21fe391f18dc4493cb869fbadb7bc, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5557,6 +5601,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: edcd85c071b2eea46b0ffd735dab58c4, type: 3}
       propertyPath: m_Name
       value: crate_onions
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: edcd85c071b2eea46b0ffd735dab58c4, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5836,6 +5884,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_2 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5913,6 +5965,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
       propertyPath: m_Name
       value: table_long (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6046,6 +6102,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: table_long (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6178,6 +6238,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_lettuce
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cd4429194197c1942ab3ea3ea6c6b562, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6239,6 +6303,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
       propertyPath: m_Name
       value: Petal_1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6302,6 +6370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_3 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6363,6 +6435,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 02140df4ea73dcb4db1aa4f1d4eb7f32, type: 3}
       propertyPath: m_Name
       value: CommonTree_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 02140df4ea73dcb4db1aa4f1d4eb7f32, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6426,6 +6502,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6487,6 +6567,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bc354f1f21cde3c4f833eab7c3014c3e, type: 3}
       propertyPath: m_Name
       value: CommonTree_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc354f1f21cde3c4f833eab7c3014c3e, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6565,6 +6649,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9189b2099bb7bdc4b920eb31b8048744, type: 3}
       propertyPath: m_Name
       value: crate_cheese
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9189b2099bb7bdc4b920eb31b8048744, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6906,6 +6994,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonTree_4
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 16378b877a475104ea0d0a1b97f3f1cd, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7214,6 +7306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7275,6 +7371,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
       propertyPath: m_Name
       value: Petal_2 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7399,6 +7499,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
       propertyPath: m_Name
       value: Petal_3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7648,6 +7752,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: coin (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 30e21fe391f18dc4493cb869fbadb7bc, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7710,6 +7818,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_3 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7771,6 +7883,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
       propertyPath: m_Name
       value: Petal_2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8004,6 +8120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_ham
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7202a132776bb6c4e874e06297f15ee2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8065,6 +8185,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 24121b0c82e0c2b468b94c1a5554ddfb, type: 3}
       propertyPath: m_Name
       value: column
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 24121b0c82e0c2b468b94c1a5554ddfb, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8235,6 +8359,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_carrots
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d35ab96731433744bbbd9e0126af7e61, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8388,6 +8516,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
       propertyPath: m_Name
       value: Petal_5 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8667,6 +8799,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonTree_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9813ad63ca05b2c4a893d96beba79aae, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8853,6 +8989,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8976,6 +9116,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
       propertyPath: m_Name
       value: Petal_5 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0d53b084337184418cd18c09e9849c2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9117,6 +9261,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: table_long
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9207,6 +9355,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
       propertyPath: m_Name
       value: Petal_1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9321,6 +9473,10 @@ PrefabInstance:
     - target: {fileID: 5912827691717867619, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912827691717867619, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 7825078997370475581, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
       propertyPath: m_Size.x
@@ -9459,6 +9615,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9582,6 +9742,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 87957f8557b305342aab2788e6ab2279, type: 3}
       propertyPath: m_Name
       value: coin_stack_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 87957f8557b305342aab2788e6ab2279, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9768,6 +9932,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
       propertyPath: m_Name
       value: Petal_3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cafda40acb6061d4bb1946175c7e6374, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10046,6 +10214,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
       propertyPath: m_Name
       value: Petal_2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c7fd802298c2a549a9df00723fef713, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10331,6 +10503,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petal_1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 71fe36f2029712d47a66fb135e01845f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10409,6 +10585,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_potatoes
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 67e8457e479f71544ac64900fe6a4bde, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10470,6 +10650,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 02140df4ea73dcb4db1aa4f1d4eb7f32, type: 3}
       propertyPath: m_Name
       value: CommonTree_5 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 02140df4ea73dcb4db1aa4f1d4eb7f32, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

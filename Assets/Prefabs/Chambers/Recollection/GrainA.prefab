@@ -1630,7 +1630,7 @@ GameObject:
   - component: {fileID: 9189596323135085151}
   m_Layer: 0
   m_Name: fence
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2106,7 +2106,7 @@ GameObject:
   - component: {fileID: 4816863903007043521}
   m_Layer: 0
   m_Name: cameras
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3334,7 +3334,7 @@ GameObject:
   - component: {fileID: 4005603714567652416}
   m_Layer: 0
   m_Name: building_windmill_blue
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3866,7 +3866,7 @@ GameObject:
   - component: {fileID: 4357067423267983461}
   m_Layer: 0
   m_Name: recollection
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6737,7 +6737,7 @@ GameObject:
   - component: {fileID: 5717565632120421136}
   m_Layer: 0
   m_Name: plants
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6923,7 +6923,7 @@ GameObject:
   - component: {fileID: 4352003199053193171}
   m_Layer: 0
   m_Name: cultives
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8263,7 +8263,7 @@ GameObject:
   - component: {fileID: 4768136920502695006}
   m_Layer: 0
   m_Name: trees (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8557,7 +8557,7 @@ GameObject:
   - component: {fileID: 559706468276440598}
   m_Layer: 0
   m_Name: building_well_blue
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9246,7 +9246,7 @@ GameObject:
   - component: {fileID: 2962893731125264288}
   m_Layer: 0
   m_Name: cultives (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9287,7 +9287,7 @@ GameObject:
   - component: {fileID: 5995245323810837113}
   m_Layer: 0
   m_Name: GrainA
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9878,7 +9878,7 @@ GameObject:
   - component: {fileID: 6255840274179873595}
   m_Layer: 0
   m_Name: trees
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9953,7 +9953,7 @@ GameObject:
   - component: {fileID: 7831745623860662697}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10607,6 +10607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_lettuce
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cd4429194197c1942ab3ea3ea6c6b562, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11232,6 +11236,10 @@ PrefabInstance:
     - target: {fileID: 1692073432233361067, guid: 6643cd2880ffad046a3d65f5923f51bf, type: 3}
       propertyPath: m_Name
       value: path
+      objectReference: {fileID: 0}
+    - target: {fileID: 1692073432233361067, guid: 6643cd2880ffad046a3d65f5923f51bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 2057270835632860058, guid: 6643cd2880ffad046a3d65f5923f51bf, type: 3}
       propertyPath: m_LocalScale.x
@@ -11873,6 +11881,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_potatoes
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 67e8457e479f71544ac64900fe6a4bde, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12090,6 +12102,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
       propertyPath: m_Name
       value: table_long (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13065,6 +13081,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5912827691717867619, guid: 25fb25d4308a6fa45831f6f5de331bca, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13474,6 +13494,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_onions
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: edcd85c071b2eea46b0ffd735dab58c4, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13629,6 +13653,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d35ab96731433744bbbd9e0126af7e61, type: 3}
       propertyPath: m_Name
       value: crate_carrots
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d35ab96731433744bbbd9e0126af7e61, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14484,6 +14512,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: crate_tomatoes
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b148de1945b1fef4a8c29862df89209d, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14561,6 +14593,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
       propertyPath: m_Name
       value: table_long
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41a0c1f27f0223a4aaa6df2167153cf5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
