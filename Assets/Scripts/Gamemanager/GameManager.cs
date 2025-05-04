@@ -121,13 +121,20 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowMapCanvas();
     }
 
-    public void EnterChamberScene()
-    {
-        AudioManager.Instance.PlayChamberMusic();
-        UIManager.Instance.ShowChamberCanvas();
-        UIManager.Instance.ShowChamberNamePopUpCanvas(room);
-        SceneManager.LoadScene("Chamber");
-    }
+  public void EnterChamberScene() {
+    AudioManager.Instance.PlayChamberMusic();
+    UIManager.Instance.ShowChamberCanvas();
+    UIManager.Instance.ShowChamberNamePopUpCanvas(room);
+        if((int)room == 0)
+        {
+            UIManager.Instance.ShowBossHealth();
+        }
+        else
+        {
+            UIManager.Instance.HideBossHealth();
+        }
+    SceneManager.LoadScene("Chamber");
+  }
 
     public void EnterTrainingScene()
     {

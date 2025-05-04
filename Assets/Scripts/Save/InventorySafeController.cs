@@ -5,11 +5,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
+
 public class InventorySafeController : MonoBehaviour
 {
 
     #region Variables
     [SerializeField] private string filePath;
+
+
 
     private InventorySave inventory;
     #endregion
@@ -65,6 +69,7 @@ public class InventorySafeController : MonoBehaviour
         inventory.clearMissions();
         saveInventory();
     }
+
 
     public bool canLoadGame()
     {
@@ -184,4 +189,23 @@ public class InventorySafeController : MonoBehaviour
     }
     #endregion
 
+    #region Achievements
+    public void setAchievements(List<Achievement> achievements)
+    {
+        inventory.SetAchievements(achievements);
+        saveInventory();
+
+    }
+
+    public List<Achievement> getAchievements()
+    {
+        return inventory.getAchievements();
+    }
+
+    public void setAchievement(Achievement achievement, int index)
+    {
+        inventory.SetAchievement(achievement, index);
+        saveInventory();
+    }
+    #endregion
 }
