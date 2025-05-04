@@ -34,8 +34,8 @@ public class ShopUIManager : MonoBehaviour
 
     void Awake()
     {
-        //_shopController = GetComponent<ShopController>();
-        //tradesTemp = _shopController.
+        //_achievementController = GetComponent<ShopController>();
+        //tradesTemp = _achievementController.
     }
 
     private void ClearExistingUI()
