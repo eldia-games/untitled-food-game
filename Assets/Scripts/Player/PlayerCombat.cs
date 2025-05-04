@@ -130,7 +130,7 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
-        _interactor= GetComponent<Interactor>();
+        _interactor = GetComponent<Interactor>();
         camera = Camera.main;
 
         //HP = (float)maxLife;
@@ -410,16 +410,16 @@ public class PlayerCombat : MonoBehaviour
     }
 
 
-    IEnumerator InteractCooldown()
+    IEnumerator InteractCooldown(float time)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(time);
         interactAvailable = true;
     }
 
     IEnumerator AttackCooldown()
     {
         attackAvailable = false;
-        yield return new WaitForSeconds(1 / velAttack);
+        yield return new WaitForSeconds(1 / velAttack - 0.1f);
         attackAvailable = true;
         _colliderMeleeSpin.enabled = false;
         _colliderMelee.enabled = false;
@@ -734,18 +734,21 @@ public class PlayerCombat : MonoBehaviour
         //Only activate Interact on getInteract if the object is interactable
         switch (_interactor.GetInteractionType()) {
             case InteractionType.None:
+                Debug.Log("No interactable object found");
+                StartCoroutine(InteractCooldown(1.0f));
                 break;
             case InteractionType.NormalInteraction:
                 _anim.SetTrigger("Interact");
                 _anim.SetFloat("InteractionType", 0);
+                StartCoroutine(InteractCooldown(1.0f));
                 break;
             case InteractionType.FirePlaceInteraction:
                 _anim.SetTrigger("Interact");
                 _anim.SetFloat("InteractionType", 1);
-                StartCoroutine(InteractCooldown());
+                StartCoroutine(InteractCooldown(3.0f));
                 break;
         }
-        StartCoroutine(InteractCooldown());
+        //StartCoroutine(InteractCooldown());
         _interactor.interact();
         //interact with objects
     }
