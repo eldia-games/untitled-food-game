@@ -29,13 +29,17 @@ public abstract class BaseEnemy : MonoBehaviour
     public Animator animator;
     public UnityEvent dieEvent;
 
-    [Header("Sonidos")]
+    [Header("Configuración de pasos")]
+    [Tooltip("Referencia al ScriptableObject con la lista de clips de audio.")]
+    public FootstepAudioList footstepAudioList;
+    public ParticleSystem footstepDustPrefab;
 
-    public List<AudioClip> footstepWalkSounds;
-    public List<AudioClip> footstepRunSounds;
+    [Tooltip("Cuánto volumen tendrá el sonido de paso.")]
+    [Range(0f, 1f)]
+    public float stepVolume = 0.5f;
 
     [Header("Drops")]
-     public List<EnemyDrop> drop;
+    public List<EnemyDrop> drop;
     [Range(0,1)] public float chanceDrop;
     
     public bool canDrop=true;
@@ -43,8 +47,27 @@ public abstract class BaseEnemy : MonoBehaviour
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
     public EnemyEffectsConfig effectsConfig;
+
+    // Velocidad a la que la barra roja (daño) se drena hacia la salud actual
+    [SerializeField]
+    public float healthBarDrainSpeed = 10f;
+    // Porcentaje actual de la "barra de daño" que se anima
+
+    [Header("SFX")]
+    public AudioSource attackAudioSource;
+    public AudioClip attackSFX;
+    public AudioClip hurtSFX;
+    public AudioClip deathSFX;
+
+
+    protected float redHealthPercentage;
+    // Declara esta variable para guardar la salud máxima
+    protected float maxHealth;
+
     // Estado interno
     protected bool isDead = false;
+
+
     
     protected bool isAttacking = false;
     protected bool inCombat = false;
@@ -58,6 +81,8 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Vector3 initialPosition;
     private Vector3 originalScale;
     private Coroutine scaleRoutine;
+    private AudioSource _audioSource;
+    public bool drawGUI = false;
 
     // Guardamos todos los materials instanciados
     private List<Material> flashMats = new List<Material>();
@@ -93,6 +118,16 @@ public abstract class BaseEnemy : MonoBehaviour
 
         drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
 
+        maxHealth = health;
+        // Inicializamos la barra roja al 100%
+        redHealthPercentage = 1f;
+
+    }
+
+    void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.playOnAwake = false;
     }
 
     public virtual void SetPlayer(GameObject player)
@@ -102,6 +137,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Update()
     {
+        UpdateHealthBar();
 
         if (isDead) return;
         if (player == null) return; // Por seguridad
@@ -130,6 +166,7 @@ public abstract class BaseEnemy : MonoBehaviour
         // 3. Lógica de combate o patrullaje
         if (inCombat)
         {
+            drawGUI = true;
             HandleCombat();
         }
         else
@@ -279,6 +316,20 @@ public abstract class BaseEnemy : MonoBehaviour
         StopAttack();
     }
 
+    public virtual void AttackStartAnimationEvent()
+    {
+        // Reproducir SFX de ataque
+        if (attackSFX != null && attackAudioSource != null)
+        {
+            attackAudioSource.clip = attackSFX;
+            attackAudioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No hay SFX de ataque asignado o AudioSource no encontrado.", this);
+        }
+    }
+
     /// <summary>
     /// Actualiza el attackTimer y otros contadores que hagan falta.
     /// </summary>
@@ -313,6 +364,8 @@ public abstract class BaseEnemy : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = lookRotation;
     }
+
+    #region "On Hit Effects"
 
     private IEnumerator FlashCoroutine()
     {
@@ -398,7 +451,19 @@ public abstract class BaseEnemy : MonoBehaviour
         // Aplica knockback
         if (rb != null)
         {
-            rb.AddForce(direction * knockback, ForceMode.Impulse);
+            // Calculamos la dirección del knockback
+            Vector3 pla = (player.transform.position - transform.position).normalized;
+            rb.AddForce(pla * knockback, ForceMode.Impulse);
+        }
+
+        // Reproducir SFX de daño
+        if (hurtSFX != null && _audioSource != null)
+        {
+            _audioSource.clip = hurtSFX;
+            _audioSource.Play();
+        } else 
+        {
+            Debug.LogWarning("No hay SFX de daño asignado o AudioSource no encontrado.", this);
         }
 
         // Comprobamos muerte
@@ -407,6 +472,10 @@ public abstract class BaseEnemy : MonoBehaviour
             Die();
         }
     }
+
+    #endregion
+
+    #region "Death"
 
     /// <summary>
     /// Maneja la muerte del enemigo (animación, collider, rigidbody, etc.)
@@ -439,14 +508,13 @@ public abstract class BaseEnemy : MonoBehaviour
             {
                 EnemyDrop enemyDrop = drop[i];
                 float rand= Random.value;
-                //print("Random: " + rand + " ChanceDrop: " + chanceDrop);
                 if(rand < enemyDrop.chanceDrop)
                 {
 
-                        GameObject objectCreated = Instantiate(enemyDrop.drop, transform.position + Vector3.up * 0.8f, Quaternion.identity);
-                            
-                        ObjectDrop objectdrop = objectCreated.GetComponent<ObjectDrop>();
-                        objectdrop.quantity = Random.Range(enemyDrop.minDrop, enemyDrop.maxDrop + 1);
+                    GameObject objectCreated = Instantiate(enemyDrop.drop, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+                        
+                    ObjectDrop objectdrop = objectCreated.GetComponent<ObjectDrop>();
+                    objectdrop.quantity = Random.Range(enemyDrop.minDrop, enemyDrop.maxDrop + 1);
                 }
             }
         }
@@ -477,6 +545,8 @@ public abstract class BaseEnemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    #endregion
+
     /// <summary>
     /// Llamado desde la animación (por ejemplo, TauntStartEvent en Animator).
     /// </summary>
@@ -495,23 +565,53 @@ public abstract class BaseEnemy : MonoBehaviour
             agent.isStopped = false;
     }
 
-    public virtual void FootstepEvent()
+    #region "Health Bar"
+
+    private void UpdateHealthBar()
     {
-        // Convertir la lista de sonidos de paso a un array
-        AudioClip[] footstepSoundsArray;
-        if (!inCombat)
-            footstepSoundsArray = footstepWalkSounds.ToArray();
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        if (redHealthPercentage > currentPct)
+        {
+            redHealthPercentage = Mathf.MoveTowards(
+                redHealthPercentage,
+                currentPct,
+                healthBarDrainSpeed * Time.deltaTime
+            );
+        }
         else
-            footstepSoundsArray = footstepRunSounds.ToArray();
-
-        // Obtener un índice aleatorio dentro del rango del array
-        int randomIndex = Random.Range(0, footstepSoundsArray.Length);
-
-        // Coger un sonido de paso aleatorio y reproducirlo
-        AudioClip footstepSound = footstepSoundsArray[randomIndex];
-        // Pitch aleatorio para mayor variedad
-        //audioSource.pitch = Random.Range(0.8f, 1.2f);
+        {
+            redHealthPercentage = currentPct;
+        }
     }
+
+    #endregion
+
+    #region "Footsteps"
+    public void PlayFootstep()
+    {
+        if (footstepAudioList == null || footstepAudioList.footstepClips.Count == 0)
+        {
+            Debug.LogWarning("No hay clips de paso asignados en FootstepAudioList.", this);
+            return;
+        }
+
+        // Elegimos un clip aleatorio
+        int index = Random.Range(0, footstepAudioList.footstepClips.Count);
+        AudioClip clip = footstepAudioList.footstepClips[index];
+
+        _audioSource.clip = clip;
+        _audioSource.volume = stepVolume;
+        _audioSource.Play();
+    }
+
+    public virtual void FootstepAnimationEvent()
+    {
+        PlayFootstep();
+        footstepDustPrefab?.Play();
+    }
+
+    #endregion
+
 
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).
@@ -533,6 +633,8 @@ public abstract class BaseEnemy : MonoBehaviour
         return futurePos;
     }
 
+    #region "Debug"
+
     // Puedes sobrescribir OnDrawGizmos si quieres debug de visión, etc.
     protected virtual void OnDrawGizmosSelected()
     {
@@ -546,5 +648,61 @@ public abstract class BaseEnemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + leftRayRotation * forward);
         Gizmos.DrawLine(transform.position, transform.position + rightRayRotation * forward);
     }
+
+    public virtual void OnGUI()
+    {
+        if (Camera.main == null) return;
+        if (player && player.GetComponent<PlayerCombat>().isDead) return;
+        if (!drawGUI) return;
+
+        // Posición 2 unidades sobre el enemigo
+        Vector3 worldPos = transform.position + Vector3.up * 2f;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+        screenPos.y = Screen.height - screenPos.y;
+        
+
+        float barWidth = 50f;
+        float barHeight = 5f;
+
+        // Porcentajes
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        float redPct = redHealthPercentage;
+
+        // Rectángulos
+        Rect bgRect = new Rect(
+            screenPos.x - barWidth / 2f,
+            screenPos.y,
+            barWidth,
+            barHeight
+        );
+        Rect redRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * redPct,
+            barHeight
+        );
+        Rect greenRect = new Rect(
+            bgRect.x,
+            bgRect.y,
+            barWidth * currentPct,
+            barHeight
+        );
+
+        // Fondo negro
+        GUI.color = Color.black;
+        GUI.DrawTexture(bgRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra roja
+        GUI.color = Color.red;
+        GUI.DrawTexture(redRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Barra verde (salud actual)
+        GUI.color = Color.green;
+        GUI.DrawTexture(greenRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+        // Restaurar
+        GUI.color = Color.white;
+    }
     
+    #endregion
 }

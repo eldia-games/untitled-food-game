@@ -70,6 +70,7 @@ public class Warrior : BaseEnemyV2
                 {
                     currentState = EnemyState.Combat;
                     inCombat = true;
+                    drawGUI = true;
                 }
                 break;
 

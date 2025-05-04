@@ -1855,7 +1855,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05f4d4f041fba664cb676aa10cd59084, type: 2}
   - {fileID: 11400000, guid: b73b38fa5ce2cec40842a91977b8526e, type: 2}
   - {fileID: 11400000, guid: 5ea73f33250c99b4f952ef8df5939543, type: 2}
-  - {fileID: 11400000, guid: a85fd2b55cf18724eaa5af21e92fec52, type: 2}
+  - {fileID: 11400000, guid: 071f4acd73265eb4b8823ee11d1113e3, type: 2}
   - {fileID: 11400000, guid: 7df34f1c2a7ba894c8dd91ab6a2dbfb0, type: 2}
   mouth: {fileID: 412039701569570514}
   mouthAttackCollider: {fileID: 2956677211366995426}
@@ -1863,6 +1863,7 @@ MonoBehaviour:
   rig: {fileID: 3846975632053590927}
   rigBuilder: {fileID: 8068833250521746440}
   aimConstraint: {fileID: 1966615719972151535}
+  effectsConfig: {fileID: 0}
 --- !u!54 &106138168874025411
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2019,7 +2020,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

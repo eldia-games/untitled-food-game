@@ -913,7 +913,7 @@ GameObject:
   - component: {fileID: 2102975565798356519}
   m_Layer: 0
   m_Name: trees
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2010,7 +2010,7 @@ GameObject:
   - component: {fileID: 8643192283591451947}
   m_Layer: 0
   m_Name: TreesA
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2057,6 +2057,8 @@ MonoBehaviour:
   - {fileID: 181693228425644699, guid: caf7dd07b0c991440af500950c658f95, type: 3}
   - {fileID: 181693228425644699, guid: 4e539df1e2552c340b277f36a5b3f18f, type: 3}
   - {fileID: 6131545999587100423, guid: 3386c5c3f94a9e04d804197b1327c667, type: 3}
+  - {fileID: 8563989404566464410, guid: 375c89c0374e54e4d851a8ecdeee880e, type: 3}
+  - {fileID: 8563989404566464410, guid: da322d0877ae1fe48b02db8725afe30c, type: 3}
   player: {fileID: 5424111134732516987}
   exit: {fileID: 5825606350010608906}
   playerAnimator: {fileID: 6132157177949309544}
@@ -3832,7 +3834,7 @@ GameObject:
   - component: {fileID: 1810308537202230128}
   m_Layer: 0
   m_Name: cameras
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4058,7 +4060,7 @@ GameObject:
   - component: {fileID: 4827746518367032863}
   m_Layer: 0
   m_Name: plants
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5193,7 +5195,7 @@ GameObject:
   - component: {fileID: 3817892060606000692}
   m_Layer: 0
   m_Name: Exit
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6407,7 +6409,7 @@ GameObject:
   - component: {fileID: 8325051739039716004}
   m_Layer: 0
   m_Name: plane
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6484,7 +6486,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6799070753972708138}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c99905fd94597b043917b330b1ae01a3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -8635,7 +8637,7 @@ GameObject:
   - component: {fileID: 2379148131488684718}
   m_Layer: 0
   m_Name: Spawns
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

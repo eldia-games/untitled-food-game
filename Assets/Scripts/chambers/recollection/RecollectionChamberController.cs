@@ -22,15 +22,15 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController {
 
   private void Awake() {
     pos = new Vector3[] {
-      new Vector3(-1.5f, 0, -3.0f),
-      new Vector3(+0.0f, 0, -3.0f),
-      new Vector3(+1.5f, 0, -3.0f),
-      new Vector3(-1.5f, 0, +0.0f),
-      new Vector3(+0.0f, 0, +0.0f),
-      new Vector3(+1.5f, 0, +0.0f),
-      new Vector3(-1.5f, 0, +3.0f),
-      new Vector3(+0.0f, 0, +3.0f),
-      new Vector3(+1.5f, 0, +3.0f),
+      new Vector3(-1.5f, 0, -3.75f),
+      new Vector3(+0.0f, 0, -3.75f),
+      new Vector3(+1.5f, 0, -3.75f),
+      new Vector3(-1.5f, 0, +0.00f),
+      new Vector3(+0.0f, 0, +0.00f),
+      new Vector3(+1.5f, 0, +0.00f),
+      new Vector3(-1.5f, 0, +3.75f),
+      new Vector3(+0.0f, 0, +3.75f),
+      new Vector3(+1.5f, 0, +3.75f),
     };
   }
 

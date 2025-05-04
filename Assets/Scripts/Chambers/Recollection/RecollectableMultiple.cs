@@ -26,7 +26,7 @@ public class RecollectableMultiple : MonoBehaviour
             for (int i = 0; i < gen; i++)
             {
                 randSpawn=(randSpawn+1)%spawnPos.Count;
-                GameObject objectCreated = Instantiate(spwaneable, spawnPos[i].transform.position, Quaternion.identity);
+                GameObject objectCreated = Instantiate(spwaneable, spawnPos[randSpawn].transform.position, Quaternion.identity);
                 ObjectDrop objectdrop = spwaneable.GetComponent<ObjectDrop>();
                 objectdrop.quantity = 1;
 

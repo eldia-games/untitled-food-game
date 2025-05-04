@@ -61,7 +61,7 @@ public class BossHomingSpellSkill : BossSkillScriptableObject
 
             GameObject spell = Instantiate(spellPrefab, spawnPos, Quaternion.identity);
             BossSpellProjectile spellScript = spell.GetComponent<BossSpellProjectile>();
-            if (spellScript != null)
+            if (spellScript == null)
             {
                 Debug.LogError("No existe el prefab del proyectil.");
                 spellScript.SetTarget(player.transform);
