@@ -42,7 +42,7 @@ public class BarragePredictSpellBossSkill : BossSkillScriptableObject
     {
         // Detener el movimiento del enemigo y pausar la animación para mayor control
         boss.StopMovement();
-        //enemy.animator.speed = 0f;
+        
 
         float elapsedTime = 0f;
         float interval = 1f / projectilesPerSec;

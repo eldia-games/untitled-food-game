@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 3
   damage: 5
-  minRange: 9
+  minRange: 3
   maxRange: 20
-  isCasting: 1
+  isMelee: 0
+  isCasting: 0
   projectilesPerSec: 10
-  duration: 1.5
+  duration: 3
   spellPrefab: {fileID: 763926121025538394, guid: 9215c5b5aab1b374784e200e69cadc11, type: 3}
