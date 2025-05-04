@@ -567,7 +567,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     #region "Health Bar"
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         float currentPct = Mathf.Clamp01(health / maxHealth);
         if (redHealthPercentage > currentPct)
@@ -697,7 +697,7 @@ public abstract class BaseEnemy : MonoBehaviour
         GUI.DrawTexture(redRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
 
         // Barra verde (salud actual)
-        GUI.color = Color.green;
+        GUI.color = new Color(0.2f, 0.75f, 0.2f, 1f); // Verde 
         GUI.DrawTexture(greenRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
 
         // Restaurar

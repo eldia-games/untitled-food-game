@@ -169,6 +169,10 @@ public class PlayerCombat : MonoBehaviour
 
         UIManager.Instance.SetHealth(HP);
         UIManager.Instance.SetMana(MP);
+
+        UIManager.Instance.SetDamage(damage);
+        UIManager.Instance.SetAttackSpeed(velAttack);
+        UIManager.Instance.SetPush(PushForce);
         }
         catch(Exception e){
             Debug.Log("Error: " + e);
@@ -731,22 +735,19 @@ public class PlayerCombat : MonoBehaviour
         switch (_interactor.GetInteractionType()) {
             case InteractionType.None:
                 break;
-
-            case InteractionType.NormalInteraction :
+            case InteractionType.NormalInteraction:
                 _anim.SetTrigger("Interact");
-                _anim.SetInteger("InteractionType", 0);
+                _anim.SetFloat("InteractionType", 0);
                 break;
-            case InteractionType.FirePlaceInteraction :
+            case InteractionType.FirePlaceInteraction:
                 _anim.SetTrigger("Interact");
                 _anim.SetFloat("InteractionType", 1);
                 StartCoroutine(InteractCooldown());
                 break;
-
         }
         StartCoroutine(InteractCooldown());
         _interactor.interact();
-        //interact with objects}
-
+        //interact with objects
     }
 
     private void OnDie()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class RecollectionChamberController : MonoBehaviour, IChamberController
 {
     [SerializeField] private List<Transform> spawns;
@@ -10,6 +11,7 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject exit;
     [SerializeField] private Animator playerAnimator;
+
 
 
 

@@ -11,16 +11,25 @@ public class HealthManaUIManager : MonoBehaviour
     public Slider healthSlider, manaSlider;
     public Gradient healthGradient, manaGradient;
     public Image healthFill, manaFill;
-    public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP;
+
+    public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP, damageTMP, velAttackTMP, PushTMP;
+
+
+
 
 
 
     public void ResetPlayer()
     {
+
         SetMaxHealth(PlayerStatsController.Instance.getMaxHealth());
         SetMaxMana(PlayerStatsController.Instance.getMaxMana());
         SetHealth(PlayerStatsController.Instance.getHealth());
         SetMana(PlayerStatsController.Instance.getMana());
+        SetDamage(PlayerStatsController.Instance.getDamage());
+        SetAttackSpeed(PlayerStatsController.Instance.getAttackSpeed());
+        SetPush(PlayerStatsController.Instance.getPush());
+
     }
 
     public void SetMaxHealth(float health) {
@@ -48,6 +57,21 @@ public class HealthManaUIManager : MonoBehaviour
         currentManaTMP.text = Mathf.RoundToInt(mana).ToString();
         manaSlider.value = mana;
         manaFill.color = manaGradient.Evaluate(manaSlider.normalizedValue);
+    }
+
+    public void SetDamage(float damage)
+    {
+        damageTMP.text = damage.ToString();
+    }
+
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        velAttackTMP.text = attackSpeed.ToString();
+    }
+
+    public void SetPush(float push)
+    {
+        PushTMP.text = push.ToString();
     }
 
     public void RegenMana(float manaRegenRate)
