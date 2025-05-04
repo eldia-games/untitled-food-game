@@ -61,6 +61,17 @@ public class PowerUpStatsController : MonoBehaviour
     [SerializeField] private float  manaRegenAdd;
     [SerializeField] private float manaRegenBase;
 
+    [Header("Achievements")]
+
+    [SerializeField] private ScriptableAchievement MaxHealAchievement;
+    [SerializeField] private ScriptableAchievement HealAchievement;
+    [SerializeField] private ScriptableAchievement DamageAchievement;
+    [SerializeField] private ScriptableAchievement AttackSpeedAchievement;
+    [SerializeField] private ScriptableAchievement MovementAchievement;
+    [SerializeField] private ScriptableAchievement PushAchievement;
+    [SerializeField] private ScriptableAchievement ManaAchievement;
+    [SerializeField] private ScriptableAchievement ManaRegenlAchievement;
+
 
     #endregion
 
@@ -136,6 +147,7 @@ public class PowerUpStatsController : MonoBehaviour
     #region PowerUps
     public void LevelUpPowerUp(powerUpType type)
     {
+       
 
         switch (type)
         {
@@ -145,6 +157,7 @@ public class PowerUpStatsController : MonoBehaviour
                 if (stats.getMaxLifeLevel() < maxLevel)
                 {
                     stats.levelUpMaxLifeLevel();
+                    AchievementController.Instance.stepAchievement(MaxHealAchievement);
                 }
 
                 break;
@@ -152,42 +165,50 @@ public class PowerUpStatsController : MonoBehaviour
                 if (stats.getHealLevel() < maxLevel)
                 {
                     stats.levelUpHealLevel();
+                    AchievementController.Instance.stepAchievement(HealAchievement);
                 }
                 break;
             case powerUpType.Damage:
                 if (stats.getDamageLevel() < maxLevel)
                 {
                     stats.levelUpDamageLevel();
+                    AchievementController.Instance.stepAchievement(DamageAchievement);
                 }
+
                 break;
             case powerUpType.AttackSpeed:
                 if (stats.getAttackSpeedLevel() < maxLevel)
                 {
                     stats.levelUpAttackSpeedLevel();
+                    AchievementController.Instance.stepAchievement(AttackSpeedAchievement);
                 }
                 break;
             case powerUpType.Movement:
                 if (stats.getMovementSpeedLevel() < maxLevel)
                 {
                     stats.levelUpMovementSpeed();
+                    AchievementController.Instance.stepAchievement(MovementAchievement);
                 }
                 break;
             case powerUpType.Push:
                 if (stats.getPushForceLevel() < maxLevel)
                 {
                     stats.levelUpPushForceLevel();
+                    AchievementController.Instance.stepAchievement(PushAchievement);
                 }
                 break;
             case powerUpType.Mana:
                 if (stats.getMaxManaLevel() < maxLevel)
                 {
                     stats.levelUpMaxManaLevel();
+                    AchievementController.Instance.stepAchievement(ManaAchievement);
                 }
                 break;
             case powerUpType.ManaRegen:
                 if (stats.getManaRegenLevel() < maxLevel)
                 {
                     stats.levelUpManaRegenLevel();
+                    AchievementController.Instance.stepAchievement(ManaRegenlAchievement);
                 }
                 break;
             default:

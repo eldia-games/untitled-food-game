@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,16 @@ public class BossChamberController : MonoBehaviour, IChamberController {
   [SerializeField] private Animator playerAnimator;
   [SerializeField] private GameObject boss;
   [SerializeField] private GameObject door;
-  private Animator doorAnimator;
+   [Header("Achievements")]
+    [SerializeField] private ScriptableAchievement Sword1;
+    [SerializeField] private ScriptableAchievement Sword10;
+    [SerializeField] private ScriptableAchievement Axe1;
+    [SerializeField] private ScriptableAchievement Axe10;
+    [SerializeField] private ScriptableAchievement Bow1;
+    [SerializeField] private ScriptableAchievement Bow10;
+    [SerializeField] private ScriptableAchievement Staff1;
+    [SerializeField] private ScriptableAchievement Staff10;
+    private Animator doorAnimator;
 
   void Start() {
     doorAnimator = door.GetComponent<Animator>();
@@ -27,6 +37,27 @@ public class BossChamberController : MonoBehaviour, IChamberController {
 
   public void OnExit(GameObject exit /* unused */) {
     UIManager.Instance.ShowVictoryCanvas();
+        switch (GameManager.Instance.getCurrentWeaponType())
+        {
+            case 0: //espada
+                AchievementController.Instance.stepAchievement(Sword1);
+                AchievementController.Instance.stepAchievement(Sword10);
+                break;
+            case 1: // hacha
+                AchievementController.Instance.stepAchievement(Axe1);
+                AchievementController.Instance.stepAchievement(Axe10);
+                break;
+            case 2: // bayesta
+                AchievementController.Instance.stepAchievement(Bow1);
+                AchievementController.Instance.stepAchievement(Bow10);
+                break;
+            case 4: // staff  
+                AchievementController.Instance.stepAchievement(Staff1);
+                AchievementController.Instance.stepAchievement(Staff10);
+                break;
+            default:
+                break;
+        }
   }
 
   IEnumerator EnterDungeon() {

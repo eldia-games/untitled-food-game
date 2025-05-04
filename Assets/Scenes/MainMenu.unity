@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 295202020}
   m_Direction: 3
   m_Value: 1
-  m_Size: 0.5
+  m_Size: 0.49999997
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4469,9 +4469,9 @@ RectTransform:
   - {fileID: 930315951}
   m_Father: {fileID: 201878510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -87.5}
   m_SizeDelta: {x: 100, y: 175}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &252483341
@@ -4967,7 +4967,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 347519520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.000000029802322}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -8022,6 +8022,14 @@ MonoBehaviour:
   maxManaBase: 10
   manaRegenAdd: 0.1
   manaRegenBase: 0.1
+  MaxHealAchievement: {fileID: 11400000, guid: ea75e96d35e09214d8ca9806eba96186, type: 2}
+  HealAchievement: {fileID: 11400000, guid: b3032cc9dd7684f44a58a264c536b5ba, type: 2}
+  DamageAchievement: {fileID: 11400000, guid: f0ff88730d97db34c9723da9f015a4b1, type: 2}
+  AttackSpeedAchievement: {fileID: 11400000, guid: d8a949b955afdd645bb1f82364f6bcf5, type: 2}
+  MovementAchievement: {fileID: 11400000, guid: ade00e82cfee60c498a4dc7800d3b4ff, type: 2}
+  PushAchievement: {fileID: 11400000, guid: df42ef4798bc38448aca8141f5552d11, type: 2}
+  ManaAchievement: {fileID: 11400000, guid: 6231449f373f11c42b78ddae9b760fcf, type: 2}
+  ManaRegenlAchievement: {fileID: 11400000, guid: 06f948ffe1ac19a4b992d6a670fcaacb, type: 2}
 --- !u!114 &556083511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10561,9 +10569,9 @@ RectTransform:
   - {fileID: 823338128}
   m_Father: {fileID: 201878510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -87.5}
   m_SizeDelta: {x: 100, y: 175}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &655659647
@@ -13366,9 +13374,9 @@ RectTransform:
   - {fileID: 390544870}
   m_Father: {fileID: 201878510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 300, y: -87.5}
   m_SizeDelta: {x: 100, y: 175}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &805450348
@@ -15983,7 +15991,7 @@ RectTransform:
   m_Father: {fileID: 325424730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -19799,7 +19807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1166697421
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31183,7 +31191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1800012347
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34977,7 +34985,7 @@ RectTransform:
   m_Father: {fileID: 48568539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
