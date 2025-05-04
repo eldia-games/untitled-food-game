@@ -10,10 +10,6 @@ public class RecollectionChamberController : MonoBehaviour, IChamberController {
   [SerializeField] private GameObject exit;
   [SerializeField] private Animator playerAnimator;
 
-  [SerializeField] private float centerDistanceW = 1.5f;
-  [SerializeField] private float centerDistanceH = 3.0f;
-
-
   private Vector3[] pos;
 
   public void OnExit() {
