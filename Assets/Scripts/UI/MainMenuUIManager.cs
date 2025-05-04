@@ -49,7 +49,26 @@ public class UIManager : MonoBehaviour
         ShowMainMenu();
         AudioManager.Instance.PlayMenuMusic();
     }
+    private void pauseGame()
+    {
+        Time.timeScale = 0;
+    }
 
+    private void resumeGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    #region Main Menu
     public void ShowMainMenuCanvas()
     {
         HideAllCanvas();
@@ -64,6 +83,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Lobby
     public void ShowLobbyCanvas()
     {
         HideAllCanvas();
@@ -83,6 +105,9 @@ public class UIManager : MonoBehaviour
         return ArrayCanvas[1].gameObject.activeSelf;
     }
 
+    #endregion
+
+    #region Map
     public void ShowMapCanvas()
     {
         pauseLocked = false;
@@ -98,7 +123,9 @@ public class UIManager : MonoBehaviour
         ShowMap();
         AudioManager.Instance.PlaySFXClose();
     }
+    #endregion
 
+    #region Chamber
     public void ShowChamberCanvas()
     {
         pauseLocked = false;
@@ -107,13 +134,26 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
+    #endregion
+
+    #region Basement
     public void ShowBasementCanvas()
     {
         pauseLocked = false;
         HideAllCanvas();
         ShowBasement();
     }
+    
+    public void HideBasementCanvas()
+    {
+        pauseLocked = false;
+        HideBasement();
+        AudioManager.Instance.PlaySFXClose();
+    }
 
+    #endregion
+
+    #region Tutorial
     public void ShowWelcomeCanvas()
     {
         pauseGame();
@@ -145,15 +185,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
-    private void pauseGame()
-    {
-        Time.timeScale = 0;
-    }
+    #endregion
 
-    private void resumeGame()
-    {
-        Time.timeScale = 1;
-    }
+    #region Pause
     public void ShowPauseCanvas()
     {
         pauseUIManager.RefreshPauseUI();
@@ -193,6 +227,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Settings
     public void ShowSettingsCanvas()
     {
         pauseLocked = true;
@@ -210,6 +247,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Rebind
     public void ReturnFromRebind()
     {
         pauseLocked = false;
@@ -218,6 +258,31 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    public void ShowControlsRebind()
+    {
+        pauseLocked = true;
+        HideSettings();
+        ShowRebind();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void HideControlsRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void HideControlsRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Credits
     public void ShowCreditsCanvas()
     {
         HideMainMenu();
@@ -225,6 +290,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Mission
     public void ShowMisionCanvas()
     {
         pauseLocked = true;
@@ -234,6 +302,21 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    public void refreshMission()
+    {
+        missionUIManager.RefreshMissionUI();
+    }
+
+    public void HideMissionsCanvas()
+    {
+        pauseLocked = false;
+        HideMissions();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Help
     public void ShowHelpCanvas()
     {
         pauseLocked = true;
@@ -242,6 +325,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Weapons
     public void ShowWeaponsCanvas()
     {
         pauseLocked = true;
@@ -250,6 +336,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Upgrades
     public void ShowUpgradesCanvas()
     {
         pauseLocked = true;
@@ -259,6 +348,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Achievements
     public void ShowAchievementsCanvas()
     {
         pauseLocked = true;
@@ -266,6 +358,10 @@ public class UIManager : MonoBehaviour
         ShowAchievements();
         AudioManager.Instance.PlaySFXClick();
     }
+
+    #endregion
+
+    #region Endgame
     public void ShowEndGameCanvas()
     {
         pauseLocked = true;
@@ -275,6 +371,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayEndGameMusic();
     }
 
+    #endregion
+
+    #region PopUp
     public void ShowPopUpCanvas(string action,bool active)
     {
         popUpUIManager.hideChamberPopUp();
@@ -333,49 +432,13 @@ public class UIManager : MonoBehaviour
         popUpUIManager.hidePowerUpPopUp();
         AudioManager.Instance.PlaySFXClose();
     }
+
+    #endregion
+
+    #region Shop
     public void RefreshShop(List<Trade> trades,ShopController shop)
     {
         shopUIManager.RefreshShopUI(trades, shop);
-    }
-
-    public void refreshMission()
-    {
-        missionUIManager.RefreshMissionUI();
-    }
-
-    //public void MissionClick(int missionIndex)
-    //{
-    //    bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
-    //    missionUIManager.MissionAction(missionIndex);
-    //    if (missionCorrect)
-    //    {
-    //        AudioManager.Instance.PlaySFXConfirmation();
-    //        missionUIManager.RefreshMissionUI();
-    //    }
-    //    else
-    //    {
-    //        AudioManager.Instance.PlaySFXClose();
-    //    }
-    //}
-    //public void TradeClick(int tradeIndex)
-    //{
-    //    bool tradeCorrect = false;
-    //    shopUIManager.TradeAction(tradeIndex, tradeCorrect);
-    //    if (tradeCorrect)
-    //    {
-    //        AudioManager.Instance.PlaySFXConfirmation();
-    //    }
-    //    else
-    //    {
-    //        AudioManager.Instance.PlaySFXClose();
-    //    }
-    //}
-
-    public void HideBasementCanvas()
-    {
-        pauseLocked = false;
-        HideBasement();
-        AudioManager.Instance.PlaySFXClose();
     }
 
     public void ShowShopCanvas()
@@ -393,28 +456,9 @@ public class UIManager : MonoBehaviour
         HideShop();
         AudioManager.Instance.PlaySFXClose();
     }
+    #endregion
 
-    public void HideMissionsCanvas()
-    {
-        pauseLocked = false;
-        HideMissions();
-        AudioManager.Instance.PlaySFXClose();
-    }
-    public void ShowControlsRebind()
-    {
-        pauseLocked = true;
-        HideSettings();
-        ShowRebind();
-        AudioManager.Instance.PlaySFXClick();
-    }
-
-    public void HideControlsRebind()
-    {
-        HideRebind();
-        ShowSettings();
-        AudioManager.Instance.PlaySFXClose();
-    }
-
+    #region Victory
     public void ShowVictoryCanvas()
     {
         pauseLocked = true;
@@ -431,18 +475,15 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Persistency
     public bool canLoadGame()
     {
         return InventorySafeController.Instance.canLoadGame() && PowerUpStatsController.Instance.canLoadGame();
     }
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
+
+    #endregion
 
     #region Player Stats UI
 
