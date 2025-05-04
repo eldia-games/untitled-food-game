@@ -276,6 +276,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowPopUpCanvas(string action,bool active)
     {
+        popUpUIManager.hideChamberPopUp();
+        popUpUIManager.hidePowerUpPopUp();
         popUpUIManager.displaypopUpHelp(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
