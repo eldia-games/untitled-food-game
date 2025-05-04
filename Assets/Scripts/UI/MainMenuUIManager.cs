@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex != 0)
+        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 4)
         {
             TogglePauseCanvas();
         }
@@ -472,6 +472,10 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.EnterLobbyScene();
                 break;
 
+            case 4:
+                GameManager.Instance.EnterLobbyScene();
+                break;
+
             case 1:
                 GameManager.Instance.EnterMainMenuScene();
                 break;
@@ -551,124 +555,124 @@ public class UIManager : MonoBehaviour
 
     private void HideSettings()
     {
-        HideCanvasByIndex(4);
-    }
-    private void ShowSettings()
-    {
-        ShowCanvasByIndex(4);
-    }
-
-    private void HideCredits()
-    {
         HideCanvasByIndex(5);
     }
-    private void ShowCredits()
+    private void ShowSettings()
     {
         ShowCanvasByIndex(5);
     }
 
-    private void HidePause()
+    private void HideCredits()
     {
         HideCanvasByIndex(6);
     }
-
-    private void ShowPause()
+    private void ShowCredits()
     {
         ShowCanvasByIndex(6);
     }
-    private void HideMissions()
+
+    private void HidePause()
     {
         HideCanvasByIndex(7);
     }
 
-    private void ShowMissions()
+    private void ShowPause()
     {
         ShowCanvasByIndex(7);
     }
-    private void HideHelp()
+    private void HideMissions()
     {
         HideCanvasByIndex(8);
     }
 
-    private void ShowHelp()
+    private void ShowMissions()
     {
         ShowCanvasByIndex(8);
     }
-    private void HideWeapon()
+    private void HideHelp()
     {
         HideCanvasByIndex(9);
     }
 
-    private void ShowWeapon()
+    private void ShowHelp()
     {
         ShowCanvasByIndex(9);
     }
-    private void HideUpgrades()
+    private void HideWeapon()
     {
         HideCanvasByIndex(10);
     }
 
-    private void ShowUpgrades()
+    private void ShowWeapon()
     {
         ShowCanvasByIndex(10);
     }
-    private void HideAchievements()
+    private void HideUpgrades()
     {
         HideCanvasByIndex(11);
     }
 
-    private void ShowAchievements()
+    private void ShowUpgrades()
     {
         ShowCanvasByIndex(11);
     }
-    private void HideEndGame()
+    private void HideAchievements()
     {
         HideCanvasByIndex(12);
     }
 
-    private void ShowEndGame()
+    private void ShowAchievements()
     {
         ShowCanvasByIndex(12);
+    }
+    private void HideEndGame()
+    {
+        HideCanvasByIndex(13);
+    }
+
+    private void ShowEndGame()
+    {
+        ShowCanvasByIndex(13);
     }
 
     private void ShowPopUp()
     {
-        ShowCanvasByIndex(13);
+        ShowCanvasByIndex(14);
     }
 
     private void HidePopUp()
     {
         popUpUIManager.hidePopUps();
-        HideCanvasByIndex(13);
+        HideCanvasByIndex(14);
     }
 
     private void ShowShop()
     {
-        ShowCanvasByIndex(14);
+        ShowCanvasByIndex(15);
     }
 
     private void HideShop()
     {
-        HideCanvasByIndex(14);
+        HideCanvasByIndex(15);
     }
 
     private void ShowRebind()
     {
-        ShowCanvasByIndex(15);
+        ShowCanvasByIndex(16);
     }
 
     private void HideRebind()
     {
-        HideCanvasByIndex(15);
+        HideCanvasByIndex(17);
     }
     private void ShowVictory()
     {
-        ShowCanvasByIndex(16);
+        ShowCanvasByIndex(17);
     }
 
     private void HideVictory()
     {
-        HideCanvasByIndex(16);
+        HideCanvasByIndex(17);
     }
 
     #endregion 
