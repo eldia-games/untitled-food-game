@@ -7,6 +7,21 @@ public class AchievementController : MonoBehaviour
     [SerializeField] private List<ScriptableAchievement> posibleAchievements;
     private InventorySafeController inventory;
 
+    public static AchievementController Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
 
     public List<Achievement> GetAchievements()
     {
@@ -17,8 +32,7 @@ public class AchievementController : MonoBehaviour
 
         }
         List<Achievement> actualAchievements = inventory.getAchievements();
-        //if (actualAchievements.Count != posibleAchievements.Count)
-        //{
+
         List<Achievement> achievements = new List<Achievement>();
         bool found = false;
         foreach (ScriptableAchievement ach in posibleAchievements)
@@ -42,12 +56,12 @@ public class AchievementController : MonoBehaviour
 
         }
         inventory.setAchievements(achievements);
-       // }
+
         return inventory.getAchievements();
 
     }
 
-    public void completeAchievementStep(ScriptableAchievement ach)
+    public void stepAchievement(ScriptableAchievement ach)
     {
         List<Achievement> actualAchievements = inventory.getAchievements();
         for (int i = 0; i < actualAchievements.Count; i++)
@@ -58,11 +72,35 @@ public class AchievementController : MonoBehaviour
                 if (!achi.isCompleted())
                 {
                     int maxStep = achi.getNnumRepetitions();
-                    achi.addStep();
                     int actualStep = achi.getTimesDone();
-                    if(actualStep >= maxStep)
+                    if (actualStep < maxStep)
+                    {
+                        achi.addStep();
+                    }
+                    
+                    
+                }
+                break;
+            }
+        }
+        inventory.saveInventory();
+    }
+    public void completeAchievement(Achievement ach)
+    {
+        List<Achievement> actualAchievements = inventory.getAchievements();
+        for (int i = 0; i < actualAchievements.Count; i++)
+        {
+            if (actualAchievements[i].getScriptableAchievement() == ach.getScriptableAchievement())
+            {
+                Achievement achi = actualAchievements[i];
+                if (!achi.isCompleted())
+                {
+                    int maxStep = achi.getNnumRepetitions();
+                    int actualStep = achi.getTimesDone();
+                    if (actualStep >= maxStep)
                     {
                         achi.complete();
+                        //AÑAdir dinero
                     }
                 }
                 break;
