@@ -22,7 +22,7 @@ public class PlayerStatsController : MonoBehaviour {
 
   public void healprct(float heal) {
     stats.HP = Mathf.Min(stats.HP + stats.maxLife * heal, stats.maxLife);
-    UIManager.Instance.ResetPlayerHealthMana();
+    //UIManager.Instance.ResetPlayerUiStats();
   }
 
   public void augmentMaxHealht(int healht) {

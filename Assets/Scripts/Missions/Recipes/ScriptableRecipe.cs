@@ -9,8 +9,8 @@ public struct missionItem
     public Items item;
     public int quantity;
 }
-[CreateAssetMenu(fileName = "New Mission", menuName = "Missions/Mission")]
-public class ScriptableMission : ScriptableObject
+[CreateAssetMenu(fileName = "New Recipe", menuName = "Missions/Recipe")]
+public class ScriptableRecipe : ScriptableObject
 {
    public   List<missionItem> items;
    public   int level;
