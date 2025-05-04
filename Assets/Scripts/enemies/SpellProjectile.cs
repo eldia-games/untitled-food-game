@@ -38,6 +38,12 @@ public class SpellProjectile : MonoBehaviour
         }
     }
 
+    public void SetSpeed(float speed)
+    {
+        // Set the initial direction of the spell
+        this.speed = speed;
+    }
+
     void Update()
     {
         if (canSteer && target != null)

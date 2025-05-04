@@ -67,6 +67,7 @@ public class Rogue : BaseEnemyV2
                 {
                     currentState = EnemyState.Combat;
                     inCombat = true;
+                    drawGUI = true;
                 }
                 break;
 

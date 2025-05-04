@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MissionUIManager missionUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
+    public bool pauseLocked;
     public static UIManager Instance { get; private set; }
 
     private void Awake()
@@ -28,12 +29,13 @@ public class UIManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        pauseLocked = false;
     }
 
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex == 3 && !InventoryManager.Instance.inventoryUI)
+        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex != 0)
         {
             TogglePauseCanvas();
         }
@@ -68,6 +70,7 @@ public class UIManager : MonoBehaviour
     }
     public void BackToLobbyCanvas()
     {
+        pauseLocked = false;
         HideLobbyCanvases();
         ShowLobby();
         AudioManager.Instance.PlaySFXClose();
@@ -80,6 +83,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowMapCanvas()
     {
+        pauseLocked = false;
         HideAllCanvas();
         ShowMap();
         AudioManager.Instance.PlaySFXConfirmation();
@@ -87,6 +91,7 @@ public class UIManager : MonoBehaviour
 
     public void BackToMapCanvas()
     {
+        pauseLocked = false;
         HideMapCanvases();
         ShowMap();
         AudioManager.Instance.PlaySFXClose();
@@ -94,6 +99,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowChamberCanvas()
     {
+        pauseLocked = false;
         HideAllCanvas();
         ShowChamber();
         AudioManager.Instance.PlaySFXConfirmation();
@@ -109,17 +115,22 @@ public class UIManager : MonoBehaviour
 
     public void TogglePauseCanvas()
     {
-        if (Time.timeScale > 0) {
-            Time.timeScale = 0; // Pause the game
-            ShowPause();
-            AudioManager.Instance.PlaySFXClick();
-        }
-        else {
-            Time.timeScale = 1; // Resume the game
-            HidePause();
-            int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            ShowCanvasByIndex(activeSceneIndex);
-            AudioManager.Instance.PlaySFXClose();
+        if (!pauseLocked)
+        {
+            if (Time.timeScale > 0)
+            {
+                Time.timeScale = 0; // Pause the game
+                ShowPause();
+                AudioManager.Instance.PlaySFXClick();
+            }
+            else
+            {
+                Time.timeScale = 1; // Resume the game
+                HidePause();
+                int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+                ShowCanvasByIndex(activeSceneIndex);
+                AudioManager.Instance.PlaySFXClose();
+            }
         }
     }
 
@@ -134,12 +145,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowSettingsCanvas()
     {
+        pauseLocked = true;
         ShowSettings();
         AudioManager.Instance.PlaySFXClick();
     }
 
     public void ReturnFromSettings()
     {
+        pauseLocked = false;
         HideSettings();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         ShowCanvasByIndex(activeSceneIndex);
@@ -149,6 +162,7 @@ public class UIManager : MonoBehaviour
 
     public void ReturnFromRebind()
     {
+        pauseLocked = false;
         HideRebind();
         ShowSettings();
         AudioManager.Instance.PlaySFXClose();
@@ -164,6 +178,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowMisionCanvas()
     {
+        pauseLocked = true;
         HideLobby();
         ShowMissions();
         refreshMission();
@@ -172,6 +187,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowHelpCanvas()
     {
+        pauseLocked = true;
         HideLobby();
         ShowHelp();
         AudioManager.Instance.PlaySFXClick();
@@ -179,6 +195,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowWeaponsCanvas()
     {
+        pauseLocked = true;
         HideLobby();
         ShowWeapon();
         AudioManager.Instance.PlaySFXClick();
@@ -186,6 +203,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowUpgradesCanvas()
     {
+        pauseLocked = true;
         HideLobby();
         ShowUpgrades();
         upgradesUIManager.RefreshUpgrades();
@@ -194,12 +212,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowAchievementsCanvas()
     {
+        pauseLocked = true;
         HideLobby();
         ShowAchievements();
         AudioManager.Instance.PlaySFXClick();
     }
     public void ShowEndGameCanvas()
     {
+        pauseLocked = true;
         Time.timeScale = 0;
         HideAllCanvas();
         ShowEndGame();
@@ -233,9 +253,9 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
-    public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
+    public void RefreshShop(List<Trade> trades,ShopController shop)
     {
-        shopUIManager.RefreshShopUI(tradesRecieved, shop);
+        shopUIManager.RefreshShopUI(trades, shop);
     }
 
     public void refreshMission()
@@ -243,36 +263,37 @@ public class UIManager : MonoBehaviour
         missionUIManager.RefreshMissionUI();
     }
 
-    public void MissionClick(int missionIndex)
-    {
-        bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
-        missionUIManager.MissionAction(missionIndex);
-        if (missionCorrect)
-        {
-            AudioManager.Instance.PlaySFXConfirmation();
-            missionUIManager.RefreshMissionUI();
-        }
-        else
-        {
-            AudioManager.Instance.PlaySFXClose();
-        }
-    }
-    public void TradeClick(int tradeIndex)
-    {
-        bool tradeCorrect = false;
-        shopUIManager.TradeAction(tradeIndex, tradeCorrect);
-        if (tradeCorrect)
-        {
-            AudioManager.Instance.PlaySFXConfirmation();
-        }
-        else
-        {
-            AudioManager.Instance.PlaySFXClose();
-        }
-    }
+    //public void MissionClick(int missionIndex)
+    //{
+    //    bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
+    //    missionUIManager.MissionAction(missionIndex);
+    //    if (missionCorrect)
+    //    {
+    //        AudioManager.Instance.PlaySFXConfirmation();
+    //        missionUIManager.RefreshMissionUI();
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySFXClose();
+    //    }
+    //}
+    //public void TradeClick(int tradeIndex)
+    //{
+    //    bool tradeCorrect = false;
+    //    shopUIManager.TradeAction(tradeIndex, tradeCorrect);
+    //    if (tradeCorrect)
+    //    {
+    //        AudioManager.Instance.PlaySFXConfirmation();
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySFXClose();
+    //    }
+    //}
 
     public void ShowShopCanvas()
     {
+        pauseLocked = true;
         Time.timeScale = 0;
         ShowShop();
         AudioManager.Instance.PlaySFXOpen();
@@ -280,6 +301,7 @@ public class UIManager : MonoBehaviour
 
     public void HideShopCanvas()
     {
+        pauseLocked = false;
         Time.timeScale = 1;
         HideShop();
         AudioManager.Instance.PlaySFXClose();
@@ -287,11 +309,13 @@ public class UIManager : MonoBehaviour
 
     public void HideMissionsCanvas()
     {
+        pauseLocked = false;
         HideMissions();
         AudioManager.Instance.PlaySFXClose();
     }
     public void ShowControlsRebind()
     {
+        pauseLocked = true;
         HideSettings();
         ShowRebind();
         AudioManager.Instance.PlaySFXClick();
@@ -306,6 +330,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowVictoryCanvas()
     {
+        pauseLocked = true;
         Time.timeScale = 0;
         HideAllCanvas();
         AudioManager.Instance.PlayVictoryMusic();
@@ -405,10 +430,13 @@ public class UIManager : MonoBehaviour
     {
         weaponSelectionUIManager.PlayerSelectedWeapon();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (activeSceneIndex == 1)
+        if (activeSceneIndex == 1) 
             GameManager.Instance.EnterMapScene();
         else
             print("Estoy en la sala de entrenamiento");
+
+        AudioManager.Instance.PlaySFXConfirmation();
+        HideWeapon();
     }
 
     #endregion

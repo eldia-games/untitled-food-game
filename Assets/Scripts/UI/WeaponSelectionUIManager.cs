@@ -9,7 +9,7 @@ public class WeaponSelectionUIManager : MonoBehaviour
     [System.Serializable]
     private class WeaponInfo
     {
-        public int weaponID; 
+        public int weaponID;
         public string weaponName;
         public Sprite weaponImage;
         public float damage;

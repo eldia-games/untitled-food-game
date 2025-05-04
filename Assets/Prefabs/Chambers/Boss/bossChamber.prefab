@@ -18932,6 +18932,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4652710225232107754, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: actionName
+      value: return to tavern
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 718293273700251833}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BossChamberController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825702615284240353, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: interactFunction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247814446079314000, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7468886854245522958, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
       propertyPath: m_Name
       value: exit
@@ -18949,11 +18985,6 @@ GameObject:
 --- !u!4 &1422933147963973422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1674114006516720295, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
-  m_PrefabInstance: {fileID: 325635732073495945}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3014605586368064312 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3265923600662288049, guid: 6f29ed700c366504cb62b428d1b01aeb, type: 3}
   m_PrefabInstance: {fileID: 325635732073495945}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7088337449979699909 stripped
@@ -20106,10 +20137,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8542913411391038820}
     m_Modifications:
-    - target: {fileID: 1966615719972151535, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 3014605586368064312}
     - target: {fileID: 5657388819563321524, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.66
@@ -20166,14 +20193,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 7088337449979699909}
+    - target: {fileID: 5973057881547809199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7282970286576045893, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
       propertyPath: m_Name
       value: Blue
       objectReference: {fileID: 0}
-    - target: {fileID: 8779518151446723199, guid: 1be32630ac1925a4998dad7b41011abd, type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 3014605586368064312}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

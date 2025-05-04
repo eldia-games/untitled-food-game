@@ -13,6 +13,8 @@ public class SpikeFormationSpellSkill : SkillScriptableObject
     public float lateralSpacing = 0.5f;
     // Factor de desplazamiento hacia atrás (los proyectiles laterales se posicionan un poco atrás para formar la punta)
     public float backwardOffsetFactor = 0.5f;
+    // Velocidad de los proyectiles
+    public float projectileSpeed = 15f; // Velocidad de los proyectiles
     
     public GameObject spellPrefab;
     
@@ -84,6 +86,7 @@ public class SpikeFormationSpellSkill : SkillScriptableObject
             if (sp != null)
             {
                 sp.SetDirection(baseDirection);
+                sp.SetSpeed(projectileSpeed);
             }
         }
         

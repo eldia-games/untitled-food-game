@@ -56,12 +56,12 @@ public class ShopController : MonoBehaviour, IChamberController {
       trades_.Add(new Trade(objectIn.item, quantityIn, objectIn.indexLoot, objectOut.item, quantityOut, objectOut.indexLoot));
     }
 
-    UIManager.Instance.refreshShop(trades_, this);
+    UIManager.Instance.RefreshShop(trades_, this);
     StartDungeonEnterAnimation();
   }
 
-  public void OpenShop() {
-    UIManager.Instance.ShowShopCanvas();
+  public List<Trade> getTrades() {
+    return trades_;
   }
 
   public void Trade(int tradeIndex) {
