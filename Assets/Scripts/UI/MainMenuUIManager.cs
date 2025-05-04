@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
             if (Time.timeScale > 0)
             {
                 Time.timeScale = 0; // Pause the game
+                HideLobby();
                 ShowPause();
                 AudioManager.Instance.PlaySFXClick();
             }
@@ -156,8 +157,8 @@ public class UIManager : MonoBehaviour
         HideSettings();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         ShowCanvasByIndex(activeSceneIndex);
+        HideLobby();
         AudioManager.Instance.PlaySFXClose();
-        Debug.Log("Vuelvo desde opciones a donde estaba antes");
     }
 
     public void ReturnFromRebind()
@@ -166,7 +167,6 @@ public class UIManager : MonoBehaviour
         HideRebind();
         ShowSettings();
         AudioManager.Instance.PlaySFXClose();
-        Debug.Log("Vuelvo a settings desde rebind");
     }
 
     public void ShowCreditsCanvas()
@@ -384,6 +384,21 @@ public class UIManager : MonoBehaviour
         healthManaUIManager.SetMana(mana);
     }
 
+    public void SetDamage(float damage)
+    {
+        healthManaUIManager.SetDamage(damage);
+    }
+
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        healthManaUIManager.SetAttackSpeed(attackSpeed);
+    }
+
+    public void SetPush(float push)
+    {
+        healthManaUIManager.SetPush(push);
+    }
+
     public void RegenMana(float manaRegenRate)
     {
         healthManaUIManager.RegenMana(manaRegenRate);
@@ -415,7 +430,6 @@ public class UIManager : MonoBehaviour
     #region Weapon Selector
     public void ShowPrevWeapon()
     {
-        Debug.Log("Funciona boton");
         weaponSelectionUIManager.ShowPreviousWeapon();
         AudioManager.Instance.PlaySFXClick();
     }
