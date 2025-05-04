@@ -16,6 +16,8 @@ public class InventorySave
     [SerializeField] private List<Items> loot;
     [SerializeField] private List<int> lootquantity;
 
+    [SerializeField] private List<Achievement> achievements;
+
     #endregion
 
     #region Persistence
@@ -25,6 +27,7 @@ public class InventorySave
         loot = new List<Items>();
         lootquantity= new List<int>();
         missions = new List<Mission>();
+        achievements= new List<Achievement>();
     }
     public static InventorySave FromJSON(string inventoryjson)
     {
@@ -36,6 +39,16 @@ public class InventorySave
         String json= JsonUtility.ToJson(this);
         return JsonUtility.ToJson(this);
     }
+    //public void setAchievementsNumber(int number)
+    //{
+    //    if (achievements.Count < number)
+    //    {
+    //        for(int i= achievements.Count; i < number; i++)
+    //        {
+    //            achievements.Add(false);
+    //        }
+    //    }
+    //}
 
     public void clearLoot()
     {
@@ -143,5 +156,21 @@ public class InventorySave
 
     #endregion
 
+    #region Achievements 
+
+    public void SetAchievements(List<Achievement> achs)
+    {
+        this.achievements = achs;
+    }
+    public void SetAchievement(Achievement achievement, int index)
+    {
+        achievements[index] = achievement;
+    }
+    public List<Achievement> getAchievements()
+    {
+        return achievements;
+    }
+
+    #endregion
 }
 

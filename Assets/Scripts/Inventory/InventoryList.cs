@@ -48,7 +48,7 @@ public class InventoryList : MonoBehaviour
         {
             Beers--;
             PlayerStatsController.Instance.heal(PlayerStatsController.Instance.getHeal());
-            UIManager.Instance.ResetPlayerHealthMana();
+            UIManager.Instance.ResetPlayerUiStats();
         }
     }
     public void refillBeers()
