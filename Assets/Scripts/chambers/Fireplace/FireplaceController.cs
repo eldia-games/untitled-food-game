@@ -25,7 +25,7 @@ public class FireplaceController : MonoBehaviour, IChamberController {
       PlayerStatsController.Instance.healprct(healLevel);
       fireplace.GetComponent<Interactable>().Deactivate();
       InventoryList.Instance.refillBeers();
-      UIManager.Instance.ResetPlayerHealthMana();
+      UIManager.Instance.ResetPlayerUiStats();
     }
   }
 
