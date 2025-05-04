@@ -59,71 +59,6 @@ public class ShopUIManager : MonoBehaviour
         }
     }
 
-    private bool SetupShopUISinComprobacion(GameObject uiElement, Trade trade, int shopStep, ShopController shop)
-    {
-        bool status = false;
-        InventorySafeController inventory = InventorySafeController.Instance;
-        
-        // Variables cantidades items
-        int quantityShopSell = trade.getQuantityOut();
-        int quantityInventorySell = inventory.getQuantity(trade.getItemOut());
-        
-        int quantityShopBuy = trade.getQuantityIn();
-        int quantityInventoryBuy = inventory.getQuantity(trade.getItemOut());
-        
-        // Configurar nombres items
-        TextMeshProUGUI nameSellText = uiElement.transform.Find(sellItemNamePath).GetComponent<TextMeshProUGUI>();
-        nameSellText.text = trade.getItemOut().name;
-
-        TextMeshProUGUI nameBuyText = uiElement.transform.Find(buyItemNamePath).GetComponent<TextMeshProUGUI>();
-        nameBuyText.text = trade.getItemIn().name;
-
-        // Configurar cantidad tienda 
-        TextMeshProUGUI shopQuantitySell = uiElement.transform.Find(sellItemShopAmountPath).GetComponent<TextMeshProUGUI>();
-        shopQuantitySell.text = quantityShopSell.ToString();
-
-        TextMeshProUGUI shopQuantityBuy = uiElement.transform.Find(buyItemShopAmountPath).GetComponent<TextMeshProUGUI>();
-        shopQuantityBuy.text = quantityShopBuy.ToString();
-
-        // Configurar cantidad inventario 
-        TextMeshProUGUI inventoryQuantitySell = uiElement.transform.Find(sellItemInventoryAmountPath).GetComponent<TextMeshProUGUI>();
-        inventoryQuantitySell.text = quantityInventorySell.ToString();
-
-        TextMeshProUGUI inventoryQuantityBuy = uiElement.transform.Find(buyItemInventoryAmountPath).GetComponent<TextMeshProUGUI>();
-        inventoryQuantityBuy.text = quantityInventoryBuy.ToString();
-
-        // Configurar los sprites
-        var spriteItemSell = uiElement.transform.Find(sellItemInventorySpritePath).GetComponent<RawImage>();
-        if (spriteItemSell != null)
-        {
-            spriteItemSell.texture = trade.getItemOut().icon;
-        }
-
-        var spriteItemBuy = uiElement.transform.Find(buyItemInventorySpritePath).GetComponent<RawImage>();
-        if (spriteItemBuy != null)
-        {
-            spriteItemBuy.texture = trade.getItemIn().icon;
-        }
-
-        status = (quantityShopSell - quantityInventorySell) <= 0;
-        
-        // Configurar boton estatus
-        TextMeshProUGUI buttonText = uiElement.transform.Find(buttonTextPath).GetComponent<TextMeshProUGUI>();
-        if (status)
-            buttonText.text = "Trade";
-        else
-            buttonText.text = "Can't trade";
-
-        //Configurar boton listener
-        Button button = uiElement.transform.Find(buttonActionPath).GetComponent<Button>();
-        button.onClick.AddListener(() =>
-        {
-            ShopAction(shopStep, shop);
-        });
-
-        return status;
-    }
-
     private bool SetupShopUI(GameObject uiElement, Trade trade, int shopStep, ShopController shop)
     {
         bool status = false;
@@ -145,17 +80,17 @@ public class ShopUIManager : MonoBehaviour
         }
 
         // Variables cantidades items
-        int quantityShopSell = trade.getQuantityOut();
-        int quantityInventorySell = inventory.getQuantity(trade.getItemOut());
+        int quantityShopSell = trade.getQuantityIn();
+        int quantityInventorySell = inventory.getQuantity(trade.getItemIn());
 
-        int quantityShopBuy = trade.getQuantityIn();
+        int quantityShopBuy = trade.getQuantityOut();
         int quantityInventoryBuy = inventory.getQuantity(trade.getItemOut());
 
         // Configurar nombres items
         TextMeshProUGUI nameSellText = uiElement.transform.Find(sellItemNamePath).GetComponent<TextMeshProUGUI>();
         if (nameSellText != null)
         {
-            nameSellText.text = trade.getItemOut().name;
+            nameSellText.text = trade.getItemIn().name;
         }
         else
         {
@@ -165,7 +100,7 @@ public class ShopUIManager : MonoBehaviour
         TextMeshProUGUI nameBuyText = uiElement.transform.Find(buyItemNamePath).GetComponent<TextMeshProUGUI>();
         if (nameBuyText != null)
         {
-            nameBuyText.text = trade.getItemIn().name;
+            nameBuyText.text = trade.getItemOut().name;
         }
         else
         {
@@ -216,9 +151,9 @@ public class ShopUIManager : MonoBehaviour
 
         // Configurar los sprites
         RawImage spriteItemSell = uiElement.transform.Find(sellItemInventorySpritePath).GetComponent<RawImage>();
-        if (spriteItemSell != null && trade.getItemOut() != null)
+        if (spriteItemSell != null && trade.getItemIn() != null)
         {
-            spriteItemSell.texture = trade.getItemOut().icon;
+            spriteItemSell.texture = trade.getItemIn().icon;
         }
         else
         {
@@ -226,9 +161,9 @@ public class ShopUIManager : MonoBehaviour
         }
 
         RawImage spriteItemBuy = uiElement.transform.Find(buyItemInventorySpritePath).GetComponent<RawImage>();
-        if (spriteItemBuy != null && trade.getItemIn() != null)
+        if (spriteItemBuy != null && trade.getItemOut() != null)
         {
-            spriteItemBuy.texture = trade.getItemIn().icon;
+            spriteItemBuy.texture = trade.getItemOut().icon;
         }
         else
         {
@@ -280,50 +215,5 @@ public class ShopUIManager : MonoBehaviour
         }
     }
 
-    //public void RefreshShopUIOld(List<Trade> tradesRecieved, ShopController shop)
-    //{
-    //    tradesTemp = tradesRecieved;
-    //    shopStatus = new bool[tradesTemp.Count];
-    //
-    //    for (int i = 0; i < tradesRecieved.Count; i++ )
-    //    {
-    //        try
-    //        {
-    //            Trade trade = tradesRecieved[i];
-    //            Items itemIn = trade.getItemIn();
-    //            Items itemOut = trade.getItemOut();
-    //
-    //            int quantityIn = trade.getQuantityIn();
-    //            int quantityOut = trade.getQuantityOut();
-    //            spriteItemBuy[i].texture = itemIn.icon;
-    //            spriteItemSell[i].texture = itemOut.icon;
-    //            textItemBuy[i].text = itemIn.itemName;
-    //            textItemSell[i].text = itemOut.itemName;
-    //            textQuantityBuy[i].text = quantityIn.ToString();
-    //            textQuantitySell[i].text = quantityOut.ToString();
-    //            shopController = shop;
-    //        }
-    //        catch
-    //        {
-    //            print("error index out of bounds: " + i);
-    //        }
-    //    }
-    //}
-
-    //public bool TradeAction(int tradeIndex, bool tradeCorrect)
-    //{
-    //    InventoryManager inventory = InventoryManager.Instance;
-    //    Trade trad = tradesTemp[tradeIndex];
-    //    Debug.Log("asdfghjk00");
-    //    if (inventory.HasItems(trad.getItemIn(), trad.getQuantityIn()))
-    //    {
-    //        shopController.Trade(tradeIndex);
-    //        return  true;
-    //    }
-    //    else
-    //    {
-    //        return  false;
-    //    }
-    //    }
 
 }
