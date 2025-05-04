@@ -44,7 +44,6 @@ public class AchievementsUIManager : MonoBehaviour
 
     public void RefreshAchievementUI()
     {
-        
         _achievementTemp = _achievementController.GetAchievements();
         achievementStatus = new bool[_achievementTemp.Count];
         ClearExistingUI();
@@ -183,7 +182,7 @@ public class AchievementsUIManager : MonoBehaviour
         if (!isAlreadyDone && achievementStatus[achievementIndex])
         {
             AudioManager.Instance.PlaySFXConfirmation();
-            //_achievementController.completeAchievent(_achievementTemp[achievementIndex]);
+            _achievementController.completeAchievement(_achievementTemp[achievementIndex]);
             RefreshAchievementUI();
         }
         else

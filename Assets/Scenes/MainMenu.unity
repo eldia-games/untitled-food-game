@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 295202020}
   m_Direction: 3
   m_Value: 1
-  m_Size: 0.49999768
+  m_Size: 0.50000006
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4676,7 +4676,7 @@ RectTransform:
   m_Father: {fileID: 347519520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.49999768}
+  m_AnchorMax: {x: 1, y: 0.50000006}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7574,14 +7574,14 @@ MonoBehaviour:
   maxManaBase: 10
   manaRegenAdd: 0.1
   manaRegenBase: 0.1
-  MaxHealAchievement: {fileID: 0}
-  HealAchievement: {fileID: 0}
-  DamageAchievement: {fileID: 0}
-  AttackSpeedAchievement: {fileID: 0}
-  MovementAchievement: {fileID: 0}
-  PushAchievement: {fileID: 0}
-  ManaAchievement: {fileID: 0}
-  ManaRegenlAchievement: {fileID: 0}
+  MaxHealAchievement: {fileID: 11400000, guid: ea75e96d35e09214d8ca9806eba96186, type: 2}
+  HealAchievement: {fileID: 11400000, guid: b3032cc9dd7684f44a58a264c536b5ba, type: 2}
+  DamageAchievement: {fileID: 11400000, guid: f0ff88730d97db34c9723da9f015a4b1, type: 2}
+  AttackSpeedAchievement: {fileID: 11400000, guid: d8a949b955afdd645bb1f82364f6bcf5, type: 2}
+  MovementAchievement: {fileID: 11400000, guid: ade00e82cfee60c498a4dc7800d3b4ff, type: 2}
+  PushAchievement: {fileID: 11400000, guid: df42ef4798bc38448aca8141f5552d11, type: 2}
+  ManaAchievement: {fileID: 11400000, guid: 6231449f373f11c42b78ddae9b760fcf, type: 2}
+  ManaRegenlAchievement: {fileID: 11400000, guid: 06f948ffe1ac19a4b992d6a670fcaacb, type: 2}
 --- !u!114 &556083511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11037,7 +11037,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf4aaf37f18c1a4fbe087fcd5780c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posibleAchievements: []
+  posibleAchievements:
+  - {fileID: 11400000, guid: 62f7141cf3997d6428e2258163c88cb3, type: 2}
+  - {fileID: 11400000, guid: 5c510d6728996334183231be9bdee5ee, type: 2}
+  - {fileID: 11400000, guid: b3032cc9dd7684f44a58a264c536b5ba, type: 2}
+  - {fileID: 11400000, guid: 6231449f373f11c42b78ddae9b760fcf, type: 2}
+  - {fileID: 11400000, guid: d8a949b955afdd645bb1f82364f6bcf5, type: 2}
+  - {fileID: 11400000, guid: 4ab6b78a4d5c0da4e9caa9ea896c758e, type: 2}
+  - {fileID: 11400000, guid: 06f948ffe1ac19a4b992d6a670fcaacb, type: 2}
+  - {fileID: 11400000, guid: 3222a378aa95e204da7d1a531d2330ce, type: 2}
+  - {fileID: 11400000, guid: 8dca4365c135cfb439c89765972e49a8, type: 2}
+  - {fileID: 11400000, guid: ea75e96d35e09214d8ca9806eba96186, type: 2}
+  - {fileID: 11400000, guid: f0ff88730d97db34c9723da9f015a4b1, type: 2}
+  - {fileID: 11400000, guid: 60f12b73fbf89af4bafaaab68b4ad992, type: 2}
+  - {fileID: 11400000, guid: dca72787550a9e6479c7e672e4d334d2, type: 2}
+  - {fileID: 11400000, guid: a33dd4f074763a44f9b51c9f005d9597, type: 2}
+  - {fileID: 11400000, guid: ade00e82cfee60c498a4dc7800d3b4ff, type: 2}
+  - {fileID: 11400000, guid: df42ef4798bc38448aca8141f5552d11, type: 2}
 --- !u!1 &732271913
 GameObject:
   m_ObjectHideFlags: 0
@@ -33506,6 +33522,7 @@ MonoBehaviour:
   popUpUIManager: {fileID: 1800012351}
   shopUIManager: {fileID: 229873026}
   missionUIManager: {fileID: 920194843}
+  achievementsUIManager: {fileID: 730200639}
   pauseUIManager: {fileID: 1201060449}
   upgradesUIManager: {fileID: 1870234842}
   pauseLocked: 0

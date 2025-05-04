@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PopUpUIManager popUpUIManager;
     [SerializeField] private ShopUIManager shopUIManager;
     [SerializeField] private MissionUIManager missionUIManager;
+    [SerializeField] private AchievementsUIManager achievementsUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
     public bool pauseLocked;
@@ -339,6 +340,7 @@ public class UIManager : MonoBehaviour
     {
         pauseLocked = true;
         HideLobby();
+        achievementsUIManager.RefreshAchievementUI();
         ShowAchievements();
         AudioManager.Instance.PlaySFXClick();
     }
