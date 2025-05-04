@@ -286,12 +286,20 @@ public class UIManager : MonoBehaviour
         popUpUIManager.displayPopUpChamber(room);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
-        StartCoroutine(HidePopUpCanvasAfterDelay(3.5f));
+        StartCoroutine(HideChamberNameCanvasAfterDelay(3f));
+    }
+
+    public void ShowPowerUpPopUpCanvas(powerUpType powerup)
+    {
+        popUpUIManager.displayPowerUp(powerup);
+        ShowPopUp();
+        AudioManager.Instance.PlaySFXSelect();
+        StartCoroutine(HidePowerUpCanvasAfterDelay(3f));
     }
 
     public void HidePopUpCanvas()
     {
-        HidePopUp();
+        popUpUIManager.hideHelpPopUp();
         //AudioManager.Instance.PlaySFXClose();
     }
 
@@ -299,6 +307,27 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         HidePopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HideHelpCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hideHelpPopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HideChamberNameCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hideChamberPopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HidePowerUpCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hidePowerUpPopUp();
         AudioManager.Instance.PlaySFXClose();
     }
     public void RefreshShop(List<Trade> trades,ShopController shop)

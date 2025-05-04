@@ -21,14 +21,28 @@ public class PopUpUIManager : MonoBehaviour
         public string descriptionText;
     }
 
+    [System.Serializable]
+    private class PowerupInfo
+    {
+        public int ID;
+        public string powerupText;
+        public Sprite powerupImage;
+    }
+
     [SerializeField] private PanelInfo[] panels;
     [SerializeField] private ChamberInfo[] chambers;
+    [SerializeField] private PowerupInfo[] powerups;
+
     [SerializeField] private Image spriteDisplayImage;
     [SerializeField] private TMP_Text helpPopUp;
     [SerializeField] private TMP_Text chamberPopUp;
     [SerializeField] private TMP_Text descriptionPopUp;
     [SerializeField] private GameObject chamberPopUpGameObject;
     [SerializeField] private GameObject helpPopUpGameObject;
+    
+    [SerializeField] private GameObject powerupGameObject;
+    [SerializeField] private TMP_Text powerupTMP;
+    [SerializeField] private Image powerupSprite;
 
     public void displaypopUpHelp(string action,bool affirmative)
     {
@@ -52,10 +66,18 @@ public class PopUpUIManager : MonoBehaviour
         descriptionPopUp.text = chambers[(int)room].descriptionText;
     }
 
+    public void displayPowerUp(powerUpType powerUp)
+    {
+        powerupGameObject.SetActive(true);
+        powerupTMP.text = powerups[(int)powerUp].powerupText;
+        powerupSprite.sprite = powerups[(int)powerUp].powerupImage;
+    }
+
     public void hidePopUps()
     {
         chamberPopUpGameObject.SetActive(false);
         helpPopUpGameObject.SetActive(false);
+        powerupGameObject.SetActive(false);
     }
     public void hideHelpPopUp()
     {
@@ -64,5 +86,9 @@ public class PopUpUIManager : MonoBehaviour
     public void hideChamberPopUp()
     {
         chamberPopUpGameObject.SetActive(false);
+    }
+    public void hidePowerUpPopUp()
+    {
+        powerupGameObject.SetActive(false);
     }
 }
