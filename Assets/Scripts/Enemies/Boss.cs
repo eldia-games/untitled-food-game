@@ -298,6 +298,10 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public virtual void OnAttackStartAnimationEvent() {
+        OnAnimationEvent();
+    }
+
     /// <summary>
     /// Sincroniza parámetros del Animator (velocidad, inCombat, etc.)
     /// </summary>
