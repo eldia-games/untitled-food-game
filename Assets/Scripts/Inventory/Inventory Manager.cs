@@ -41,7 +41,6 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
 
     private InputHandler _handler;
     private bool inventoryOpened = true;
-    public bool inventoryUI = false;
     
     public List<ItemInInventory> items;
     public GameObject[] slots;
@@ -53,7 +52,7 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
         if(_handler.inventory)
         {
             inventoryOpened = true;
-            inventoryUI = true;
+            UIManager.Instance.pauseLocked = true;
             Time.timeScale = 0.0f;
             //enable the inventory 
             slotsHolder.GetComponentInParent<Canvas>().enabled = true;
@@ -63,7 +62,7 @@ public class InventoryManager : MonoBehaviour, IPointerClickHandler
         else if(inventoryOpened)
         {
             inventoryOpened = false;
-            inventoryUI = false;
+            UIManager.Instance.pauseLocked = false;
             Time.timeScale = 1.0f;
             //disable
             slotsHolder.GetComponentInParent<Canvas>().enabled = false;
