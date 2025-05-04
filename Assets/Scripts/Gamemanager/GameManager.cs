@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
     UIManager.Instance.ShowLobbyCanvas();
     ClearMap();
     ClearPlayerStats();
+    InventoryList.Instance.ResetStats();
     SceneManager.LoadScene("Lobby");
   }
 
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour {
   public void VictoryReturn() {
     //a�adir persistencia guardar loot en inventario taberna
     UIManager.Instance.HideVictoryCanvas();
-    InventorySafeController.Instance.addInventory(InventoryManager.Instance.items);
+    InventorySafeController.Instance.addInventory(InventoryList.Instance.getItems());
     EnterLobbyScene();
     //a�adir persistencia
   }

@@ -205,9 +205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 450636973}
   - component: {fileID: 450636974}
-  - component: {fileID: 450636977}
-  - component: {fileID: 450636976}
-  - component: {fileID: 450636975}
   - component: {fileID: 450636978}
   m_Layer: 0
   m_Name: Persistence Object
@@ -228,8 +225,7 @@ Transform:
   m_LocalPosition: {x: -0.86636025, y: 5.1645603, z: 18.71225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 366366563}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &450636974
@@ -246,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chamberType: 4
   chamberLevel: 2
---- !u!114 &450636975
+--- !u!114 &450636978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,27 +251,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 450636972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dd8621adbeafce43ad0f6c32baf67fa, type: 3}
+  m_Script: {fileID: 11500000, guid: d0346747894c0a04aab57db1f547ae02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropsList: {fileID: 11400000, guid: d5e6b7715ef34474daa8409df7eb0d46, type: 2}
-  slotsHolder: {fileID: 697615895}
-  itemToAdd: {fileID: 0}
-  itemToRemove: {fileID: 0}
-  GameObjectToRemove: 0
-  money: 0
-  moneyHolder: {fileID: 621762353}
-  inventoryUI: 0
-  items: []
-  slots: []
-  player: {fileID: 0}
---- !u!114 &450636976
+  stats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
+--- !u!1 &489331222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489331226}
+  - component: {fileID: 489331225}
+  - component: {fileID: 489331224}
+  - component: {fileID: 489331223}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &489331223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450636972}
+  m_GameObject: {fileID: 489331222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088e279db67ae454580bd153e508f4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &489331224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489331222}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
@@ -316,7 +333,7 @@ MonoBehaviour:
     m_ActionName: locomotion/slide[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 450636977}
+      - m_Target: {fileID: 489331223}
         m_TargetAssemblyTypeName: InputHandler, Assembly-CSharp
         m_MethodName: onInventory
         m_Mode: 0
@@ -335,36 +352,35 @@ MonoBehaviour:
   m_DefaultActionMap: locomotion
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &450636977
+--- !u!114 &489331225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450636972}
+  m_GameObject: {fileID: 489331222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088e279db67ae454580bd153e508f4f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dd8621adbeafce43ad0f6c32baf67fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &450636978
-MonoBehaviour:
+  slotsHolder: {fileID: 697615895}
+--- !u!4 &489331226
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450636972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0346747894c0a04aab57db1f547ae02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
---- !u!1 &621762353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4406044365657774475, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
-  m_PrefabInstance: {fileID: 766281893}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489331222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.02514, y: 2.1850095, z: 9.939269}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 366366563}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &697615895 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 197957700678012703, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
@@ -549,7 +565,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 450636973}
+    m_TransformParent: {fileID: 489331226}
     m_Modifications:
     - target: {fileID: 3417999018628074795, guid: 4dbd438b98c173b42b0a885eb130d25b, type: 3}
       propertyPath: m_UiScaleMode
@@ -758,3 +774,4 @@ SceneRoots:
   - {fileID: 450636973}
   - {fileID: 722972519}
   - {fileID: 255463919}
+  - {fileID: 489331226}

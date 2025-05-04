@@ -19,7 +19,7 @@ MonoBehaviour:
   maxLife: 100
   heal: 10
   HP: 100
-  damage: 5
+  damage: 10
   velAttack: 1
   pushForce: 10
   damageModifier: 1
@@ -27,8 +27,8 @@ MonoBehaviour:
   maxMana: 100
   MP: 100
   manaCost: 10
-  manaRegen: 0.1
-  weaponIndex: 2
+  manaRegen: 2
+  weaponIndex: 0
   weaponType:
   - {fileID: 6799956627783305403, guid: fcaf396d1f7dd7f4cac162ae8f6e5b41, type: 3}
   - {fileID: 7689469632844511846, guid: 8421d45651cec194b9f7a9abdff148b7, type: 3}

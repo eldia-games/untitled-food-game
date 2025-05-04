@@ -38,7 +38,11 @@ public class Interactable: MonoBehaviour
     }
     public InteractionType getType()
     {
-        return type;
+        if (activated)
+        {
+            return type;
+        }
+        return InteractionType.None;
     }
     public void SetAction(UnityEvent<GameObject> callback, String name, InteractionType type)
     {

@@ -3792,7 +3792,6 @@ MonoBehaviour:
   currentHealthTMP: {fileID: 1453482246}
   maxManaTMP: {fileID: 1590353185}
   currentManaTMP: {fileID: 1767995327}
-  PlayerStats: {fileID: 0}
 --- !u!114 &186588455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10533,6 +10532,7 @@ GameObject:
   - component: {fileID: 556083508}
   - component: {fileID: 556083509}
   - component: {fileID: 556083510}
+  - component: {fileID: 556083511}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -10598,6 +10598,19 @@ MonoBehaviour:
   maxManaBase: 10
   manaRegenAdd: 0.1
   manaRegenBase: 0.1
+--- !u!114 &556083511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556083507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63c842a09d786e4fb98801ed080caf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeers: 5
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0
@@ -13854,7 +13867,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 4.8e-44, z: 5.7477e-41, w: 0}
+  m_BoundingSphereOverride: {x: 5.63e-43, y: 0, z: 0, w: 1e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

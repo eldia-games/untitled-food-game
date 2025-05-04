@@ -178,12 +178,12 @@ public class PlayerCombat : MonoBehaviour
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
-        try{
-            InventoryManager.Instance.setPlayer(player);
-        }
-        catch(Exception e){
-            Debug.Log("Is player in main map? : " + e);
-        }
+        //try{
+        //    InventoryManager.Instance.setPlayer(player);
+        //}
+        //catch(Exception e){
+        //    Debug.Log("Is player in main map? : " + e);
+        //}
 
         // Se guarda la escala inicial
         originalScale = transform.localScale;
@@ -692,40 +692,36 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnHeal()
     {
-        bool beerFound = false;
+        //bool beerFound = false;
         if(HP >= (float)maxLife)
         {
             print("You are full life, you dont need to heal");
             return;
         }
         //Search in the scene for the inventory manager
-            for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
-            {
-                if (InventoryManager.Instance.items[i].item.itemName == "Beer")
-                {
-                    beerFound = true;
-                    //Remove the item from the inventory
-                    //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
-                    InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+        // for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+        //{
+        //if (InventoryManager.Instance.items[i].item.itemName == "Beer")
+        //   {
+        // beerFound = true;
+        //Remove the item from the inventory
+        //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+        //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
 
-                    healCooldown = false;
-                    print("heal");
-                    //Make player heal
-                    HP += heal;
+        InventoryList.Instance.useBeer();
+        healCooldown = false;
+        print("heal");
+        _anim.SetFloat("Weapon", 3); //Mug
+        _anim.SetTrigger("Attack");
+        _anim.SetFloat("HP", HP);
+        StartCoroutine(HealCooldown());
 
-                    UIManager.Instance.GainHealth(heal);
-
-                    _anim.SetFloat("Weapon", 3); //Mug
-                    _anim.SetTrigger("Attack");
-                    _anim.SetFloat("HP", HP);
-                    StartCoroutine(HealCooldown());
-                    break;
-                }   
-            }
-        if (!beerFound)
-        {
-            print("You need a beer to heal");
-        }
+                
+            
+       // if (!beerFound)
+       // {
+      //      print("You need a beer to heal");
+      //  }
     }
 
     public void onInteract()
