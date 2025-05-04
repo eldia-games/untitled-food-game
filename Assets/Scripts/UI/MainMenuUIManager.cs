@@ -8,12 +8,14 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Canvas[] ArrayCanvas;
     [SerializeField] private HealthManaUIManager healthManaUIManager;
+    [SerializeField] private ChamberUIManager chamberUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
     [SerializeField] private ShopUIManager shopUIManager;
     [SerializeField] private MissionUIManager missionUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
+    [SerializeField] private Canvas welcomeCanvas1, welcomeCanvas2;
     public bool pauseLocked;
     public static UIManager Instance { get; private set; }
 
@@ -35,7 +37,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex != 0)
+        if (Input.GetKeyDown(KeyCode.Escape)&& SceneManager.GetActiveScene().buildIndex != 0 && SceneManager.GetActiveScene().buildIndex != 4)
         {
             TogglePauseCanvas();
         }
@@ -47,7 +49,26 @@ public class UIManager : MonoBehaviour
         ShowMainMenu();
         AudioManager.Instance.PlayMenuMusic();
     }
+    private void pauseGame()
+    {
+        Time.timeScale = 0;
+    }
 
+    private void resumeGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    #region Main Menu
     public void ShowMainMenuCanvas()
     {
         HideAllCanvas();
@@ -62,6 +83,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Lobby
     public void ShowLobbyCanvas()
     {
         HideAllCanvas();
@@ -81,6 +105,9 @@ public class UIManager : MonoBehaviour
         return ArrayCanvas[1].gameObject.activeSelf;
     }
 
+    #endregion
+
+    #region Map
     public void ShowMapCanvas()
     {
         pauseLocked = false;
@@ -96,7 +123,9 @@ public class UIManager : MonoBehaviour
         ShowMap();
         AudioManager.Instance.PlaySFXClose();
     }
+    #endregion
 
+    #region Chamber
     public void ShowChamberCanvas()
     {
         pauseLocked = false;
@@ -105,6 +134,60 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
+    #endregion
+
+    #region Basement
+    public void ShowBasementCanvas()
+    {
+        pauseLocked = false;
+        HideAllCanvas();
+        ShowBasement();
+    }
+    
+    public void HideBasementCanvas()
+    {
+        pauseLocked = false;
+        HideBasement();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Tutorial
+    public void ShowWelcomeCanvas()
+    {
+        pauseGame();
+        pauseLocked = true;
+        HideBasement();
+        welcomeCanvas1.gameObject.SetActive(true);
+        welcomeCanvas2.gameObject.SetActive(false);
+        ShowWelcome();
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+
+    public void HideWelcomeCanvas()
+    {
+        pauseLocked = false;
+        welcomeCanvas1.gameObject.SetActive(true);
+        welcomeCanvas2.gameObject.SetActive(false);
+        HideWelcome();
+        ShowBasement();
+        resumeGame();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void AdvanceWelcomeCanvas()
+    {
+        Debug.Log("avanzo welcome");
+
+        welcomeCanvas1.gameObject.SetActive(false);
+        welcomeCanvas2.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+
+    #endregion
+
+    #region Pause
     public void ShowPauseCanvas()
     {
         pauseUIManager.RefreshPauseUI();
@@ -120,6 +203,7 @@ public class UIManager : MonoBehaviour
             if (Time.timeScale > 0)
             {
                 Time.timeScale = 0; // Pause the game
+                HideLobby();
                 ShowPause();
                 AudioManager.Instance.PlaySFXClick();
             }
@@ -143,6 +227,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Settings
     public void ShowSettingsCanvas()
     {
         pauseLocked = true;
@@ -156,19 +243,39 @@ public class UIManager : MonoBehaviour
         HideSettings();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         ShowCanvasByIndex(activeSceneIndex);
+        HideLobby();
         AudioManager.Instance.PlaySFXClose();
-        Debug.Log("Vuelvo desde opciones a donde estaba antes");
     }
 
+    #endregion
+
+    #region Rebind
     public void ReturnFromRebind()
     {
         pauseLocked = false;
         HideRebind();
         ShowSettings();
         AudioManager.Instance.PlaySFXClose();
-        Debug.Log("Vuelvo a settings desde rebind");
     }
 
+    public void ShowControlsRebind()
+    {
+        pauseLocked = true;
+        HideSettings();
+        ShowRebind();
+        AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void HideControlsRebind()
+    {
+        HideRebind();
+        ShowSettings();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Credits
     public void ShowCreditsCanvas()
     {
         HideMainMenu();
@@ -176,6 +283,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Mission
     public void ShowMisionCanvas()
     {
         pauseLocked = true;
@@ -185,6 +295,21 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    public void refreshMission()
+    {
+        missionUIManager.RefreshMissionUI();
+    }
+
+    public void HideMissionsCanvas()
+    {
+        pauseLocked = false;
+        HideMissions();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Help
     public void ShowHelpCanvas()
     {
         pauseLocked = true;
@@ -193,6 +318,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Weapons
     public void ShowWeaponsCanvas()
     {
         pauseLocked = true;
@@ -201,6 +329,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Upgrades
     public void ShowUpgradesCanvas()
     {
         pauseLocked = true;
@@ -210,6 +341,9 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClick();
     }
 
+    #endregion
+
+    #region Achievements
     public void ShowAchievementsCanvas()
     {
         pauseLocked = true;
@@ -217,6 +351,10 @@ public class UIManager : MonoBehaviour
         ShowAchievements();
         AudioManager.Instance.PlaySFXClick();
     }
+
+    #endregion
+
+    #region Endgame
     public void ShowEndGameCanvas()
     {
         pauseLocked = true;
@@ -226,8 +364,13 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayEndGameMusic();
     }
 
+    #endregion
+
+    #region PopUp
     public void ShowPopUpCanvas(string action,bool active)
     {
+        popUpUIManager.hideChamberPopUp();
+        popUpUIManager.hidePowerUpPopUp();
         popUpUIManager.displaypopUpHelp(action, active);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
@@ -238,12 +381,20 @@ public class UIManager : MonoBehaviour
         popUpUIManager.displayPopUpChamber(room);
         ShowPopUp();
         AudioManager.Instance.PlaySFXSelect();
-        StartCoroutine(HidePopUpCanvasAfterDelay(3.5f));
+        StartCoroutine(HideChamberNameCanvasAfterDelay(3f));
+    }
+
+    public void ShowPowerUpPopUpCanvas(powerUpType powerup)
+    {
+        popUpUIManager.displayPowerUp(powerup);
+        ShowPopUp();
+        AudioManager.Instance.PlaySFXSelect();
+        StartCoroutine(HidePowerUpCanvasAfterDelay(3f));
     }
 
     public void HidePopUpCanvas()
     {
-        HidePopUp();
+        popUpUIManager.hideHelpPopUp();
         //AudioManager.Instance.PlaySFXClose();
     }
 
@@ -253,43 +404,35 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
+
+    private IEnumerator HideHelpCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hideHelpPopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HideChamberNameCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hideChamberPopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    private IEnumerator HidePowerUpCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        popUpUIManager.hidePowerUpPopUp();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    #endregion
+
+    #region Shop
     public void RefreshShop(List<Trade> trades,ShopController shop)
     {
         shopUIManager.RefreshShopUI(trades, shop);
     }
-
-    public void refreshMission()
-    {
-        missionUIManager.RefreshMissionUI();
-    }
-
-    //public void MissionClick(int missionIndex)
-    //{
-    //    bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
-    //    missionUIManager.MissionAction(missionIndex);
-    //    if (missionCorrect)
-    //    {
-    //        AudioManager.Instance.PlaySFXConfirmation();
-    //        missionUIManager.RefreshMissionUI();
-    //    }
-    //    else
-    //    {
-    //        AudioManager.Instance.PlaySFXClose();
-    //    }
-    //}
-    //public void TradeClick(int tradeIndex)
-    //{
-    //    bool tradeCorrect = false;
-    //    shopUIManager.TradeAction(tradeIndex, tradeCorrect);
-    //    if (tradeCorrect)
-    //    {
-    //        AudioManager.Instance.PlaySFXConfirmation();
-    //    }
-    //    else
-    //    {
-    //        AudioManager.Instance.PlaySFXClose();
-    //    }
-    //}
 
     public void ShowShopCanvas()
     {
@@ -306,28 +449,9 @@ public class UIManager : MonoBehaviour
         HideShop();
         AudioManager.Instance.PlaySFXClose();
     }
+    #endregion
 
-    public void HideMissionsCanvas()
-    {
-        pauseLocked = false;
-        HideMissions();
-        AudioManager.Instance.PlaySFXClose();
-    }
-    public void ShowControlsRebind()
-    {
-        pauseLocked = true;
-        HideSettings();
-        ShowRebind();
-        AudioManager.Instance.PlaySFXClick();
-    }
-
-    public void HideControlsRebind()
-    {
-        HideRebind();
-        ShowSettings();
-        AudioManager.Instance.PlaySFXClose();
-    }
-
+    #region Victory
     public void ShowVictoryCanvas()
     {
         pauseLocked = true;
@@ -344,22 +468,19 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
+    #endregion
+
+    #region Persistency
     public bool canLoadGame()
     {
         return InventorySafeController.Instance.canLoadGame() && PowerUpStatsController.Instance.canLoadGame();
     }
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
+
+    #endregion
 
     #region Player Stats UI
 
-    public void ResetPlayerHealthMana()
+    public void ResetPlayerUiStats()
     {
         healthManaUIManager.ResetPlayer();
     }
@@ -382,6 +503,21 @@ public class UIManager : MonoBehaviour
     public void SetMana(float mana)
     {
         healthManaUIManager.SetMana(mana);
+    }
+
+    public void SetDamage(float damage)
+    {
+        healthManaUIManager.SetDamage(damage);
+    }
+
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        healthManaUIManager.SetAttackSpeed(attackSpeed);
+    }
+
+    public void SetPush(float push)
+    {
+        healthManaUIManager.SetPush(push);
     }
 
     public void RegenMana(float manaRegenRate)
@@ -412,10 +548,36 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    #region Boss Stats UI
+
+    public void ShowBossHealth()
+    {
+        chamberUIManager.ShowBossHealth();
+    }
+
+    public void HideBossHealth()
+    {
+        chamberUIManager.HideBossHealth();
+    }
+    public void ResetBossHealth()
+    {
+        chamberUIManager.ResetBossHealth();
+    }
+
+    public void SetMaxBossHealth(float health)
+    {
+        chamberUIManager.SetMaxHealth(health);
+    }
+
+    public void SetBossHealth(float health)
+    {
+        chamberUIManager.SetHealth(health);
+    }
+    #endregion
+
     #region Weapon Selector
     public void ShowPrevWeapon()
     {
-        Debug.Log("Funciona boton");
         weaponSelectionUIManager.ShowPreviousWeapon();
         AudioManager.Instance.PlaySFXClick();
     }
@@ -455,6 +617,10 @@ public class UIManager : MonoBehaviour
                 break;
 
             case 3:
+                GameManager.Instance.EnterLobbyScene();
+                break;
+
+            case 4:
                 GameManager.Instance.EnterLobbyScene();
                 break;
 
@@ -535,126 +701,145 @@ public class UIManager : MonoBehaviour
         ShowCanvasByIndex(3);
     }
 
-    private void HideSettings()
+    private void HideBasement()
     {
         HideCanvasByIndex(4);
     }
-    private void ShowSettings()
+    private void ShowBasement()
     {
         ShowCanvasByIndex(4);
     }
 
-    private void HideCredits()
+    private void HideSettings()
     {
         HideCanvasByIndex(5);
     }
-    private void ShowCredits()
+    private void ShowSettings()
     {
         ShowCanvasByIndex(5);
     }
 
-    private void HidePause()
+    private void HideCredits()
     {
         HideCanvasByIndex(6);
     }
-
-    private void ShowPause()
+    private void ShowCredits()
     {
         ShowCanvasByIndex(6);
     }
-    private void HideMissions()
+
+    private void HidePause()
     {
         HideCanvasByIndex(7);
     }
 
-    private void ShowMissions()
+    private void ShowPause()
     {
         ShowCanvasByIndex(7);
     }
-    private void HideHelp()
+    private void HideMissions()
     {
         HideCanvasByIndex(8);
     }
 
-    private void ShowHelp()
+    private void ShowMissions()
     {
         ShowCanvasByIndex(8);
     }
-    private void HideWeapon()
+    private void HideHelp()
     {
         HideCanvasByIndex(9);
     }
 
-    private void ShowWeapon()
+    private void ShowHelp()
     {
         ShowCanvasByIndex(9);
     }
-    private void HideUpgrades()
+    private void HideWeapon()
     {
         HideCanvasByIndex(10);
     }
 
-    private void ShowUpgrades()
+    private void ShowWeapon()
     {
         ShowCanvasByIndex(10);
     }
-    private void HideAchievements()
+    private void HideUpgrades()
     {
         HideCanvasByIndex(11);
     }
 
-    private void ShowAchievements()
+    private void ShowUpgrades()
     {
         ShowCanvasByIndex(11);
     }
-    private void HideEndGame()
+    private void HideAchievements()
     {
         HideCanvasByIndex(12);
     }
 
-    private void ShowEndGame()
+    private void ShowAchievements()
     {
         ShowCanvasByIndex(12);
+    }
+    private void HideEndGame()
+    {
+        HideCanvasByIndex(13);
+    }
+
+    private void ShowEndGame()
+    {
+        ShowCanvasByIndex(13);
     }
 
     private void ShowPopUp()
     {
-        ShowCanvasByIndex(13);
+        ShowCanvasByIndex(14);
     }
 
     private void HidePopUp()
     {
         popUpUIManager.hidePopUps();
-        HideCanvasByIndex(13);
+        HideCanvasByIndex(14);
     }
 
     private void ShowShop()
     {
-        ShowCanvasByIndex(14);
+        ShowCanvasByIndex(15);
     }
 
     private void HideShop()
     {
-        HideCanvasByIndex(14);
+        HideCanvasByIndex(15);
     }
 
     private void ShowRebind()
     {
-        ShowCanvasByIndex(15);
+        ShowCanvasByIndex(16);
     }
 
     private void HideRebind()
     {
-        HideCanvasByIndex(15);
+        HideCanvasByIndex(16);
     }
     private void ShowVictory()
     {
-        ShowCanvasByIndex(16);
+        ShowCanvasByIndex(17);
     }
 
     private void HideVictory()
     {
-        HideCanvasByIndex(16);
+        HideCanvasByIndex(17);
+    }
+
+    private void ShowWelcome()
+    {
+        ShowCanvasByIndex(18);
+    }
+
+    private void HideWelcome()
+    {
+        HideCanvasByIndex(18);
     }
 
     #endregion 

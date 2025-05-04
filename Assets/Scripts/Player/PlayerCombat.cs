@@ -130,7 +130,7 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _handler = GetComponent<InputHandler>();
-        _interactor= GetComponent<Interactor>();
+        _interactor = GetComponent<Interactor>();
         camera = Camera.main;
 
         //HP = (float)maxLife;
@@ -169,6 +169,10 @@ public class PlayerCombat : MonoBehaviour
 
         UIManager.Instance.SetHealth(HP);
         UIManager.Instance.SetMana(MP);
+
+        UIManager.Instance.SetDamage(damage);
+        UIManager.Instance.SetAttackSpeed(velAttack);
+        UIManager.Instance.SetPush(PushForce);
         }
         catch(Exception e){
             Debug.Log("Error: " + e);
@@ -178,12 +182,12 @@ public class PlayerCombat : MonoBehaviour
         _colliderMeleeSpin.enabled = false;
         _colliderMelee = player.GetComponent<BoxCollider>();
         _colliderMelee.enabled = false;
-        try{
-            InventoryManager.Instance.setPlayer(player);
-        }
-        catch(Exception e){
-            Debug.Log("Is player in main map? : " + e);
-        }
+        //try{
+        //    InventoryManager.Instance.setPlayer(player);
+        //}
+        //catch(Exception e){
+        //    Debug.Log("Is player in main map? : " + e);
+        //}
 
         // Se guarda la escala inicial
         originalScale = transform.localScale;
@@ -406,16 +410,16 @@ public class PlayerCombat : MonoBehaviour
     }
 
 
-    IEnumerator InteractCooldown()
+    IEnumerator InteractCooldown(float time)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(time);
         interactAvailable = true;
     }
 
     IEnumerator AttackCooldown()
     {
         attackAvailable = false;
-        yield return new WaitForSeconds(1 / velAttack);
+        yield return new WaitForSeconds(1 / velAttack - 0.1f);
         attackAvailable = true;
         _colliderMeleeSpin.enabled = false;
         _colliderMelee.enabled = false;
@@ -692,40 +696,36 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnHeal()
     {
-        bool beerFound = false;
+        //bool beerFound = false;
         if(HP >= (float)maxLife)
         {
             print("You are full life, you dont need to heal");
             return;
         }
         //Search in the scene for the inventory manager
-            for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
-            {
-                if (InventoryManager.Instance.items[i].item.itemName == "Beer")
-                {
-                    beerFound = true;
-                    //Remove the item from the inventory
-                    //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
-                    InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+        // for(int i = 0; i < InventoryManager.Instance.items.Count; i++)
+        //{
+        //if (InventoryManager.Instance.items[i].item.itemName == "Beer")
+        //   {
+        // beerFound = true;
+        //Remove the item from the inventory
+        //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
+        //InventoryManager.Instance.UseItem(InventoryManager.Instance.items[i].item, 1);
 
-                    healCooldown = false;
-                    print("heal");
-                    //Make player heal
-                    HP += heal;
+        InventoryList.Instance.useBeer();
+        healCooldown = false;
+        print("heal");
+        _anim.SetFloat("Weapon", 3); //Mug
+        _anim.SetTrigger("Attack");
+        _anim.SetFloat("HP", HP);
+        StartCoroutine(HealCooldown());
 
-                    UIManager.Instance.GainHealth(heal);
-
-                    _anim.SetFloat("Weapon", 3); //Mug
-                    _anim.SetTrigger("Attack");
-                    _anim.SetFloat("HP", HP);
-                    StartCoroutine(HealCooldown());
-                    break;
-                }   
-            }
-        if (!beerFound)
-        {
-            print("You need a beer to heal");
-        }
+                
+            
+       // if (!beerFound)
+       // {
+      //      print("You need a beer to heal");
+      //  }
     }
 
     public void onInteract()
@@ -734,23 +734,23 @@ public class PlayerCombat : MonoBehaviour
         //Only activate Interact on getInteract if the object is interactable
         switch (_interactor.GetInteractionType()) {
             case InteractionType.None:
+                Debug.Log("No interactable object found");
+                StartCoroutine(InteractCooldown(1.0f));
                 break;
-
-            case InteractionType.NormalInteraction :
+            case InteractionType.NormalInteraction:
                 _anim.SetTrigger("Interact");
-                _anim.SetInteger("InteractionType", 0);
+                _anim.SetFloat("InteractionType", 0);
+                StartCoroutine(InteractCooldown(1.0f));
                 break;
-            case InteractionType.FirePlaceInteraction :
+            case InteractionType.FirePlaceInteraction:
                 _anim.SetTrigger("Interact");
                 _anim.SetFloat("InteractionType", 1);
-                StartCoroutine(InteractCooldown());
+                StartCoroutine(InteractCooldown(3.0f));
                 break;
-
         }
-        StartCoroutine(InteractCooldown());
+        //StartCoroutine(InteractCooldown());
         _interactor.interact();
-        //interact with objects}
-
+        //interact with objects
     }
 
     private void OnDie()

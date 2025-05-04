@@ -9,7 +9,7 @@ using System.Linq;
 public class MissionUIManager : MonoBehaviour
 {
     [Header("Mission variables")]
-    private MissionController _missionController;
+    private RecipeController _missionController;
     private List<Mission> missionTemp;
     private bool[] missionStatus;
 
@@ -19,7 +19,7 @@ public class MissionUIManager : MonoBehaviour
 
     void Awake()
     {
-        _missionController = GetComponent<MissionController>();
+        _missionController = GetComponent<RecipeController>();
         missionTemp = _missionController.GetMissions();
         missionStatus = new bool[missionTemp.Count];
     }

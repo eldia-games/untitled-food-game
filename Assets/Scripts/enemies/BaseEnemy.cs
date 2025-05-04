@@ -116,7 +116,7 @@ public abstract class BaseEnemy : MonoBehaviour
                 m.EnableKeyword("_EMISSION");
         }
 
-        drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
+        //drop = new List<EnemyDrop>(GetComponents<EnemyDrop>());
 
         maxHealth = health;
         // Inicializamos la barra roja al 100%
