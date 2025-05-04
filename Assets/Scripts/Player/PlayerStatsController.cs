@@ -124,5 +124,9 @@ public class PlayerStatsController : MonoBehaviour {
     {
         return stats.pushForce;
     }
+    public int getWeaponIndex()
+    {
+        return stats.weaponIndex;
+    }
 }
 

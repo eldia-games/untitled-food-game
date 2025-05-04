@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a773d5984e4e14c87340a53ee3f230, type: 3}
   m_Name: Boss Barrage Predict Spell Skill
   m_EditorClassIdentifier: 
-  cooldown: 10
+  cooldown: 3
   damage: 5
   minRange: 5
   maxRange: 10
+  isMelee: 0
   isCasting: 0
   projectilesPerSec: 10
-  duration: 1.5
+  duration: 3
   spellPrefab: {fileID: 763926121025538394, guid: 9215c5b5aab1b374784e200e69cadc11, type: 3}

@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MissionUIManager missionUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
-    [SerializeField] private Canvas welcomeCanvas1, welcomeCanvas2;
     public bool pauseLocked;
     public static UIManager Instance { get; private set; }
 
@@ -157,31 +156,23 @@ public class UIManager : MonoBehaviour
     public void ShowWelcomeCanvas()
     {
         pauseGame();
-        pauseLocked = true;
         HideBasement();
-        welcomeCanvas1.gameObject.SetActive(true);
-        welcomeCanvas2.gameObject.SetActive(false);
         ShowWelcome();
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
     public void HideWelcomeCanvas()
     {
-        pauseLocked = false;
-        welcomeCanvas1.gameObject.SetActive(true);
-        welcomeCanvas2.gameObject.SetActive(false);
         HideWelcome();
         ShowBasement();
-        resumeGame();
         AudioManager.Instance.PlaySFXClose();
+        resumeGame();
     }
 
     public void AdvanceWelcomeCanvas()
     {
-        Debug.Log("avanzo welcome");
-
-        welcomeCanvas1.gameObject.SetActive(false);
-        welcomeCanvas2.gameObject.SetActive(true);
+        HideCanvasByIndex(18);
+        ShowCanvasByIndex(19);
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
@@ -839,7 +830,7 @@ public class UIManager : MonoBehaviour
 
     private void HideWelcome()
     {
-        HideCanvasByIndex(18);
+        HideCanvasByIndex(19);
     }
 
     #endregion 
