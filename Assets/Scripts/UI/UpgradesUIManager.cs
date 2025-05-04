@@ -60,12 +60,21 @@ public class UpgradesUIManager : MonoBehaviour
         upgradePrice[7].text = priceList[7].ToString();
         currentLevel[7].text = powerups[(int)powerUpType.Push].ToString();
 
+        checkMaxLevel(priceList, upgradePrice);
     }
-
+    
+    public void checkMaxLevel(int[] priceList, TMP_Text[] upgradePrice)
+    {
+        for(int i = 0;  i < priceList.Length; i++)
+        {
+            if (priceList[i] == 10)
+                upgradePrice[i].text = "";
+        }
+    }
     public void LevelUpMaxHealth()
     {
         int price = priceList[0];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.MaxHealth] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.MaxHealth);
             inventory.substractMoney(price);
@@ -84,7 +93,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpHeal()
     {
         int price = priceList[1];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.Heal] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Heal);
             inventory.substractMoney(price);
@@ -103,7 +112,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpMana()
     {
         int price = priceList[2];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.Mana] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Mana);
             inventory.substractMoney(price);
@@ -122,7 +131,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpManaRegen()
     {
         int price = priceList[3];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.ManaRegen] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.ManaRegen);
             inventory.substractMoney(price);
@@ -141,7 +150,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpDamage()
     {
         int price = priceList[4];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.Damage] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Damage);
             inventory.substractMoney(price);
@@ -160,7 +169,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpAttackSpeed()
     {
         int price = priceList[5];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.AttackSpeed] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.AttackSpeed);
             inventory.substractMoney(price);
@@ -179,7 +188,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpPush()
     {
         int price = priceList[6];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.Push] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Push);
             inventory.substractMoney(price);
@@ -198,7 +207,7 @@ public class UpgradesUIManager : MonoBehaviour
     public void LevelUpMovement()
     {
         int price = priceList[7];
-        if (inventory.hasMoney(price))
+        if (inventory.hasMoney(price) && powerups[(int)powerUpType.Movement] != 10)
         {
             PowerUpStatsController.Instance.LevelUpPowerUp(powerUpType.Movement);
             inventory.substractMoney(price);
