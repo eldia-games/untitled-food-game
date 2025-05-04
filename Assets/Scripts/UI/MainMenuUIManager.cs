@@ -233,7 +233,7 @@ public class UIManager : MonoBehaviour
         HidePopUp();
         AudioManager.Instance.PlaySFXClose();
     }
-    public void refreshShop(List<Trade> tradesRecieved,ShopController shop)
+    public void RefreshShop(List<Trade> tradesRecieved,ShopController shop)
     {
         shopUIManager.RefreshShopUI(tradesRecieved, shop);
     }
@@ -243,33 +243,33 @@ public class UIManager : MonoBehaviour
         missionUIManager.RefreshMissionUI();
     }
 
-    public void MissionClick(int missionIndex)
-    {
-        bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
-        missionUIManager.MissionAction(missionIndex);
-        if (missionCorrect)
-        {
-            AudioManager.Instance.PlaySFXConfirmation();
-            missionUIManager.RefreshMissionUI();
-        }
-        else
-        {
-            AudioManager.Instance.PlaySFXClose();
-        }
-    }
-    public void TradeClick(int tradeIndex)
-    {
-        bool tradeCorrect = false;
-        shopUIManager.TradeAction(tradeIndex, tradeCorrect);
-        if (tradeCorrect)
-        {
-            AudioManager.Instance.PlaySFXConfirmation();
-        }
-        else
-        {
-            AudioManager.Instance.PlaySFXClose();
-        }
-    }
+    //public void MissionClick(int missionIndex)
+    //{
+    //    bool missionCorrect = missionUIManager.ObtainMissionStatus(missionIndex);
+    //    missionUIManager.MissionAction(missionIndex);
+    //    if (missionCorrect)
+    //    {
+    //        AudioManager.Instance.PlaySFXConfirmation();
+    //        missionUIManager.RefreshMissionUI();
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySFXClose();
+    //    }
+    //}
+    //public void TradeClick(int tradeIndex)
+    //{
+    //    bool tradeCorrect = false;
+    //    shopUIManager.TradeAction(tradeIndex, tradeCorrect);
+    //    if (tradeCorrect)
+    //    {
+    //        AudioManager.Instance.PlaySFXConfirmation();
+    //    }
+    //    else
+    //    {
+    //        AudioManager.Instance.PlaySFXClose();
+    //    }
+    //}
 
     public void ShowShopCanvas()
     {

@@ -103,7 +103,7 @@ public class MissionUIManager : MonoBehaviour
         }
     }
    
-   void ClearExistingUI()
+   private void ClearExistingUI()
    {
    foreach (Transform child in contentParent)
         {
