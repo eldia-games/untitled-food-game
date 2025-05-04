@@ -1385,8 +1385,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.79
+  m_Center: {x: 1.39, y: -0.39, z: 0}
 --- !u!114 &5774742718972872756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1832,15 +1832,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  speed: 8
-  sprintSpeed: 14
-  health: 100
+  speed: 6
+  sprintSpeed: 10
+  health: 200
   damage: 20
-  attackRange: 2
+  attackRange: 1
   viewRadius: 28.1
   viewAngle: 90
   timeToReset: 5
-  attackCooldown: 3
+  attackCooldown: 1
   player: {fileID: 0}
   rb: {fileID: 106138168874025411}
   agent: {fileID: 6980429542421637569}
@@ -1855,7 +1855,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05f4d4f041fba664cb676aa10cd59084, type: 2}
   - {fileID: 11400000, guid: b73b38fa5ce2cec40842a91977b8526e, type: 2}
   - {fileID: 11400000, guid: 5ea73f33250c99b4f952ef8df5939543, type: 2}
-  - {fileID: 11400000, guid: 071f4acd73265eb4b8823ee11d1113e3, type: 2}
   - {fileID: 11400000, guid: 7df34f1c2a7ba894c8dd91ab6a2dbfb0, type: 2}
   mouth: {fileID: 412039701569570514}
   mouthAttackCollider: {fileID: 2956677211366995426}
@@ -1907,10 +1906,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2.27
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 6
+  m_Acceleration: 20
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 20
   m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

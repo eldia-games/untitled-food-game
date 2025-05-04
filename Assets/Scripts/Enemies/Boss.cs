@@ -19,6 +19,7 @@ public class Boss : MonoBehaviour
     public float viewRadius = 20f;
     public float viewAngle = 90f;
     protected bool isSeen = false;
+    
 
     [Header("Otros parámetros")]
     public float timeToReset = 5f;
@@ -85,6 +86,7 @@ public class Boss : MonoBehaviour
     private AudioSource _audioSource;
 
     private Coroutine scaleRoutine;
+    private float chaseStartTime;
 
 
     protected virtual void Start()
@@ -124,6 +126,13 @@ public class Boss : MonoBehaviour
                 m.EnableKeyword("_EMISSION");
         }
 
+    }
+
+    public void Awake()
+    {
+        UIManager.Instance.ShowBossHealth();
+        UIManager.Instance.SetBossHealth(health);
+        UIManager.Instance.SetMaxBossHealth(health);
     }
 
     public float GetMaxHealth()
@@ -209,31 +218,30 @@ public class Boss : MonoBehaviour
                     {
                     // Reposicionarse si el jugador está lejos
                         currentState = EnemyState.Chase;
+                        chaseStartTime   = Time.time;  // arrancamos temporizador
                     }
                 break;
 
             case EnemyState.Chase:
-                // Comportamiento de persecución
+                // Si excede el tiempo máximo sin llegar al rango, reiniciamos
+                if (currentSkill != null && Time.time - chaseStartTime > timeToReset)
+                {
+                    currentSkill = null;
+                    currentState = EnemyState.Idle;
+                    agent.speed  = speed;
+                    StopMovement();
+                    break;
+                }
+
+                // Persecución normal
                 AllowMovement();
                 agent.SetDestination(player.transform.position);
 
-                // Si la habilidad es melee se hace sprint
-                if(currentSkill != null && currentSkill.isMelee)
+                // Al entrar en rango, pasamos a usar la habilidad
+                if (currentSkill != null && currentSkill.InMinRange(this, player))
                 {
-                    agent.speed = sprintSpeed;
-                }
-                else
-                {
-                    agent.speed = speed;
-                }
-
-                // Si ya se encuentra en rango de ataque, se lanza la habilidad
-                if(currentSkill.InMinRange(this, player))
-                {
-                    if(!currentSkill.isCasting)
-                        currentSkill.Use(this, player);
+                    agent.speed  = speed;
                     currentState = EnemyState.UsingAbility;
-                    break;
                 }
                 break;
 
@@ -434,6 +442,8 @@ public class Boss : MonoBehaviour
 
         health -= dmg;
 
+        UIManager.Instance.SetBossHealth(health);
+
             // Reproducir SFX de daño
         if (hurtSFX != null && _audioSource != null)
         {
@@ -475,6 +485,7 @@ public class Boss : MonoBehaviour
         currentState = EnemyState.Dead;
 
         StopMovement();
+        UIManager.Instance.HideBossHealth();
 
         // Llamar evento (si existe)
         if (dieEvent != null)
