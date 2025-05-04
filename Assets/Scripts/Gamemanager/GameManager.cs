@@ -104,6 +104,14 @@ public class GameManager : MonoBehaviour {
     AudioManager.Instance.PlayChamberMusic();
     UIManager.Instance.ShowChamberCanvas();
     UIManager.Instance.ShowChamberNamePopUpCanvas(room);
+        if((int)room == 0)
+        {
+            UIManager.Instance.ShowBossHealth();
+        }
+        else
+        {
+            UIManager.Instance.HideBossHealth();
+        }
     SceneManager.LoadScene("Chamber");
   }
 

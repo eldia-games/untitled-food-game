@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Canvas[] ArrayCanvas;
     [SerializeField] private HealthManaUIManager healthManaUIManager;
+    [SerializeField] private ChamberUIManager chamberUIManager;
     [SerializeField] private WeaponSelectionUIManager weaponSelectionUIManager;
     [SerializeField] private PopUpUIManager popUpUIManager;
     [SerializeField] private ShopUIManager shopUIManager;
@@ -511,6 +512,33 @@ public class UIManager : MonoBehaviour
     }
 
 
+    #endregion
+
+    #region Boss Stats UI
+
+    public void ShowBossHealth()
+    {
+        chamberUIManager.ShowBossHealth();
+    }
+
+    public void HideBossHealth()
+    {
+        chamberUIManager.HideBossHealth();
+    }
+    public void ResetBossHealth()
+    {
+        chamberUIManager.ResetBossHealth();
+    }
+
+    public void SetMaxBossHealth(float health)
+    {
+        chamberUIManager.SetMaxHealth(health);
+    }
+
+    public void SetBossHealth(float health)
+    {
+        chamberUIManager.SetHealth(health);
+    }
     #endregion
 
     #region Weapon Selector
