@@ -273,13 +273,6 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXClose();
     }
 
-    public void HideControlsRebind()
-    {
-        HideRebind();
-        ShowSettings();
-        AudioManager.Instance.PlaySFXClose();
-    }
-
     #endregion
 
     #region Credits
