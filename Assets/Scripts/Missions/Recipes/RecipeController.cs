@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-public class MissionController : MonoBehaviour
+public class RecipeController : MonoBehaviour
 {
     #region Variables
     //[SerializeField] private List<GameObject> PosibleItem;
@@ -12,7 +12,7 @@ public class MissionController : MonoBehaviour
     //[SerializeField] private List<int> missionDifficulty;
     [SerializeField] private List<int> missionPrice;
 
-    [SerializeField] private List<ScriptableMission> posibleMissions;
+    [SerializeField] private List<ScriptableRecipe> posibleMissions;
 
     private InventorySafeController inventory;
     #endregion
@@ -76,8 +76,8 @@ public class MissionController : MonoBehaviour
         //Mission mis = new Mission(item.item, quantityIn, price);
         //return mis;
 
-        List<ScriptableMission> missions= new List<ScriptableMission>();
-        foreach (ScriptableMission miss in posibleMissions)
+        List<ScriptableRecipe> missions= new List<ScriptableRecipe>();
+        foreach (ScriptableRecipe miss in posibleMissions)
         {
             if (miss.level== index)
             {
@@ -85,7 +85,7 @@ public class MissionController : MonoBehaviour
             }
         }
         int random = (int)(Random.value * missions.Count);
-        ScriptableMission scrMiss = missions[random];
+        ScriptableRecipe scrMiss = missions[random];
         List<RecipeItem> recipes= new List<RecipeItem>();
         foreach (missionItem missItem in scrMiss.items)
         {

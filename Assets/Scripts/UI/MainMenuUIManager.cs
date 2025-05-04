@@ -443,7 +443,7 @@ public class UIManager : MonoBehaviour
 
     #region Player Stats UI
 
-    public void ResetPlayerHealthMana()
+    public void ResetPlayerUiStats()
     {
         healthManaUIManager.ResetPlayer();
     }
