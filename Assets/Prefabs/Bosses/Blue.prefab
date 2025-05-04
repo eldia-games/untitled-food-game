@@ -1832,11 +1832,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  speed: 4
-  sprintSpeed: 8
+  speed: 8
+  sprintSpeed: 14
   health: 100
-  damage: 10
-  attackRange: 0
+  damage: 20
+  attackRange: 2
   viewRadius: 28.1
   viewAngle: 90
   timeToReset: 5
@@ -1863,7 +1863,13 @@ MonoBehaviour:
   rig: {fileID: 3846975632053590927}
   rigBuilder: {fileID: 8068833250521746440}
   aimConstraint: {fileID: 1966615719972151535}
-  effectsConfig: {fileID: 0}
+  effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
+  healthBarDrainSpeed: 10
+  attackAudioSource: {fileID: 0}
+  attackSFX: {fileID: 0}
+  hurtSFX: {fileID: 8300000, guid: 14435dfebc336904780a8a575611023d, type: 3}
+  deathSFX: {fileID: 0}
+  drawGUI: 1
 --- !u!54 &106138168874025411
 Rigidbody:
   m_ObjectHideFlags: 0

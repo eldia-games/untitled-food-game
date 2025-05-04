@@ -655,14 +655,16 @@ public abstract class BaseEnemy : MonoBehaviour
         if (player && player.GetComponent<PlayerCombat>().isDead) return;
         if (!drawGUI) return;
 
+            
+        GUI.depth = 0;  // Valor bajo para la barra de vida
+
         // Posición 2 unidades sobre el enemigo
         Vector3 worldPos = transform.position + Vector3.up * 2f;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
         screenPos.y = Screen.height - screenPos.y;
         
-
-        float barWidth = 50f;
-        float barHeight = 5f;
+        float barWidth = Screen.width * 0.1f;  // 10% del ancho de la pantalla
+        float barHeight = Screen.height * 0.01f;  // 1% de la altura de la pantalla
 
         // Porcentajes
         float currentPct = Mathf.Clamp01(health / maxHealth);

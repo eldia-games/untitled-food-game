@@ -39,7 +39,6 @@ public class Boss : MonoBehaviour
     public List<AudioClip> footstepRunSounds;
 
 
-
     [Header("Habilidades")]
     public BossSkillScriptableObject[] skills;
     protected BossSkillScriptableObject currentSkill;
@@ -61,6 +60,19 @@ public class Boss : MonoBehaviour
     [Header("Effects Config")]
     [Tooltip("Configures flash and shrink parameters via ScriptableObject")]
     public EnemyEffectsConfig effectsConfig;
+    public float healthBarDrainSpeed = 10f;
+
+    [Header("SFX")]
+    public AudioSource attackAudioSource;
+    public AudioClip attackSFX;
+    public AudioClip hurtSFX;
+    public AudioClip deathSFX;
+
+        
+    protected float redHealthPercentage;
+    // Declara esta variable para guardar la salud máxima
+    protected float maxHealth;
+    public bool drawGUI = false;
     
 
     // Estado interno
@@ -70,6 +82,9 @@ public class Boss : MonoBehaviour
     protected EnemyState currentState = EnemyState.Spawn;
     private List<Material> flashMats = new List<Material>();
     private Vector3 originalScale;
+    private AudioSource _audioSource;
+
+    private Coroutine scaleRoutine;
 
 
     protected virtual void Start()
@@ -97,22 +112,28 @@ public class Boss : MonoBehaviour
         // Guardamos escala inicial
         originalScale = transform.localScale;
 
-        // 1. Recogemos todos los Renderers del prefab
         var renderers = GetComponentsInChildren<Renderer>(true);
         foreach (var r in renderers)
         {
-            // 2. Clonamos su array de materiales
             var mats = r.materials;  // esto instancia cada material en el array
             r.materials = mats;      // re-asignamos para que use esas instancias
 
-            // 3. Añadimos todas esas instancias a nuestra lista
             flashMats.AddRange(mats);
 
-            //  opcional: forzar emission keyword en cada material
             foreach (var m in mats)
                 m.EnableKeyword("_EMISSION");
         }
 
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
 
     public void SetPlayer(GameObject player)
@@ -333,15 +354,95 @@ public class Boss : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
 
+    #region "On Hit Effects"
+
+    private IEnumerator FlashCoroutine()
+    {
+        float timer   = 0f;
+        float maxPow  = effectsConfig.flashMaxPower;
+        float duration = effectsConfig.flashDuration;
+
+        // Begin at full power
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", maxPow);
+
+        // Fade out
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = 1f - (timer / duration);
+            float pow = t * maxPow;
+
+            foreach (var m in flashMats)
+                m.SetFloat("_FlashPower", pow);
+
+            yield return null;
+        }
+
+        // Ensure off
+        foreach (var m in flashMats)
+            m.SetFloat("_FlashPower", 0f);
+    }
+
+    
+    private IEnumerator ShrinkCoroutine()
+    {
+        float halfDur = effectsConfig.shrinkDuration * 0.5f;
+        float factor  = Mathf.Clamp(effectsConfig.shrinkFactor, 0.1f, 1f);
+        Vector3 targetScale = originalScale * factor;
+
+        float timer = 0f;
+
+        // Fase de encoger
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        // Fase de volver
+        timer = 0f;
+        while (timer < halfDur)
+        {
+            timer += Time.deltaTime;
+            float t = timer / halfDur;
+            transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            yield return null;
+        }
+
+        transform.localScale = originalScale;
+        scaleRoutine = null;
+    }
+
     /// <summary>
     /// Recibe daño y knockback.
     /// </summary>
     public virtual void OnHurt(float dmg, float knockback, Vector3 direction)
     {
-        // Disparar animación "hurt" si se desea
-        //animator.SetTrigger("hurt");
+        if (isDead) return;
+
+        if (flashMats.Count > 0)
+            StartCoroutine(FlashCoroutine());
+        else
+            Debug.LogWarning("No hay materials para hacer flash. ¿Renderers encontrados?");
+
+        if (scaleRoutine != null)
+            StopCoroutine(scaleRoutine);
+        scaleRoutine = StartCoroutine(ShrinkCoroutine());
 
         health -= dmg;
+
+            // Reproducir SFX de daño
+        if (hurtSFX != null && _audioSource != null)
+        {
+            _audioSource.clip = hurtSFX;
+            _audioSource.Play();
+        } else 
+        {
+            Debug.LogWarning("No hay SFX de daño asignado o AudioSource no encontrado.", this);
+        }
 
         // Comprobamos muerte
         if (health <= 0f)
@@ -349,6 +450,8 @@ public class Boss : MonoBehaviour
             Die();
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Maneja la muerte del enemigo (animación, collider, rigidbody, etc.)
@@ -450,6 +553,27 @@ public class Boss : MonoBehaviour
         audioSource.PlayOneShot(footstepSound);
     }
 
+    #region "Health Bar"
+
+    public void UpdateHealthBar()
+    {
+        float currentPct = Mathf.Clamp01(health / maxHealth);
+        if (redHealthPercentage > currentPct)
+        {
+            redHealthPercentage = Mathf.MoveTowards(
+                redHealthPercentage,
+                currentPct,
+                healthBarDrainSpeed * Time.deltaTime
+            );
+        }
+        else
+        {
+            redHealthPercentage = currentPct;
+        }
+    }
+
+    #endregion
+
     /// <summary>
     /// Predice la posición futura del jugador según su velocidad (para disparos a distancia).
     /// </summary>
@@ -486,10 +610,11 @@ public class Boss : MonoBehaviour
     
     public void OnGUI()
     {
+        Vector3 worldPos = transform.position + Vector3.up * 2f;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
         if (debug)
         {
-            // Obtener la posición en pantalla del enemigo
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
             // Ajustar el eje Y para que el origen sea la parte superior de la pantalla
             screenPos.y = Screen.height - screenPos.y;
             
@@ -523,6 +648,58 @@ public class Boss : MonoBehaviour
                 GUI.Label(animRect, "Animación actual: " + currentAnim,
                     new GUIStyle() { normal = new GUIStyleState() { textColor = Color.yellow } });
             }
+
+            if (Camera.main == null) return;
+            if (player && player.GetComponent<PlayerCombat>().isDead) return;
+            if (!drawGUI) return;
+
+                
+            GUI.depth = 0;  // Valor bajo para la barra de vida
+
+            // Posición 2 unidades sobre el enemigo
+            screenPos.y = Screen.height - screenPos.y;
+            
+            float barWidth = Screen.width * 0.1f;  // 10% del ancho de la pantalla
+            float barHeight = Screen.height * 0.01f;  // 1% de la altura de la pantalla
+
+            // Porcentajes
+            float currentPct = Mathf.Clamp01(health / maxHealth);
+            float redPct = redHealthPercentage;
+
+            // Rectángulos
+            Rect bgRect = new Rect(
+                screenPos.x - barWidth / 2f,
+                screenPos.y,
+                barWidth,
+                barHeight
+            );
+            Rect redRect = new Rect(
+                bgRect.x,
+                bgRect.y,
+                barWidth * redPct,
+                barHeight
+            );
+            Rect greenRect = new Rect(
+                bgRect.x,
+                bgRect.y,
+                barWidth * currentPct,
+                barHeight
+            );
+
+            // Fondo negro
+            GUI.color = Color.black;
+            GUI.DrawTexture(bgRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+            // Barra roja
+            GUI.color = Color.red;
+            GUI.DrawTexture(redRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+            // Barra verde (salud actual)
+            GUI.color = new Color(0.2f, 0.75f, 0.2f, 1f); // Verde 
+            GUI.DrawTexture(greenRect, Texture2D.whiteTexture, ScaleMode.StretchToFill);
+
+            // Restaurar
+            GUI.color = Color.white;
         }
     }
 }
