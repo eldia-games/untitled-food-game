@@ -62,7 +62,6 @@ public class UpgradesUIManager : MonoBehaviour
 
     }
 
-
     public void LevelUpMaxHealth()
     {
         int price = priceList[0];
@@ -176,6 +175,7 @@ public class UpgradesUIManager : MonoBehaviour
             AudioManager.Instance.PlaySFXClose();
         }
     }
+
     public void LevelUpPush()
     {
         int price = priceList[6];
