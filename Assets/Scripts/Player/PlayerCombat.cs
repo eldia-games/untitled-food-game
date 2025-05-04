@@ -169,6 +169,10 @@ public class PlayerCombat : MonoBehaviour
 
         UIManager.Instance.SetHealth(HP);
         UIManager.Instance.SetMana(MP);
+
+        UIManager.Instance.SetDamage(damage);
+        UIManager.Instance.SetAttackSpeed(velAttack);
+        UIManager.Instance.SetPush(PushForce);
         }
         catch(Exception e){
             Debug.Log("Error: " + e);

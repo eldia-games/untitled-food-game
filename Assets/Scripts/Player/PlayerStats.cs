@@ -123,14 +123,14 @@ public class PlayerStats : ScriptableObject
       {
           case 0:
               Debug.Log("Weapon type: " + weaponType + " - Sword");
-              damage = 10f;
+              damage = 20f;
               velAttack = 1f;
               weaponIndex = 0;
               break;
           case 1:
               Debug.Log("Weapon type: " + weaponType + " - Axe");
-              damage = 10f;
-              velAttack = 0.7f;
+              damage = 20f;
+              velAttack = 0.5f;
               weaponIndex = 1;
               break;
           case 2:
@@ -141,7 +141,7 @@ public class PlayerStats : ScriptableObject
               break;
           case 4:
               Debug.Log("Weapon type: " + weaponType + " - Staff");
-              damage = 20f;
+              damage = 10f;
               velAttack = 0.5f;
               weaponIndex = 4;
               break;

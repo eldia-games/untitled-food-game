@@ -384,6 +384,21 @@ public class UIManager : MonoBehaviour
         healthManaUIManager.SetMana(mana);
     }
 
+    public void SetDamage(float damage)
+    {
+        healthManaUIManager.SetDamage(damage);
+    }
+
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        healthManaUIManager.SetAttackSpeed(attackSpeed);
+    }
+
+    public void SetPush(float push)
+    {
+        healthManaUIManager.SetPush(push);
+    }
+
     public void RegenMana(float manaRegenRate)
     {
         healthManaUIManager.RegenMana(manaRegenRate);
