@@ -11,27 +11,25 @@ public class HealthManaUIManager : MonoBehaviour
     public Slider healthSlider, manaSlider;
     public Gradient healthGradient, manaGradient;
     public Image healthFill, manaFill;
+
     public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP, damageTMP, velAttackTMP, PushTMP;
-    public PlayerStats PlayerStats;
 
-    private float HP { get => PlayerStats.HP; set => PlayerStats.HP = value; }
-    private float MP { get => PlayerStats.MP; set => PlayerStats.MP = value; }
-    private int maxLife => PlayerStats.maxLife;
-    private int maxMana => PlayerStats.maxMana;
 
-    private float damage => PlayerStats.damage;
-    private float attackSpeed => PlayerStats.velAttack;
-    private float push => PlayerStats.pushForce;
+
+
+
 
     public void ResetPlayer()
     {
-        SetMaxHealth(maxLife);
-        SetMaxMana(maxMana);
-        SetHealth(HP);
-        SetMana(MP);
-        SetDamage(damage);
-        SetAttackSpeed(attackSpeed);
-        SetPush(push);
+
+        SetMaxHealth(PlayerStatsController.Instance.getMaxHealth());
+        SetMaxMana(PlayerStatsController.Instance.getMaxMana());
+        SetHealth(PlayerStatsController.Instance.getHealth());
+        SetMana(PlayerStatsController.Instance.getMana());
+        SetDamage(PlayerStatsController.Instance.getDamage());
+        SetAttackSpeed(PlayerStatsController.Instance.getAttackSpeed());
+        SetPush(PlayerStatsController.Instance.getPush());
+
     }
 
     public void SetMaxHealth(float health) {

@@ -829,8 +829,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3704258748903761181}
-  - component: {fileID: 1951799903836151126}
-  - component: {fileID: 1624743865728615025}
   - component: {fileID: 3314330856426297246}
   m_Layer: 0
   m_Name: TreasureA
@@ -869,83 +867,6 @@ Transform:
   - {fileID: 6713426187110614662}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!320 &1951799903836151126
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785925151469003676}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 73c05f605691cc542b9e8ce5b73507d0, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -4902993007198921458, guid: 5b579a66048786e4f9af82285aac8602, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -5882739646272747562, guid: 5b579a66048786e4f9af82285aac8602, type: 2}
-    value: {fileID: 1624743865728615025}
-  - key: {fileID: -4508331037145524886, guid: 73c05f605691cc542b9e8ce5b73507d0, type: 2}
-    value: {fileID: 1624743865728615025}
-  m_ExposedReferences:
-    m_References:
-    - 0374292a747a61840b6405752137b00e: {fileID: 0}
-    - 98c273de6dff9854daa80aeb71691fae: {fileID: 0}
-    - f55282982ce8f2d4a88da6f5ed9a89d4: {fileID: 0}
-    - d4fe19876e673604bb5fcc6d51e487ab: {fileID: 0}
-    - f330e2ad6792b2d4dbe10ec7c01e4f51: {fileID: 0}
-    - 8cc7ffaba48350840affa8693b76b435: {fileID: 0}
-    - 44f111cd129cb954f92c788c06dde06c: {fileID: 0}
-    - af859d3c196c86e4cbb3cd9401e72a39: {fileID: 0}
-    - b99a5d7fd027cfc408b0120b95e5ef4a: {fileID: 0}
-    - a8237ecae444a3947bc0bc1d9877cb9c: {fileID: 0}
-    - 50626ad19cf9cc74892205b6e19f25b5: {fileID: 0}
-    - acb8cc6c026f36f4fb993ce55507ba22: {fileID: 0}
-    - 1433f90efff4c4541a20110f6d37e8a1: {fileID: 0}
-    - db291eaeeedcadd4e94715c174c690ac: {fileID: 0}
-    - 8ce3b14833067d0438a5e5a57f633884: {fileID: 0}
-    - 8af1b7d4db13f8648b6e78aad75aecf8: {fileID: 0}
-    - fb4d4f9e03f51c8418009e0a654475e3: {fileID: 0}
-    - 15b24e7313f75bc42ae929d02ee5f679: {fileID: 0}
-    - aaa13a1cb844339439ece805b9f4ffea: {fileID: 0}
-    - 8be614660cd914b408da75f8f907a375: {fileID: 0}
-    - 28dd4ba2d6d6ece4f8a13ec94d22f7a3: {fileID: 0}
-    - 24304e0d285bc1b41816735bab387236: {fileID: 0}
-    - 650535b8f38759c40a21d749c3e54e29: {fileID: 0}
-    - 9eb81d51a4600ec4983f9b678a85020c: {fileID: 0}
---- !u!114 &1624743865728615025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785925151469003676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 28e7966b17a1adc419292cfb0b74b658, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3314330856426297246}
-          m_TargetAssemblyTypeName: TreasureRoomController, Assembly-CSharp
-          m_MethodName: StartDungeonEnterAnimation
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &3314330856426297246
 MonoBehaviour:
   m_ObjectHideFlags: 0

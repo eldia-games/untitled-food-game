@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDrop : MonoBehaviour
+[Serializable]
+public struct EnemyDrop
 {
-    public GameObject drop;
+    [SerializeField] public  GameObject drop;
 
-    [Range(0,1)] public float chanceDrop;
-    public int minDrop;
-    public int maxDrop;
+    [SerializeField][Range(0,1)] public float chanceDrop;
+    [SerializeField] public int minDrop;
+    [SerializeField] public int maxDrop;
 }
