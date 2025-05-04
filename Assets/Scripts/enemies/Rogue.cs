@@ -40,6 +40,7 @@ public class Rogue : BaseEnemyV2
     
     protected override void Update()
     {
+        UpdateHealthBar();
         
         if (isDead) return;
         if (player == null) return; // Por seguridad
