@@ -2998,7 +2998,6 @@ MonoBehaviour:
   damageTMP: {fileID: 632816892}
   velAttackTMP: {fileID: 567930242}
   PushTMP: {fileID: 1576925322}
-  PlayerStats: {fileID: 11400000, guid: 178d314acac3ff04cb48c0dd83ae14d6, type: 2}
 --- !u!114 &186588455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7957,6 +7956,7 @@ GameObject:
   - component: {fileID: 556083508}
   - component: {fileID: 556083509}
   - component: {fileID: 556083510}
+  - component: {fileID: 556083511}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -8022,6 +8022,20 @@ MonoBehaviour:
   maxManaBase: 10
   manaRegenAdd: 0.1
   manaRegenBase: 0.1
+--- !u!114 &556083511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556083507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63c842a09d786e4fb98801ed080caf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeers: 5
+  Beers: 0
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0
@@ -11347,7 +11361,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 8.3e-44, z: 6.9036e-41, w: 8.6813e-41}
+  m_BoundingSphereOverride: {x: NaN, y: NaN, z: 7.7e-44, w: 3.5613e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

@@ -110,4 +110,19 @@ public class PlayerStatsController : MonoBehaviour {
     {
         return stats.heal;
     }
+    public float getDamage()
+    {
+        return stats.damage;
+    }
+
+    public float getAttackSpeed()
+    {
+        return stats.velAttack;
+    }
+
+    public float getPush()
+    {
+        return stats.pushForce;
+    }
 }
+
