@@ -108,11 +108,12 @@ public class GameManager : MonoBehaviour {
 
   public void EnterTrainingScene()
   {
-      SceneManager.LoadScene("Basement");
-      AudioManager.Instance.PlayLobbyMusic();
-      UIManager.Instance.HidePopUpCanvas();
-      UIManager.Instance.HideAllCanvas();
-  }
+    AudioManager.Instance.PlayLobbyMusic();
+    UIManager.Instance.HidePopUpCanvas();
+    UIManager.Instance.HideAllCanvas();
+    UIManager.Instance.ShowBasementCanvas();
+    SceneManager.LoadScene("Basement");
+    }
 
     #endregion
 

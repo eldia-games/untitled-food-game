@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MissionUIManager missionUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
+    [SerializeField] private Canvas welcomeCanvas1, welcomeCanvas2;
     public bool pauseLocked;
     public static UIManager Instance { get; private set; }
 
@@ -105,6 +106,53 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFXConfirmation();
     }
 
+    public void ShowBasementCanvas()
+    {
+        pauseLocked = false;
+        HideAllCanvas();
+        ShowBasement();
+    }
+
+    public void ShowWelcomeCanvas()
+    {
+        pauseGame();
+        pauseLocked = true;
+        HideBasement();
+        welcomeCanvas1.gameObject.SetActive(true);
+        welcomeCanvas2.gameObject.SetActive(false);
+        ShowWelcome();
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+
+    public void HideWelcomeCanvas()
+    {
+        pauseLocked = false;
+        welcomeCanvas1.gameObject.SetActive(true);
+        welcomeCanvas2.gameObject.SetActive(false);
+        HideWelcome();
+        ShowBasement();
+        resumeGame();
+        AudioManager.Instance.PlaySFXClose();
+    }
+
+    public void AdvanceWelcomeCanvas()
+    {
+        Debug.Log("avanzo welcome");
+
+        welcomeCanvas1.gameObject.SetActive(false);
+        welcomeCanvas2.gameObject.SetActive(true);
+        AudioManager.Instance.PlaySFXConfirmation();
+    }
+
+    private void pauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void resumeGame()
+    {
+        Time.timeScale = 1;
+    }
     public void ShowPauseCanvas()
     {
         pauseUIManager.RefreshPauseUI();
@@ -290,6 +338,13 @@ public class UIManager : MonoBehaviour
     //        AudioManager.Instance.PlaySFXClose();
     //    }
     //}
+
+    public void HideBasementCanvas()
+    {
+        pauseLocked = false;
+        HideBasement();
+        AudioManager.Instance.PlaySFXClose();
+    }
 
     public void ShowShopCanvas()
     {
@@ -553,6 +608,15 @@ public class UIManager : MonoBehaviour
         ShowCanvasByIndex(3);
     }
 
+    private void HideBasement()
+    {
+        HideCanvasByIndex(4);
+    }
+    private void ShowBasement()
+    {
+        ShowCanvasByIndex(4);
+    }
+
     private void HideSettings()
     {
         HideCanvasByIndex(5);
@@ -663,7 +727,7 @@ public class UIManager : MonoBehaviour
 
     private void HideRebind()
     {
-        HideCanvasByIndex(17);
+        HideCanvasByIndex(16);
     }
     private void ShowVictory()
     {
@@ -673,6 +737,16 @@ public class UIManager : MonoBehaviour
     private void HideVictory()
     {
         HideCanvasByIndex(17);
+    }
+
+    private void ShowWelcome()
+    {
+        ShowCanvasByIndex(18);
+    }
+
+    private void HideWelcome()
+    {
+        HideCanvasByIndex(18);
     }
 
     #endregion 
