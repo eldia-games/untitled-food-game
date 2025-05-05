@@ -7,25 +7,22 @@ public class Minion : BaseEnemy
     [Header("Sonidos")]
     public AudioClip attackSound;
     
-    public MeshRenderer attackMesh;
-    
-public bool canJumpAttack;       // Controla si este enemigo está habilitado para saltar
-public bool chargingJumpAttack;  // Indica si estamos en fase de cargar el salto
-public bool jumpingAttack;       // Indica si ya estamos “en el aire” saltando
-public Vector3 chargeAttackTarget; 
-public float jumpAttackSpeed;
-public float jumpAttackRange;    // Rango para decidir que conviene usar el salto
+    public bool canJumpAttack;       // Controla si este enemigo está habilitado para saltar
+    public bool chargingJumpAttack;  // Indica si estamos en fase de cargar el salto
+    public bool jumpingAttack;       // Indica si ya estamos “en el aire” saltando
+    public Vector3 chargeAttackTarget; 
+    public float jumpAttackSpeed;
+    public float jumpAttackRange;    // Rango para decidir que conviene usar el salto
 
-public bool isJumpAttack = false;
-public float jumpAttackCooldown = 8f; // el tiempo mínimo entre saltos
-private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último salto
+    public bool isJumpAttack = false;
+    public float jumpAttackCooldown = 8f; // el tiempo mínimo entre saltos
+    private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último salto
+
+    public Collider currentAttackCollider; // El collider del ataque actual
 
     protected override void Start()
     {
         base.Start();
-        if (attackMesh != null)
-            attackMesh.enabled = false;
-            
     }
 
     protected override void HandleCombat()
@@ -112,10 +109,16 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
         Vector3 randomDirection = Random.insideUnitCircle.normalized;
         float randomRadius = Random.Range(1f, 3f);
         Vector3 randomOffset = randomDirection * randomRadius;
-        chargeAttackTarget = player.transform.position + new Vector3(randomOffset.x, 0, randomOffset.y);
-        // Si no está en el NavMesh, no aplicamos el offset
-        if (!NavMesh.SamplePosition(chargeAttackTarget, out NavMeshHit hit, 1f, NavMesh.AllAreas)){
-           chargeAttackTarget = player.transform.position;
+        Vector3 targetPos = player.transform.position + new Vector3(randomOffset.x, 0, randomOffset.y);
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(targetPos, out hit, 1f, NavMesh.AllAreas))
+        {
+            chargeAttackTarget = hit.position; // Usa la posición correcta del NavMesh, que incluye la altura.
+        }
+        else
+        {
+            chargeAttackTarget = player.transform.position;
         }
 
         yield return new WaitForSeconds(0.1f);
@@ -164,6 +167,16 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
 
         // Reactivar NavMeshAgent
         agent.enabled = true;
+        NavMeshHit nhit;
+        if (NavMesh.SamplePosition(endPos, out nhit, 1f, NavMesh.AllAreas))
+        {
+            agent.Warp(nhit.position);
+        }
+        else
+        {
+            // Si no se encuentra una posición válida, usa la posición original o maneja el error
+            agent.Warp(endPos);
+        }
         AllowMovement();
 
         jumpingAttack = false;
@@ -175,36 +188,24 @@ private float jumpAttackTimer = 0f;   // para contar el tiempo desde el último 
     public override void AttackEvent()
     {
         base.AttackEvent();
-        // Aquí podrías activar un collider de daño tipo “ground slam” o algo similar.
 
-        Debug.Log("Minion aterriza y daña alrededor...");
-        // Ejemplo:
-        // Collider[] hits = Physics.OverlapSphere(transform.position, 2f);
-        // foreach (var h in hits)
-        // {
-        //     if (h.CompareTag("Player"))
-        //     {
-        //         // Quitar vida al jugador
-        //     }
-        // }
+        currentAttackCollider.enabled = true;
+
         // Reproduce el sonido de ataque
-        if (attackSound != null && audioSource != null)
-           audioSource.PlayOneShot(attackSound);
     }
 
     private void StopAttackMesh()
     {
-        if (attackMesh != null)
-            attackMesh.enabled = false;
-
         StopAttack(); 
     }
 
     public void AttackStopEvent()
     {
+        currentAttackCollider.enabled = false;
         isAttacking = false;
         StopAttack();
     }
+
 
     protected override void UpdateTimers()
     {

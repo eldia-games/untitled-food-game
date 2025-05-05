@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd47ac15d588da44cbbd9159e3662b4c, type: 3}
+  m_Name: PlayerStats
+  m_EditorClassIdentifier: 
+  MovementSpeed: 9
+  StaminaSlide: 10
+  StaminaRegen: 5
+  velSlide: 1
+  maxLife: 100
+  heal: 10
+  HP: 100
+  damage: 10
+  velAttack: 1
+  pushForce: 10
+  damageModifier: 1
+  pushModifier: 1
+  maxMana: 100
+  MP: 100
+  manaCost: 10
+  manaRegen: 2
+  weaponIndex: 0
+  weaponType:
+  - {fileID: 6799956627783305403, guid: fcaf396d1f7dd7f4cac162ae8f6e5b41, type: 3}
+  - {fileID: 7689469632844511846, guid: 8421d45651cec194b9f7a9abdff148b7, type: 3}

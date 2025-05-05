@@ -3,59 +3,130 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class PlayerStatsController : MonoBehaviour
-{
-    [SerializeField] private PlayerStats stats;
-    // Start is called before the first frame update
-    public static PlayerStatsController Instance { get; private set; }
+public class PlayerStatsController : MonoBehaviour {
+  [SerializeField] private PlayerStats stats;
+  public static PlayerStatsController Instance { get; private set; }
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+  private void Awake() {
+    if (Instance != null && Instance != this) {
+      Destroy(gameObject);
+    } else {
+      Instance = this;
+      DontDestroyOnLoad(gameObject);
+    }
+  }
 
+  public void heal(float heal) {
+    stats.HP = Mathf.Min(stats.HP + heal, stats.maxLife);
+  }
+
+  public void healprct(float heal) {
+    stats.HP = Mathf.Min(stats.HP + stats.maxLife * heal, stats.maxLife);
+    //UIManager.Instance.ResetPlayerUiStats();
+  }
+
+  public void augmentMaxHealht(int healht) {
+    stats.maxLife += healht;
+  }
+
+  public void augmentMaxHealhtprct(float healht) {
+    stats.maxLife = (int)Mathf.Round(stats.maxLife * (1 + healht));
+  }
+
+  public void augmentHeal(float heal) {
+    stats.heal += heal;
+  }
+
+  public void augmentHealprct(float heal) {
+    stats.heal = Mathf.Round(stats.heal * (1 + heal));
+  }
+
+  public void augmentMaxDamage(float damage) {
+    stats.damage += damage;
+  }
+
+  public void augmentMaxDamageprct(float damage) {
+    stats.damage = Mathf.Round(stats.damage * (1 + damage));
+  }
+
+  public void augmentAttackSpeed(float attackSpeed) {
+    stats.velAttack += attackSpeed;
+  }
+
+  public void augmentAttackSpeedprct(float attackSpeed) {
+    stats.velAttack = Mathf.Round(stats.velAttack * (1 + attackSpeed));
+  }
+
+  public void augmentMaxmoveSpeed(float speed) {
+    stats.MovementSpeed += speed;
+  }
+
+  public void augmentMaxmoveSpeedprct(float speed) {
+    stats.MovementSpeed = Mathf.Round(stats.MovementSpeed * (1 + speed));
+  }
+
+  public void augmentPushForce(float pushForce) {
+    stats.pushForce += pushForce;
+  }
+
+  public void augmentPushForceprct(float pushForce) {
+    stats.pushForce = Mathf.Round(stats.pushForce * (1 + pushForce));
+  }
+
+  public void augmentMaxMana(int mana) {
+    stats.maxMana += mana;
+  }
+
+  public void augmentMaxManaprct(float mana) {
+    stats.maxMana = (int)Mathf.Round(stats.maxMana * (1 + mana));
+  }
+
+  public void augmentManaRegen(float regen) {
+    stats.manaRegen += regen;
+  }
+
+  public void augmentManaRegenrct(float regen) {
+    stats.manaRegen = Mathf.Round(stats.manaRegen * (1 + regen));
+  }
+
+    public int getMaxHealth()
+    {
+        return stats.maxLife;
+    }
+        public float getHealth()
+    {
+        return stats.HP;
+    }
+    public int getMaxMana()
+    {
+        return stats.maxMana;
     }
 
-    public void heal(float heal)
+    public float getMana()
     {
-        Debug.Log(stats.HP);
-        stats.HP = Mathf.Min(stats.HP + heal, stats.maxLife);
-        Debug.Log(stats.HP);
+        return stats.MP;
     }
-    public void healprct(float heal)
+    public float getHeal()
     {
-        stats.HP = Mathf.Min(stats.HP + stats.maxLife *heal, stats.maxLife);
+        return stats.heal;
+    }
+    public float getDamage()
+    {
+        return stats.damage;
     }
 
-    public void augmentMaxHealht(int heal)
+    public float getAttackSpeed()
     {
-        stats.maxLife += heal;
+        return stats.velAttack;
     }
-    public void augmentMaxHealhtprct(float heal)
+
+    public float getPush()
     {
-        stats.maxLife = (int)Mathf.Round(stats.maxLife*(1 + heal));
+        return stats.pushForce;
     }
-    public void augmentMaxDamage(int damage)
+    public int getWeaponIndex()
     {
-        stats.damage += damage;
-    }
-    public void augmentMaxDamageprct(float damage)
-    {
-        stats.damage = (int)Mathf.Round(stats.damage * (1 + damage));
-    }
-    public void augmentMaxmoveSpeed(float speed)
-    {
-        stats.MovementSpeed += speed;
-    }
-    public void augmentMaxmoveSpeedprct(float speed)
-    {
-        stats.MovementSpeed = (int)Mathf.Round(stats.MovementSpeed * (1 + speed));
+        return stats.weaponIndex;
     }
 }
+

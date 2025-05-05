@@ -2,170 +2,300 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Timeline;
+using UnityEngine.Animations.Rigging;
 
-public class Warrior : BaseEnemy
+public class Warrior : BaseEnemyV2
 {
-    [Header("Configuración de Escudo")]
-    public bool canBlock = true;      // Si puede o no bloquear
-    public float blockChance = 0.5f;  // Probabilidad de que intente bloquear (0..1)
-    public float blockDuration = 1.5f;// Cuánto dura el bloqueo
-    public float blockCooldown = 5f;  // Tiempo de espera entre bloqueos
+    [Header("Sonidos")]
 
-    public Collider shieldCollider; // El collider del escudo
+    public float fleeDistance = 7f;
+    public float fleeRadius = 1f;
+    public float approachDistance = 10f;
+    public int rayCount = 12;
+    public float checkRadius = 1f;
+        
+    private float orbitalTimer = 0f;
+    public float orbitalChangeInterval = 3f;
+    private float orbitalSign = 1f;
+    public AudioClip attackSound;
 
-    public bool isBlocking = false;
-    private float currentBlockCooldown = 0f;
-
-    [Header("Ataques Melee")]
-    public Collider attackCollider; // El collider del ataque melee
-    public int numberOfMeleeAttacks = 2; // Cuántos tipos de ataques melee tiene
-    // (Ej. 0 = ataque horizontal, 1 = ataque vertical, etc.)
-
-    public bool lookAtPlayerWhileAttacking = false;
-
-    private Collider currentAttackCollider; // El collider del ataque actual
-
+    public SkillScriptableObject[] skills;
+    private SkillScriptableObject currentSkill;
+    protected EnemyState currentState = EnemyState.Spawn;
     protected override void Start()
     {
         base.Start();
-        attackCollider.enabled = false;
+        for (int i = 0; i < skills.Length; i++)
+        {
+            skills[i].Initialize();
+        }
+        if (player != null)
+        {
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            if(debug)
+                Debug.Log("Player set in warrior: " + player.name);
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
+        }
     }
 
     protected override void Update()
     {
-        // Llama primero a la lógica principal (detección, combate, etc.)
-        base.Update();
+        UpdateHealthBar();
+        
+        if (isDead) return;
+        if (player == null) return; // Por seguridad
 
-        // Si no está bloqueando, vamos reduciendo el cooldown del próximo bloqueo.
-        if (!isBlocking && currentBlockCooldown > 0f)
+        CheckPlayerVisibility();
+
+        switch(currentState)
         {
-            currentBlockCooldown -= Time.deltaTime;
-            if (currentBlockCooldown < 0f) currentBlockCooldown = 0f;
+            case EnemyState.Spawn:
+                // Lógica de spawn
+                // Espera a que el jugador esté cerca, grita y se pone en combate
+                StopMovement();
+                currentState = EnemyState.Idle;
+                break;
+            
+            case EnemyState.Taunt:
+                // Lógica de taunt
+                break;
+
+            case EnemyState.Idle:
+                AllowMovement();
+                // Lógica de idle
+                HandlePatrol();
+                if(isSeen)
+                {
+                    currentState = EnemyState.Combat;
+                    inCombat = true;
+                    drawGUI = true;
+                }
+                break;
+
+            case EnemyState.Combat:
+                StopMovement();
+                bool canUseButNotInRange = false;
+                // Lógica de combate
+                if (!currentSkill)
+                {
+                    for (int i = 0; i < skills.Length; i++)
+                    {
+                        if (skills[i].CanUse(this, player))
+                        {
+                            if (!skills[i].InRange(this, player))
+                            {
+                                canUseButNotInRange = true;
+                            }
+                            else
+                            {
+                                currentSkill = skills[i];
+                                skills[i].Use(this, player);
+                                currentState = EnemyState.UsingAbility;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(canUseButNotInRange && !currentSkill)
+                {
+                    currentState = EnemyState.Chase;
+                    agent.SetDestination(player.transform.position);
+                }
+                else
+                {
+                    // Si no hay habilidades se huye si el jugador está cerca
+                    AllowMovement();
+                    MantainDistance();
+                }
+                break;
+
+            case EnemyState.Chase:
+                // Comportamiento de persecución
+                AllowMovement();
+                agent.SetDestination(player.transform.position);
+
+                if(!currentSkill)
+                    for (int i = 0; i < skills.Length; i++)
+                    {
+                        if (skills[i].CanUse(this, player) && skills[i].InRange(this, player))
+                        {
+                            skills[i].Use(this, player);
+                            currentSkill = skills[i];
+                            currentState = EnemyState.UsingAbility;
+                            break;
+                        }
+                    }
+                break;
+
+            case EnemyState.UsingAbility:
+                StopMovement();
+                if(!currentSkill || !currentSkill.isCasting)
+                {
+                    currentSkill = null;
+                    currentState = EnemyState.Combat;
+                }
+                break;
+
+            case EnemyState.Dead:
+                StopMovement();
+                break;
+        }
+
+        UpdateAnimations();
+
+
+        // Forzamos que el jefe solo rote en Y (para evitar inclinaciones)
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+    }
+
+    public virtual void OnAnimationEvent()
+    {
+        if(currentSkill != null)
+        {
+            currentSkill.OnAnimationEvent(this, player);
         }
     }
 
-    protected override void HandleCombat()
+    protected void MantainDistance()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        
-        // Si estamos en medio de la animación de ataque, no nos movemos
-        if (isAttacking)
-        {
-            if(lookAtPlayerWhileAttacking)
-                RotateTowards(player.transform.position);
-            agent.isStopped = true;
-            agent.speed = 0;
-            return;
-        }
 
-        // Comportamiento de movimiento estándar
-        agent.speed = speed;
-        agent.isStopped = false;
-        agent.SetDestination(player.transform.position);
-
-        // Intento de bloqueo si el jugador está cerca y no estamos en cooldown
-        // Puedes ajustarlo para que bloquee justo antes de recibir un golpe, 
-        // o de forma aleatoria cuando el jugador se acerca.
-        if (canBlock && !isBlocking && currentBlockCooldown <= 0f)
+        // Si el jugador está demasiado cerca, huir.
+        if (distanceToPlayer <= fleeRadius)
         {
-            // Por ejemplo, 50% de probabilidad de bloquear cuando la distancia < 3
-            if (distanceToPlayer < 3f && Random.value < blockChance)
-            {
-                agent.isStopped = true;
-                StartBlock();
-            }
+            Vector3 bestFlee = GetBestFleeDirection();
+            if (bestFlee != Vector3.zero)
+                agent.SetDestination(bestFlee);
         }
-        // Si el jugador está a rango de ataque, paramos y atacamos
-        if (distanceToPlayer < attackRange && !isBlocking)
+        // Si el jugador está muy lejos, acercarse.
+        else if (distanceToPlayer > approachDistance)
         {
-            agent.isStopped = true;
-            animator.SetBool("isRunning", false);
-            
-            RotateTowards(player.transform.position);
-            // Comprobar cooldown de ataque
-            if (attackTimer >= attackCooldown)
-            {
-                attackTimer = 0f;
-                // Preparar ataque
-                StartAttack();
-            }
+            agent.SetDestination(player.transform.position);
         }
+        // Si está en rango adecuado, moverse en órbita.
         else
         {
-            agent.isStopped = false;
-            // Animación de correr si aún no estamos en rango
-            animator.SetBool("isRunning", true);
+            // Calcula la dirección hacia el jugador.
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            
+            // Actualiza el temporizador para cambiar la dirección orbital.
+            orbitalTimer += Time.deltaTime;
+            if (orbitalTimer >= orbitalChangeInterval)
+            {
+                orbitalTimer = 0f;
+                orbitalSign = (Random.value > 0.5f) ? 1f : -1f;
+            }
+            
+            // Calcula la dirección orbital multiplicando la rotación de 90° por el signo.
+            Vector3 orbitalDirection = Quaternion.Euler(0, 90 * orbitalSign, 0) * directionToPlayer;
+            
+            // Lanza un raycast en la dirección orbital para evitar obstáculos.
+            float rayDistance = 2f; // Ajusta este valor según tus necesidades.
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, orbitalDirection, out hit, rayDistance))
+            {
+                // Si se detecta obstáculo, prueba con la dirección opuesta.
+                orbitalDirection = -orbitalDirection;
+                if (Physics.Raycast(transform.position, orbitalDirection, out hit, rayDistance))
+                {
+                    // Si ambos lados están bloqueados, acércate directamente al jugador.
+                    agent.SetDestination(player.transform.position);
+                    return;
+                }
+            }
+            
+            // Calcula la posición destino para el movimiento orbital.
+            Vector3 targetPosition = transform.position + orbitalDirection * rayDistance;
+            agent.SetDestination(targetPosition);
         }
     }
 
-    // ---------------------------------------------------------------------
-    //                          BLOQUEO
-    // ---------------------------------------------------------------------
-    void StartBlock()
-    {
-        isBlocking = true;
-        currentBlockCooldown = blockCooldown; // Reinicia el cooldown de bloqueo
-        animator.SetTrigger("block");         // Dispara animación de bloqueo
-        animator.SetBool("isBlocking", true); // Mantiene la animación de bloqueo activa
-        // Termina el bloqueo después de blockDuration segundos
-        Invoke(nameof(StopBlock), blockDuration);
-    }
-
-    void StopBlock()
-    {
-        animator.SetBool("isBlocking", false);
-        isBlocking = false;
-    }
-
-    /// <summary>
-    /// Sobrescribimos OnHurt para anular o reducir el daño cuando está bloqueando.
-    /// </summary>
     public override void OnHurt(float dmg, float knockback, Vector3 direction)
     {
-        if (isBlocking)
+        // Lógica de daño
+        if (currentState != EnemyState.Dead)
         {
-            // Aquí decides cómo afecta el bloqueo:
-            //   - dmg = 0: anulas el daño totalmente
-            //   - dmg *= 0.5f: reduce el daño a la mitad, etc.
-            dmg = 0;
-            Debug.Log("¡Ataque bloqueado con el escudo!");
+            // Si el enemigo está en combate se pone en combate.
+            if(currentState == EnemyState.Idle)
+                currentState = EnemyState.Combat;
+            if(isBlocking)
+            {
+                // Si está bloqueando, reduce el daño.
+                dmg *= 0.5f;
+                knockback = 0f; // No hay retroceso al bloquear
+            }
+            // Aplicar daño al enemigo
+            base.OnHurt(dmg, knockback, direction);
+            // TODO Reproducir sonido de daño
+        }
+    }
+
+    private Vector3 GetBestFleeDirection()
+    {
+        float maxDistance = 0f;
+        Vector3 bestDirection = Vector3.zero;
+
+        // Revisamos varios rayos en círculo
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount);
+            Vector3 dir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            Vector3 potentialPos = transform.position + dir * fleeRadius;
+
+            if (NavMesh.SamplePosition(potentialPos, out NavMeshHit hit, checkRadius, NavMesh.AllAreas))
+            {
+                float distFromPlayer = Vector3.Distance(hit.position, player.transform.position);
+                if (distFromPlayer > maxDistance)
+                {
+                    maxDistance = distFromPlayer;
+                    bestDirection = hit.position;
+                }
+            }
         }
 
-        base.OnHurt(dmg, knockback, direction);
+        return bestDirection;
     }
 
-    // ---------------------------------------------------------------------
-    //                          ATAQUE
-    // ---------------------------------------------------------------------
-    /// <summary>
-    /// Se llama cuando la animación de ataque alcanza el punto de impacto
-    /// </summary>
-    public override void AttackEvent()
+    public override void OnGUI()
     {
-        // Elegimos un ataque melee de varios posibles
-        // (como en Rogue o Mage eliges un tipo de proyectil, aquí eliges un combo).
-        int randomAttack = Random.Range(0, numberOfMeleeAttacks);
-
-       // Disparamos el ataque correspondiente
-       lookAtPlayerWhileAttacking = true;
-        if(isBlocking)
-            currentAttackCollider = shieldCollider;
-        else
-            currentAttackCollider = attackCollider;
-
-        currentAttackCollider.enabled = true;
-        
+        base.OnGUI();
+        // Opcional: Mostrar solo en compilaciones de debug o mediante una bandera
+        if (debug)
+        {
+            GUI.Label(new Rect(10, 10, 300, 20), "Estado del enemigo: " + currentState.ToString(),
+                new GUIStyle() { normal = new GUIStyleState() { textColor = Color.blue } });
+            if(currentSkill)
+                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: " + currentSkill.name, 
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.green } });
+            else
+                GUI.Label(new Rect(10, 30, 300, 20), "Habilidad actual: Ninguna", 
+                    new GUIStyle() { normal = new GUIStyleState() { textColor = Color.red } });
+        }
     }
 
-    public void AttackStopEvent()
+    public override void SetPlayer(GameObject player)
     {
-        lookAtPlayerWhileAttacking = false;
-        currentAttackCollider.enabled = false;
+        base.SetPlayer(player);
+        if (player != null)
+        {
+            MultiAimConstraint mac = GetComponent<MultiAimConstraint>();
+            mac.data.sourceObjects.Clear();
+            mac.data.sourceObjects.Add(new WeightedTransform(player.transform, 1f));
+            RigBuilder rigs = GetComponent<RigBuilder>();
+            rigs.Build();
+        }
     }
 
-    public override void AttackEndEvent()
+    public override void Die()
     {
-        isAttacking = false;
-        StopAttack();
+        base.Die();
+        if(meleeAttackCollider != null)
+            meleeAttackCollider.enabled = false;
+        if(currentSkill != null)
+            currentSkill.Stop(this, player);
     }
 }

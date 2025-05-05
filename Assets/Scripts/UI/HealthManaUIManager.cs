@@ -11,24 +11,31 @@ public class HealthManaUIManager : MonoBehaviour
     public Slider healthSlider, manaSlider;
     public Gradient healthGradient, manaGradient;
     public Image healthFill, manaFill;
-    public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP;
 
-    static int MANA_BASE_REGEN = 10;
+    public TMP_Text maxhealthTMP, currentHealthTMP, maxManaTMP, currentManaTMP, damageTMP, velAttackTMP, PushTMP;
 
-    void Awake()
+
+
+
+
+
+    public void ResetPlayer()
     {
-        //deberia llamar a player para preguntar estos parametros
-        SetMaxHealth(100);
-        SetMaxMana(100);
 
-        SetHealth(100);
-        SetMana(100);
+        SetMaxHealth(PlayerStatsController.Instance.getMaxHealth());
+        SetMaxMana(PlayerStatsController.Instance.getMaxMana());
+        SetHealth(PlayerStatsController.Instance.getHealth());
+        SetMana(PlayerStatsController.Instance.getMana());
+        SetDamage(PlayerStatsController.Instance.getDamage());
+        SetAttackSpeed(PlayerStatsController.Instance.getAttackSpeed());
+        SetPush(PlayerStatsController.Instance.getPush());
+
     }
+
     public void SetMaxHealth(float health) {
         maxhealthTMP.text = health.ToString();
         healthSlider.maxValue = health;
         healthFill.color = healthGradient.Evaluate(1.0f);
-
     }
 
     public void SetHealth(float health) {
@@ -47,16 +54,31 @@ public class HealthManaUIManager : MonoBehaviour
 
     public void SetMana(float mana)
     {
-        currentManaTMP.text = mana.ToString();
+        currentManaTMP.text = Mathf.RoundToInt(mana).ToString();
         manaSlider.value = mana;
         manaFill.color = manaGradient.Evaluate(manaSlider.normalizedValue);
+    }
+
+    public void SetDamage(float damage)
+    {
+        damageTMP.text = damage.ToString();
+    }
+
+    public void SetAttackSpeed(float attackSpeed)
+    {
+        velAttackTMP.text = attackSpeed.ToString();
+    }
+
+    public void SetPush(float push)
+    {
+        PushTMP.text = push.ToString();
     }
 
     public void RegenMana(float manaRegenRate)
     {
         if (manaSlider.value < manaSlider.maxValue)
         {
-           GainMana(manaRegenRate*MANA_BASE_REGEN);
+           GainMana(manaRegenRate);
         }
     }
 

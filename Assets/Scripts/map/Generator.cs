@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Generator : MonoBehaviour {
   [SerializeField] private TileData tileData;
-  [SerializeField] private Vector3Int frw;  // Fence, river, wall columns
   [SerializeField] private int mapSize;
   [SerializeField] private int numPaths;
   [SerializeField] private float[] roomOdds;
@@ -21,6 +18,9 @@ public class Generator : MonoBehaviour {
   private Vector2Int tile_;
   private Vector2Int target_;
   private Camera camera_;
+  private int fence_;
+  private int river_;
+  private int wall_;
 
   #region MonoBehaviour
 
@@ -30,14 +30,16 @@ public class Generator : MonoBehaviour {
     camera_ = Camera.main;
 
     Assert.IsTrue(mapSize % 2 != 0, "mapSize has to be an odd integer");
-    Assert.IsTrue(frw.x < frw.y && frw.y < frw.z, "The values in frw have to increase");
-    Assert.IsTrue(frw.x % 2 != 0 && frw.y % 2 != 0 && frw.z % 2 != 0, "The values in frw have to be odd integers");
+
+    fence_ = (mapSize * 2 / 6) - 2;
+    river_ = (mapSize * 2 / 3) - 1;
+    wall_  = (mapSize * 4 / 3) - 1;
 
     if (gameManager_.map == null) {
       // Initialize the map
       Initialize();
       for (int i = 0; i < numPaths; ++i) Traverse();
-      Fill();
+      Fill(0, 0, RoomType.Tavern);
 
       gameManager_.map = map_;
       gameManager_.tile = tile_ = Vector2Int.zero;
@@ -73,9 +75,9 @@ public class Generator : MonoBehaviour {
       for (int j = 0; j < mapSize; ++j) {
         TileType type = TileType.Void;
         if (i % 2 == 0 || j % 2 == 0) type = TileType.Road;
-        if (i + j == frw.x) type = TileType.Fence;
-        if (i + j == frw.y) type = TileType.River;
-        if (i + j == frw.z) type = TileType.Wall;
+        if (i + j == fence_) type = TileType.Fence;
+        if (i + j == river_) type = TileType.River;
+        if (i + j ==  wall_) type = TileType.Wall;
         if (i % 2 == 0 && j % 2 == 0) type = TileType.Room;
 
         Tile tile = new Tile(tileData, type);
@@ -131,44 +133,65 @@ public class Generator : MonoBehaviour {
     }
   }
 
-  /**
-   * Fills the map with rooms
-   */
-  void Fill() {
-    for (int i = 0; i < mapSize; ++i) {
-      for (int j = 0; j < mapSize; ++j) {
-        Tile tile = GetTile(i, j);
-        if (!tile.HasRoom()) continue;
+  void Fill(int i, int j, RoomType room) {
+    Tile tile = GetTile(i, j);
+    Assert.IsTrue(tile.HasRoom());
+    tile.SetRoom(room);
 
-        RoomType room = RoomType.Tavern;
-        do room = SampleRoom();
-        while (!ValidateRoom(room, i + j));
-        if (i + j == 0) room = RoomType.Tavern;
-        if (i + j == 2) room = RoomType.Grain;
-        // if (i + j == frw.y + 1) room = RoomType.Trees;
-        if (i + j == frw.z + 1) room = RoomType.Treasure;
-        if (i + j == 2 * mapSize - 4) room = RoomType.Rest;
-        if (i + j == 2 * mapSize - 2) room = RoomType.Boss;
-        tile.SetRoom(room);
+    bool pathU = tile.HasRoad(Vector2Int.up);
+    bool pathR = tile.HasRoad(Vector2Int.right);
+
+    Tile tileU = pathU ? GetTile(i, j + 2) : null;
+    Tile tileR = pathR ? GetTile(i + 2, j) : null;
+
+    bool doneU = pathU && tileU.GetRoom() != RoomType.Boss;
+    bool doneR = pathR && tileR.GetRoom() != RoomType.Boss;
+
+    RoomType nextU = doneU ? tileU.GetRoom() : RoomType.Tavern;
+    RoomType nextR = doneR ? tileR.GetRoom() : RoomType.Tavern;
+
+    int depth = i + j + 2;
+    do {
+      if (!doneU) nextU = SampleRoom(depth);
+      if (!doneR) nextR = SampleRoom(depth);
+    } while (!ValidateRooms(nextU, nextR, depth));
+
+    if (pathU && !doneU) Fill(i, j + 2, nextU);
+    if (pathR && !doneR) Fill(i + 2, j, nextR);
+  }
+
+  RoomType SampleRoom(int depth) {
+    if (depth == 0) return RoomType.Tavern;
+    if (depth == 2) return RoomType.Grain;
+    //if (depth == river_ + 1) return RoomType.Trees;
+    if (depth == wall_ + 1) return RoomType.Treasure;
+    if (depth == 2 * mapSize - 4) return RoomType.Rest;
+    if (depth == 2 * mapSize - 2) return RoomType.Boss;
+
+    RoomType room = RoomType.Tavern;
+    List<RoomType> lateRooms = new List<RoomType> { RoomType.Rest, RoomType.Elite };
+    do {
+      float r = Random.value;
+      for (int i = 0; i < 9; ++i) {
+        if ((r -= roomOdds[i]) < 0) {
+          room = (RoomType)i;
+          break;
+        }
       }
-    }
+    } while (lateRooms.Contains(room) && depth < mapSize - 1);
+
+    return room;
   }
 
-  bool ValidateRoom(RoomType room, int depth) {
+  bool ValidateRooms(RoomType nextU, RoomType nextR, int depth) {
     return
-      !(room == RoomType.Rest && depth < mapSize - 1) &&
-      !(room == RoomType.Elite && depth < mapSize - 1);
-  }
-
-  RoomType SampleRoom() {
-    float r = Random.value;
-
-    for (int i = 0; i < 9; ++i) {
-      if (r < roomOdds[i]) return (RoomType)i;
-      r -= roomOdds[i];
-    }
-
-    return RoomType.Tavern;
+      depth == 0 ||
+      depth == 2 ||
+      //depth == river_ + 1 ||
+      depth == wall_ + 1 ||
+      depth == 2 * mapSize - 4 ||
+      depth == 2 * mapSize - 2 ||
+      nextU != nextR;
   }
 
   #endregion
@@ -205,8 +228,9 @@ public class Generator : MonoBehaviour {
       for (int j = 0; j < mapSize; ++j)
         GetTile(i, j).Instantiate(xOff * i + yOff * j + mapOff, transform_);
 
-    GetTile(tile_ + 2 * Vector2Int.up).EnableInteractions();
-    GetTile(tile_ + 2 * Vector2Int.right).EnableInteractions();
+    Tile tile = GetTile(tile_);
+    if (tile.HasRoad(Vector2Int.up   )) GetTile(tile_ + 2 * Vector2Int.up   ).EnableInteractions();
+    if (tile.HasRoad(Vector2Int.right)) GetTile(tile_ + 2 * Vector2Int.right).EnableInteractions();
 
     playerTransform.position = xOff * tile_.x + yOff * tile_.y + mapOff;
     playerMovement.ClearTarget();
@@ -217,22 +241,23 @@ public class Generator : MonoBehaviour {
   #region MapMovement
 
   private void TileSelect() {
-    Tile tileA = GetTile(tile_ + 2 * Vector2Int.up   );
-    Tile tileB = GetTile(tile_ + 2 * Vector2Int.right);
+    Tile tile = GetTile(tile_);
+    Tile nextU = tile.HasRoad(Vector2Int.up   ) ? GetTile(tile_ + 2 * Vector2Int.up   ) : null;
+    Tile nextR = tile.HasRoad(Vector2Int.right) ? GetTile(tile_ + 2 * Vector2Int.right) : null;
 
-    tileA.Outline();
-    tileB.Outline();
+    nextU?.Outline();
+    nextR?.Outline();
 
     Ray ray = camera_.ScreenPointToRay(Input.mousePosition); // Lanza un rayo desde la c�mara
     if (!Physics.Raycast(ray, out RaycastHit hit, 100.0f, tileLayer)) return;
     GameObject instance = hit.transform.parent.gameObject;
 
-    TileHover(tileA, Vector2Int.up   , instance);
-    TileHover(tileB, Vector2Int.right, instance);
+    TileHover(nextU, Vector2Int.up   , instance);
+    TileHover(nextR, Vector2Int.right, instance);
   }
 
   private void TileHover(Tile tile, Vector2Int path, GameObject instance) {
-    if (!tile.IsInstance(instance)) return;
+    if (tile == null || !tile.IsInstance(instance)) return;
 
     tile.Highlight();
     if (!Input.GetMouseButtonDown(0)) return;
@@ -242,5 +267,4 @@ public class Generator : MonoBehaviour {
   }
 
   #endregion
-
 }

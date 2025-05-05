@@ -9,7 +9,6 @@ public class ObjectDrop : Spawneable
     public Items item;
 
     public int indexLoot;
-    public Collider hitbox;
     public int quantity=0;
 
     void OnTriggerEnter(Collider hitInfo)
@@ -17,7 +16,8 @@ public class ObjectDrop : Spawneable
         if(hitInfo.tag == "Player")
         {
             print("To inventory");
-            InventoryManager.Instance.AddItem(item, indexLoot, quantity!=0?quantity:item.quantity, item.stackeable);  
+            InventoryList.Instance.AddItem(item, indexLoot, quantity!=0?quantity:item.quantity, item.stackeable);
+            playSound();
             Destroy(gameObject);
         }
 
