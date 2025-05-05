@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     UIManager.Instance.ShowChamberNamePopUpCanvas(room);
         if((int)room == 0)
         {
-            UIManager.Instance.ShowBossHealth();
+            //UIManager.Instance.ShowBossHealth();
         }
         else
         {

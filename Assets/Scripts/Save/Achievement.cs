@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Achievement : MonoBehaviour
+public class Achievement
 {
     #region Variables
 

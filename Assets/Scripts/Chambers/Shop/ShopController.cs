@@ -68,7 +68,8 @@ public class ShopController : MonoBehaviour, IChamberController {
 
 public void OpenShop()
 {
-    UIManager.Instance.ShowShopCanvas();
+        UIManager.Instance.RefreshShop(trades_, this);
+        UIManager.Instance.ShowShopCanvas();
 }
   public List<Trade> getTrades() {
     return trades_;
@@ -85,8 +86,15 @@ public void OpenShop()
 
      
         inventory.RemoveItemNoDrop(trad.getItemIn(), trad.getQuantityIn());
-        inventory.AddItem(trad.getItemOut(), trad.getIndexOut(), trad.getQuantityOut(), true);
-      }
+                if (tradeIndex == 3)
+                {
+                    InventoryList.Instance.addBeers(trad.getQuantityOut());
+                    UIManager.Instance.ResetPlayerUiStats();
+                }else
+                {
+                    inventory.AddItem(trad.getItemOut(), trad.getIndexOut(), trad.getQuantityOut(), true);
+                }
+            }
     }
   }
 

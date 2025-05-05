@@ -5,7 +5,6 @@ using UnityEngine;
 public class AchievementController : MonoBehaviour
 {
     [SerializeField] private List<ScriptableAchievement> posibleAchievements;
-    private InventorySafeController inventory;
 
     public static AchievementController Instance { get; private set; }
 
@@ -25,19 +24,13 @@ public class AchievementController : MonoBehaviour
 
     public List<Achievement> GetAchievements()
     {
-
-        if (inventory == null)
-        {
-            inventory = InventorySafeController.Instance;
-
-        }
-        List<Achievement> actualAchievements = inventory.getAchievements();
+        List<Achievement> actualAchievements = InventorySafeController.Instance.getAchievements();
 
         List<Achievement> achievements = new List<Achievement>();
         bool found = false;
         foreach (ScriptableAchievement ach in posibleAchievements)
         {
-            found = true;
+            found = false;
             for (int i = 0; i < actualAchievements.Count; i++)
             {
 
@@ -55,15 +48,15 @@ public class AchievementController : MonoBehaviour
             }
 
         }
-        inventory.setAchievements(achievements);
+        InventorySafeController.Instance.setAchievements(achievements);
 
-        return inventory.getAchievements();
+        return InventorySafeController.Instance.getAchievements();
 
     }
 
     public void stepAchievement(ScriptableAchievement ach)
     {
-        List<Achievement> actualAchievements = inventory.getAchievements();
+        List<Achievement> actualAchievements = InventorySafeController.Instance.getAchievements();
         for (int i = 0; i < actualAchievements.Count; i++)
         {
             if (actualAchievements[i].getScriptableAchievement() == ach)
@@ -83,11 +76,11 @@ public class AchievementController : MonoBehaviour
                 break;
             }
         }
-        inventory.saveInventory();
+        InventorySafeController.Instance.saveInventory();
     }
     public void completeAchievement(Achievement ach)
     {
-        List<Achievement> actualAchievements = inventory.getAchievements();
+        List<Achievement> actualAchievements = InventorySafeController.Instance.getAchievements();
         for (int i = 0; i < actualAchievements.Count; i++)
         {
             if (actualAchievements[i].getScriptableAchievement() == ach.getScriptableAchievement())
@@ -100,13 +93,13 @@ public class AchievementController : MonoBehaviour
                     if (actualStep >= maxStep)
                     {
                         achi.complete();
-                        //AÑAdir dinero
+                        //Añadir dinero
                     }
                 }
                 break;
             }
         }
-        inventory.saveInventory();
+        InventorySafeController.Instance.saveInventory();
     }
 
 }

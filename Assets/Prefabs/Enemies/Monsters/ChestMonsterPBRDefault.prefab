@@ -310,7 +310,39 @@ MonoBehaviour:
   footstepAudioList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
   footstepDustPrefab: {fileID: 1709124252736936638}
   stepVolume: 1
-  drop: []
+  drop:
+  - drop: {fileID: 571741858825773605, guid: 8df51a4f6a11cd24db1af57d10683b46, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: d71f8d89c8957fc479e6c6f8a55894de, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: 77d2cb8ab1141104f8a0492a7be05cb4, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: e7b8930ad0e760e44becc54425f27800, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: 30e67e462ff433b49809a4e1b36c7cc2, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: c367e7f12d006c94dbb446b5b47572b3, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: 7ba4a2318df4333489cac8135d1276dc, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
+  - drop: {fileID: 571741858825773605, guid: 3008960e4f67516499f7de731485b374, type: 3}
+    chanceDrop: 0.01
+    minDrop: 1
+    maxDrop: 1
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}

@@ -1050,8 +1050,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 295202021}
   m_HandleRect: {fileID: 295202020}
   m_Direction: 3
-  m_Value: 1
-  m_Size: 0.50000006
+  m_Value: 1.0000001
+  m_Size: 0.49999848
   m_NumberOfSteps: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4675,8 +4675,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 347519520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.50000006}
+  m_AnchorMin: {x: 0, y: -0.000000029802322}
+  m_AnchorMax: {x: 1, y: 0.49999845}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5054,7 +5054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &331210614
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5561,7 +5561,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 173, y: -109.2}
+  m_AnchoredPosition: {x: 173, y: -100}
   m_SizeDelta: {x: 1100, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &373004628
@@ -6057,6 +6057,7 @@ GameObject:
   - component: {fileID: 405219126}
   - component: {fileID: 405219128}
   - component: {fileID: 405219127}
+  - component: {fileID: 405219129}
   m_Layer: 5
   m_Name: game-logo
   m_TagString: Untagged
@@ -6103,7 +6104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 363f524c611a35046bb07410d4b60ddf, type: 3}
+  m_Sprite: {fileID: 877679969, guid: af33c5d7c8768e84797ddbf790a2e3e2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6121,6 +6122,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405219125}
   m_CullTransparentMesh: 1
+--- !u!95 &405219129
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405219125}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 935b0241d403a654ab69e42020c14256, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &448522425
 GameObject:
   m_ObjectHideFlags: 0
@@ -6391,26 +6413,26 @@ MonoBehaviour:
   - weaponID: 0
     weaponName: One Hand Sword
     weaponImage: {fileID: 21300000, guid: 0fb8b3a7faa9363429dd5ec1ff5d62b2, type: 3}
-    damage: 10
+    damage: 20
     fireRate: 1
     rangedType: Melee
   - weaponID: 1
     weaponName: Two Hand Axe
     weaponImage: {fileID: 21300000, guid: 52d5e682463a2124f9fd69d5b2245aec, type: 3}
-    damage: 10
-    fireRate: 0.75
+    damage: 20
+    fireRate: 0.5
     rangedType: Area Melee
   - weaponID: 2
     weaponName: Bow
     weaponImage: {fileID: 21300000, guid: facbbce8a9df0824f9714a63875fdd82, type: 3}
-    damage: 10
+    damage: 5
     fireRate: 1
     rangedType: Ranged
   - weaponID: 4
     weaponName: Staff
     weaponImage: {fileID: 21300000, guid: 9d2cae864efb51441ace3083ed2693d5, type: 3}
-    damage: 20
-    fireRate: 0.75
+    damage: 10
+    fireRate: 0.5
     rangedType: Magic Ranged
   weaponDisplayImage: {fileID: 2011910644}
   weaponNameText: {fileID: 672233265}
@@ -7210,7 +7232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 173, y: -56}
+  m_AnchoredPosition: {x: 173, y: -25}
   m_SizeDelta: {x: 1100, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &537014535
@@ -7509,6 +7531,7 @@ GameObject:
   - component: {fileID: 556083509}
   - component: {fileID: 556083510}
   - component: {fileID: 556083511}
+  - component: {fileID: 556083512}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -7596,6 +7619,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxBeers: 5
   Beers: 0
+--- !u!114 &556083512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556083507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf4aaf37f18c1a4fbe087fcd5780c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posibleAchievements:
+  - {fileID: 11400000, guid: 62f7141cf3997d6428e2258163c88cb3, type: 2}
+  - {fileID: 11400000, guid: 5c510d6728996334183231be9bdee5ee, type: 2}
+  - {fileID: 11400000, guid: b3032cc9dd7684f44a58a264c536b5ba, type: 2}
+  - {fileID: 11400000, guid: 6231449f373f11c42b78ddae9b760fcf, type: 2}
+  - {fileID: 11400000, guid: d8a949b955afdd645bb1f82364f6bcf5, type: 2}
+  - {fileID: 11400000, guid: 4ab6b78a4d5c0da4e9caa9ea896c758e, type: 2}
+  - {fileID: 11400000, guid: 06f948ffe1ac19a4b992d6a670fcaacb, type: 2}
+  - {fileID: 11400000, guid: 3222a378aa95e204da7d1a531d2330ce, type: 2}
+  - {fileID: 11400000, guid: 8dca4365c135cfb439c89765972e49a8, type: 2}
+  - {fileID: 11400000, guid: ea75e96d35e09214d8ca9806eba96186, type: 2}
+  - {fileID: 11400000, guid: f0ff88730d97db34c9723da9f015a4b1, type: 2}
+  - {fileID: 11400000, guid: 60f12b73fbf89af4bafaaab68b4ad992, type: 2}
+  - {fileID: 11400000, guid: dca72787550a9e6479c7e672e4d334d2, type: 2}
+  - {fileID: 11400000, guid: a33dd4f074763a44f9b51c9f005d9597, type: 2}
+  - {fileID: 11400000, guid: ade00e82cfee60c498a4dc7800d3b4ff, type: 2}
+  - {fileID: 11400000, guid: df42ef4798bc38448aca8141f5552d11, type: 2}
 --- !u!1 &559283051
 GameObject:
   m_ObjectHideFlags: 0
@@ -10365,7 +10417,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.6776303e-36, z: 4.92e-43, w: 1.3653109e-38}
+  m_BoundingSphereOverride: {x: 0, y: 6.1257296e+31, z: 6.77e-43, w: 2.9268124e+29}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -10919,7 +10971,6 @@ GameObject:
   - component: {fileID: 730200637}
   - component: {fileID: 730200636}
   - component: {fileID: 730200639}
-  - component: {fileID: 730200640}
   m_Layer: 5
   m_Name: achievementsCanvas
   m_TagString: Untagged
@@ -11025,35 +11076,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemUIPrefab: {fileID: 718636199311379088, guid: 65e879cfe2a157441b26d277c4f93944, type: 3}
   contentParent: {fileID: 891737945}
---- !u!114 &730200640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730200634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cf4aaf37f18c1a4fbe087fcd5780c8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  posibleAchievements:
-  - {fileID: 11400000, guid: 62f7141cf3997d6428e2258163c88cb3, type: 2}
-  - {fileID: 11400000, guid: 5c510d6728996334183231be9bdee5ee, type: 2}
-  - {fileID: 11400000, guid: b3032cc9dd7684f44a58a264c536b5ba, type: 2}
-  - {fileID: 11400000, guid: 6231449f373f11c42b78ddae9b760fcf, type: 2}
-  - {fileID: 11400000, guid: d8a949b955afdd645bb1f82364f6bcf5, type: 2}
-  - {fileID: 11400000, guid: 4ab6b78a4d5c0da4e9caa9ea896c758e, type: 2}
-  - {fileID: 11400000, guid: 06f948ffe1ac19a4b992d6a670fcaacb, type: 2}
-  - {fileID: 11400000, guid: 3222a378aa95e204da7d1a531d2330ce, type: 2}
-  - {fileID: 11400000, guid: 8dca4365c135cfb439c89765972e49a8, type: 2}
-  - {fileID: 11400000, guid: ea75e96d35e09214d8ca9806eba96186, type: 2}
-  - {fileID: 11400000, guid: f0ff88730d97db34c9723da9f015a4b1, type: 2}
-  - {fileID: 11400000, guid: 60f12b73fbf89af4bafaaab68b4ad992, type: 2}
-  - {fileID: 11400000, guid: dca72787550a9e6479c7e672e4d334d2, type: 2}
-  - {fileID: 11400000, guid: a33dd4f074763a44f9b51c9f005d9597, type: 2}
-  - {fileID: 11400000, guid: ade00e82cfee60c498a4dc7800d3b4ff, type: 2}
-  - {fileID: 11400000, guid: df42ef4798bc38448aca8141f5552d11, type: 2}
 --- !u!1 &732271913
 GameObject:
   m_ObjectHideFlags: 0
@@ -11272,7 +11294,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2072120519}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: BackToLobbyCanvas
+        m_MethodName: HideWeaponsCanvas
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11550,7 +11572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &761537778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13001,7 +13023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 375}
+  m_AnchoredPosition: {x: 0, y: 374.99985}
   m_SizeDelta: {x: 1250, y: 1500}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &891737946
@@ -15163,7 +15185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -41, y: 55}
+  m_AnchoredPosition: {x: -30, y: 130}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1026621093
@@ -23274,7 +23296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 173, y: -3}
+  m_AnchoredPosition: {x: 173, y: 50}
   m_SizeDelta: {x: 1100, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1498003158
@@ -26191,7 +26213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a6560e5bacb40847bb1b879ede354fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a5d8785d80a4ee42a2a4c8632436dc0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -27214,7 +27236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1730364385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33462,11 +33484,11 @@ RectTransform:
   - {fileID: 936517430}
   - {fileID: 920194839}
   - {fileID: 1037661506}
-  - {fileID: 462198624}
   - {fileID: 1870234838}
   - {fileID: 730200635}
   - {fileID: 1846827352}
   - {fileID: 1762359057}
+  - {fileID: 462198624}
   - {fileID: 1201060445}
   - {fileID: 520144882}
   - {fileID: 1211763529}
@@ -39873,8 +39895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783293b519aa04448bc7786f18c70d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBeers: {fileID: 554314757405213692}
-  maxBeers: {fileID: 4599205604933211686}
+  currentBeersTMP: {fileID: 554314757405213692}
+  maxBeersTMP: {fileID: 4599205604933211686}
   bossHealth: {fileID: 6581790306335584306}
   healthSlider: {fileID: 2302760965163163343}
   healthGradient:

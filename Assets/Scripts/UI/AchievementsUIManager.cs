@@ -44,10 +44,10 @@ public class AchievementsUIManager : MonoBehaviour
 
     public void RefreshAchievementUI()
     {
-        _achievementTemp = _achievementController.GetAchievements();
+        _achievementTemp = AchievementController.Instance.GetAchievements();
         achievementStatus = new bool[_achievementTemp.Count];
         ClearExistingUI();
-
+        contentParent.GetComponent<RectTransform>().sizeDelta = new Vector2(1250, 250 * _achievementTemp.Count);
         for (int i = 0; i < _achievementTemp.Count; i++)
         {
             GameObject newPrefab = Instantiate(itemUIPrefab, contentParent);
@@ -123,15 +123,15 @@ public class AchievementsUIManager : MonoBehaviour
         }
 
         // Configurar recompensa
-        TextMeshProUGUI objectiveRewardTMP = uiElement.transform.Find(rewardAchievementPath).GetComponent<TextMeshProUGUI>();
-        if (objectiveRewardTMP != null)
-        {
-            objectiveRewardTMP.text = achievement.getPrice().ToString();
-        }
-        else
-        {
-            Debug.LogWarning("SetupShopUI: Could not find buyItemShopAmountPath component");
-        }
+        //TextMeshProUGUI objectiveRewardTMP = uiElement.transform.Find(rewardAchievementPath).GetComponent<TextMeshProUGUI>();
+        //if (objectiveRewardTMP != null)
+        //{
+        //    objectiveRewardTMP.text = achievement.getPrice().ToString();
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("SetupShopUI: Could not find buyItemShopAmountPath component");
+        //}
 
         // Configurar los sprites
         RawImage achievementIconRawImage = uiElement.transform.Find(iconAchievementPath).GetComponent<RawImage>();
@@ -153,7 +153,7 @@ public class AchievementsUIManager : MonoBehaviour
             if (objectiveAlreadyCompleted)
                 buttonText.text = "Completed";
             else
-                buttonText.text = status ? "Can complete" : "Can't complete";
+                buttonText.text = status ? "Completed" : "Can't complete";
         }
         else
         {
@@ -161,18 +161,18 @@ public class AchievementsUIManager : MonoBehaviour
         }
 
         //Configurar boton listener
-        Button button = uiElement.transform.Find(buttonActionPath).GetComponent<Button>();
-        if (button != null)
-        {
-            button.onClick.AddListener(() =>
-            {
-                AchievementAction(achievementStep, _achievementController, objectiveAlreadyCompleted);
-            });
-        }
-        else
-        {
-            Debug.LogWarning("SetupShopUI: Could not find buttonActionPath component");
-        }
+        //Button button = uiElement.transform.Find(buttonActionPath).GetComponent<Button>();
+        //if (button != null)
+        //{
+        //    button.onClick.AddListener(() =>
+        //    {
+        //        AchievementAction(achievementStep, _achievementController, objectiveAlreadyCompleted);
+        //    });
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("SetupShopUI: Could not find buttonActionPath component");
+        //}
 
         return status;
     }
