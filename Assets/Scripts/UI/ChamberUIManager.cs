@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class ChamberUIManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text currentBeers;
-    [SerializeField] private TMP_Text maxBeers;
+    [SerializeField] private TMP_Text currentBeersTMP;
+    [SerializeField] private TMP_Text maxBeersTMP;
 
     #region PlayerBeers
-    public void setPlayerBeers(int beers, int maxBeers)
+
+    public void setPlayerBeers()
     {
-        setBeers(beers);
-        setMaxBeers(maxBeers);
+        setBeers(InventoryList.Instance.getBeers());
+        setMaxBeers(InventoryList.Instance.getMaxBeers());
     }
     public void resetPlayerBeersToDefault(int maxBeers)
     {
@@ -23,12 +24,12 @@ public class ChamberUIManager : MonoBehaviour
 
     private void setBeers(int beers)
     {
-        currentBeers.text = beers.ToString();
+        currentBeersTMP.text = beers.ToString();
     }
 
     private void setMaxBeers(int maxBeers)
     {
-        currentBeers.text = maxBeers.ToString();
+        maxBeersTMP.text = maxBeers.ToString();
     }
     #endregion
 
@@ -45,16 +46,17 @@ public class ChamberUIManager : MonoBehaviour
         bossHealth.SetActive(false);
     }
 
-    public void ShowBossHealth()
+    public void ShowBossHealth(float health, float maxHealth)
     {
+        ResetBossHealth(health, maxHealth);
         bossHealth.SetActive(true);
-        ResetBossHealth();
+
     }
-    public void ResetBossHealth()
+    public void ResetBossHealth(float health, float maxHealth)
     {
         //llamar al boss y pedir datos
-        //SetMaxHealth(getHealthBoss());
-        //SetHealth(getMaxHealthBoss());
+        SetMaxHealth(health);
+        SetHealth(maxHealth);
     }
 
     public void SetMaxHealth(float health)

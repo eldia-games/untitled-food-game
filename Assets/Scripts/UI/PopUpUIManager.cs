@@ -44,6 +44,12 @@ public class PopUpUIManager : MonoBehaviour
     [SerializeField] private TMP_Text powerupTMP;
     [SerializeField] private Image powerupSprite;
 
+    private void Awake()
+    {
+        hideHelpPopUp();
+        hidePowerUpPopUp();
+
+    }
     public void displaypopUpHelp(string action,bool affirmative)
     {
         helpPopUpGameObject.SetActive(true);

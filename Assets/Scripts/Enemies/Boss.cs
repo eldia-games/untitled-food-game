@@ -130,9 +130,9 @@ public class Boss : MonoBehaviour
 
     public void Awake()
     {
-        UIManager.Instance.ShowBossHealth();
-        UIManager.Instance.SetBossHealth(health);
-        UIManager.Instance.SetMaxBossHealth(health);
+        UIManager.Instance.ShowBossHealth(health, health);
+        //UIManager.Instance.SetBossHealth(health);
+        //UIManager.Instance.SetMaxBossHealth(health);
     }
 
     public float GetMaxHealth()

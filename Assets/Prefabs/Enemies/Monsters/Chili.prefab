@@ -963,7 +963,11 @@ MonoBehaviour:
   footstepAudioList: {fileID: 11400000, guid: 07e7f799f97f0f64a88eb853fc9de48a, type: 2}
   footstepDustPrefab: {fileID: 6058361257551233537}
   stepVolume: 1
-  drop: []
+  drop:
+  - drop: {fileID: 1489823196399211131, guid: c540ec15d2b21b948b3eccac94f1d54b, type: 3}
+    chanceDrop: 0.1
+    minDrop: 1
+    maxDrop: 1
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}

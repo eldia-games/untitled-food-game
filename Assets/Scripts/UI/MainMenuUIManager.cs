@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PopUpUIManager popUpUIManager;
     [SerializeField] private ShopUIManager shopUIManager;
     [SerializeField] private MissionUIManager missionUIManager;
+    [SerializeField] private AchievementsUIManager achievementsUIManager;
     [SerializeField] private PauseUIManager pauseUIManager;
     [SerializeField] private UpgradesUIManager upgradesUIManager;
     public bool pauseLocked;
@@ -87,6 +88,7 @@ public class UIManager : MonoBehaviour
     #region Lobby
     public void ShowLobbyCanvas()
     {
+        pauseLocked = false;
         HideAllCanvas();
         ShowLobby();
         AudioManager.Instance.PlaySFXConfirmation();
@@ -316,8 +318,19 @@ public class UIManager : MonoBehaviour
     {
         pauseLocked = true;
         HideLobby();
+        pauseGame();
         ShowWeapon();
         AudioManager.Instance.PlaySFXClick();
+    }
+
+    public void HideWeaponsCanvas()
+    {
+        pauseLocked = true;
+        resumeGame();
+        HideWeapon();
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        ShowCanvasByIndex(activeSceneIndex);
+        AudioManager.Instance.PlaySFXClose();
     }
 
     #endregion
@@ -339,6 +352,7 @@ public class UIManager : MonoBehaviour
     {
         pauseLocked = true;
         HideLobby();
+        achievementsUIManager.RefreshAchievementUI();
         ShowAchievements();
         AudioManager.Instance.PlaySFXClick();
     }
@@ -474,6 +488,7 @@ public class UIManager : MonoBehaviour
     public void ResetPlayerUiStats()
     {
         healthManaUIManager.ResetPlayer();
+        chamberUIManager.setPlayerBeers();
     }
 
     public void SetMaxHealth(float health)
@@ -541,19 +556,19 @@ public class UIManager : MonoBehaviour
 
     #region Boss Stats UI
 
-    public void ShowBossHealth()
+    public void ShowBossHealth(float health, float maxHealth)
     {
-        chamberUIManager.ShowBossHealth();
+        chamberUIManager.ShowBossHealth( health, maxHealth);
     }
 
     public void HideBossHealth()
     {
         chamberUIManager.HideBossHealth();
     }
-    public void ResetBossHealth()
-    {
-        chamberUIManager.ResetBossHealth();
-    }
+    //public void ResetBossHealth()
+    //{
+    //    chamberUIManager.ResetBossHealth();
+    //}
 
     public void SetMaxBossHealth(float health)
     {
@@ -582,8 +597,9 @@ public class UIManager : MonoBehaviour
     public void SelectWeapon()
     {
         weaponSelectionUIManager.PlayerSelectedWeapon();
+        resumeGame();
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (activeSceneIndex == 1) 
+        if (activeSceneIndex == 1)
             GameManager.Instance.EnterMapScene();
         else
             print("Estoy en la sala de entrenamiento");

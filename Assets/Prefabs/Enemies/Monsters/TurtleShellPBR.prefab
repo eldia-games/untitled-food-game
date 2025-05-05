@@ -725,7 +725,10 @@ MonoBehaviour:
   footstepDustPrefab: {fileID: 0}
   stepVolume: 0.5
   drop:
-  - {fileID: 0}
+  - drop: {fileID: 3489315976540881254, guid: 54c9907d741e7974aa9df1d00cadab26, type: 3}
+    chanceDrop: 0.5
+    minDrop: 1
+    maxDrop: 3
   chanceDrop: 0
   canDrop: 1
   effectsConfig: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}

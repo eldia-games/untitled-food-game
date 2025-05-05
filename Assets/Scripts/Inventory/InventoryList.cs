@@ -138,7 +138,7 @@ public class InventoryList : MonoBehaviour
             if (items[i].item == item)
             {
                 var tempItem = items[i];
-                if (tempItem.quantity <= quantity)
+                if (tempItem.quantity >= quantity)
                 {
                     return true;
                 }
@@ -146,13 +146,28 @@ public class InventoryList : MonoBehaviour
                 {
                     return false;
                 }
-
-
             }
         }
 
 
         return false;
+    }
+    public int getQuantity(Items item)
+    {
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].item == item)
+            {
+                var tempItem = items[i];
+                return items[i].quantity;
+
+
+            }
+        }
+        return 0;
+
+
     }
 
 

@@ -229,6 +229,38 @@ public class PlayerCombat : MonoBehaviour
             //Debug.Log("Not Grounded");
         }
 
+        try
+        {
+            weaponIndex = GameManager.Instance.getCurrentWeaponType();
+        }
+        catch (Exception e)
+        {
+            weaponIndex = NoGameManagerWeaponIndex;
+            Debug.Log("Error: " + e);
+        }
+
+        switch (weaponIndex)
+        {
+            case 2:
+                //Bow
+                weaponType = PlayerStats.weaponType[0];
+                break;
+            case 4:
+                //Staff
+                weaponType = PlayerStats.weaponType[1];
+                break;
+        }
+
+        //weapons: 0 sword, 1 double axe, 2 bow, 3 mug, 4 staff, 5 none
+        _anim.SetFloat("Weapon", weaponIndex);
+
+        //VelAttack to animator
+        _anim.SetFloat("VelAttack", velAttack);
+
+        //VelSlide to animator
+        _anim.SetFloat("VelSlide", velSlide);
+
+
     }
 
     // Update is called once per frame

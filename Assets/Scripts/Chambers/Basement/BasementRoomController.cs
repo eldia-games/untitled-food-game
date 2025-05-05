@@ -38,9 +38,8 @@ public class BasementRoomController : MonoBehaviour
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
         playerAnimator.SetFloat("Moving", 0);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         exit.SetActive(true);
-        yield return new WaitForSeconds(1);
         player.GetComponent<PlayerCombat>().enabled = true;
 
     }

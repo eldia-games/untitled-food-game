@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 6649d74ed5f02f047b66c4abc45f5737, type: 2}
     - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
       propertyPath: drop.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
       propertyPath: attackAudioSource
@@ -194,6 +194,22 @@ PrefabInstance:
       propertyPath: skills.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 70efc15a6d8c6fc45a651d409cd08a4f, type: 2}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: drop.Array.data[0].drop
+      value: 
+      objectReference: {fileID: 8105929881696230242, guid: f116e107204b5f341b87c80c750dd5cc, type: 3}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: drop.Array.data[0].maxDrop
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: drop.Array.data[0].minDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -931494429719879412, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
+      propertyPath: drop.Array.data[0].chanceDrop
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 2413570885517043098, guid: 485af6b93875b89469fb0a32e4c442e9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

@@ -34,8 +34,8 @@ public class ShopUIManager : MonoBehaviour
 
     void Awake()
     {
-        //_shopController = GetComponent<ShopController>();
-        //tradesTemp = _shopController.
+        //_achievementController = GetComponent<ShopController>();
+        //tradesTemp = _achievementController.
     }
 
     private void ClearExistingUI()
@@ -62,7 +62,8 @@ public class ShopUIManager : MonoBehaviour
     private bool SetupShopUI(GameObject uiElement, Trade trade, int shopStep, ShopController shop)
     {
         bool status = false;
-        InventorySafeController inventory = InventorySafeController.Instance;
+        InventoryList inventory = InventoryList.Instance;
+        _shopController = shop;
 
         if (uiElement == null)
         {
@@ -90,7 +91,7 @@ public class ShopUIManager : MonoBehaviour
         TextMeshProUGUI nameSellText = uiElement.transform.Find(sellItemNamePath).GetComponent<TextMeshProUGUI>();
         if (nameSellText != null)
         {
-            nameSellText.text = trade.getItemIn().name;
+            nameSellText.text = trade.getItemIn().itemName;
         }
         else
         {
@@ -100,7 +101,7 @@ public class ShopUIManager : MonoBehaviour
         TextMeshProUGUI nameBuyText = uiElement.transform.Find(buyItemNamePath).GetComponent<TextMeshProUGUI>();
         if (nameBuyText != null)
         {
-            nameBuyText.text = trade.getItemOut().name;
+            nameBuyText.text = trade.getItemOut().itemName;
         }
         else
         {
@@ -189,7 +190,7 @@ public class ShopUIManager : MonoBehaviour
         {
             button.onClick.AddListener(() =>
             {
-                ShopAction(shopStep, shop);
+                ShopAction(shopStep);
             });
         }
         else
@@ -200,14 +201,13 @@ public class ShopUIManager : MonoBehaviour
         return status;
     }
 
-    public void ShopAction(int tradeIndex, ShopController shop)
+    public void ShopAction(int tradeIndex)
     {
         if (shopStatus[tradeIndex])
         {
             AudioManager.Instance.PlaySFXConfirmation();
-            shop.Trade(tradeIndex);
-
-            RefreshShopUI(_shopController.getTrades(), shop);
+            _shopController.Trade(tradeIndex);
+            
         }
         else
         {
